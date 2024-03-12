@@ -1,0 +1,27 @@
+ARG jar_name=Config-0.0.1-SNAPSHOT.jar
+
+# Stage 1: Build with Maven
+FROM maven:3.8.4-openjdk-17 as builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Stage 2: Create the final image
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=builder /app/target/${jar_name} /app/${jar_name}
+
+#ENV SERVER_PORT=
+#ENV DISCOVERY_ENABLED=
+#ENV CONFIG_GIT_URI=
+#ENV CONFIG_GIT_USERNAME=
+#ENV CONFIG_GIT_PASSWORD=
+#ENV CONFIG_GIT_DEFAULT_LABEL=
+#ENV SPRING_APPLICATION_NAME=config-
+#ENV EUREKA_REGISTRY_FETCH_INTERVAL_SECONDS=
+#ENV EUREKA_REGISTER_WITH_EUREKA=
+#ENV EUREKA_FETCH_REGISTRY=
+#ENV EUREKA_SERVICE_URL_DEFAULT_ZONE=
+#ENV EUREKA_INSTANCE_HOSTNAME=
+
+CMD java -jar Config-0.0.1-SNAPSHOT.jar
