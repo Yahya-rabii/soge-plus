@@ -16,10 +16,12 @@
 - the admin microservice is able to monitor the health of each microservice and get its status based on the actuator endpoints and eureka server
 - each microservice is able to generate the logs and the logs are being stored in the log file locally
 - each microservice is able to generate a document using swagger
+- configure the MDC for the logs to be able to trace the logs
+- the gateway is able to access the openapi documentation of each microservice
 
 ## to do
 
-- configure the MDC for the logs
+
 
 - Implement the security using JWT
 
