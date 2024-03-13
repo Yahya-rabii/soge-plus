@@ -1,0 +1,18 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: Gateway
+  cloud:
+    gateway:
+        routes:
+          - id: client-service
+            uri: lb://CLIENT-SERVICE
+            predicates:
+              - Path=/clients/**
+          - id: contract-service
+            uri: lb://CONTRACT-SERVICE
+            predicates:
+              - Path=/contracts/**
+    discovery:
+      enabled: true
