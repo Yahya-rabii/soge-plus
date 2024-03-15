@@ -11,13 +11,19 @@ spring:
           - id: client-service
             uri: lb://CLIENT-SERVICE
             predicates:
-              - Path=/clients/**
+              - Path=/CLIENT-SERVICE/**
           - id: contract-service
             uri: lb://CONTRACT-SERVICE
             predicates:
-              - Path=/contracts/**
+              - Path=/CLIENT-SERVICE/**
     discovery:
       enabled: true
+  security:
+
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/AppCC-realm
 springdoc:
   enable-native-support: true
   api-docs:
@@ -36,3 +42,4 @@ springdoc:
       - url: /CONTRACT-SERVICE/v3/api-docs
         name: CONTRACT Service
         display-name: CONTRACT Service
+
