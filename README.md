@@ -1,28 +1,24 @@
-# progress
+# Progress
 
+## Summary of Accomplishments
 
-## the progress so far
+- **Client Microservice**: Successfully deployed and operational.
+- **Contract Microservice**: Deployed and functioning as expected.
+- **Inter-Service Communication**: Client microservice capable of receiving requests from the contract microservice via Feign client.
+- **Eureka Gateway**: Operational and facilitating service discovery.
+- **Discovery Server**: Successfully deployed and serving as the registry for microservices.
+- **Config Server**: Operational, with each microservice fetching configurations from the local git repository.
+- **Service Registration**: Each microservice registered with Eureka as a client.
+- **Configuration Management**: Config server retrieving configurations from local git repository.
+- **Admin Microservice**: Deployed and monitoring health status of each microservice using actuator and Eureka endpoints.
+- **Logging Configuration**: Microservices generating and storing logs locally.
+- **Swagger Documentation**: Implemented for each microservice to generate API documentation.
+- **MDC Logging**: Configured for traceable logs.
+- **Gateway Access**: Gateway can access openapi documentation of each microservice via http://localhost:8888/webjars/swagger-ui/4.15.5/index.html?urls.primaryName=CONTRACT%20Service and http://localhost:8888/webjars/swagger-ui/4.15.5/index.html?urls.primaryName=CLIENT%20Service.
 
-- Client microservice is up and running
-- Contract microservice is up and running
-- Client microservice is able to receive a request from contract microservice using Feign client
-- The Eureka gateway is up and running
-- the Discovery server is up and running
-- the Config server is up and running
-- each microservice is able to register with the Eureka server as a client
-- each microservice is fetching the configuration from the config server
-- the config server is able to fetch the configuration from the local git repository
-- the admin microservice is up and running
-- the admin microservice is able to monitor the health of each microservice and get its status based on the actuator endpoints and eureka server
-- each microservice is able to generate the logs and the logs are being stored in the log file locally
-- each microservice is able to generate a document using swagger
-- configure the MDC for the logs to be able to trace the logs
-- the gateway is able to access the openapi documentation of each microservice
-- implement the security using on keycloak (user creds and client creds)
-- implement the web client for the client microservice based on soap
+- **Security Implementation**: Keycloak integrated for user and client credentials.
+- **SOAP Web Client**: Web client implemented for the client microservice.
 
+## Pending Tasks
 
-## to do
-
-
-- implement integration tests using Junit and Mockito
+- **Integration Testing**: Implement integration tests using JUnit and Mockito.
