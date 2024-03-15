@@ -18,13 +18,11 @@
 - each microservice is able to generate a document using swagger
 - configure the MDC for the logs to be able to trace the logs
 - the gateway is able to access the openapi documentation of each microservice
+- implement the security using on keycloak (user creds and client creds)
+- implement the web client for the client microservice based on soap
+
 
 ## to do
 
-
-
-- Implement the security using JWT
-
-- implement the security using on keycloak
 
 - implement integration tests using Junit and Mockito

@@ -59,6 +59,7 @@ public class ClientRestController {
 
     @DeleteMapping("/deleteClient/{id}")
     public void deleteClient(@PathVariable("id") Long id) {
+        MDC.put("traceId", "delete client called from ClientRestController class of Client microservice");
         log.info("delete client called from ClientRestController class of Client microservice");
         clientRepository.deleteById(id);
     }

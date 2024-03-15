@@ -101,6 +101,19 @@
             <version>1.7.2</version>
         </dependency>
 
+
+        <!--soap-->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+
+
+
+
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
