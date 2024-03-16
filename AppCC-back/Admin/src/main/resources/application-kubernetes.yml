@@ -1,0 +1,34 @@
+server:
+  port: ${SERVER_PORT:8765}
+spring:
+  cloud:
+    config:
+      enabled: false
+    kubernetes:
+      enabled: true
+        #reload:
+        #enabled: true
+        #mode: event
+        #strategy: shutdown
+        #config:
+        #sources:
+          #- namespace: common
+            #name: environment
+          #- name: gestion
+      discovery:
+        enabled: true
+        namespace: sgma-system
+        #namespaces:
+        #  - sgma-system
+        #  - namespace2
+        #  - namespace3
+        #all-namespaces: true
+eureka:
+  client:
+    enabled: false
+
+  boot:
+    admin:
+      discovery:
+        ignored-services: ${SPRING_BOOT_ADMIN_DISCOVERY_IGNORED_SERVICES:gateway-service}
+
