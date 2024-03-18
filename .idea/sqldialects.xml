@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/Client/src/main/resources/db/migration/V1__create_client_table.sql" dialect="H2" />
-    <file url="file://$PROJECT_DIR$/Client/src/main/resources/db/migration/V2__insert_data_to_client.sql" dialect="H2" />
-    <file url="file://$PROJECT_DIR$/Contract/src/main/resources/db/migration/V1__create_contract_table.sql" dialect="H2" />
-  </component>
-</project>
