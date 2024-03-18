@@ -7,7 +7,7 @@ variable "argocd-namespace" {
 }
 
 variable "argo-target-path" {
-  default = "kubernetes/manifests"
+  default = "kubernetes/dev-env/manifests"
 }
 
 variable "project-url" {
@@ -17,3 +17,4 @@ variable "project-url" {
 variable "argo-target-branch" {
   default = "devops"
 }
+

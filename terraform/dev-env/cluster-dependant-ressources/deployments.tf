@@ -12,7 +12,7 @@ resource "kubernetes_manifest" "argocd_application_deploy" {
         namespace = var.argocd-namespace
         server    = "https://kubernetes.default.svc"
       }
-      project = "sgma-system"
+      project = "default"
       source = {
         path            = var.argo-target-path
         repoURL         = var.project-url
