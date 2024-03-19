@@ -1,4 +1,4 @@
-name: Gateway pipeline
+name: Soge-system-UI pipeline
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
   SERVICE_NAME: soge-system-ui
   REGISTRY_NAME: salaheddine122/
   APP_CONTEXT: AppCC-front/
-
+  ARTEFACT_NAME: front-app-cc
 jobs:
   explore_github_actions:
     runs-on: ubuntu-latest
@@ -52,5 +52,7 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY_NAME }}${{ env.SERVICE_NAME }}:1.0.${{ github.run_number }}
           context: ${{ env.APP_CONTEXT }}
+          build-args: |
+              name=${{ env.ARTEFACT_NAME }}
 
           
