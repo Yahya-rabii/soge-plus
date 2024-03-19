@@ -32,7 +32,7 @@ public class ClientSoapController {
     }
 
     @WebMethod
-    public Client getClientById(@WebParam(name = "id") Long id) {
+    public Client getClientById(@WebParam(name = "id") String id) {
         MDC.put("traceId", "get client by id called from ClientSoapController class of Client microservice");
         log.info("get client by id called from ClientSoapController class of Client microservice");
         return clientService.getClientById(id);
@@ -46,21 +46,21 @@ public class ClientSoapController {
     }
 
     @WebMethod
-    public Client updateClient(@WebParam(name = "id") Long id, @WebParam(name = "client") Client client) {
+    public Client updateClient(@WebParam(name = "id") String id, @WebParam(name = "client") Client client) {
         MDC.put("traceId", "update client called from ClientSoapController class of Client microservice");
         log.info("update client called from ClientSoapController class of Client microservice");
         return clientService.updateClient(id, client);
     }
 
     @WebMethod
-    public void deleteClient(@WebParam(name = "id") Long id) {
+    public void deleteClient(@WebParam(name = "id") String id) {
         MDC.put("traceId", "delete client called from ClientSoapController class of Client microservice");
         log.info("delete client called from ClientSoapController class of Client microservice");
         clientService.deleteClient(id);
     }
 
     @WebMethod
-    public List<Contract> getContracts(@WebParam(name = "id") Long id) {
+    public List<Contract> getContracts(@WebParam(name = "id") String id) {
         MDC.put("traceId", "get contracts called from ClientSoapController class of Client microservice");
         log.info("get contracts called from ClientSoapController class of Client microservice");
         return clientService.getContracts(id);

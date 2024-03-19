@@ -6,11 +6,18 @@ import com.sgma.client.services.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200",
+        allowedHeaders = "*",
+        allowCredentials = "true",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+
 public class ClientRestController {
 
     private final ClientService clientService;
@@ -30,7 +37,7 @@ public class ClientRestController {
     }
 
     @GetMapping("/client/{id}")
-    public Client getClientById(@PathVariable("id") Long id) {
+    public Client getClientById(@PathVariable("id") String id) {
 
         MDC.put("traceId", "get client by id called from ClientRestController class of Client microservice");
         log.info("get client by id called from ClientRestController class of Client microservice");
@@ -39,28 +46,37 @@ public class ClientRestController {
     }
 
     @PostMapping("/addClient")
-    public Client addClient(@RequestBody Client client) {
+    public Client addClient(@RequestBody Map<String, Object> requestData) {
         MDC.put("traceId", "add client called from ClientRestController class of Client microservice");
         log.info("add client called from ClientRestController class of Client microservice");
+
+        String id = requestData.get("id").toString();
+        String email = requestData.get("email").toString();
+
+        Client client = new Client();
+        client.setId(id);
+        client.setEmail(email);
+
         return clientService.addClient(client);
     }
 
+
     @PutMapping("/updateClient/{id}")
-    public Client updateClient(@PathVariable("id") Long id, @RequestBody Client client) {
+    public Client updateClient(@PathVariable("id") String id, @RequestBody Client client) {
         MDC.put("traceId", "update client called from ClientRestController class of Client microservice");
         log.info("update client called from ClientRestController class of Client microservice");
         return clientService.updateClient(id, client);
     }
 
     @DeleteMapping("/deleteClient/{id}")
-    public void deleteClient(@PathVariable("id") Long id) {
+    public void deleteClient(@PathVariable("id") String id) {
         MDC.put("traceId", "delete client called from ClientRestController class of Client microservice");
         log.info("delete client called from ClientRestController class of Client microservice");
         clientService.deleteClient(id);
     }
 
     @GetMapping("/contracts/{id}")
-    public List<Contract> getContracts(@PathVariable Long id) {
+    public List<Contract> getContracts(@PathVariable String id) {
         MDC.put("traceId", "get contracts called from ClientRestController class of Client microservice");
         log.info("get contracts called from ClientRestController class of Client microservice");
         return clientService.getContracts(id);

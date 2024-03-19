@@ -6,18 +6,15 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.List;
 
 @XmlRootElement(name = "client")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "client", propOrder = {
         "id",
-        "name",
         "email",
-        "phone",
         "contracts"
 })
 @Entity
@@ -26,12 +23,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Client {
 
+    @Getter
+    @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+    private String id;
     private String email;
-    private String phone;
+
     @Transient
     private List<Contract> contracts;
 

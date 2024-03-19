@@ -9,6 +9,6 @@ import java.util.List;
 @FeignClient(name = "CONTRACT-SERVICE")
 public interface ContractFetchingService {
     @GetMapping(path = "/contracts/client/{id}")
-    List<Contract> findContractByClientId(@PathVariable Long id);
+    List<Contract> findContractByClientId(@PathVariable String id);
 
 }

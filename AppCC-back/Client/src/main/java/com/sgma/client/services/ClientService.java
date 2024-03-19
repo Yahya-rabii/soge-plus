@@ -23,7 +23,7 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client getClientById(Long id) {
+    public Client getClientById(String id) {
         return clientRepository.findById(id).orElse(null);
     }
 
@@ -31,16 +31,16 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
-    public Client updateClient(Long id, Client client) {
+    public Client updateClient(String id, Client client) {
         client.setId(id);
         return clientRepository.save(client);
     }
 
-    public void deleteClient(Long id) {
+    public void deleteClient(String id) {
         clientRepository.deleteById(id);
     }
 
-    public List<Contract> getContracts(Long id) {
+    public List<Contract> getContracts(String id) {
         Client client = clientRepository.findById(id).orElse(null);
         if (client != null) {
             return contractService.findContractByClientId(id);
