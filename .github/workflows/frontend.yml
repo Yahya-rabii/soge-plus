@@ -2,8 +2,6 @@ name: Soge-system-UI pipeline
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'UI-v*'
    
