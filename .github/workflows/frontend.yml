@@ -3,14 +3,14 @@ name: Gateway pipeline
 on:
   push:
     paths:
-        - 'SGMA-System/AppCC-front/src/**' 
+        - 'AppCC-front/src/**' 
     branches:
         - master
         
 env:
   SERVICE_NAME: soge-system-ui
   REGISTRY_NAME: salaheddine122/
-  APP_CONTEXT: SGMA-System/AppCC-front/
+  APP_CONTEXT: AppCC-front/
 
 jobs:
   explore_github_actions:
