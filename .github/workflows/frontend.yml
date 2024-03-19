@@ -2,10 +2,12 @@ name: Soge-system-UI pipeline
 
 on:
   push:
+    tags:
+      - 'v*' 
     paths:
-        - 'AppCC-front/src/**' 
+      - 'AppCC-front/src/**' 
     branches:
-        - master
+      - master
         
 env:
   SERVICE_NAME: soge-system-ui
@@ -54,5 +56,4 @@ jobs:
           context: ${{ env.APP_CONTEXT }}
           build-args: |
               name=${{ env.ARTEFACT_NAME }}
-
           
