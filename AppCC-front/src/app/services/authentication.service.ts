@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap , tap  } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { User } from '../models/user.model';
+import { TokenRefreshService } from './token-refresh.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    private tokenRefreshService: TokenRefreshService
+  ) { }
 
   login(username: string, password: string): Observable<any> {
     const loginUrl = `${environment.apiUrl}${environment.loginEndpoint}`;
@@ -25,7 +30,6 @@ export class AuthenticationService {
           localStorage.setItem('refresh_expires_in', response.refresh_expires_in.toString());
           localStorage.setItem('token_type', response.token_type);
           localStorage.setItem('UserId', response.UserId);
-          // Optionally, you can perform additional actions here based on the response
         }),
         catchError(error => {
           return throwError(error);
@@ -46,7 +50,6 @@ export class AuthenticationService {
 
   logout(): Observable<any> {
     const logoutUrl = `${environment.apiUrl}${environment.logoutEndpoint}`;
-    // expect the userId to be passed as a json object to the logout function
     const userId = localStorage.getItem('UserId') || '{}' ;
     return this.httpClient.post<any>(logoutUrl, userId)
       .pipe(
@@ -56,28 +59,8 @@ export class AuthenticationService {
       );
   }
 
-  
-
-  refreshAccessToken(refreshToken: string): Observable<any> {
-    const refreshTokenUrl = `${environment.apiUrl}${environment.refreshEndpoint}`;
-
-    return this.httpClient.post<any>(refreshTokenUrl, { refresh_token: refreshToken })
-      .pipe(
-        switchMap(response => {
-          // Replace the access token in local storage with the new one
-          localStorage.setItem('accessToken', response.access_token);
-          return response;
-        }),
-        catchError(error => {
-          return throwError(error);
-        })
-      );
-  }
-
-
   isLoggedIn(): boolean {
     const accessToken = localStorage.getItem('access_token');
     return accessToken !== null;
   }
-
 }

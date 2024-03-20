@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +20,7 @@ export class LoginComponent {
   username: string = '';
   password: string  ='';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService , private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService ) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -47,7 +46,8 @@ export class LoginComponent {
     this.authService.login( username, password).subscribe(
       (response) => {
         console.log(response);
-        this.router.navigate(['/']);
+        window.location.href = '/';
+        
       },
       (error) => {
         console.log(error);

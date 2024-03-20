@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarouselComponent } from '../carousel/carousel.component';
 import { UserstableComponent } from '../userstable/userstable.component';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -12,4 +13,16 @@ import { UserstableComponent } from '../userstable/userstable.component';
 })
 export class HomeComponent {
   title = 'App-CC';
+  constructor(private authService: AuthenticationService) {
+
+
+
+
+  }
+
+   
+
+  
+
+
 }
