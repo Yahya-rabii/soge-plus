@@ -2,3 +2,4 @@
   hosts: K8S_CLUSTER
   roles:
     - init_cluster
+  become: true
