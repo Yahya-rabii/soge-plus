@@ -1,0 +1,4 @@
+- name: Main playbook for setting up the kubernetes cluster for centos 9 stream
+  hosts: K8S_CLUSTER
+  roles:
+    - init_cluster
