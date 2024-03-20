@@ -2,11 +2,13 @@ import { Routes } from '@angular/router';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-export const routes: Routes = [
+import { AuthGuard } from './auth.guard'; // Import your AuthGuard
 
-    { path: '', component: HomeComponent },
+export const routes: Routes = [
+    // '/' accessible only if the user is logged in authService.isLoggedIn()
+    { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // Protecting the home route
     { path: 'signup', component: SignupComponent },
-    { path: 'login', component: LoginComponent  },
+    { path: 'login', component: LoginComponent }
     //{ path: 'admin', component: AdmindashboardComponent , canActivate: [authGuard] }
 
 ];

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { AuthenticationService } from '../../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,20 +12,26 @@ import { NgIf } from '@angular/common';
 })
 export class NavBarComponent {
 
-  constructor() {
+  constructor(private authService: AuthenticationService , private router: Router) {
   }
 
   logout() {
-    // Call the logout method from the authentication service
-    // this.authService.logout().subscribe(() => {
-    //   // Redirect the user to the login page
-    //   this.router.navigate(['/login']);
-    // });
+    this.authService.logout().subscribe(
+      (response) => {
+        console.log(response);
+        localStorage.clear();
+        this.router.navigate(['/login']);
+      },
+      (error) => {
+        console.log(error);
+        alert('An error occurred while logging out');
+      }
+    );
   }
 
 
   // check if the user is logged in or not
   isLoggedIn() {
-    // return this.authService.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
 }

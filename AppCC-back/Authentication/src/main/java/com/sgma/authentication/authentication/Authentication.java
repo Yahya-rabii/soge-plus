@@ -235,10 +235,13 @@ public class Authentication {
 
 
 
-    @GetMapping("/logout")
-    private ResponseEntity<Map> logout() {
+    @PostMapping("/logout")
+    private ResponseEntity<Map> logout(@RequestBody String UserId) {
         try {
 
+
+            // extract the actual user id from the string UserId because it is an object {"UserId":"29df707d-2dcf-4a65-a8c5-a2ba974c917c"}
+           // UserId = UserId.substring(UserId.indexOf(":") + 2, UserId.length() - 2);
 
 
             RestTemplate restTemplate = new RestTemplate();
@@ -247,24 +250,14 @@ public class Authentication {
             headers.setBearerAuth(getAccessToken());
             HttpEntity<Object> request = new HttpEntity<>(headers);
 
-
-            // todo : after creating the front end, we will get the user id as parameter no need to decode the token
-
-            // Decode the refreshToken to get the UserID
-            String[] chunks = accessToken.split("\\.");
-            Base64.Decoder decoder = Base64.getDecoder();
-            String payload = new String(decoder.decode(chunks[1]));
-            JSONObject jsonObject = new JSONObject(payload);
-            UserID = jsonObject.getString("sub");
-
-            ResponseEntity<Map> response = restTemplate.postForEntity(logoutUrl+ UserID + "/logout" , request, Map.class);
-
+            ResponseEntity<Map> response = restTemplate.postForEntity(logoutUrl + UserId +"/logout" , request, Map.class);
 
 
 
             // status code 204 means the user is logged out successfully
             if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
                 refreshToken = null;
+                accessToken = null;
                 UserID = null;
                 return ResponseEntity.status(HttpStatus.OK).body(response.getBody());
             } else {
