@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/Discovery/pom.xml" />
         <option value="$PROJECT_DIR$/Config/pom.xml" />
         <option value="$PROJECT_DIR$/Admin/pom.xml" />
+        <option value="$PROJECT_DIR$/Authentication/pom.xml" />
       </list>
     </option>
   </component>

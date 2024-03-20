@@ -15,7 +15,9 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity){
 
-        return serverHttpSecurity.csrf(ServerHttpSecurity.CsrfSpec::disable)
+        return serverHttpSecurity.cors(
+                        ServerHttpSecurity.CorsSpec::disable)
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
 
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**",
@@ -24,7 +26,9 @@ public class SecurityConfig {
                                       "/v3/api-docs/**",
                                       "/CLIENT-SERVICE/**",
                                       "/CONTRACT-SERVICE/**",
+                                      "/AUTH-SERVICE/**",
                                       "/instances/**"
+
 
                         ).permitAll()
                         .anyExchange().authenticated()

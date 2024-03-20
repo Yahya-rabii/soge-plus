@@ -1,4 +1,4 @@
-package com.sgma.gateway.model;
+package com.sgma.authentication.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

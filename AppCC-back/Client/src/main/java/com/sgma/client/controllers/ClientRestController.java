@@ -49,15 +49,14 @@ public class ClientRestController {
     public Client addClient(@RequestBody Map<String, Object> requestData) {
         MDC.put("traceId", "add client called from ClientRestController class of Client microservice");
         log.info("add client called from ClientRestController class of Client microservice");
+        List<Client> clients = clientService.getAllClients();
+        if (clients.stream().anyMatch(client -> client.getEmail().equals(requestData.get("email").toString()) )){
+                throw new RuntimeException("Email already exists");
+        }
 
-        String id = requestData.get("id").toString();
+        String id = requestData.get("UserId").toString();
         String email = requestData.get("email").toString();
-
-        Client client = new Client();
-        client.setId(id);
-        client.setEmail(email);
-
-        return clientService.addClient(client);
+        return clientService.addClient(new Client(id, email));
     }
 
 
@@ -81,4 +80,8 @@ public class ClientRestController {
         log.info("get contracts called from ClientRestController class of Client microservice");
         return clientService.getContracts(id);
     }
+
+
+
+
 }

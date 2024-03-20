@@ -16,6 +16,10 @@ spring:
             uri: lb://CONTRACT-SERVICE
             predicates:
               - Path=/CLIENT-SERVICE/**
+          - id: AUTH-SERVICE
+            uri: lb://AUTH-SERVICE
+            predicates:
+              - Path=/AUTH-SERVICE/**
     discovery:
       enabled: true
   security:
@@ -41,4 +45,7 @@ springdoc:
       - url: /CONTRACT-SERVICE/v3/api-docs
         name: CONTRACT Service
         display-name: CONTRACT Service
+      - url: /AUTH-SERVICE/v3/api-docs
+        name: Auth Service
+        display-name: Auth Service
 

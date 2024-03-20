@@ -19,7 +19,6 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "angular-auth-oidc-client": "^17.0.0",
-    "angular-oauth2-oidc": "^17.0.1",
     "flowbite": "^2.3.0",
     "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",

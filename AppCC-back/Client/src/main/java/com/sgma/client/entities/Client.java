@@ -32,4 +32,9 @@ public class Client {
     @Transient
     private List<Contract> contracts;
 
+    public Client(String id, String email) {
+        this.id = id;
+        this.email = email;
+    }
+
 }

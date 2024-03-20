@@ -1,4 +1,4 @@
-package com.sgma.gateway.model;
+package com.sgma.authentication.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Client {
 
-    private boolean enabled;
+    private boolean enabled = true;
     private String username;
     private String email;
     private String firstName;
     private String lastName;
-    private boolean emailVerified;
+    private boolean emailVerified = true;
     private Credential[] credentials;
 
     //private String locale = "en";

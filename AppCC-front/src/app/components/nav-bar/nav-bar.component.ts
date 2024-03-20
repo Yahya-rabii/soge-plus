@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -11,17 +10,20 @@ import { NgIf } from '@angular/common';
 })
 export class NavBarComponent {
 
-  constructor(private oauthService: OAuthService) {
+  constructor() {
   }
 
   logout() {
-    this.oauthService.logOut();
+    // Call the logout method from the authentication service
+    // this.authService.logout().subscribe(() => {
+    //   // Redirect the user to the login page
+    //   this.router.navigate(['/login']);
+    // });
   }
 
 
   // check if the user is logged in or not
   isLoggedIn() {
-    console.log(this.oauthService.hasValidAccessToken());
-    return this.oauthService.hasValidAccessToken();
+    // return this.authService.isLoggedIn();
   }
 }
