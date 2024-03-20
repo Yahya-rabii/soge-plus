@@ -1,0 +1,8 @@
+- name: update repo cache
+  dnf:
+    name: '*'
+    state: latest # not required. choices: absent;present;installed;removed;latest. Whether to install (C(present), C(latest)), or remove (C(absent)) a package. Default is C(None), however in effect the default action is C(present) unless the C(autoremove) option is enabled for this module, then C(absent) is inferred.
+    update_cache: yes # not required. Force dnf to check if cache is out of date and redownload if needed. Has an effect only if state is I(present) or I(latest).
+
+- name: Disable swap for current session
+  command: swapoff -a   

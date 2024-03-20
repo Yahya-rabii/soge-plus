@@ -1,0 +1,11 @@
+- name : install Cri-o module
+  dnf:
+    name:  cri-o:{ CRIO_VERSION }
+    state: present
+    
+- name: reload daemons
+  systemd:
+    name: crio
+    state: started 
+    enabled:  true
+    daemon_reload: true 
