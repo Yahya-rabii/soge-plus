@@ -1,0 +1,23 @@
+- name: Add Cri-o repo
+  copy:
+    dest: /etc/yum.repos.d/cri-o.repo
+    content: |
+      [cri-o]
+      name=CRI-O
+      baseurl=https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ CRIO_VERSION }}/rpm/
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ CRIO_VERSION }}/rpm/repodata/repomd.xml.key
+
+- name: install cri-o
+  dnf:
+    name:  cri-o
+    state: present
+    update_cache: true
+
+- name: start cri-o
+  systemd:
+    name:  crio
+    state: restarted
+    enabled:  true
+    daemon_reload: true

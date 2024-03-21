@@ -20,16 +20,17 @@
   command:
     cmd: sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 
+# Adjust the KUBE_VERSION var to pick your kubernetes version
 - name: overwrites existing configuration in /etc/yum.repos.d/kubernetes.repo
   copy:
     dest:  /etc/yum.repos.d/kubernetes.repo
     content: |
       [kubernetes]
       name=Kubernetes
-      baseurl=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/
+      baseurl=https://pkgs.k8s.io/core:/stable:/{{ KUBE_VERSION }}/rpm/
       enabled=1
       gpgcheck=1
-      gpgkey=https://pkgs.k8s.io/core:/stable:/v1.29/rpm/repodata/repomd.xml.key
+      gpgkey=https://pkgs.k8s.io/core:/stable:/{{ KUBE_VERSION }}/rpm/repodata/repomd.xml.key
       exclude=kubelet kubeadm kubectl cri-tools kubernetes-cni
 
 - name: Install kubelet, kubeadm and kubectl
@@ -38,7 +39,7 @@
       - kubelet
       - kubeadm
       - kubectl
-    state: latest 
+    state: present 
     disable_excludes:  kubernetes
 
 - name: enable kubelet
@@ -93,6 +94,10 @@
     - net.bridge.bridge-nf-call-iptables=1
     - net.bridge.bridge-nf-call-ip6tables=1
 
+- name: Reload sysctl
+  ansible.posix.sysctl:
+    name: '*'
+    reload: true
 #- name: Add Docker CE repository
 #  yum_repository:
 #    name: docker-ce
@@ -112,19 +117,3 @@
 #    name:  containerd
 #    state: restarted
 #    enabled: true
-
-- name: Download devel:kubic:libcontainers:stable:cri-o:VERSION.repo
-  get_url:
-    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{VERSION}}/{{OS}}/devel:kubic:libcontainers:stable:cri-o:{{VERSION}}.repo"
-    dest: "/etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:{{VERSION}}.repo"
-
-- name: Install cri-o
-  yum:
-    name: cri-o
-    state: present
-
-- name: start crio
-  systemd:
-    name:  crio
-    state: restarted
-    enabled:  true
