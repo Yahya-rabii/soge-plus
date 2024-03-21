@@ -1,0 +1,11 @@
+- name: install cri-o related dependencies
+  dnf:
+    name:
+      - conntrack
+      - container-selinux
+      - ebtables
+      - ethtool
+      - iptables
+      - socat
+    state: latest
+    update_cache: true
