@@ -34,4 +34,9 @@ export class NavBarComponent {
   isLoggedIn() {
     return this.authService.isLoggedIn();
   }
+
+  IsAdminRoute() {
+    console.log(window.location.pathname);
+    return window.location.pathname.includes('admin');
+  }  
 }
