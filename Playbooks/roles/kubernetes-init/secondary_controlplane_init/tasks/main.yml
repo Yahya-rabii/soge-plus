@@ -1,0 +1,119 @@
+- name: Expose port 6443
+  ansible.posix.firewalld:
+    port: 6443/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose ports 2379-2380
+  ansible.posix.firewalld:
+    port: "2379-2380/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10250
+  ansible.posix.firewalld:
+    port: 10250/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10251
+  ansible.posix.firewalld:
+    port: 10251/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10252
+  ansible.posix.firewalld:
+    port: 10252/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10255
+  ansible.posix.firewalld:
+    port: 10255/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 8472 (UDP)
+  ansible.posix.firewalld:
+    port: 8472/udp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Add masquerade
+  ansible.posix.firewalld:
+    masquerade: true
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose ports 30000-32767
+  ansible.posix.firewalld:
+    port: "30000-32767/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+
+
+- name: Generate and save token
+  command: kubeadm token create
+  register: token_output
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: Save token in a variable
+  set_fact:
+    token: "{{ token_output.stdout }}"
+  when: inventory_hostname == MAIN_CONTROLPLANE
+  
+- name: Generate and save CA cert hash
+  shell: "openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -pubkey | openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1"
+  register: ca_cert_hash_output
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: Save CA cert hash in a variable
+  set_fact:
+    ca_cert_hash: "{{ ca_cert_hash_output.stdout }}"
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: Generate and save private key
+  shell: "openssl rsa -in /etc/kubernetes/pki/ca.key -outform DER -out /tmp/ca.key 2>/dev/null"
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: Generate tmp private key content
+  shell: kubeadm init phase upload-certs --upload-certs 2>&1 | grep -oE "[0-9a-f]{64}" | awk 'NR==1'
+  register: private_key_output
+
+
+- name: Save private key content in a variable
+  set_fact:
+    private_key: "{{ private_key_output.stdout }}"
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: generate domain
+  shell: kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}' | sed 's/^https:\/\///'
+  register: domain_output
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: Save my domain with port in a variable
+  set_fact:
+    domain: "{{ domain_output.stdout }}"
+  when: inventory_hostname == MAIN_CONTROLPLANE
+
+- name: save vars in second host
+  set_fact:
+    transferred_token: "{{ hostvars[MAIN_CONTROLPLANE].token }}"
+    transferred_ca_cert_hash: "{{ hostvars[MAIN_CONTROLPLANE].ca_cert_hash }}"
+    transferred_domain: "{{ hostvars[MAIN_CONTROLPLANE].domain }}"
+    transferred_private_key: "{{ hostvars[MAIN_CONTROLPLANE].private_key }}"
+  when: inventory_hostname != MAIN_CONTROLPLANE
+
+- name: Add control plane
+  shell: "kubeadm join {{ transferred_domain }} --token {{ transferred_token }} --discovery-token-ca-cert-hash sha256:{{ transferred_ca_cert_hash }} --control-plane --certificate-key {{ transferred_private_key }}"
+  when: inventory_hostname != MAIN_CONTROLPLANE

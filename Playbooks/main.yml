@@ -1,5 +1,25 @@
-- name: Main playbook for setting up the kubernetes cluster for centos 9 stream
-  hosts: K8S_CLUSTER
+#- name: Initialize the cluster with the right dependencies and cnis
+#  hosts: K8S_MAIN_CONTROLPLANE, K8S_SECONDARY_CONTROLPLANE, K8S_WORKERS
+#  roles:
+#    -
+#    -
+#    -
+#    - 
+#  become: true
+
+
+#- name: Setup kubernetes cluster and join initial nodes
+#  hosts: K8S_MAIN_CONTROLPLANE
+#  roles:
+#    - roles/kubernetes-init/main_controlplane_init
+#  become: true
+
+
+- name: Add Secondary control plane
+  hosts: K8S_SECONDARY_CONTROLPLANE, K8S_MAIN_CONTROLPLANE
   roles:
-    - add_to_host
-  become: true
+#    - roles/initialization/add_to_host
+#    - roles/initialization/init_cluster
+#    - roles/container-runtimes/crio
+#    - roles/initialization/install_dependencies
+    - roles/kubernetes-init/secondary_controlplane_init
