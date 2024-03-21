@@ -94,10 +94,6 @@
     - net.bridge.bridge-nf-call-iptables=1
     - net.bridge.bridge-nf-call-ip6tables=1
 
-- name: Reload sysctl
-  ansible.posix.sysctl:
-    name: '*'
-    reload: true
 #- name: Add Docker CE repository
 #  yum_repository:
 #    name: docker-ce

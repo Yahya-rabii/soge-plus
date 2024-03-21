@@ -1,0 +1,85 @@
+- name: Expose port 6443
+  ansible.posix.firewalld:
+    port: 6443/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose ports 2379-2380
+  ansible.posix.firewalld:
+    port: "2379-2380/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10250
+  ansible.posix.firewalld:
+    port: 10250/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10251
+  ansible.posix.firewalld:
+    port: 10251/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10252
+  ansible.posix.firewalld:
+    port: 10252/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 10255
+  ansible.posix.firewalld:
+    port: 10255/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose port 8472 (UDP)
+  ansible.posix.firewalld:
+    port: 8472/udp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Add masquerade
+  ansible.posix.firewalld:
+    masquerade: true
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: Expose ports 30000-32767
+  ansible.posix.firewalld:
+    port: "30000-32767/tcp"
+    permanent: true
+    state: enabled
+    immediate: true
+
+
+
+- name: Run kubeinit to start the control plane
+  command:
+    cmd: sudo kubeadm init --pod-network-cidr={{ IP_ADDRESS_RANGE }} --control-plane-endpoint={{ inventory_hostname }}.socgen.local
+
+- name: Create .kube directory if it doesn't exist
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+
+- name: Copy kube-config to home directory
+  copy:
+    dest:  "{{ ansible_env.HOME }}/.kube/config"
+    src:  /etc/kubernetes/admin.conf
+    remote_src: yes
+
+- name: Ensure ~/.kube/config ownership is set
+  file:
+    path: "{{ ansible_env.HOME }}/.kube/config"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
