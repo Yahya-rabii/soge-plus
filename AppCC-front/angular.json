@@ -59,6 +59,7 @@
             "production": {
               "buildTarget": "front-AppCC:build:production"
             },
+
             "development": {
               "buildTarget": "front-AppCC:build:development"
             }

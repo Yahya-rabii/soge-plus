@@ -1,0 +1,40 @@
+<div class="card m-4">
+    <div class="card-title flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold leading-none text-black">Latest Customers</h3>
+      <a href="#" class="inline-flex items-center p-2 text-sm font-medium rounded-lg text-black hover:text-red-700">
+        View all
+      </a>
+    </div>
+    <div class="flow-root  bg-white rounded-lg opacity-80 p-8">
+      <ul role="list" class="divide-y divide-gray-200">
+        <li class="py-3 sm:py-4" *ngFor="let i of [200, 325, 100, 50, 400, 336]">
+          <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0">
+              <img class="w-8 h-8 rounded-full" src="https://placehold.co/100x100" alt="user image">
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 truncate">
+                John Doe
+              </p>
+              <p class="text-sm text-gray-500 truncate">
+                john.deo&#64;email.com
+              </p>
+            </div>
+            <div class="inline-flex items-center text-base font-semibold text-gray-900">
+              ${{i}}
+            </div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="flex justify-between font-medium text-sm pt-5">
+        <div class="text-gray-400">
+          <h5 class="inline-flex">Total</h5>
+          6 of 300
+        </div>
+        <a href="" class="inline-flex text-emerald-500">
+          View Sales Report
+        </a>
+      </div>
+    </div>
+  </div>
