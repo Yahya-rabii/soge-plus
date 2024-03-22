@@ -17,8 +17,7 @@ import java.util.*;
 @RestController
 @AllArgsConstructor
 @NoArgsConstructor
-// cross origin is enabled to allow every client to access the endpoints
-@CrossOrigin(origins = "*")
+
 public class Authentication {
     @Value("${keycloak.credentials.secret}")
     private String clientSecret;
