@@ -12,7 +12,6 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  title = 'App-CC';
   constructor(private authService: AuthenticationService) {
 
 
