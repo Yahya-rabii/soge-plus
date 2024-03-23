@@ -1,16 +1,4 @@
-<style>
-    .foo {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
-
-
-</style>
-
-
-
-<footer *ngIf="!IsAdminRoute()" class="bg-white rounded-lg shadow dark:bg-gray-900 m-4 foo">
+<footer *ngIf="!IsAdminRoute()" class="bg-white rounded-lg shadow dark:bg-gray-900 fixed bottom-0 left-0 w-full mt-20">
     <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div class="sm:flex sm:items-center sm:justify-between">
             <a href="/" class="flex items-center mb-0 sm:mb-1 space-x-3 rtl:space-x-reverse">

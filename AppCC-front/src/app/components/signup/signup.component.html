@@ -1,18 +1,10 @@
-<style>
-  .signup-form {
-    margin-top: 100px;
-    margin-bottom: 100px;
-  }
-</style>
-<section  class=" dark:bg-gray-900 signup-form ">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+<section class="dark:bg-gray-900">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20">
     <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo">
       <span class="text-2xl font-semibold text-primary-500"> Welcome To <span class="text-2xl font-semibold text-red-700">SOGE-SIGN</span></span>
     </a>
-    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <form [formGroup]="signupForm" (ngSubmit)="Submit()" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg">
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">      <form [formGroup]="signupForm" (ngSubmit)="Submit()" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg">        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
           Create an account
         </h1>
         <div>

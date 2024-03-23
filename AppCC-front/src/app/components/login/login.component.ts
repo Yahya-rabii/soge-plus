@@ -2,7 +2,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
+// Initialization for ES Users
+import {
+  Input,
+  Ripple,
+  initTWE,
+} from "tw-elements";
 
+initTWE({ Input, Ripple });
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

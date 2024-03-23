@@ -1,5 +1,6 @@
 package com.sgma.client.entities;
 
+import com.sgma.client.Model.Address;
 import com.sgma.client.Model.Contract;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -15,7 +16,8 @@ import java.util.List;
 @XmlType(name = "client", propOrder = {
         "id",
         "email",
-        "contracts"
+        "contracts",
+        "address"
 })
 @Entity
 @Data
@@ -28,6 +30,11 @@ public class Client {
     @Id
     private String id;
     private String email;
+
+
+    @Embedded
+    private Address address;
+
 
     @Transient
     private List<Contract> contracts;
