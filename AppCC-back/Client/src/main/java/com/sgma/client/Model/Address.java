@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Address {
 
-    private String rue;
-    private String ville;
-    private String codePostal;
-    private String pays;
+    private String street;
+    private String city;
+    private String postalCode;
+    private String country;
 
 
 }

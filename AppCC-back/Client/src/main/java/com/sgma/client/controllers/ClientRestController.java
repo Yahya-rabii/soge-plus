@@ -1,5 +1,6 @@
 package com.sgma.client.controllers;
 
+import com.sgma.client.Model.Address;
 import com.sgma.client.Model.Contract;
 import com.sgma.client.entities.Client;
 import com.sgma.client.services.ClientService;
@@ -50,9 +51,24 @@ public class ClientRestController {
                 throw new RuntimeException("Email already exists");
         }
 
-        String id = requestData.get("UserId").toString();
+        String UserId = requestData.get("UserId").toString();
         String email = requestData.get("email").toString();
-        return clientService.addClient(new Client(id, email));
+        String role = requestData.get("role").toString();
+        String firstName = requestData.get("firstName").toString();
+        String lastName = requestData.get("lastName").toString();
+        String street = requestData.get("street").toString();
+        String city = requestData.get("city").toString();
+        String country = requestData.get("country").toString();
+        String postalCode = requestData.get("postalCode").toString();
+
+
+        Address address = new Address(street, city, postalCode, country);
+
+
+
+        Client client = new Client(UserId, email, firstName, lastName, role, address);
+
+        return clientService.addClient(client);
     }
 
 

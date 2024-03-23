@@ -16,5 +16,7 @@ public class Contract {
     private String type;
     private Date startDate;
     private int duration;
+    private String postalCode;
+
 
 }

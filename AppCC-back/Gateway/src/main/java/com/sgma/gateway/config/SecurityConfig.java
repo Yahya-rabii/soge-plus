@@ -23,6 +23,7 @@ public class SecurityConfig {
                                       "/v3/api-docs/**",
                                       "/CLIENT-SERVICE/**",
                                       "/CONTRACT-SERVICE/**",
+                                      "/LOAN-SERVICE/**",
                                       "/AUTH-SERVICE/**",
                                       "/instances/**"
                         ).permitAll()

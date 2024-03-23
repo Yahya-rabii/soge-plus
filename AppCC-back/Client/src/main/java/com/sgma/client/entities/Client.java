@@ -16,6 +16,9 @@ import java.util.List;
 @XmlType(name = "client", propOrder = {
         "id",
         "email",
+        "firstName",
+        "lastName",
+        "role",
         "contracts",
         "address"
 })
@@ -24,12 +27,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client {
-
     @Getter
     @Setter
     @Id
     private String id;
     private String email;
+    private String firstName;
+    private String lastName;
+    private String role;
 
 
     @Embedded
@@ -44,4 +49,12 @@ public class Client {
         this.email = email;
     }
 
+    public Client(String userId, String email, String firstName, String lastName, String role, Address address) {
+        this.id = userId;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.address = address;
+    }
 }

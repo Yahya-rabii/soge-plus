@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Loan" />
         <module name="Gateway" />
         <module name="Config" />
         <module name="Authentication" />
@@ -26,6 +27,7 @@
       <module name="Contract" options="-parameters" />
       <module name="Discovery" options="-parameters" />
       <module name="Gateway" options="-parameters" />
+      <module name="Loan" options="-parameters" />
     </option>
   </component>
 </project>
