@@ -2,14 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
-// Initialization for ES Users
-import {
-  Input,
-  Ripple,
-  initTWE,
-} from "tw-elements";
 
-initTWE({ Input, Ripple });
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -38,7 +31,24 @@ export class LoginComponent {
   public Submit() {
     if (this.loginForm.invalid) {
       console.log(this.loginForm.value );
-      alert('Please enter valid details');
+      // the form is invalid 
+      // check if the password is less than 8 characters
+      if (this.loginForm.controls['password'].errors?.['minlength']) {
+        alert('Password must be at least 8 characters long');
+      }
+
+      // check if the username is empty
+      if (this.loginForm.controls['username'].errors?.['required']) {
+        alert('Username is required');
+      }
+
+      // check if the password is empty
+
+      if (this.loginForm.controls['password'].errors?.['required']) {
+        alert('Password is required');
+      }
+
+
       return;
     }
     const formData = this.loginForm.value;
@@ -58,7 +68,7 @@ export class LoginComponent {
       },
       (error) => {
         console.log(error);
-        alert('An error occurred while logging in');
+        alert('Wrong username or password');
       }
     );
   }

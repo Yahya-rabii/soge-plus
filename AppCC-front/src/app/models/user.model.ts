@@ -1,3 +1,4 @@
+import { Address } from "./address.model";
 import { Credential } from "./credential.model";
 
 
@@ -7,16 +8,19 @@ export class User {
     firstName!: string | '';
     lastName!: string | '';
     email!: string | '';
+
     
     // table of credential
     credentials!: Credential[] | undefined;
+    address!: Address | undefined;
 
     constructor(
         username?: string,
         firstName?: string,
         lastName?: string,
         email?: string,
-        credentials?: Credential[] | undefined
+        credentials?: Credential[] | undefined,
+        asdress?: Address | undefined
     ) {
 
         this.username = username || '';
@@ -24,6 +28,7 @@ export class User {
         this.lastName = lastName || '';
         this.email = email || '';
         this.credentials = credentials || undefined;
+        this.address = asdress || undefined;
     }
 
     public get_attributes(): string {
@@ -31,12 +36,13 @@ export class User {
     }
 
 
-    public set_attributes( username: string, firstName: string, lastName: string, email: string, credentials: Credential[]): void {
+    public set_attributes( username: string, firstName: string, lastName: string, email: string, credentials: Credential[] , address: Address): void {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.credentials = credentials;
+        this.address = address;
     }
 
 
@@ -64,6 +70,10 @@ export class User {
         return this.credentials;
     }
 
+    public get_address(): Address | undefined {
+        return this.address?.getAttributes();
+    }
+
 
     public set_username(username: string): void {
         this.username = username;
@@ -86,5 +96,8 @@ export class User {
         this.credentials = credentials;
     }
 
+    public set_address(address: Address): void {
+        this.address?.setAttributes(address.getStreet(), address.getCity(), address.getPostalCode(), address.getCountry());
+    }
 
 }
