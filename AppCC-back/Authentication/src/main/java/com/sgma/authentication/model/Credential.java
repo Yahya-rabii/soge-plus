@@ -5,12 +5,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Credential {
-    private String type;
+    private String type="password";
     private String value;
     private boolean temporary;
 
-    public Credential(String type, String value) {
-        this.type = type;
+    public Credential(String value) {
         this.value = value;
         this.temporary = false;
     }

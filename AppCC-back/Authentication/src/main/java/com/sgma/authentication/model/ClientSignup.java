@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Client {
+public class ClientSignup {
 
     private boolean enabled = true;
     private String username;
@@ -15,15 +15,14 @@ public class Client {
     private boolean emailVerified = true;
     private Credential[] credentials;
 
-    //private String locale = "en";
 
-    public Client(String username, String email, String firstName, String lastName, String type, String value) {
+    public ClientSignup(String username, String email, String firstName, String lastName, String value) {
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.emailVerified = true;
-        this.enabled = true;
-        this.credentials = new Credential[]{new Credential(type, value)};
+        this.credentials = new Credential[]{new Credential(value)};
     }
+
+
 }

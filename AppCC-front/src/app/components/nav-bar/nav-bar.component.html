@@ -1,16 +1,13 @@
 <nav *ngIf="!IsAdminRoute()" class="bg-white border-gray-900 dark:bg-gray-900 border-b fixed top-0 left-0 w-full z-50">
     <div class="flex justify-between items-center mx-auto max-w-screen-xl p-6">
-       
 
-
-
-
-             <!-- Increased padding for a larger height -->
-        <a  type="button" class="fixed top-3 left-5 flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="/assets/logoblack.png" class="h-8 flex-shrink-0 hover:cursor-pointer" alt="Logo" />
-        </a>
-
-            
+        <!-- Logo aligned to the left -->
+        <div class="fixed flex items-center left-10">
+            <a href="/" class="fixed flex items-center space-x-3">
+                <img src="/assets/logoblack.png" class="h-8 flex-shrink-0 hover:cursor-pointer" alt="Logo" />
+                <!-- Logo -->
+            </a>
+        </div>
 
 
         <div class="fixed right-5 flex items-center space-x-6 rtl:space-x-reverse">
@@ -29,8 +26,18 @@
                 </svg>
                 <span>Signup</span>
             </a>
+
+
+            <a href="/createloan" class="flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                <span>Create Loan</span>
+            </a>
+        
+            
         </div>
-        <button (click)="logout()" *ngIf="isLoggedIn()" class="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button">
+        <button (click)="logout()" *ngIf="isLoggedIn()" class="relative ml-10 inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button">
             <svg width="30px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
         
                 <g id="SVGRepo_bgCarrier" stroke-width="0"/>

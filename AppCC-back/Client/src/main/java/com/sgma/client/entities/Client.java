@@ -2,6 +2,7 @@ package com.sgma.client.entities;
 
 import com.sgma.client.Model.Address;
 import com.sgma.client.Model.Contract;
+import com.sgma.client.Model.Role;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -18,7 +19,7 @@ import java.util.List;
         "email",
         "firstName",
         "lastName",
-        "role",
+        "roles",
         "contracts",
         "address"
 })
@@ -34,8 +35,10 @@ public class Client {
     private String email;
     private String firstName;
     private String lastName;
-    private String role;
 
+
+    @Embedded
+    private Role roles;
 
     @Embedded
     private Address address;
@@ -49,12 +52,12 @@ public class Client {
         this.email = email;
     }
 
-    public Client(String userId, String email, String firstName, String lastName, String role, Address address) {
+    public Client(String userId, String email, String firstName, String lastName, Role roleList, Address address) {
         this.id = userId;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.role = role;
+        this.roles = roleList;
         this.address = address;
     }
 }

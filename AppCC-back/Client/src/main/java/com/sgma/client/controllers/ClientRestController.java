@@ -43,30 +43,14 @@ public class ClientRestController {
     }
 
     @PostMapping("/addClient")
-    public Client addClient(@RequestBody Map<String, Object> requestData) {
+    public Client addClient(@RequestBody Client client) {
         MDC.put("traceId", "add client called from ClientRestController class of Client microservice");
         log.info("add client called from ClientRestController class of Client microservice");
         List<Client> clients = clientService.getAllClients();
-        if (clients.stream().anyMatch(client -> client.getEmail().equals(requestData.get("email").toString()) )){
+
+        if (clients.stream().anyMatch(c -> c.getEmail().equals(client.getEmail()) )){
                 throw new RuntimeException("Email already exists");
         }
-
-        String UserId = requestData.get("UserId").toString();
-        String email = requestData.get("email").toString();
-        String role = requestData.get("role").toString();
-        String firstName = requestData.get("firstName").toString();
-        String lastName = requestData.get("lastName").toString();
-        String street = requestData.get("street").toString();
-        String city = requestData.get("city").toString();
-        String country = requestData.get("country").toString();
-        String postalCode = requestData.get("postalCode").toString();
-
-
-        Address address = new Address(street, city, postalCode, country);
-
-
-
-        Client client = new Client(UserId, email, firstName, lastName, role, address);
 
         return clientService.addClient(client);
     }

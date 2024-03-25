@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS `client` (
                                         `city` varchar(100),
                                         `postal_code` varchar(20),
                                         `country` varchar(50),
-                                        `role` varchar(20)
+                                        `roles` TEXT -- Assuming roles are stored as a JSON array or comma-separated values
 );
