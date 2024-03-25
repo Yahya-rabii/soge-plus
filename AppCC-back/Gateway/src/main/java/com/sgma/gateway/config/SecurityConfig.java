@@ -23,9 +23,11 @@ public class SecurityConfig {
                                       "/v3/api-docs/**",
                                       "/CLIENT-SERVICE/**",
                                       "/CONTRACT-SERVICE/**",
+                                      "/ADMIN-SERVICE/**",
                                       "/LOAN-SERVICE/**",
                                       "/AUTH-SERVICE/**",
-                                      "/instances/**"
+                                      "/instances/**",
+                                      "/DISCOVERY-SERVICE/**"
                         ).permitAll()
                         .anyExchange().authenticated()
                 ).oauth2ResourceServer((oauth2) -> oauth2.jwt(

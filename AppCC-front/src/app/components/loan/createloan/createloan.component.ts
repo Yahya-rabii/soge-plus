@@ -4,11 +4,12 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { User } from '../../../models/user.model';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { FormDataService } from '../../../services/form-data.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-createloan',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule , CommonModule],
   templateUrl: './createloan.component.html',
   styleUrl: './createloan.component.css'
 })
@@ -19,7 +20,9 @@ export class CreateloanComponent {
   user: User = new User();
   currentSection: number = 1; // Track current section of the form
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService, private router: Router) {
+  
+
+  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService, private router: Router , private formDataService: FormDataService) {
     this.signupForm = this.formBuilder.group({
       loanAmount: ['', [Validators.required]],
       loanType: ['', [Validators.required]],
@@ -34,7 +37,20 @@ export class CreateloanComponent {
       agency: ['']
     });
   }
+  imageUrl: string | ArrayBuffer | null = null;
 
+  onFileSelected(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const file: File | null = (inputElement.files as FileList)[0] || null;
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imageUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
   public NextSection() {
     // Handle progression of the progress bar
     const progressBarSteps = document.querySelectorAll('.progress-bar-step');
@@ -184,14 +200,12 @@ export class CreateloanComponent {
   
 
 
-  Submit() {
-   
-    // print all the form data :
+          Submit() {
+            console.log(this.signupForm.value);
+            this.formDataService.formData = this.signupForm;
+            this.router.navigate(['/loan/confirmation']);
 
-    console.log(this.signupForm.value);
-
-  }
-
+          }
   
 
 }
