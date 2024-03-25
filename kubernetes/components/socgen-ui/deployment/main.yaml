@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socgen-ui-deployment
+  labels:
+    environment: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socgen-ui
+  template:
+    metadata:
+      labels:
+        app: socgen-ui
+        environment: dev
+    spec:
+      containers:
+      - name: socgen-ui
+        image: salaheddine122/soge-system-ui:UI-v0.1.1
+        ports:
+        - containerPort: 80
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      imagePullSecrets:
+        - name: regcred
+
