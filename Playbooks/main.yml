@@ -1,25 +1,37 @@
 #- name: Initialize the cluster with the right dependencies and cnis
-#  hosts: K8S_MAIN_CONTROLPLANE, K8S_SECONDARY_CONTROLPLANE, K8S_WORKERS
+#  hosts: K8S_INITIAL_CLUSTER
 #  roles:
-#    -
-#    -
-#    -
-#    - 
+#    - roles/initialization/add_to_host
+#    - roles/initialization/init_cluster
+#    - roles/initialization/install_dependencies
+#    - roles/container-runtimes/crio
 #  become: true
 
 
-#- name: Setup kubernetes cluster and join initial nodes
+#- name: Setup kubernetes initial controlplane
 #  hosts: K8S_MAIN_CONTROLPLANE
 #  roles:
 #    - roles/kubernetes-init/main_controlplane_init
 #  become: true
 
 
-- name: Add Secondary control plane
-  hosts: K8S_SECONDARY_CONTROLPLANE, K8S_MAIN_CONTROLPLANE
-  roles:
-#    - roles/initialization/add_to_host
-#    - roles/initialization/init_cluster
-#    - roles/container-runtimes/crio
-#    - roles/initialization/install_dependencies
-    - roles/kubernetes-init/secondary_controlplane_init
+#- name: Add Secondary control plane
+#  hosts: K8S_SECONDARY_CONTROLPLANE, K8S_MAIN_CONTROLPLANE
+#  roles:
+#    - roles/kubernetes-init/secondary_controlplane_init
+
+#- name: Add Workers
+#  hosts: K8S_MAIN_CONTROLPLANE, K8S_WORKERS
+#  roles:
+#    - roles/kubernetes-init/workers_init
+
+- name: Install CNI
+  hosts: K8S_MAIN_CONTROLPLANE
+  roles: 
+    - roles/cni/calico
+
+
+#- name: TEST
+#  hosts: K8S_SECONDARY_CONTROLPLANE
+#  roles:
+#    - roles/kubernetes-init/secondary_controlplane_init
