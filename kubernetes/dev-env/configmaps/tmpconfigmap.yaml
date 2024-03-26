@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tmpconfigmap
-  namespace: sgma-system
-data:
-  CONFIG-SERVICE-IP: tmp

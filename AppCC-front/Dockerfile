@@ -8,6 +8,7 @@ RUN npm run build
 
 FROM nginx:alpine
 ARG name="front-app-cc"
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=angular /ng-app/dist/$name/browser /usr/share/nginx/html
 # to build image run : docker build --build-arg name=front-app-cc -t soge-system-ui .
 EXPOSE 80
