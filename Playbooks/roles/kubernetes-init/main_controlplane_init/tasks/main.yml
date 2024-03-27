@@ -62,7 +62,6 @@
     immediate: true
 
 
-
 - name: Run kubeinit to start the control plane
   command:
     cmd: sudo kubeadm init --pod-network-cidr={{ IP_ADDRESS_RANGE }} --control-plane-endpoint={{ inventory_hostname }}.socgen.local

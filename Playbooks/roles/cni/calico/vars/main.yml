@@ -1,0 +1,2 @@
+# the same one as the one in kubernetes-init
+IP_ADDRESS_RANGE: "10.10.0.0/16"

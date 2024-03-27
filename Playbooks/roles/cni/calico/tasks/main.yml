@@ -1,0 +1,11 @@
+- name: Render Calico manifest template
+  template:
+    src: manifest.yml
+    dest: "/tmp/manifest.yaml"
+
+- name: Apply Calico manifest
+  shell:
+    cmd: "kubectl apply -f /tmp/manifest.yaml"
+
+
+
