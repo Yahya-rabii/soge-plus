@@ -1,29 +1,38 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../../../services/authentication.service';
-import { User } from '../../../models/user.model';
 import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FormDataService } from '../../../services/form-data.service';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
+
 @Component({
   selector: 'app-createloan',
-  standalone: true,
-  imports: [ReactiveFormsModule , CommonModule],
   templateUrl: './createloan.component.html',
-  styleUrl: './createloan.component.css'
+  styleUrls: ['./createloan.component.css'],
+  standalone: true,
+  imports: [ CommonModule , ReactiveFormsModule ]
 })
-
 export class CreateloanComponent {
 
-  signupForm: FormGroup;
-  user: User = new User();
-  currentSection: number = 1; // Track current section of the form
+  createLoanForm: FormGroup;
+  currentSection: number = 1;
+  imageUrl: string | ArrayBuffer | null = null;
+  signature: string | null = null;
+  idCardFront: string | null = null;
+  idCardBack: string | null = null;
+  loanAmount: number = 0;
+  loanType: string | null = null;
+  paymentDuration: number = 0;
+  cinNumber: string | null = null;
+  taxId: string | null = null;
+  receptionMethod: string | null = null;
+  rib: string | null = null;
+  agency: string | null = null;
 
-  
-
-  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService, private router: Router , private formDataService: FormDataService) {
-    this.signupForm = this.formBuilder.group({
+  constructor(private formBuilder: FormBuilder, private router: Router, private formDataService: FormDataService) {
+    this.createLoanForm = this.formBuilder.group({
       loanAmount: ['', [Validators.required]],
       loanType: ['', [Validators.required]],
       paymentDuration: ['', [Validators.required]],
@@ -37,20 +46,26 @@ export class CreateloanComponent {
       agency: ['']
     });
   }
-  imageUrl: string | ArrayBuffer | null = null;
 
-  onFileSelected(event: Event): void {
+  onFileSelected(event: Event, field: string): void {
     const inputElement = event.target as HTMLInputElement;
     const file: File | null = (inputElement.files as FileList)[0] || null;
 
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageUrl = reader.result;
+        if (field === 'signature') {
+          this.signature = reader.result as string;
+        } else if (field === 'idCardFront') {
+          this.idCardFront = reader.result as string;
+        } else if (field === 'idCardBack') {
+          this.idCardBack = reader.result as string;
+        }
       };
       reader.readAsDataURL(file);
     }
   }
+
   public NextSection() {
     // Handle progression of the progress bar
     const progressBarSteps = document.querySelectorAll('.progress-bar-step');
@@ -66,16 +81,14 @@ export class CreateloanComponent {
         step.classList.add('border-gray-300');
       }
     });
-  
-  
+
     if (this.currentSection === 1) {
       // Validate loan information fields
-      const loanAmountControl = this.signupForm.get('loanAmount');
-      const loanTypeControl = this.signupForm.get('loanType');
-      const paymentDurationControl = this.signupForm.get('paymentDuration');
-  
-      if (loanAmountControl && loanTypeControl && paymentDurationControl &&
-          loanAmountControl.valid && loanTypeControl.valid && paymentDurationControl.valid) {
+      this.loanAmount = this.createLoanForm.get('loanAmount')?.value;
+      this.loanType = this.createLoanForm.get('loanType')?.value;
+      this.paymentDuration = this.createLoanForm.get('paymentDuration')?.value;
+
+      if (this.loanAmount && this.loanType && this.paymentDuration) {
         this.currentSection = 2;
         const loanInfoSection = document.getElementById('loanInfoSection');
         if (loanInfoSection) {
@@ -90,7 +103,7 @@ export class CreateloanComponent {
       }
     } else if (this.currentSection === 2) {
       // Validate signature field
-      if (this.signupForm.get('signature')?.valid) {
+      if (this.signature) {
         this.currentSection = 3;
         const signatureSection = document.getElementById('signatureSection');
         const idCardSection = document.getElementById('idCardSection');
@@ -105,7 +118,7 @@ export class CreateloanComponent {
       }
     } else if (this.currentSection === 3) {
       // Validate ID card images
-      if (this.signupForm.get('idCardFront')?.valid && this.signupForm.get('idCardBack')?.valid) {
+      if (this.idCardFront && this.idCardBack) {
         this.currentSection = 4;
         const idCardSection = document.getElementById('idCardSection');
         const additionalInfoSection = document.getElementById('additionalInfoSection');
@@ -120,10 +133,11 @@ export class CreateloanComponent {
       }
     } else if (this.currentSection === 4) {
       // Validate additional information fields
-      const cinNumberControl = this.signupForm.get('cinNumber');
-      if (cinNumberControl && cinNumberControl.valid) {
-        const receptionMethodControl = this.signupForm.get('receptionMethod');
-        if (receptionMethodControl && receptionMethodControl.value === 'ONLINE') {
+      this.cinNumber = this.createLoanForm.get('cinNumber')?.value as string;
+      this.taxId = this.createLoanForm.get('taxId')?.value as string;
+      if (this.cinNumber && this.cinNumber.length > 0 && this.taxId && this.taxId.length > 0) {
+        this.receptionMethod = this.createLoanForm.get('receptionMethod')?.value as string;
+        if (this.receptionMethod === 'ONLINE') {
           // If online method selected, proceed to the RIB section
           this.currentSection = 6;
           const additionalInfoSection = document.getElementById('additionalInfoSection');
@@ -151,10 +165,9 @@ export class CreateloanComponent {
       }
     } else if (this.currentSection === 5) {
       // Validate reception method selection
-      const receptionMethodControl = this.signupForm.get('receptionMethod');
-      if (receptionMethodControl && receptionMethodControl.valid) {
-        const selectedMethod = receptionMethodControl.value;
-        if (selectedMethod === 'ONLINE') {
+      this.receptionMethod = this.createLoanForm.get('receptionMethod')?.value as string;
+      if (this.receptionMethod) {
+        if (this.receptionMethod === 'ONLINE') {
           // If online method selected, proceed to the RIB section
           this.currentSection = 6;
           const receptionMethodSection = document.getElementById('receptionMethodSection');
@@ -165,47 +178,66 @@ export class CreateloanComponent {
           if (ribSection) {
             ribSection.style.display = 'block';
           }
-        } else if (selectedMethod === 'ON_AGENCY') {
+        } else if (this.receptionMethod === 'ON_AGENCY') {
           // If on agency method selected, proceed to the agency selection section
           this.currentSection = 7;
           const receptionMethodSection = document.getElementById('receptionMethodSection');
           const agencySelectionSection = document.getElementById('agencySelectionSection');
           if (receptionMethodSection) {
-          receptionMethodSection.style.display = 'none';
+            receptionMethodSection.style.display = 'none';
           }
           if (agencySelectionSection) {
-          agencySelectionSection.style.display = 'block';
+            agencySelectionSection.style.display = 'block';
           }
-          }
-          } else {
-          alert('Please select a reception method');
-          }
-          } else if (this.currentSection === 6) {
-          // If the current section is the RIB section
-          const ribControl = this.signupForm.get('rib');
-          if (ribControl && ribControl.valid) {
-          // If RIB is valid, proceed to the form submission
-          this.currentSection = 7;
-          this.Submit();
-          } else {
-          alert('Please enter your RIB');
-          }
-          } else if (this.currentSection === 7) {
-          // If the current section is the agency selection section
-          // Proceed to form submission
-          this.currentSection = 8;
-          this.Submit();
-          }
-          }
-  
+        }
+      } else {
+        alert('Please select a reception method');
+      }
+    } else if (this.currentSection === 6) {
+      // If the current section is the RIB section
+      this.rib = this.createLoanForm.get('rib')?.value as string;
+      console.log('RIB: ', this.rib);
+      if (this.rib) {
+        // If RIB is valid, proceed to the form submission
+        this.currentSection = 7;
+        this.Submit();
+      } else {
+        alert('Please enter your RIB');
+      }
+    } else if (this.currentSection === 7) {
+      // If the current section is the agency selection section
+      this.agency = this.createLoanForm.get('agency')?.value as string;
+      // Proceed to form submission
+      this.currentSection = 8;
+      this.Submit();
+    }
+  }
 
+  Submit() {
+    
+    // Build the form data object from the variables, not from the form and send it to the service setFormData method which takes a FormGroup
 
-          Submit() {
-            console.log(this.signupForm.value);
-            this.formDataService.formData = this.signupForm;
-            this.router.navigate(['/loan/confirmation']);
+    // Build the form data object from the variables
+    const formData = this.formBuilder.group({
+      loanAmount: [this.loanAmount, [Validators.required]],
+      loanType: [this.loanType, [Validators.required]],
+      paymentDuration: [this.paymentDuration, [Validators.required]],
+      signature: [this.signature],
+      idCardFront: [this.idCardFront],
+      idCardBack: [this.idCardBack],
+      cinNumber: [this.cinNumber, [Validators.required]],
+      taxId: [this.taxId, [Validators.required]],
+      receptionMethod: [this.receptionMethod, [Validators.required]],
+      rib: [this.rib],
+      agency: [this.agency]
+    });
 
-          }
-  
+    // Send the form data object to the service setFormData method
+    this.formDataService.setFormData(formData);
 
+    console.log('Form data in the parent: ', formData);
+   
+    // Navigate to the confirmation form
+    this.router.navigate(['/loan/confirmation']);
+  }
 }

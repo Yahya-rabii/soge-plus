@@ -1,90 +1,203 @@
+<style>
+  .modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: visible;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 80%;
+    /* Adjust the width as needed */
+    max-width: 400px;
+    /* Limit the maximum width of the modal */
+    height: auto;
+    /* or set a fixed height if needed */
+  }
+
+</style>
+
 <section class="dark:bg-gray-900">
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
-      <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-        <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo">
-        <span class="text-2xl font-semibold text-primary-500"> Please Verify your Form Data befour <span class="text-2xl font-semibold text-red-700">Submitting</span></span>
-      </a>
-    </div>
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20">
+    <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+      <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo" />
+      <span class="text-2xl font-semibold text-primary-500">
+        Please verify your inputs befour<span class="text-2xl font-semibold text-red-700">
+          Submitting</span></span>
+    </a>
+    <form [formGroup]="formData" class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 w-full md:w-4/5 mx-auto">
+      <!-- Sections Container -->
+      <div class="flex flex-wrap justify-between">
+        <!-- Section 1 -->
+        <div class="w-full md:w-1/3 px-4 mb-8">
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Loan Amount</label>
+            <input type="text" formControlName="loanAmount"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Loan Type</label>
+            <select formControlName="loanType"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option value="PERSONAL">Personal</option>
+              <option value="HOME">Home</option>
+              <option value="AUTO">Auto</option>
+              <option value="EDUCATIONAL">Educational</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Payment Duration</label>
+            <select formControlName="paymentDuration"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option value="MONTHLY">Monthly</option>
+              <option value="QUARTERLY">Quarterly</option>
+              <option value="YEARLY">Yearly</option>
+            </select>
+          </div>
+        </div>
+        <!-- Section 2 -->
+        <div class="w-full md:w-1/3 px-4 mb-8 border-l border-red-500">
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">CIN Number</label>
+            <input type="text" formControlName="cinNumber"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Tax ID</label>
+            <input type="text" formControlName="taxId"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+          </div>
 
-    <form *ngIf="formData" [formGroup]="formData" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg bg-white rounded-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <div>
-        <label for="loanAmount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan Amount</label>
-        <input type="number" id="loanAmount" formControlName="loanAmount" [value]="formData.get('loanAmount')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-      </div>
-      <div>
-        <label for="loanType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan Type</label>
-        <select id="loanType" formControlName="loanType" [value]="formData.get('loanType')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option value="PERSONAL">Personal</option>
-          <option value="HOME">Home</option>
-          <option value="AUTO">Auto</option>
-          <option value="EDUCATIONAL">Educational</option>
-        </select>
-      </div>
-      <div>
-        <label for="paymentDuration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment Duration</label>
-        <select id="paymentDuration" formControlName="paymentDuration" [value]="formData.get('paymentDuration')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option value="MONTHLY">Monthly</option>
-          <option value="QUARTERLY">Quarterly</option>
-          <option value="YEARLY">Yearly</option>
-        </select>
-      </div>
-      <!-- Signature Section -->
+          <div>
+            <label for="receptionMethod" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reception
+              Method</label>
+            <select formControlName="receptionMethod" id="receptionMethod"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+              <option value="ONLINE">Online</option>
+              <option value="ON_AGENCY">On Agency</option>
+            </select>
+          </div>
+          <!-- RIB Section -->
+          <div id="ribSection" style="display: none">
+            <div>
+              <label for="rib" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RIB (Relevé
+                d'Identité Bancaire)</label>
+              <input type="text" formControlName="rib" id="rib"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="RIB" required />
+            </div>
+          </div>
+          <!-- Agency Selection Section -->
+          <div id="agencySelectionSection" style="display: none">
+            <div>
+              <label for="agency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+                Agency</label>
+              <select formControlName="agency" id="agency"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required>
+                <option value="Agency 1">Agency 1</option>
+                <option value="Agency 2">Agency 2</option>
+                <option value="Agency 3">Agency 3</option>
+                <!-- Add more agencies as needed -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- Section 3 -->
+        <div class="w-full md:w-1/3 px-4 mb-8 border-l border-red-500">
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Signature</label>
+            <div class="flex items-center">
+              <input type="file" formControlName="signature" id="signature"
+                class="text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                accept="image/*" (change)="onFileSelected($event, 'signature')" required />
+              <button data-modal-target="signature-modal" data-modal-toggle="signature-modal"
+                class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button" (click)="toggleModal('signature-modal')">
+                show
+              </button>
+            </div>
+            <div id="signature-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
+            <div class="relative p-4 w-full max-w-md max-h-screen">
+                <div class="relative bg-white rounded-lg shadow">
+                  <div class="p-4 md:p-5 text-center">
+                    <img [src]="signatureImage" alt="Signature" class="w-full h-auto" />
+                    <button data-modal-hide="signature-modal" type="button"
+                      class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700"
+                      (click)="closeModal('signature-modal')">
+                      close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">ID Card Front</label>
+            <div class="flex items-center">
+              <input type="file" formControlName="idCardFront" id="idCardFront"
+                class="text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                accept="image/*" (change)="onFileSelected($event, 'idCardFront')" required />
+              <button data-modal-target="front-modal" data-modal-toggle="front-modal"
+                class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button" (click)="toggleModal('front-modal')">
+                show
+              </button>
 
-       
+              <div id="front-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
+                <div class="relative p-4 w-full max-w-md max-h-screen">
+                    <div class="relative bg-white rounded-lg shadow">
+                      <div class="p-4 md:p-5 text-center">
+                        <img [src]="idCardFrontImage" alt="ID Card Front" class="w-full h-auto" />
+                        <button data-modal-hide="front-modal" type="button"
+                          class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700"
+                          (click)="closeModal('front-modal')">
+                          close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">ID Card Back</label>
+            <div class="flex items-center">
+              <input type="file" formControlName="idCardBack" id="idCardBack"
+                class="text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                accept="image/*" (change)="onFileSelected($event, 'idCardBack')" required />
+              <button data-modal-target="back-modal" data-modal-toggle="back-modal"
+                class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button" (click)="toggleModal('back-modal')">
+                show
+              </button>
 
-      <div>
-        <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature (PNG)</label>
-        <input type="file" formControlName="signature" id="signature" accept="image/png" [value]="formData.get('signature')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+              <div id="back-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
+                <div class="relative p-4 w-full max-w-md max-h-screen">
+                    <div class="relative bg-white rounded-lg shadow">
+                      <div class="p-4 md:p-5 text-center">
+                        <img [src]="idCardBackImage" alt="ID Card Back" class="w-full h-auto" />
+                        <button data-modal-hide="back-modal" type="button"
+                          class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700"
+                          (click)="closeModal('back-modal')">
+                          close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- ID Card Section -->
-      
-      <div>
-        <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front (PNG)</label>
-        <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/png" [value]="formData.get('idCardFront')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-      </div>
-      <div>
-        <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back (PNG)</label>
-        <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/png" [value]="formData.get('idCardBack')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-      </div>
-      
 
-
-
-
-      <!-- Additional Info Section -->
-      <div>
-        <label for="cinNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CIN Number</label>
-        <input type="text" formControlName="cinNumber" id="cinNumber" [value]="formData.get('cinNumber')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-      </div>
-      <div>
-        <label for="taxId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">tax Id</label>
-        <input type="text" formControlName="taxId" id="taxId" [value]="formData.get('taxId')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-      </div>
-      <div>
-        <label for="receptionMethod" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reception Method</label>
-        <select formControlName="receptionMethod" id="receptionMethod" [value]="formData.get('receptionMethod')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-          <option value="ONLINE">Online</option>
-          <option value="ON_AGENCY">On Agency</option>
-        </select>
-      </div>
-      <!-- RIB Section-->
-      <div *ngIf="formData.get('receptionMethod')?.value ==='ONLINE' ">
-        <label for="rib" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RIB (Relevé d'Identité Bancaire)</label>
-        <input type="text" formControlName="rib" id="rib" [value]="formData.get('rib')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="RIB" required>
-      </div>
-      <div *ngIf="formData.get('receptionMethod')?.value ==='ON_AGENCY' ">
-        <label  for="agency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Agency</label>
-        <select formControlName="agency" id="agency" [value]="formData.get('agency')?.value" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-          <option value="Agency 1">Agency 1</option>
-          <option value="Agency 2">Agency 2</option>
-          <option value="Agency 3">Agency 3</option>
-          <!-- Add more agencies as needed -->
-        </select>
-      </div>
       <!-- Submit Button -->
-      <button type="submit" class="w-full border-2 border-red-600 hover:border-gray-50 text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700">Submit</button>
-
+      <div class="flex justify-center">
+        <button type="button" (click)="submitForm()"
+          class="btn-submit py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700 border border-red-700">
+          Submit
+        </button>
+      </div>
     </form>
-    </div>
-    </section>
+  </div>
+</section>
