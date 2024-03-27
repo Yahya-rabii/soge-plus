@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
@@ -17,7 +16,8 @@ public class Loan {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String clientName;
+
+
     private double amount;
     private Type type;
     private PaymentDuration paymentDuration;
@@ -35,7 +35,7 @@ public class Loan {
     private ReceptionMethod receptionMethod; // Method of money reception
 
     // Fields related to ONLINE method
-    private String bankAccountCredentials; // User's bank account credentials (RIB)
+    private String bankAccountCredentials_RIB; // User's bank account credentials (RIB)
 
     // Fields related to AGENCY_SELECTION method
     private String selectedAgency; // Selected bank agency
@@ -43,6 +43,7 @@ public class Loan {
     @Temporal(TemporalType.TIMESTAMP)
     private Date loanCreationDate; // Date of loan creation in dd/mm/yyyy/hh/mm/ss format
 
-    @Column(name = "client_id")
+
+    @Column(name = "client_id") // Foreign key A client can have multiple loans
     private Long clientId;
 }

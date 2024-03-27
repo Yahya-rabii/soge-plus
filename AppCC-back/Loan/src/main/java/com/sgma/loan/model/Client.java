@@ -1,5 +1,6 @@
 package com.sgma.loan.model;
 
+import com.sgma.loan.model.Contract;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

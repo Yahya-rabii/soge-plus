@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
+import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,9 +8,11 @@ export class UsersService {
   users : User[] = [];
 
   
+
+
+  
   async getUsers(): Promise<User[]> {
-    const url = 'http://localhost:8888/CLIENT-SERVICE/clients';
-    
+    const url = `${environment.ClientMsUrl}${environment.getAllclientsEndpoint}`;
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -23,6 +26,9 @@ export class UsersService {
       throw error;
     }
   }
+
+
+
   
 
 }

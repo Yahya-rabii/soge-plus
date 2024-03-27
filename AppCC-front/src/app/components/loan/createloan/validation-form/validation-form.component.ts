@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormDataService } from '../../../../services/form-data.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Loan } from '../../../../models/loan.model';
+import { LoanService } from '../../../../services/loan.service';
 
 @Component({
   selector: 'app-validation-form',
@@ -17,8 +19,9 @@ export class ValidationFormComponent implements OnInit {
   idCardFrontImage: string | ArrayBuffer | null = null;
   idCardBackImage: string | ArrayBuffer | null = null;
   receptionMethod: string | null = null;
+  loan: Loan = new Loan();
 
-  constructor(private formDataService: FormDataService, private fb: FormBuilder) {}
+  constructor(private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService) { }
 
   ngOnInit(): void {
     this.formData = this.formDataService.getFormData();
@@ -165,6 +168,48 @@ export class ValidationFormComponent implements OnInit {
   
 
   submitForm() {
-    // Implement form submission logic here
+    // create a new Loan object with the form data 
+    // the loan object should be created using the Loan class
+    // call the createLoan method from the LoanService and pass the Loan object as an argument
+    // if the createLoan method is successful, display a success message
+    // if the createLoan method fails, display an error message
+
+    // create a new Loan object with the form data
+
+    // extract the user id from the local storage and set it as the clientId
+
+
+    this.loan.set_attributes(
+      
+      this.formData.get('amount')?.value,
+      this.formData.get('type')?.value,
+      this.formData.get('paymentDuration')?.value,
+      this.formData.get('status')?.value,
+      this.formData.get('approuved')?.value,
+      this.formData.get('signature')?.value,
+      this.formData.get('idCardFront')?.value,
+      this.formData.get('idCardBack')?.value,
+      this.formData.get('cinNumber')?.value,
+      this.formData.get('taxId')?.value,
+      this.formData.get('receptionMethod')?.value,
+      this.formData.get('bankAccountCredentials_RIB')?.value,
+      this.formData.get('selectedAgency')?.value,
+      this.formData.get('loanCreationDate')?.value,
+      localStorage.getItem('UserId') || '{}'
+    );
+      
+
+    // call the createLoan method from the LoanService and pass the Loan object as an argument
+    this.LoanService.createLoan(this.loan)
+      .then((response) => {
+        // if the createLoan method is successful, display a success message
+        alert('Loan created successfully');
+      })
+      .catch((error) => {
+        // if the createLoan method fails, display an error message
+        alert('Error creating Loan');
+      });
+
+
   }
 }

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -23,26 +24,26 @@ public class LoanController {
         return loanService.getAllLoans();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/loan/{id}")
     public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
         Optional<Loan> loan = loanService.getLoanById(id);
         return loan.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/CreateLoan")
+    @PostMapping("/createLoan")
     public ResponseEntity<Loan> createLoan(@RequestBody Loan loan) {
         Loan createdLoan = loanService.createLoan(loan);
         return new ResponseEntity<>(createdLoan, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateLoan/{id}")
     public ResponseEntity<Loan> updateLoan(@PathVariable Long id, @RequestBody Loan loan) {
         Loan updatedLoan = loanService.updateLoan(id, loan);
         return new ResponseEntity<>(updatedLoan, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteLoan/{id}")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id) {
         loanService.deleteLoan(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

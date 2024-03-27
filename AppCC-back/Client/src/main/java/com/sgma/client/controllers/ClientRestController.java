@@ -42,7 +42,7 @@ public class ClientRestController {
         return clientService.getClientById(id);
     }
 
-    @PostMapping("/addClient")
+    @PostMapping("/createClient")
     public Client addClient(@RequestBody Client client) {
         MDC.put("traceId", "add client called from ClientRestController class of Client microservice");
         log.info("add client called from ClientRestController class of Client microservice");

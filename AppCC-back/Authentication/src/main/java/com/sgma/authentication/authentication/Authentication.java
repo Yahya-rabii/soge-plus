@@ -44,6 +44,9 @@ public class Authentication {
     @Value("${keycloak.user.roles.url}")
     private String roleUrl;
 
+    @Value("${client.service.url}")
+    private String clientServiceUrl;
+
     private List<String> roles = new ArrayList<>();
 
 
@@ -118,8 +121,6 @@ public class Authentication {
             headers.set("Authorization", "Bearer " + accessToken);
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Client> requestEntity = new HttpEntity<>(client, headers);
-
-            String clientServiceUrl = "http://localhost:8888/CLIENT-SERVICE/addClient";
 
             // Send HTTP request to client microservice
             ResponseEntity<String> responseEntity = restTemplate.exchange(clientServiceUrl, HttpMethod.POST, requestEntity, String.class);

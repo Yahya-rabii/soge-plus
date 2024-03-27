@@ -52,7 +52,7 @@ export class TokenRefreshService {
   }
 
   private refreshAccessToken(refreshToken: string): Observable<any> {
-    const refreshTokenUrl = `${environment.apiUrl}${environment.refreshEndpoint}`;
+    const refreshTokenUrl = `${environment.AuthapiUrl}${environment.refreshEndpoint}`;
 
     return this.httpClient.post<any>(refreshTokenUrl, { refresh_token: refreshToken })
       .pipe(

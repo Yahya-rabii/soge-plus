@@ -17,7 +17,7 @@ export class AuthenticationService {
   ) { }
 
   login(username: string, password: string): Observable<any> {
-    const loginUrl = `${environment.apiUrl}${environment.loginEndpoint}`;
+    const loginUrl = `${environment.AuthapiUrl}${environment.loginEndpoint}`;
     const credentials = { username, password };
 
     return this.httpClient.post<any>(loginUrl, credentials)
@@ -38,7 +38,7 @@ export class AuthenticationService {
   }
 
   signup(user: User): Observable<any> {
-    const signupUrl = `${environment.apiUrl}${environment.signupEndpoint}`;
+    const signupUrl = `${environment.AuthapiUrl}${environment.signupEndpoint}`;
 
     return this.httpClient.post<any>(signupUrl, user)
       .pipe(
@@ -49,7 +49,7 @@ export class AuthenticationService {
   }
 
   logout(): Observable<any> {
-    const logoutUrl = `${environment.apiUrl}${environment.logoutEndpoint}`;
+    const logoutUrl = `${environment.AuthapiUrl}${environment.logoutEndpoint}`;
     const userId = localStorage.getItem('UserId') || '{}' ;
     return this.httpClient.post<any>(logoutUrl, userId)
       .pipe(
