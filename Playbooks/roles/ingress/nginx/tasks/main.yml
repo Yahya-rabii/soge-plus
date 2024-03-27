@@ -1,0 +1,8 @@
+- name: Copy template to /tmp/ingress-nginx.yaml
+  copy:
+    src: files/ingress-nginx.yaml
+    dest: "/tmp/ingress-nginx.yaml"
+
+- name: Run Ingress operator
+  shell:
+    cmd: "kubectl apply -f /tmp/ingress-nginx.yaml"
