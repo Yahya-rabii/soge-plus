@@ -82,3 +82,20 @@
     path: "{{ ansible_env.HOME }}/.kube/config"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
+
+- name: Install Git
+  dnf:
+    name: git
+    state: latest 
+    update_cache: yes
+
+- name: Download Helm script
+  get_url:
+    url: https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    dest: /tmp/get_helm.sh
+    mode: '0700'
+
+- name: Run Helm installation script
+  command: /tmp/get_helm.sh
+
+
