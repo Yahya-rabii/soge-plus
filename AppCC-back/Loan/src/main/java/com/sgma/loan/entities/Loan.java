@@ -45,5 +45,5 @@ public class Loan {
 
 
     @Column(name = "client_id") // Foreign key A client can have multiple loans
-    private Long clientId;
+    private String clientId;
 }

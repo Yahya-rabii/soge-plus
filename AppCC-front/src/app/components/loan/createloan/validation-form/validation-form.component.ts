@@ -5,13 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Loan } from '../../../../models/loan.model';
 import { LoanService } from '../../../../services/loan.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-validation-form',
   templateUrl: './validation-form.component.html',
   styleUrls: ['./validation-form.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule ]
 })
 export class ValidationFormComponent implements OnInit {
   formData: FormGroup = new FormGroup({});
@@ -21,7 +22,7 @@ export class ValidationFormComponent implements OnInit {
   receptionMethod: string | null = null;
   loan: Loan = new Loan();
 
-  constructor(private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService) { }
+  constructor(private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService , private router: Router) { }
 
   ngOnInit(): void {
     this.formData = this.formDataService.getFormData();
@@ -179,31 +180,43 @@ export class ValidationFormComponent implements OnInit {
     // extract the user id from the local storage and set it as the clientId
 
 
-    this.loan.set_attributes(
-      
-      this.formData.get('amount')?.value,
-      this.formData.get('type')?.value,
+    // if receptionMethod is ONLINE, set the selectedAgency to an empty string
+    // if receptionMethod is ON_AGENCY, set the rib to an empty string
+
+    if (this.receptionMethod === 'ONLINE') {
+      this.formData.get('selectedAgency')?.setValue('');
+    } else if (this.receptionMethod === 'ON_AGENCY') {
+      this.formData.get('rib')?.setValue('');
+    }
+
+
+    this.loan = new Loan(
+      this.formData.get('loanAmount')?.value,
+      this.formData.get('loanType')?.value,
       this.formData.get('paymentDuration')?.value,
-      this.formData.get('status')?.value,
-      this.formData.get('approuved')?.value,
+      'PENDING',
+      false,
       this.formData.get('signature')?.value,
       this.formData.get('idCardFront')?.value,
       this.formData.get('idCardBack')?.value,
       this.formData.get('cinNumber')?.value,
       this.formData.get('taxId')?.value,
       this.formData.get('receptionMethod')?.value,
-      this.formData.get('bankAccountCredentials_RIB')?.value,
-      this.formData.get('selectedAgency')?.value,
-      this.formData.get('loanCreationDate')?.value,
-      localStorage.getItem('UserId') || '{}'
+      this.formData.get('rib')?.value,
+      this.formData.get('agency')?.value,
+      new Date(),
+      localStorage.getItem('UserId') || ''
     );
       
+    console.log(this.loan);
 
     // call the createLoan method from the LoanService and pass the Loan object as an argument
     this.LoanService.createLoan(this.loan)
       .then((response) => {
         // if the createLoan method is successful, display a success message
         alert('Loan created successfully');
+        // redirect to the home page
+        this.router.navigate(['/']);
       })
       .catch((error) => {
         // if the createLoan method fails, display an error message

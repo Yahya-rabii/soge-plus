@@ -10,7 +10,7 @@ export class Loan {
     // payement duration of type enum Duration {MONTHLY, QUARTERLY, SEMIANNUALLY, ANNUALLY}
     paymentDuration!: string | '';
     // status of type enum Status {PENDING, APPROVED, REJECTED}
-    status!: string | '';
+    status!: string | 'PENDING';
     approuved!: boolean | false;
 
     // string holding the base64 representation of the signature
@@ -42,8 +42,8 @@ export class Loan {
         amount?: number,
         type?: string,
         paymentDuration?: string,
-        status?: string,
-        approuved?: boolean,
+        status? : string | 'PENDING',
+        approuved?: boolean | false,
         signature?: string,
         cinCartRecto?: string,
         cinCartVerso?: string,
@@ -59,8 +59,6 @@ export class Loan {
         this.amount = amount || 0;
         this.type = type || '';
         this.paymentDuration = paymentDuration || '';
-        this.status = status || '';
-        this.approuved = approuved || false;
         this.signature = signature || '';
         this.cinCartRecto = cinCartRecto || '';
         this.cinCartVerso = cinCartVerso || '';
@@ -78,13 +76,11 @@ export class Loan {
     }
 
 
-    public set_attributes(amount: number, type: string, paymentDuration: string, status: string, approuved: boolean, signature: string, cinCartRecto: string, cinCartVerso: string, cinNumber: string, taxId: string, receptionMethod: string, bankAccountCredentials_RIB: string, selectedAgency: string, loanCreationDate: Date, clientId: string): void {
+    public set_attributes(amount: number, type: string, paymentDuration: string,  signature: string, cinCartRecto: string, cinCartVerso: string, cinNumber: string, taxId: string, receptionMethod: string, bankAccountCredentials_RIB: string, selectedAgency: string, loanCreationDate: Date, clientId: string): void {
 
         this.amount = amount;
         this.type = type;
         this.paymentDuration = paymentDuration;
-        this.status = status;
-        this.approuved = approuved;
         this.signature = signature;
         this.cinCartRecto = cinCartRecto;
         this.cinCartVerso = cinCartVerso;

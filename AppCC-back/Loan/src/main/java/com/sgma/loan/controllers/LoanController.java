@@ -1,6 +1,7 @@
 package com.sgma.loan.controllers;
 
 import com.sgma.loan.entities.Loan;
+import com.sgma.loan.enums.Status;
 import com.sgma.loan.services.LoanService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,9 @@ public class LoanController {
 
     @PostMapping("/createLoan")
     public ResponseEntity<Loan> createLoan(@RequestBody Loan loan) {
+        loan.setStatus(Status.PENDING);
+        loan.setApproved(false);
+
         Loan createdLoan = loanService.createLoan(loan);
         return new ResponseEntity<>(createdLoan, HttpStatus.CREATED);
     }
