@@ -18,16 +18,16 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/eureka/**",
-                                      "/actuator/**",
-                                      "/webjars/**",
-                                      "/v3/api-docs/**",
-                                      "/client-service/**",
-                                      "/contract-service/**",
-                                      "/admin-service/**",
-                                      "/loan-service/**",
-                                      "/auth-service/**",
-                                      "/instances/**",
-                                      "/discovery-service/**"
+                                "/actuator/**",
+                                "/webjars/**",
+                                "/v3/api-docs/**",
+                                "/CLIENT-SERVICE/**",
+                                "/CONTRACT-SERVICE/**",
+                                "/ADMIN-SERVICE/**",
+                                "/LOAN-SERVICE/**",
+                                "/AUTH-SERVICE/**",
+                                "/instances/**",
+                                "/DISCOVERY-SERVICE/**"
                         ).permitAll()
                         .anyExchange().authenticated()
                 ).oauth2ResourceServer((oauth2) -> oauth2.jwt(

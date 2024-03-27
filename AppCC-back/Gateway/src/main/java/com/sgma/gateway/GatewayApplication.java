@@ -37,6 +37,6 @@ public class GatewayApplication {
                 .route(r -> r.path("/AUTH-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://AUTH-SERVICE"))
                 .route(r -> r.path("/LOAN-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://LOAN-SERVICE"))
 
-    .build();
+                .build();
     }
 }

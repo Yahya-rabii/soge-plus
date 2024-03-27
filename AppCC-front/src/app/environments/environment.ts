@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    AuthapiUrl: 'http://localhost:8888/auth-service',
+    AuthapiUrl: 'http://localhost:8888/AUTH-SERVICE',
     loginEndpoint: '/login',
     logoutEndpoint: '/logout',
     signupEndpoint: '/signup',
@@ -9,7 +9,7 @@ export const environment = {
 
     // client microservice
 
-    ClientMsUrl: 'http://localhost:8888/client-service',
+    ClientMsUrl: 'http://localhost:8888/CLIENT-SERVICE',
     getAllclientsEndpoint: '/clients',
     getClientByIdEndpoint: '/client/',
     createClientEndpoint: '/addClient',
@@ -20,7 +20,7 @@ export const environment = {
 
     // loan microservice
 
-    LoanMsUrl: 'http://localhost:8888/loan-service',
+    LoanMsUrl: 'http://localhost:8888/LOAN-SERVICE',
     getAllLoansEndpoint: '/loans',
     getLoanByIdEndpoint: '/loan/',
     createLoanEndpoint: '/createLoan',
