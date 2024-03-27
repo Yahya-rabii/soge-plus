@@ -25,12 +25,15 @@
 #  roles:
 #    - roles/kubernetes-init/workers_init
 
-- name: Install CNI
+#- name: Install CNI
+#  hosts: K8S_MAIN_CONTROLPLANE
+#  roles: 
+#    - roles/cni/calico
+
+- name: Install Ingress Controller
   hosts: K8S_MAIN_CONTROLPLANE
-  roles: 
-    - roles/cni/calico
-
-
+  roles:
+    - roles/ingress/nginx
 #- name: TEST
 #  hosts: K8S_SECONDARY_CONTROLPLANE
 #  roles:
