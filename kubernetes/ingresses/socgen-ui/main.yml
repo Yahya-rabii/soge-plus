@@ -5,6 +5,7 @@ metadata:
   labels:
     app: socgen-ui
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
