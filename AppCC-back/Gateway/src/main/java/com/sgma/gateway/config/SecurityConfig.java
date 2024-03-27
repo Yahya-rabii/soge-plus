@@ -21,13 +21,13 @@ public class SecurityConfig {
                                       "/actuator/**",
                                       "/webjars/**",
                                       "/v3/api-docs/**",
-                                      "/CLIENT-SERVICE/**",
-                                      "/CONTRACT-SERVICE/**",
-                                      "/ADMIN-SERVICE/**",
-                                      "/LOAN-SERVICE/**",
-                                      "/AUTH-SERVICE/**",
+                                      "/client-service/**",
+                                      "/contract-service/**",
+                                      "/admin-service/**",
+                                      "/loan-service/**",
+                                      "/auth-service/**",
                                       "/instances/**",
-                                      "/DISCOVERY-SERVICE/**"
+                                      "/discovery-service/**"
                         ).permitAll()
                         .anyExchange().authenticated()
                 ).oauth2ResourceServer((oauth2) -> oauth2.jwt(

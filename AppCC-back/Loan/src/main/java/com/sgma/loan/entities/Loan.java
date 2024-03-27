@@ -17,15 +17,17 @@ public class Loan {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String customerName;
+    private String clientName;
     private double amount;
     private Type type;
     private PaymentDuration paymentDuration;
     private Status status;
-    private String userId;
     private Boolean approved;
-    private byte[] signature; // (assuming PNG)
-    private byte[] cinCartRectoVerso;
+
+
+    private String signature; // (assuming PNG)
+    private String cinCartRecto;
+    private String cinCartVerso;
     private String cinNumber;
 
     private String taxId; // Tax identification number
@@ -41,4 +43,6 @@ public class Loan {
     @Temporal(TemporalType.TIMESTAMP)
     private Date loanCreationDate; // Date of loan creation in dd/mm/yyyy/hh/mm/ss format
 
+    @Column(name = "client_id")
+    private Long clientId;
 }

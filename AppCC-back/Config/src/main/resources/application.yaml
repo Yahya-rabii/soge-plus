@@ -13,7 +13,7 @@ spring:
           #password: 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
           default-label: "master"
   application:
-    name: CONFIG-SERVER
+    name: config-server
 
 
 # layrhem lwalidin mathakiwnich  ra ghadi nhiyed token mn be3d
