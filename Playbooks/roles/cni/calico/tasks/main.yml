@@ -1,11 +1,53 @@
-- name: Render Calico manifest template
-  template:
-    src: manifest.yml
-    dest: "/tmp/manifest.yaml"
+- name: prevent NetworkManager from interfering with the interfaces
+  copy:
+    dest: /etc/NetworkManager/conf.d/calico.conf
+    src: files/calico.conf 
+    force: True
 
-- name: Apply Calico manifest
+- name: Ensure net.netfilter.nf_conntrack_max is set to 1000000
+  ansible.posix.sysctl:
+    name: net.netfilter.nf_conntrack_max
+    value: 1000000
+    sysctl_set: true
+    state: present
+
+- name: Add net.netfilter.nf_conntrack_max to sysctl.conf
+  ansible.builtin.lineinfile:
+    path: /etc/sysctl.conf
+    line: 'net.netfilter.nf_conntrack_max=1000000'
+    create: yes
+
+- name: Reload NetworkManager service
+  systemd:
+    name: NetworkManager
+    state: restarted
+
+- name: Installing tigera callico
+  copy:
+    dest: /tmp/tigera-calico.yml
+    src: files/tigera-calico.yml
+    force: True
+
+- name: create tigera callico
   shell:
-    cmd: "kubectl apply -f /tmp/manifest.yaml"
+    cmd: "kubectl create -f /tmp/tigera-calico.yml"
+
+- name: Installing custom resources
+  copy:
+    dest: /tmp/custom-resources.yml
+    src: files/custom-resources.yml
+    force: True
+
+- name: Apply custom resources
+  shell:
+    cmd: "kubectl create -f /tmp/custom-resources.yml"
+
+- name: Taint nodes with node-role.kubernetes.io/control-plane-
+  shell: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+
+- name: Taint nodes with node-role.kubernetes.io/master-
+  shell: kubectl taint nodes --all node-role.kubernetes.io/master-
+
 
 
 

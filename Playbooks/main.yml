@@ -5,6 +5,7 @@
 #    - roles/initialization/init_cluster
 #    - roles/initialization/install_dependencies
 #    - roles/container-runtimes/crio
+#    - roles/cni/stop_nm_calico
 #  become: true
 
 
@@ -30,10 +31,10 @@
 #  roles: 
 #    - roles/cni/calico
 
-- name: Install Ingress Controller
-  hosts: K8S_MAIN_CONTROLPLANE
-  roles:
-    - roles/ingress/nginx
+#- name: Install Ingress
+#  hosts: K8S_MAIN_CONTROLPLANE
+#  roles:
+#    - roles/ingress/nginx
 #- name: TEST
 #  hosts: K8S_SECONDARY_CONTROLPLANE
 #  roles:
