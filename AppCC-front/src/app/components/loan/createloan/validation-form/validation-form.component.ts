@@ -16,17 +16,18 @@ import { Router } from '@angular/router';
 })
 export class ValidationFormComponent implements OnInit {
   formData: FormGroup = new FormGroup({});
-  signatureImage: string | ArrayBuffer | null = null;
-  idCardFrontImage: string | ArrayBuffer | null = null;
-  idCardBackImage: string | ArrayBuffer | null = null;
+  signature: File | undefined;
+  idCardFront: File |undefined;
+  idCardBack: File | undefined;
   receptionMethod: string | null = null;
   loan: Loan = new Loan();
 
   constructor(private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService , private router: Router) { }
 
   ngOnInit(): void {
+
     this.formData = this.formDataService.getFormData();
-    this.decodeImages();
+
 
     this.receptionMethod = this.formData.get('receptionMethod')?.value;
     this.updateFormDisplay();
@@ -86,46 +87,21 @@ export class ValidationFormComponent implements OnInit {
   onFileSelected(event: Event, field: string): void {
     const inputElement = event.target as HTMLInputElement;
     const file: File | null = (inputElement.files as FileList)[0] || null;
-
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (field === 'signature') {
-          this.signatureImage = reader.result as string;
-        } else if (field === 'idCardFront') {
-          this.idCardFrontImage = reader.result as string;
-        } else if (field === 'idCardBack') {
-          this.idCardBackImage = reader.result as string;
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  onFileInputChange(event: Event, controlName: string) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.formData.get(controlName)?.setValue(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  decodeImages() {
-    ['signature', 'idCardFront', 'idCardBack'].forEach((controlName: string) => {
-      const imageData = this.formData.get(controlName)?.value;
-      if (imageData) {
-        const image = new Image();
-        image.onload = () => {
-          (this as any)[`${controlName}Image`] = image.src;
-        };
-        image.src = imageData;
+      if (field === 'signature') {
+        this.signature = file;
+        this.formData.patchValue({ signature: file });
+      } else if (field === 'idCardFront') {
+        this.idCardFront = file;
+        this.formData.patchValue({ idCardFront: file });
+      } else if (field === 'idCardBack') {
+        this.idCardBack = file;
+        this.formData.patchValue({ idCardBack: file });
       }
-    });
+      
+    }
   }
+
 
   toggleModal(modalId: string) {
     const modal = document.getElementById(modalId);
@@ -169,25 +145,13 @@ export class ValidationFormComponent implements OnInit {
   
 
   submitForm() {
-    // create a new Loan object with the form data 
-    // the loan object should be created using the Loan class
-    // call the createLoan method from the LoanService and pass the Loan object as an argument
-    // if the createLoan method is successful, display a success message
-    // if the createLoan method fails, display an error message
-
-    // create a new Loan object with the form data
-
-    // extract the user id from the local storage and set it as the clientId
-
-
-    // if receptionMethod is ONLINE, set the selectedAgency to an empty string
-    // if receptionMethod is ON_AGENCY, set the rib to an empty string
-
+   
     if (this.receptionMethod === 'ONLINE') {
       this.formData.get('selectedAgency')?.setValue('');
     } else if (this.receptionMethod === 'ON_AGENCY') {
       this.formData.get('rib')?.setValue('');
     }
+
 
 
     this.loan = new Loan(
@@ -208,7 +172,6 @@ export class ValidationFormComponent implements OnInit {
       localStorage.getItem('UserId') || ''
     );
       
-    console.log(this.loan);
 
     // call the createLoan method from the LoanService and pass the Loan object as an argument
     this.LoanService.createLoan(this.loan)
@@ -216,7 +179,7 @@ export class ValidationFormComponent implements OnInit {
         // if the createLoan method is successful, display a success message
         alert('Loan created successfully');
         // redirect to the home page
-        this.router.navigate(['/']);
+        //this.router.navigate(['/']);
       })
       .catch((error) => {
         // if the createLoan method fails, display an error message

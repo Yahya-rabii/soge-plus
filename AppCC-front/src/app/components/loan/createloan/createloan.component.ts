@@ -19,9 +19,9 @@ export class CreateloanComponent {
   createLoanForm: FormGroup;
   currentSection: number = 1;
   imageUrl: string | ArrayBuffer | null = null;
-  signature: string | null = null;
-  idCardFront: string | null = null;
-  idCardBack: string | null = null;
+  signature: File | null = null;
+  idCardFront: File | null = null;
+  idCardBack: File | null = null;
   loanAmount: number = 0;
   loanType: string | null = null;
   paymentDuration: number = 0;
@@ -50,21 +50,26 @@ export class CreateloanComponent {
   onFileSelected(event: Event, field: string): void {
     const inputElement = event.target as HTMLInputElement;
     const file: File | null = (inputElement.files as FileList)[0] || null;
-
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
         if (field === 'signature') {
-          this.signature = reader.result as string;
+          
+            this.signature = file;
+
+            this.createLoanForm.patchValue({ signature: file });
+
+         
         } else if (field === 'idCardFront') {
-          this.idCardFront = reader.result as string;
-        } else if (field === 'idCardBack') {
-          this.idCardBack = reader.result as string;
+          this.idCardFront = file;
+            this.createLoanForm.patchValue({ idCardFront: file });
+        } 
+        else if (field === 'idCardBack') {
+          this.idCardBack = file;
+
+            this.createLoanForm.patchValue({ idCardBack: file });
         }
-      };
-      reader.readAsDataURL(file);
     }
-  }
+}
+
 
   public NextSection() {
     // Handle progression of the progress bar
@@ -103,6 +108,8 @@ export class CreateloanComponent {
       }
     } else if (this.currentSection === 2) {
       // Validate signature field
+
+
       if (this.signature) {
         this.currentSection = 3;
         const signatureSection = document.getElementById('signatureSection');
@@ -118,6 +125,9 @@ export class CreateloanComponent {
       }
     } else if (this.currentSection === 3) {
       // Validate ID card images
+
+
+
       if (this.idCardFront && this.idCardBack) {
         this.currentSection = 4;
         const idCardSection = document.getElementById('idCardSection');
@@ -196,7 +206,6 @@ export class CreateloanComponent {
     } else if (this.currentSection === 6) {
       // If the current section is the RIB section
       this.rib = this.createLoanForm.get('rib')?.value as string;
-      console.log('RIB: ', this.rib);
       if (this.rib) {
         // If RIB is valid, proceed to the form submission
         this.currentSection = 7;
@@ -222,6 +231,8 @@ export class CreateloanComponent {
       loanAmount: [this.loanAmount, [Validators.required]],
       loanType: [this.loanType, [Validators.required]],
       paymentDuration: [this.paymentDuration, [Validators.required]],
+
+      //tofix
       signature: [this.signature],
       idCardFront: [this.idCardFront],
       idCardBack: [this.idCardBack],
@@ -234,8 +245,6 @@ export class CreateloanComponent {
 
     // Send the form data object to the service setFormData method
     this.formDataService.setFormData(formData);
-
-    console.log('Form data in the parent: ', formData);
    
     // Navigate to the confirmation form
     this.router.navigate(['/loan/confirmation']);

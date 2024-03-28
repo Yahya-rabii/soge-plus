@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -24,10 +25,9 @@ public class Loan {
     private Status status;
     private Boolean approved;
 
-
-    private String signature; // (assuming PNG)
-    private String cinCartRecto;
-    private String cinCartVerso;
+    private String signatureFileName;
+    private String cinCartRectoFileName;
+    private String cinCartVersoFileName;
     private String cinNumber;
 
     private String taxId; // Tax identification number

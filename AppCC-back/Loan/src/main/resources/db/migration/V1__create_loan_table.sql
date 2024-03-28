@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS `loan` (
                                       `payment_duration` VARCHAR(50),
                                       `status` VARCHAR(50),
                                       `approved` BOOLEAN,
-                                      `signature` VARCHAR(300000), -- Changed to VARCHAR assuming PNG
-                                      `cin_cart_recto` VARCHAR(300000), -- Changed column name
-                                      `cin_cart_verso` VARCHAR(300000), -- Changed column name
+                                      `signature_file_name` VARCHAR(50), -- Changed to VARCHAR assuming PNG
+                                      `cin_cart_recto_file_name` VARCHAR(50), -- Changed column name
+                                      `cin_cart_verso_file_name` VARCHAR(50), -- Changed column name
                                       `cin_number` VARCHAR(50),
                                       `tax_id` VARCHAR(50),
                                       `reception_method` VARCHAR(50),

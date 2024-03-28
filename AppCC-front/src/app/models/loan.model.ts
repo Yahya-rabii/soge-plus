@@ -13,12 +13,9 @@ export class Loan {
     status!: string | 'PENDING';
     approuved!: boolean | false;
 
-    // string holding the base64 representation of the signature
-    signature!: string | '';
-    // string holding the base64 representation of the cin image recto
-    cinCartRecto!: string | '';
-    // string holding the base64 representation of the cin image verso
-    cinCartVerso!: string | '';
+    signature: File | null = null;
+    cinCartFont: File | null = null;
+    cinCartBack: File | null = null;
 
     cinNumber!: string | '';
     taxId!: string | '';
@@ -44,9 +41,13 @@ export class Loan {
         paymentDuration?: string,
         status? : string | 'PENDING',
         approuved?: boolean | false,
-        signature?: string,
-        cinCartRecto?: string,
-        cinCartVerso?: string,
+        
+        signature?: File,
+        cinCartFont?: File,
+        cinCartBack?: File,
+
+
+
         cinNumber?: string,
         taxId?: string,
         receptionMethod?: string,
@@ -59,9 +60,11 @@ export class Loan {
         this.amount = amount || 0;
         this.type = type || '';
         this.paymentDuration = paymentDuration || '';
-        this.signature = signature || '';
-        this.cinCartRecto = cinCartRecto || '';
-        this.cinCartVerso = cinCartVerso || '';
+      
+        this.signature = signature || null;
+        this.cinCartFont = cinCartFont || null;
+        this.cinCartBack = cinCartBack || null;
+
         this.cinNumber = cinNumber || '';
         this.taxId = taxId || '';
         this.receptionMethod = receptionMethod || '';
@@ -72,18 +75,19 @@ export class Loan {
     }
 
     public get_attributes(): string {
-        return  this.amount + ' ' + this.type + ' ' + this.paymentDuration + ' ' + this.status + ' ' + this.approuved + ' ' + this.signature + ' ' + this.cinCartRecto + ' ' + this.cinCartVerso + ' ' + this.cinNumber + ' ' + this.taxId + ' ' + this.receptionMethod + ' ' + this.bankAccountCredentials_RIB + ' ' + this.selectedAgency + ' ' + this.loanCreationDate + ' ' + this.clientId;
+        return  this.amount + ' ' + this.type + ' ' + this.paymentDuration + ' ' + this.status + ' ' + this.approuved + ' ' + this.signature + ' ' + this.cinCartFont + ' ' + this.cinCartBack + ' ' + this.cinNumber + ' ' + this.taxId + ' ' + this.receptionMethod + ' ' + this.bankAccountCredentials_RIB + ' ' + this.selectedAgency + ' ' + this.loanCreationDate + ' ' + this.clientId;
     }
 
 
-    public set_attributes(amount: number, type: string, paymentDuration: string,  signature: string, cinCartRecto: string, cinCartVerso: string, cinNumber: string, taxId: string, receptionMethod: string, bankAccountCredentials_RIB: string, selectedAgency: string, loanCreationDate: Date, clientId: string): void {
-
+    public set_attributes(amount: number, type: string, paymentDuration: string, status: string, approuved: boolean, signature: File, cinCartFont: File, cinCartBack: File, cinNumber: string, taxId: string, receptionMethod: string, bankAccountCredentials_RIB: string, selectedAgency: string, loanCreationDate: Date, clientId: string): void {
         this.amount = amount;
         this.type = type;
         this.paymentDuration = paymentDuration;
+        this.status = status;
+        this.approuved = approuved;
         this.signature = signature;
-        this.cinCartRecto = cinCartRecto;
-        this.cinCartVerso = cinCartVerso;
+        this.cinCartFont = cinCartFont;
+        this.cinCartBack = cinCartBack;
         this.cinNumber = cinNumber;
         this.taxId = taxId;
         this.receptionMethod = receptionMethod;
@@ -92,7 +96,6 @@ export class Loan {
         this.loanCreationDate = loanCreationDate;
         this.clientId = clientId;
     }
-
   
 
 
@@ -116,23 +119,18 @@ export class Loan {
     }
 
 
-    public get_approuved(): boolean {
-        return this.approuved;
-    }
-
-
-    public get_signature(): string {
+    public get_signature(): File | null {
         return this.signature;
     }
 
 
-    public get_cinCartRecto(): string {
-        return this.cinCartRecto;
+    public get_cinCartFont(): File | null{
+        return this.cinCartFont;
     }
 
 
-    public get_cinCartVerso(): string {
-        return this.cinCartVerso;
+    public get_cinCartBack(): File | null{
+        return this.cinCartBack;
     }
 
 
@@ -200,18 +198,18 @@ export class Loan {
     }
 
 
-    public set_signature(signature: string): void {
+    public set_signature(signature: File): void {
         this.signature = signature;
     }
 
 
-    public set_cinCartRecto(cinCartRecto: string): void {
-        this.cinCartRecto = cinCartRecto;
+    public set_cinCartFont(cinCartFont: File): void {
+        this.cinCartFont = cinCartFont;
     }
 
 
-    public set_cinCartVerso(cinCartVerso: string): void {
-        this.cinCartVerso = cinCartVerso;
+    public set_cinCartBack(cinCartBack: File): void {
+        this.cinCartBack = cinCartBack;
     }
 
 

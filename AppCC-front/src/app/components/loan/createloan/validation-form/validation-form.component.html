@@ -108,9 +108,7 @@
           <div class="mb-4">
             <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Signature</label>
             <div class="flex items-center">
-              <input type="file" formControlName="signature" id="signature"
-                class="text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                accept="image/*" (change)="onFileSelected($event, 'signature')" required />
+              <input type="file" formControlName="signature" id="signature" accept="image/*" (change)="onFileSelected($event, 'signature')" required />
               <button data-modal-target="signature-modal" data-modal-toggle="signature-modal"
                 class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 type="button" (click)="toggleModal('signature-modal')">
@@ -121,7 +119,7 @@
             <div class="relative p-4 w-full max-w-md max-h-screen">
                 <div class="relative bg-white rounded-lg shadow">
                   <div class="p-4 md:p-5 text-center">
-                    <img [src]="signatureImage" alt="Signature" class="w-full h-auto" />
+                    <img [src]="signature" alt="Signature" class="w-full h-auto" />
                     <button data-modal-hide="signature-modal" type="button"
                       class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700"
                       (click)="closeModal('signature-modal')">
@@ -132,65 +130,75 @@
               </div>
             </div>
           </div>
-          <div class="mb-4">
-            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">ID Card Front</label>
-            <div class="flex items-center">
-              <input type="file" formControlName="idCardFront" id="idCardFront"
-                class="text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                accept="image/*" (change)="onFileSelected($event, 'idCardFront')" required />
-              <button data-modal-target="front-modal" data-modal-toggle="front-modal"
-                class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button" (click)="toggleModal('front-modal')">
-                show
-              </button>
 
-              <div id="front-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
-                <div class="relative p-4 w-full max-w-md max-h-screen">
-                    <div class="relative bg-white rounded-lg shadow">
-                      <div class="p-4 md:p-5 text-center">
-                        <img [src]="idCardFrontImage" alt="ID Card Front" class="w-full h-auto" />
-                        <button data-modal-hide="front-modal" type="button"
+          <!-- ID Card Front -->
+<div class="mb-4">
+  <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">ID Card Front</label>
+  <div class="flex items-center">
+      <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/*" (change)="onFileSelected($event, 'idCardFront')" required />
+      <!-- Corrected field name -->
+      <button data-modal-target="front-modal" data-modal-toggle="front-modal"
+          class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button" (click)="toggleModal('front-modal')">
+          show
+      </button>
+
+      <div id="front-modal" tabindex="-1"
+          class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
+          <!-- Modal Content -->
+          <div class="relative p-4 w-full max-w-md max-h-screen">
+              <div class="relative bg-white rounded-lg shadow">
+                  <div class="p-4 md:p-5 text-center">
+                      <img [src]="idCardFront" alt="ID Card Front" class="w-full h-auto" />
+                      <!-- Corrected image source -->
+                      <button data-modal-hide="front-modal" type="button"
                           class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700"
                           (click)="closeModal('front-modal')">
                           close
-                        </button>
-                      </div>
-                    </div>
+                      </button>
                   </div>
-                </div>
-            </div>
+              </div>
           </div>
-          <div class="mb-4">
-            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">ID Card Back</label>
-            <div class="flex items-center">
-              <input type="file" formControlName="idCardBack" id="idCardBack"
-                class="text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                accept="image/*" (change)="onFileSelected($event, 'idCardBack')" required />
-              <button data-modal-target="back-modal" data-modal-toggle="back-modal"
-                class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                type="button" (click)="toggleModal('back-modal')">
-                show
-              </button>
+      </div>
+  </div>
+</div>
 
-              <div id="back-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
-                <div class="relative p-4 w-full max-w-md max-h-screen">
-                    <div class="relative bg-white rounded-lg shadow">
-                      <div class="p-4 md:p-5 text-center">
-                        <img [src]="idCardBackImage" alt="ID Card Back" class="w-full h-auto" />
-                        <button data-modal-hide="back-modal" type="button"
+
+
+
+          <!-- ID Card Back -->
+<div class="mb-4">
+  <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">ID Card Back</label>
+  <div class="flex items-center">
+      <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/*" (change)="onFileSelected($event, 'idCardBack')" required /> <!-- Corrected field name -->
+      <button data-modal-target="back-modal" data-modal-toggle="back-modal"
+          class="block right-0 ml-10 hover:text-white bg-white hover:bg-red-700 text-red-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button" (click)="toggleModal('back-modal')">
+          show
+      </button>
+
+      <div id="back-modal" tabindex="-1"
+          class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 items-center justify-center">
+          <!-- Modal Content -->
+          <div class="relative p-4 w-full max-w-md max-h-screen">
+              <div class="relative bg-white rounded-lg shadow">
+                  <div class="p-4 md:p-5 text-center">
+                      <img [src]="idCardBack" alt="ID Card Back" class="w-full h-auto" />
+                      <!-- Corrected image source -->
+                      <button data-modal-hide="back-modal" type="button"
                           class="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none bg-white rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-red-700 hover:text-white hover:bg-red-700"
                           (click)="closeModal('back-modal')">
                           close
-                        </button>
-                      </div>
-                    </div>
+                      </button>
                   </div>
-                </div>
-            </div>
+              </div>
           </div>
+      </div>
+  </div>
+</div>
+
         </div>
       </div>
-
       <!-- Submit Button -->
       <div class="flex justify-center">
         <button type="button" (click)="submitForm()"

@@ -58,9 +58,14 @@
         <div>
           <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature (PNG)</label>
           <!-- Add file input for signature -->
-          <input type="file" formControlName="signature" id="signature" accept="image/png" (change)="onFileSelected($event, 'signature')" required>
+          <input type="file" formControlName="signature" id="signature" accept="image/png" (change)="onFileSelected($event, 'signature')" required>      
+          </div>
+    
+    
+    
+    
+    
         </div>
-      </div>
       <!-- ID Card Section -->
       <div id="idCardSection" style="display:none;">
         <div>
