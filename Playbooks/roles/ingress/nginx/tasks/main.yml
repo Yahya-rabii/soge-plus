@@ -3,6 +3,10 @@
     src: files/ingress-nginx.yaml
     dest: "/tmp/ingress-nginx.yaml"
 
-- name: Run Ingress operator
-  shell:
-    cmd: "kubectl apply -f /tmp/ingress-nginx.yaml"
+- name: Run Ingress Controller
+  shell: "kubectl apply -f /tmp/ingress-nginx.yaml"
+
+- name: Disable validating webhook
+  shell: "kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission"
+
+
