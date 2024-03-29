@@ -1,0 +1,5 @@
+- name: Setup additions on all nodes
+  hosts: ALL_VMS
+  roles:
+    - roles/initialization/add_to_host
+  become: true

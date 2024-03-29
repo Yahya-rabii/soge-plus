@@ -12,6 +12,7 @@
     name: firewalld
     state: stopped 
     enabled: no
+    
 - name: Permanently remove swap
   command:
     cmd: sed -i '/ swap / s/^/#/' /etc/fstab
