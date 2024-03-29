@@ -89,7 +89,10 @@ public class LoanController {
 
 
     @PostMapping("/createLoan")
-    public ResponseEntity<Loan> createLoan(@RequestParam Map<String, String> loan, @RequestParam("signature") MultipartFile signature, @RequestParam("cinCartRecto") MultipartFile cinCartRecto, @RequestParam("cinCartVerso") MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+    public ResponseEntity<Loan> createLoan(@RequestParam Map<String, String> loan,
+                                           @RequestParam("signature") MultipartFile signature,
+                                           @RequestParam("cinCartRecto") MultipartFile cinCartRecto,
+                                           @RequestParam("cinCartVerso") MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         Loan newLoan = new Loan();
         newLoan.setAmount(Double.parseDouble(loan.get("amount")));
         //TYPE is either PERSONAL, HOME, AUTO, EDUCATIONAL
@@ -121,7 +124,14 @@ public class LoanController {
                 .credentials("noxideuxTheGoat", "noxideux11102001noxideux")
                 .build();
 
-        String signatureFileName = UUID.randomUUID().toString() + ".png";
+        // Create folder structure based on client ID and loan creation date
+        String theme = newLoan.getClientId();
+        SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String folderName = folderDateFormat.format(newLoan.getLoanCreationDate());
+        String objectPrefix = theme + "/" + folderName + "/";
+
+        // Save documents to Minio with specified prefix
+        String signatureFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
         minioClient.putObject(
                 PutObjectArgs.builder()
                         .bucket("appccbucket")
@@ -129,7 +139,7 @@ public class LoanController {
                         .stream(signature.getInputStream(), signature.getSize(), -1)
                         .build());
 
-        String cinCartRectoFileName = UUID.randomUUID().toString() + ".png";
+        String cinCartRectoFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
         minioClient.putObject(
                 PutObjectArgs.builder()
                         .bucket("appccbucket")
@@ -137,7 +147,7 @@ public class LoanController {
                         .stream(cinCartRecto.getInputStream(), cinCartRecto.getSize(), -1)
                         .build());
 
-        String cinCartVersoFileName = UUID.randomUUID().toString() + ".png";
+        String cinCartVersoFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
         minioClient.putObject(
                 PutObjectArgs.builder()
                         .bucket("appccbucket")
