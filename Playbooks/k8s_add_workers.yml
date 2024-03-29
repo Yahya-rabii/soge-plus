@@ -1,5 +1,5 @@
 - name: Setup additions on all cluster nodes
-  hosts: K8S_FULL_CLUSTER
+  hosts: ALL_VMS
   roles:
     - roles/initialization/add_to_host
   become: true

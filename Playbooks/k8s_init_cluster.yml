@@ -1,5 +1,5 @@
 - name: Initialize the cluster with the right dependencies and cnis
-  hosts: K8S_INITIAL_CLUSTER
+  hosts: ALL_VMS
   roles:
     - roles/initialization/add_to_host
     - roles/initialization/init_cluster
@@ -14,12 +14,6 @@
   roles:
     - roles/kubernetes/main_controlplane_init
   become: true
-
-
-- name: Add Secondary control plane
-  hosts: K8S_SECONDARY_CONTROLPLANE, K8S_MAIN_CONTROLPLANE
-  roles:
-    - roles/kubernetes/new_controlplane_init
 
 - name: Add Workers
   hosts: K8S_MAIN_CONTROLPLANE, K8S_WORKERS
