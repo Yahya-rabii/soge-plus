@@ -1,0 +1,19 @@
+- name: Setup additions on all cluster nodes
+  hosts: K8S_FULL_CLUSTER
+  roles:
+    - roles/initialization/add_to_host
+  become: true
+
+- name: Setup new worker
+  hosts: K8S_JOINING_WORKERS
+  roles:
+    - roles/initialization/init_cluster
+    - roles/initialization/install_dependencies
+    - roles/container-runtimes/crio
+    - roles/cni/stop_nm_calico
+  become: true
+
+- name: Join new workers
+  hosts: K8S_MAIN_CONTROLPLANE, K8S_JOINING_WORKERS
+  roles:
+    - roles/kubernetes/new_workers_init

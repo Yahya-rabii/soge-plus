@@ -1,0 +1,20 @@
+- name: Setup additions on all cluster nodes
+  hosts: K8S_FULL_CLUSTER
+  roles:
+    - roles/initialization/add_to_host
+  become: true
+
+- name: Setup new controlplanes
+  hosts: K8S_JOINING_CONTROLPLANES
+  roles:
+    - roles/initialization/init_cluster
+    - roles/initialization/install_dependencies
+    - roles/container-runtimes/crio
+    - roles/cni/stop_nm_calico
+  become: true
+
+- name: Join new controlplane
+  hosts: K8S_JOINING_CONTROLPLANES, K8S_MAIN_CONTROLPLANE
+  roles:
+    - roles/kubernetes/new_controlplane_init
+  become: true
