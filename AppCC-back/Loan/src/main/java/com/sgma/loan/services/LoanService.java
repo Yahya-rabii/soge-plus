@@ -55,7 +55,7 @@ public class LoanService {
 
     private Loan handleMinioOperations(Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
         String theme = loan.getClientId();
-        SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         String folderName = folderDateFormat.format(loan.getLoanCreationDate());
         String objectPrefix = theme + "/" + folderName + "/";
 
