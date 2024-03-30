@@ -12,11 +12,9 @@ export class Loan {
     // status of type enum Status {PENDING, APPROVED, REJECTED}
     status!: string | 'PENDING';
     approuved!: boolean | false;
-
     signature: File | null = null;
     cinCartFont: File | null = null;
     cinCartBack: File | null = null;
-
     cinNumber!: string | '';
     taxId!: string | '';
     // receptionMethod of type enum ReceptionMethod {ONLINE, ON_AGENCY}
@@ -41,13 +39,9 @@ export class Loan {
         paymentDuration?: string,
         status? : string | 'PENDING',
         approuved?: boolean | false,
-        
         signature?: File,
         cinCartFont?: File,
         cinCartBack?: File,
-
-
-
         cinNumber?: string,
         taxId?: string,
         receptionMethod?: string,
@@ -56,15 +50,14 @@ export class Loan {
         loanCreationDate?: Date,
         clientId?: string
     ) {
-
         this.amount = amount || 0;
         this.type = type || '';
         this.paymentDuration = paymentDuration || '';
-      
+        this.status = status || 'PENDING';
+        this.approuved = approuved || false;
         this.signature = signature || null;
         this.cinCartFont = cinCartFont || null;
         this.cinCartBack = cinCartBack || null;
-
         this.cinNumber = cinNumber || '';
         this.taxId = taxId || '';
         this.receptionMethod = receptionMethod || '';

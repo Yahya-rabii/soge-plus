@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class LoanController {
@@ -41,6 +42,13 @@ public class LoanController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+
+
+    // get loan by client id
+    @GetMapping("/loanByClientId/{clientId}")
+    public List<Optional<Loan>> getLoansByClientId(@PathVariable String clientId) {
+        return loanService.getLoanByClientId(clientId);
+    }
     @PutMapping("/updateLoan/{id}")
     public ResponseEntity<Loan> updateLoan(@PathVariable Long id,
                                            @RequestBody Loan updatedLoan,

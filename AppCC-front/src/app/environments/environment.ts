@@ -26,6 +26,7 @@ export const environment = {
     createLoanEndpoint: '/createLoan',
     updateLoanEndpoint: '/updateLoan/',
     deleteLoanEndpoint: '/deleteLoan/',
+    getLoansByClientIdEndpoint: '/loanByClientId/',
 
 
 

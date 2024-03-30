@@ -1,0 +1,26 @@
+<div class="fixed inset-0 flex items-center justify-center z-50" >
+    <!-- Darken background -->
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+  
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full sm:max-w-md relative z-10">
+        <button class="absolute top-2 right-2 text-red-700 text-xl font-bold " (click)="onCloseClick()">X</button>
+        <h1 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Loan Details</h1>
+        <div class="space-y-4">
+        <!-- Display loan details here -->
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Loan Creation Date : <span class="text-red-700">{{ data.loan.loanCreationDate | date: 'dd/MM/yyyy' }}</span> </p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Status : <span class="text-red-700">{{ data.loan.get_status() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Amount : <span class="text-red-700">{{ data.loan.get_amount() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">payment Duration : <span class="text-red-700">{{ data.loan.get_paymentDuration() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Status : <span class="text-red-700">{{ data.loan.get_status() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">CIN Number : <span class="text-red-700">{{ data.loan.get_cinNumber() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Loan Type : <span class="text-red-700">{{ data.loan.get_type() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Tax ID : <span class="text-red-700">{{ data.loan.get_taxId() }}</span></p>
+        <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Reception Method : <span class="text-red-700">{{ data.loan.get_receptionMethod() }}</span></p>
+
+        <p *ngIf="data.loan.get_receptionMethod() == 'ONLINE'" class="text-base leading-relaxed text-gray-500 dark:text-gray-400">RIB: <span class="text-red-700">{{ data.loan.get_bankAccountCredentials_RIB() }}</span></p>
+        <p *ngIf="data.loan.get_receptionMethod() == 'ON_AGENCY'" class="text-base leading-relaxed text-gray-500 dark:text-gray-400">Bank Name: <span class="text-red-700">{{ data.loan.get_selectedAgency() }}</span></p>
+
+    </div>
+
+</div>
+</div>

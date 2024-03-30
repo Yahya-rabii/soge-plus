@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FormDataService } from '../../../../services/form-data.service';
+import { FormDataService } from '../../../services/form-data.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Loan } from '../../../../models/loan.model';
-import { LoanService } from '../../../../services/loan.service';
+import { Loan } from '../../../models/loan.model';
+import { LoanService } from '../../../services/loan.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -176,10 +176,19 @@ export class ValidationFormComponent implements OnInit {
     // call the createLoan method from the LoanService and pass the Loan object as an argument
     this.LoanService.createLoan(this.loan)
       .then((response) => {
-        // if the createLoan method is successful, display a success message
         alert('Loan created successfully');
+
+        // clear the form data
+        this.formDataService.clearFormData();
+
+        // empty the form
+        this.formData = new FormGroup({});
+
+
+
+
         // redirect to the home page
-        //this.router.navigate(['/']);
+        this.router.navigate(['/displayloan']);
       })
       .catch((error) => {
         // if the createLoan method fails, display an error message
@@ -188,4 +197,5 @@ export class ValidationFormComponent implements OnInit {
 
 
   }
+
 }

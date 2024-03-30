@@ -15,4 +15,8 @@ export class FormDataService {
   }
 
   constructor() { }
+
+  clearFormData(): void {
+    this.formData = new FormGroup({}); // Reset formData to an empty FormGroup
+  }
 }

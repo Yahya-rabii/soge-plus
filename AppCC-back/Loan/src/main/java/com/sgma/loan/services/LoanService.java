@@ -39,6 +39,13 @@ public class LoanService {
         return loanRepository.findById(id);
     }
 
+
+    // get loan by client id
+    public List<Optional<Loan>> getLoanByClientId(String clientId) {
+        return loanRepository.findLoansByClientId(clientId);
+    }
+
+
     public Loan createLoan(Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
         loan.setStatus(Status.PENDING);
         loan.setApproved(false);

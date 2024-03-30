@@ -44,6 +44,45 @@ export class LoanService {
     }
   }
 
+
+  async getLoansByClientId():   Promise<Loan[]> {
+    const clientId = localStorage.getItem('UserId');
+    const url = `${environment.LoanMsUrl}${environment.getLoansByClientIdEndpoint}${clientId}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();      
+      console.log('Loan Data:', data);
+      
+      //loop over the data and create a table of loans
+      for (let i = 0; i < data.length; i++) {
+        this.Loans.push(new Loan(
+          data[i].amount,
+          data[i].type,
+          data[i].paymentDuration,
+          data[i].status,
+          data[i].approved,
+          data[i].signature,
+          data[i].cinCartRecto,
+          data[i].cinCartVerso,
+          data[i].cinNumber,
+          data[i].taxId,
+          data[i].receptionMethod,
+          data[i].bankAccountCredentials_RIB,
+          data[i].selectedAgency,
+          data[i].loanCreationDate,
+          data[i].clientId,
+         
+        ));
+      }
+      console.log('Loans:', this.Loans);
+
+      return this.Loans;
+
+    } catch (error) {
+      console.error('Error fetching Loan:', error);
+      throw error;
+    }
+  }
   
 
   async createLoan(loan: Loan): Promise<any> {
