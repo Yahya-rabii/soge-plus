@@ -1,0 +1,102 @@
+spring:
+  application:
+    name: '${SPRING_APPLICATION_NAME:auth-service}'
+  datasource:
+    driverClassName: '${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}'
+    url: '${SPRING_DATASOURCE_URL:jdbc:h2:mem:authdb}'
+    username: '${SPRING_DATASOURCE_USERNAME:admin}'
+    password: '${SPRING_DATASOURCE_PASSWORD:admin}'
+  jpa:
+    database-platform: '${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
+  h2:
+    console:
+      enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
+      path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
+      settings:
+        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
+  cloud:
+    kubernetes:
+      enabled: true
+        #reload:
+        #enabled: true
+        #mode: event
+        #strategy: shutdown
+        #config:
+        #sources:
+          #- namespace: common
+            #name: environment
+          #- name: gestion
+      discovery:
+        enabled: true
+        namespace: sgma-system
+        #namespaces:
+        #  - sgma-system
+        #  - namespace2
+        #  - namespace3
+        #all-namespaces: true
+    config:
+      enabled: false
+    discovery:
+      enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
+server:
+  port: '${SERVER_PORT:8081}'
+
+eureka:
+  client:
+    enabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:*}'
+  endpoint:
+    health:
+      show-details: '${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}'
+logging:
+  file:
+    path: '${LOGGING_FILE_PATH:C:/Users/yahyarb/Desktop/Loggs}'
+openapi:
+  service:
+    title: '${OPENAPI_SERVICE_TITLE:AUTH-SERVICE doc}'
+    version: '${OPENAPI_SERVICE_VERSION:1.0.0}'
+    url: '${OPENAPI_SERVICE_URL:http://localhost:8888}'
+springdoc:
+  api-docs:
+    path: '${SPRINGDOC_API_DOCS_PATH:/auth-service/v3/api-docs}'
+  swagger-ui:
+    path: '${SPRINGDOC_SWAGGER_UI_PATH:/auth-service/swagger-ui.html}'
+keycloak:
+  auth-server-url: >-
+    ${KEYCLOAK_AUTH_SERVER_URL:http://localhost:8080/admin/realms/${keycloak.realm}/}
+  auth:
+    get:
+      roles:
+        endpoint: '${KEYCLOAK_AUTH_GET_ROLES_ENDPOINT:roles}'
+    getorCreate:
+      users:
+        endpoint: '${KEYCLOAK_AUTH_GETORCREATE_USERS_ENDPOINT:users}'
+  realm: '${KEYCLOAK_REALM:AppCC-realm}'
+  resource: '${KEYCLOAK_RESOURCE:AppCC-client}'
+  credentials:
+    secret: '${KEYCLOAK_CREDENTIALS_SECRET:2daZvH7aBBVcwI9mvJw3dPQMwWUiZhVK}'
+  token:
+    url: >-
+      ${KEYCLOAK_TOKEN_URL:http://localhost:8080/realms/${keycloak.realm}/protocol/openid-connect/token}
+  logout:
+    url: >-
+      ${KEYCLOAK_LOGOUT_URL:http://localhost:8080/admin/realms/${keycloak.realm}/users/UserId/logout}
+  user:
+    roles:
+      url: >-
+        ${KEYCLOAK_USER_ROLES_URL:http://localhost:8080/admin/realms/${keycloak.realm}/users/UserId/role-mappings/realm}
+client:
+  service:
+    url: '${CLIENT_SERVICE_URL:http://localhost:8888/client-service}'
+createClient:
+  endpoint: '${CREATECLIENT_ENDPOINT:/createClient}'
+getclient:
+  Byid:
+    endpoint: '${GETCLIENT_BYID_ENDPOINT:/client/}'
+updateClient:
+  Byid:
+    endpoint: '${UPDATECLIENT_BYID_ENDPOINT:/updateClient/}'
