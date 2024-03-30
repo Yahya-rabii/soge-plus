@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { Loan } from '../../../models/loan.model';
 import { LoanService } from '../../../services/loan.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LoanImagesDispalyComponent } from './loan-images-dispaly/loan-images-dispaly.component';
 
 @Component({
   selector: 'app-validation-form',
@@ -21,8 +23,8 @@ export class ValidationFormComponent implements OnInit {
   idCardBack: File | undefined;
   receptionMethod: string | null = null;
   loan: Loan = new Loan();
-
-  constructor(private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService , private router: Router) { }
+  image : File | undefined = undefined;
+  constructor(private dialog: MatDialog ,private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService , private router: Router) { }
 
   ngOnInit(): void {
 
@@ -82,6 +84,42 @@ export class ValidationFormComponent implements OnInit {
     }
   }
 
+  dialogRef: any; // Reference to the dialog
+
+  
+  // Open dialog with loan details
+  openDialog(field: string): void {
+    // Close any existing dialog before opening a new one
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
+
+    if (field === 'signature') {
+      this.image = this.formData.get('signature')?.value as File;
+      
+    } else if (field === 'front-modal') {
+
+      this.image = this.formData.get('idCardFront')?.value as File;
+     
+    } else if (field === 'back-modal') {
+      this.image = this.formData.get('idCardBack')?.value as File;
+     
+    }
+
+
+    // Open new dialog
+    this.dialogRef = this.dialog.open(LoanImagesDispalyComponent, {
+      width: '500px',
+      data: { image: this.image },
+    });
+
+    // Handle dialog close event
+    this.dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+      this.dialogRef = null; // Reset dialog reference
+    });
+  }
+
 
 
   onFileSelected(event: Event, field: string): void {
@@ -89,59 +127,21 @@ export class ValidationFormComponent implements OnInit {
     const file: File | null = (inputElement.files as FileList)[0] || null;
     if (file) {
       if (field === 'signature') {
+        console.log('signature:', file);
         this.signature = file;
-        this.formData.patchValue({ signature: file });
+        this.formData.get('signature')?.setValue(file);
       } else if (field === 'idCardFront') {
         this.idCardFront = file;
-        this.formData.patchValue({ idCardFront: file });
+        this.formData.get('idCardFront')?.setValue(file);
       } else if (field === 'idCardBack') {
         this.idCardBack = file;
-        this.formData.patchValue({ idCardBack: file });
+        this.formData.get('idCardBack')?.setValue(file);
       }
-      
     }
   }
 
 
-  toggleModal(modalId: string) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-      modal.classList.toggle('hidden');
-      // set focus on the modal
-      modal.focus();
-      // make the modal centered
-      modal.style.top = '50%';
-      modal.style.left = '50%';
-      modal.style.transform = 'translate(-50%, -50%)';
-
-      // set the modal to be visible
-      modal.style.visibility = 'visible';
-
-      //make the modal absolute
-      modal.style.position = 'absolute';
-
-      // make the modal background color to be black with some opacity
-
-      modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-
-      // make the baground take the whole screen
-      modal.style.width = '100%';
-      modal.style.height = '100%';
-
-
-    }
-  }
-
-  closeModal(modalId: string) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-     
-      modal.classList.add('hidden');
-      modal.style.visibility = 'hidden';
-      // make the modal background to be back to normal
-      modal.style.backgroundColor = 'transparent';
-    }
-  }
+  
   
 
   submitForm() {
