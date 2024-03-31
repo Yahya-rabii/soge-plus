@@ -1,0 +1,22 @@
+- name: update packages
+  apt:
+    name: nginx # not required. A list of package names, like C(foo), or package specifier with version, like C(foo=1.0). Name wildcards (fnmatch) like C(apt*) and version wildcards like C(foo=1.0*) are also supported.
+    state: latest # not required. choices: absent;build-dep;latest;present;fixed. Indicates the desired package state. C(latest) ensures that the latest version is installed. C(build-dep) ensures the package build dependencies are installed. C(fixed) attempt to correct a system with broken dependencies in place.
+    update_cache: yes # not required. Run the equivalent of C(apt-get update) before the operation. Can be run as part of the package installation or as a separate step.
+   
+- name: Copy template
+  template:
+    src:  sogcen_ingress.conf
+    dest:  /etc/nginx/nginx.conf
+
+- name: Verify nginx
+  shell: nginx -t
+
+- name: Reload nginx
+  shell: nginx -s reload
+
+- name: Reload nginx
+  systemd:
+    name:  nginx
+    state: restarted # not required. choices: reloaded;restarted;started;stopped. C(started)/C(stopped) are idempotent actions that will not run commands unless necessary. C(restarted) will always bounce the service. C(reloaded) will always reload.
+    enabled: yes # not required. Whether the service should start on boot. B(At least one of state and enabled are required.)

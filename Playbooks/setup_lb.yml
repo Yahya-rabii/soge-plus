@@ -3,3 +3,8 @@
   roles:
     - roles/initialization/add_to_host
   become: true
+
+- name: Download Setup nginx load balancers
+  hosts: LOAD_BALANCERS
+  roles:
+    - roles/load-balancer/nginx
