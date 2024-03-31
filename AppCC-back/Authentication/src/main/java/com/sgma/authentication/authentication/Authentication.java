@@ -47,7 +47,18 @@ public class Authentication {
     @Value("${client.service.url}")
     private String clientServiceUrl;
 
+
+    @Value("${createClient.endpoint}")
+    private String createClientEndpoint;
+
+    @Value("${getclient.Byid.endpoint}")
+    private String getclientByidEndpoint;
+
+    @Value("${updateClient.Byid.endpoint}")
+    private String updateClientById ;
+
     private List<String> roles = new ArrayList<>();
+
 
 
     @PostMapping("/signup")
@@ -123,7 +134,7 @@ public class Authentication {
             HttpEntity<Client> requestEntity = new HttpEntity<>(client, headers);
 
             // Send HTTP request to client microservice
-            ResponseEntity<String> responseEntity = restTemplate.exchange(clientServiceUrl, HttpMethod.POST, requestEntity, String.class);
+            ResponseEntity<String> responseEntity = restTemplate.exchange(clientServiceUrl+createClientEndpoint, HttpMethod.POST, requestEntity, String.class);
             if (responseEntity.getStatusCode() != HttpStatus.OK) {
                 throw new RuntimeException("Failed to send user data to client microservice");
             }
@@ -226,6 +237,31 @@ public class Authentication {
 
                     // Add user ID to response body
                     responseBody.put("UserId", userId);
+
+
+                    // call the role endpoint to get the roles of the user and if the roles returned from getRole method are not the same as the roles of the user in the client microservice then update the roles of the user in the client microservice
+                    List<String> roles = getRole(userId).getBody().get("roles");
+                    if (roles != null) {
+                        // Get the roles of the user from the client microservice
+                        ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + userId, Map.class);
+                        if (response.getStatusCode() == HttpStatus.OK) {
+                            Map<String, Object> clientData = response.getBody();
+                            if (clientData != null) {
+                                // Get the roles of the user from the client microservice
+                                Map<String, Object> roleData = (Map<String, Object>) clientData.get("roles");
+                                List<String> userRoles = (List<String>) roleData.get("roles");
+
+                                // Check if the roles of the user in the client microservice are different from the roles returned from the getRole method
+                                if (!userRoles.equals(roles)) {
+                                    // Update the roles of the user in the client microservice
+                                    roleData.put("roles", roles);
+                                    headers.setContentType(MediaType.APPLICATION_JSON);
+                                    HttpEntity<Map<String, Object>> request = new HttpEntity<>(clientData, headers);
+                                    restTemplate.put(clientServiceUrl + updateClientById+  userId, request);
+                                }
+                            }
+                        }
+                    }
 
                     // Return response with access token, refresh token, and user ID
                     return ResponseEntity.ok().body(responseBody);

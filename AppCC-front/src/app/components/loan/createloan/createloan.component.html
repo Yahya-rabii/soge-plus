@@ -2,7 +2,8 @@
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20">
     <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo">
-      <span class="text-2xl font-semibold text-primary-500"> Get a loan in <span class="text-2xl font-semibold text-red-700">5 Steps</span></span>
+      <span class="text-2xl font-semibold text-primary-500"> Get a loan in <span
+          class="text-2xl font-semibold text-red-700">5 Steps</span></span>
     </a>
     <!-- Progress Bar -->
     <div class="w-full max-w-md mb-6">
@@ -19,24 +20,41 @@
         <div class="w-1/5 transition-all duration-500" [class.bg-red-600]="currentSection >= 5"></div>
       </div>
       <div class="flex mt-2 text-xs text-gray-600">
-        <div class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step" [class.border-red-600]="currentSection === 1">1</div>
-        <div class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step" [class.border-red-600]="currentSection === 2">2</div>
-        <div class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step" [class.border-red-600]="currentSection === 3">3</div>
-        <div class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step" [class.border-red-600]="currentSection === 4">4</div>
-        <div class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step" [class.border-red-600]="currentSection === 5">5</div>
+        <div
+          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 1">1</div>
+        <div
+          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 2">2</div>
+        <div
+          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 3">3</div>
+        <div
+          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 4">4</div>
+        <div
+          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 5">5</div>
       </div>
     </div>
-    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
-      <form [formGroup]="createLoanForm" (ngSubmit)="Submit()" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg" id="createLoanForm">
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
+      <form [formGroup]="createLoanForm" (ngSubmit)="Submit()" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg"
+        id="createLoanForm">
         <!-- Loan Info Section -->
         <div id="loanInfoSection">
           <div>
-            <label for="loanAmount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan Amount</label>
-            <input type="number" formControlName="loanAmount" id="loanAmount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Loan Amount" required>
+            <label for="loanAmount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
+              Amount</label>
+            <input type="number" formControlName="loanAmount" id="loanAmount"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Loan Amount" required>
           </div>
           <div>
             <label for="loanType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan Type</label>
-            <select formControlName="loanType" id="loanType" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <select formControlName="loanType" id="loanType"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
               <option value="PERSONAL">Personal</option>
               <option value="HOME">Home</option>
               <option value="AUTO">Auto</option>
@@ -44,84 +62,104 @@
             </select>
           </div>
           <div>
-            <label for="paymentDuration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment Duration</label>
-            <select formControlName="paymentDuration" id="paymentDuration" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-
+            <label for="paymentDuration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment
+              Duration</label>
+            <select formControlName="paymentDuration" id="paymentDuration"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-
             700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            <option value="MONTHLY">Monthly</option>
-            <option value="QUARTERLY">Quarterly</option>
-            <option value="YEARLY">Yearly</option>
-          </select>
-        </div>
-      </div>
-      <!-- Signature Section -->
-      <div id="signatureSection" style="display:none;">
-        <div>
-          <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature (PNG)</label>
-          <!-- Add file input for signature -->
-          <input type="file" formControlName="signature" id="signature" accept="image/png" (change)="onFileSelected($event, 'signature')" required>      
+              <option value="MONTHLY">Monthly</option>
+              <option value="QUARTERLY">Quarterly</option>
+              <option value="YEARLY">Yearly</option>
+            </select>
           </div>
-    
-    
-    
-    
-    
         </div>
-      <!-- ID Card Section -->
-      <div id="idCardSection" style="display:none;">
-        <div>
-          <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front (PNG)</label>
-          <!-- Add file input for ID card front -->
-          <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/png" (change)="onFileSelected($event, 'idCardFront')" required>
-          <img *ngIf="imageUrl" [src]="imageUrl" alt="Selected Image">
+        <!-- Signature Section -->
+        <div id="signatureSection" style="display:none;">
+          <div>
+            <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature
+              (PNG)</label>
+            <!-- Add file input for signature -->
+            <input type="file" formControlName="signature" id="signature" accept="image/png"
+              (change)="onFileSelected($event, 'signature')" required>
+          </div>
         </div>
-        <div>
-          <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back (PNG)</label>
-          <!-- Add file input for ID card back -->
-          <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/png" (change)="onFileSelected($event, 'idCardBack')" required>
+        <!-- ID Card Section -->
+        <div id="idCardSection" style="display:none;">
+          <div>
+            <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front
+              (PNG)</label>
+            <!-- Add file input for ID card front -->
+            <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/png"
+              (change)="onFileSelected($event, 'idCardFront')" required>
+            <img *ngIf="imageUrl" [src]="imageUrl" alt="Selected Image">
+          </div>
+          <div>
+            <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back
+              (PNG)</label>
+            <!-- Add file input for ID card back -->
+            <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/png"
+              (change)="onFileSelected($event, 'idCardBack')" required>
+          </div>
         </div>
-      </div>
-      <!-- Additional Info Section -->
-      <div id="additionalInfoSection" style="display:none;">
-        <div>
-          <label for="cinNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CIN Number</label>
-          <input type="text" formControlName="cinNumber" id="cinNumber" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        <!-- Additional Info Section -->
+        <div id="additionalInfoSection" style="display:none;">
+          <div>
+            <label for="cinNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CIN
+              Number</label>
+            <input type="text" formControlName="cinNumber" id="cinNumber"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+          </div>
+          <div>
+            <label for="taxId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tax Id</label>
+            <input type="text" formControlName="taxId" id="taxId"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+          </div>
+          <div>
+            <label for="receptionMethod" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reception
+              Method</label>
+            <select formControlName="receptionMethod" id="receptionMethod"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+              <option value="ONLINE">Online</option>
+              <option value="ON_AGENCY">On Agency</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label for="taxId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tax Id</label>
-          <input type="text" formControlName="taxId" id="taxId" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        <!-- RIB Section -->
+        <div id="ribSection" style="display:none;">
+          <div>
+            <label for="rib" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RIB (Relevé d'Identité
+              Bancaire)</label>
+            <input type="text" formControlName="rib" id="rib"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="RIB" required>
+          </div>
         </div>
-        <div>
-          <label for="receptionMethod" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reception Method</label>
-          <select formControlName="receptionMethod" id="receptionMethod" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            <option value="ONLINE">Online</option>
-            <option value="ON_AGENCY">On Agency</option>
-          </select>
+        <!-- Agency Selection Section -->
+        <div id="agencySelectionSection" style="display:none;">
+          <div>
+            <label for="agency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
+              Agency</label>
+            <select formControlName="agency" id="agency"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+              <option value="Agency 1">Agency 1</option>
+              <option value="Agency 2">Agency 2</option>
+              <option value="Agency 3">Agency 3</option>
+              <!-- Add more agencies as needed -->
+            </select>
+          </div>
         </div>
-      </div>
-      <!-- RIB Section -->
-      <div id="ribSection" style="display:none;">
-        <div>
-          <label for="rib" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RIB (Relevé d'Identité Bancaire)</label>
-          <input type="text" formControlName="rib" id="rib" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="RIB" required>
-        </div>
-      </div>
-      <!-- Agency Selection Section -->
-      <div id="agencySelectionSection" style="display:none;">
-        <div>
-          <label for="agency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Agency</label>
-          <select formControlName="agency" id="agency" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            <option value="Agency 1">Agency 1</option>
-            <option value="Agency 2">Agency 2</option>
-            <option value="Agency 3">Agency 3</option>
-            <!-- Add more agencies as needed -->
-          </select>
-        </div>
-      </div>
-      <!-- Submit Button -->
-      <button type="button" (click)="NextSection()" id="nextButton" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700">Next</button>
-      <button type="submit" id="submitButton" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700" style="display:none;">Apply Loan</button>
-      <!-- child components go here -->
-    </form>
+        <!-- Submit Button -->
+        <button type="button" (click)="NextSection()" id="nextButton"
+          class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700">Next</button>
+        <button type="submit" id="submitButton"
+          class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700"
+          style="display:none;">Apply Loan</button>
+        <!-- child components go here -->
+      </form>
+    </div>
   </div>
-</div>
 </section>

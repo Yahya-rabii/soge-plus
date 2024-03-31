@@ -18,12 +18,10 @@ export class NavBarComponent {
   logout() {
     this.authService.logout().subscribe(
       (response) => {
-        console.log(response);
         localStorage.clear();
         this.router.navigate(['/login']);
       },
       (error) => {
-        console.log(error);
         alert('An error occurred while logging out');
       }
     );
@@ -36,7 +34,6 @@ export class NavBarComponent {
   }
 
   IsAdminRoute() {
-    console.log(window.location.pathname);
     return window.location.pathname.includes('admin');
   }  
 }

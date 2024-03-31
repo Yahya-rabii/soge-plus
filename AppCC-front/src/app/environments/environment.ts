@@ -5,6 +5,7 @@ export const environment = {
     logoutEndpoint: '/logout',
     signupEndpoint: '/signup',
     refreshEndpoint: '/refresh',
+    getRolesEndpoint: '/role',
 
 
     // client microservice

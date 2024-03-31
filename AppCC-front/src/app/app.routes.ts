@@ -20,11 +20,12 @@ export const routes: Routes = [
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
     { path: 'about', component: AboutComponent, canActivate: [AuthGuard] },
     { path: 'users', component: UserstableComponent,canActivate: [AuthGuard]  } ,
-    { path: 'createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },
+    { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },
     { path: 'loan/confirmation', component: ValidationFormComponent,canActivate: [AuthGuard]  },
     { path: 'privacypolicy', component: PrivacypolicyComponent,canActivate: [AuthGuard]  },
     { path: 'contact', component: ContactComponent,canActivate: [AuthGuard]  },
-    { path: 'displayloan', component: DisplayLoanUserComponent,canActivate: [AuthGuard]  },
+    { path: 'loan', component: DisplayLoanUserComponent,canActivate: [AuthGuard]  },
+
 ];
 
 export enum AppRoutes{

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -62,5 +62,21 @@ export class AuthenticationService {
   isLoggedIn(): boolean {
     const accessToken = localStorage.getItem('access_token');
     return accessToken !== null;
+  }
+
+  // get role of the user using userId from local storage and send in as a requestbody getRoles is already implemented in the backend 
+  //and it returns a list of roles for the user
+  getRoles(): Observable<any> {
+    const getRolesUrl = `${environment.AuthapiUrl}${environment.getRolesEndpoint}`;
+    const userId = localStorage.getItem('UserId') || '{}' ;
+    return this.httpClient.post<any>(getRolesUrl, userId, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }).pipe(
+      catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 }
