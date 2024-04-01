@@ -8,5 +8,5 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface ContractRepository extends JpaRepository<Contract, Long>{
-    List<Contract> findByClientId(Long clientId);
+    List<Contract> findByClientId(String clientId);
 }

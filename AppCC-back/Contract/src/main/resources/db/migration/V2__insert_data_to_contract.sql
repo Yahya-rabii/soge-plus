@@ -1,7 +1,26 @@
 -- insert fake data to contract table on startup
-INSERT INTO contract (type, start_date, duration,client_id) VALUES ('CDI', '2020-01-01 00:00:00', 24,1);
-INSERT INTO contract (type, start_date, duration,client_id) VALUES ('CDD', '2020-01-01 00:00:00', 12,1);
-INSERT INTO contract (type, start_date, duration,client_id) VALUES ('CDD', '2020-01-01 00:00:00', 6,2);
-INSERT INTO contract (type, start_date, duration,client_id) VALUES ('CDI', '2020-01-01 00:00:00', 36,2);
-INSERT INTO contract (type, start_date, duration,client_id) VALUES ('INTERN', '2020-01-01 00:00:00', 48,3);
-INSERT INTO contract (type, start_date, duration,client_id) VALUES ('ANAPEC', '2020-01-01 00:00:00', 24,3);
+
+-- 1	2	2024-04-01 10:05:00.797	1	a66e0c83-47bc-476a-8baf-acd71019dfc9	1
+
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (1, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (2, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (3, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (4, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (5, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (6, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (7, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (8, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (9, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (10, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);
+INSERT INTO contract (id, type, creation_date, payment_duration, client_id, loan_id)
+VALUES (11, '2', '2024-04-01 10:05:00.797', 1, 'a66e0c83-47bc-476a-8baf-acd71019dfc9', 1);

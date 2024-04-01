@@ -1,60 +1,29 @@
 <div class="card m-4">
 
   <div class="card-title flex justify-between items-center mb-4">
-    <h3 class="text-xl font-bold leading-none text-black">Latest Customers</h3>
-    <a href="#" class="inline-flex items-center p-2 text-sm font-medium rounded-lg text-black hover:text-red-700">
-      View all
-    </a>
+    <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>
   </div>
     <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
-      <div class="block md:flex md:items-center gap-6 py-3 my-3 border-b" *ngFor="let i of [1, 2, 3, 4, 5, 6]">
+      <div class="block md:flex md:items-center gap-6 py-3 my-3 border-b" *ngFor="let contract of contracts">
         <div class="hidden relative lg:block">
-          <img src="https://placehold.co/600x400" alt="event image" class="w-48 rounded-lg">
-          <span
-            class="bi bi-calendar2-event absolute bottom-0 right-0 w-10 h-7 bg-emerald-500 text-center border rounded-tl-lg rounded-br-lg text-white"></span>
+          <img src="/assets/img/contract.png" alt="event image" class="w-20 rounded-lg">
         </div>
         <div class="flex-1 my-3">
           <h4 class="text-lg font-semibold leading-none">
-            Envato International Online Meetup 2020
+           Created the : {{contract.creationDate | date:'short'}}
           </h4>
-          <p class="my-1 text-emerald-500">California, USA</p>
+          <p class="my-1 text-emerald-500">Payment Duration :   {{contract.paymentDuration}}</p>
           <p class="text-xs text-justify">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint ipsa vero illum quos vitae
-            dolorum, earum
-            recusandae est modi ea possimus nihil aspernatur
-            libero unde itaque error quis, sit tenetur esse quam harum corrupti! Quia, tenetur provident,
-            vero, recusandae
-            aliquam possimus at mollitia quo perspiciatis
-            adipisci in? Odio, impedit cumque.
           </p>
+
         </div>
-        <div class="w-80 flex justify-between">
-          <div class="text-center text-emerald-600">
-            <div
-              class="flex items-center justify-center bg-emerald-50 rounded-full shadow-sm shadow-gray-200 w-12 h-12 xl:w-16 xl:h-16">
-              <i class="bi bi-cash text-2xl block"></i>
-            </div>
-            <p class="text-sm mt-3">$200</p>
-          </div>
-          <div class="text-center text-emerald-600">
-            <div
-              class="flex items-center justify-center bg-gray-50 rounded-full shadow-sm shadow-gray-200 w-12 h-12 xl:w-16 xl:h-16">
-              <i class="bi-ticket-perforated text-2xl block"></i>
-            </div>
-            <p class="text-sm mt-3">150 pcs left</p>
-          </div>
-          <div class="text-center text-emerald-600">
-            <div
-              class="flex items-center justify-center bg-emerald-50 rounded-full shadow-sm shadow-gray-200 w-12 h-12 xl:w-16 xl:h-16">
-              <i class="bi bi-calendar2-check text-2xl block"></i>
-            </div>
-            <p class="text-sm mt-3">{{eventDate}}</p>
-          </div>
-        </div>
+        <div class="flex-1 my-3">
+          <p class="my-1 text-red-700">Loan ID : {{contract.loanId}}</p>
+          <p class="text-xs text-justify">
+          <p class="my-1 text-red-700">Client ID : {{contract.clientId}}</p>
+          <p class="text-xs text-justify">
+          </p>
       </div>
-      <div class="text-center">
-        <i class="bi bi-arrow-clockwise"></i>
-        loading...
-      </div>
+     
     </div>
 </div>

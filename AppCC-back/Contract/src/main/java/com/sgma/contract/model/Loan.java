@@ -1,22 +1,19 @@
-package com.sgma.loan.entities;
-import com.sgma.loan.enums.PaymentDuration;
-import com.sgma.loan.enums.ReceptionMethod;
-import com.sgma.loan.enums.Status;
-import com.sgma.loan.enums.Type;
+package com.sgma.contract.model;
+
+import com.sgma.contract.enums.PaymentDuration;
+import com.sgma.contract.enums.ReceptionMethod;
+import com.sgma.contract.enums.Status;
+import com.sgma.contract.enums.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
-
-@Entity @Data @AllArgsConstructor @NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 public class Loan {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private double amount;
     private Type type;

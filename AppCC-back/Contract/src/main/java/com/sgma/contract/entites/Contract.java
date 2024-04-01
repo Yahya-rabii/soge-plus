@@ -1,6 +1,6 @@
 package com.sgma.contract.entites;
 
-import com.sgma.contract.enums.ContractType;
+import com.sgma.contract.enums.PaymentDuration;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,12 +18,17 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private ContractType type;
 
-    private Date startDate;
-    private int duration;
+    private Date creationDate;
+
+
+
+    private PaymentDuration paymentDuration;
+
+    @Column(name = "loan_id")
+    private Long loanId;
+
     @Column(name = "client_id")
-    private Long clientId;
+    private String clientId;
 
 }

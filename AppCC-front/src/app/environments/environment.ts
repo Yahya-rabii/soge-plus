@@ -1,5 +1,8 @@
 export const environment = {
     production: false,
+    
+    // auth microservice
+
     AuthapiUrl: 'http://localhost:8888/AUTH-SERVICE',
     loginEndpoint: '/login',
     logoutEndpoint: '/logout',
@@ -30,7 +33,15 @@ export const environment = {
     getLoansByClientIdEndpoint: '/loanByClientId/',
 
 
+    // contract microservice
 
+    ContractMsUrl: 'http://localhost:8888/CONTRACT-SERVICE',
+    getAllContractsEndpoint: '/contracts',
+    getContractByIdEndpoint: '/contract/',
+    createContractEndpoint: '/createContract',
+    updateContractEndpoint: '/updateContract/',
+    deleteContractEndpoint: '/deleteContract/',
+    getContractsOfClientEndpoint: '/contracts/client/',
 
 
   };

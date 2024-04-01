@@ -11,6 +11,8 @@ import { ValidationFormComponent } from './components/loan/validation-form/valid
 import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { DisplayLoanUserComponent } from './components/loan/display-loan-user/display-loan-user.component';
+import { ContractsComponent } from './components/admin/views/contracts/contracts.component';    
+
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
     { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // Protecting the home route
@@ -25,6 +27,7 @@ export const routes: Routes = [
     { path: 'privacypolicy', component: PrivacypolicyComponent,canActivate: [AuthGuard]  },
     { path: 'contact', component: ContactComponent,canActivate: [AuthGuard]  },
     { path: 'loan', component: DisplayLoanUserComponent,canActivate: [AuthGuard]  },
+    { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard]  },
 
 ];
 

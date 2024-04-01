@@ -28,6 +28,22 @@ export class UsersService {
   }
 
 
+  async getUserById(id: string): Promise<User> {
+    const url = `${environment.ClientMsUrl}${environment.getClientByIdEndpoint}/${id}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const user = new User(data.id, data.name, data.email);
+      console.log('User:', user);
+      return user;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  }
+
+  
+
 
   
 
