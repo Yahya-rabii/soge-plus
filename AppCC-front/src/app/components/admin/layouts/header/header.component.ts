@@ -13,15 +13,9 @@ export class HeaderComponent {
   constructor(private authService: AuthenticationService, private router: Router) {}
   
   logout() {
-    this.authService.logout().subscribe(
-      (response) => {
-        localStorage.clear();
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        alert('An error occurred while logging out');
-      }
-    );
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
 }
