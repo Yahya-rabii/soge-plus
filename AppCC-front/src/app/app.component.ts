@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { OnInit } from '@angular/core';
 
 import { initFlowbite } from 'flowbite';
 
@@ -16,10 +17,12 @@ import { initFlowbite } from 'flowbite';
 
 
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'appcc-front';
+
   ngOnInit(): void {
     initFlowbite();
+
   }
 
   

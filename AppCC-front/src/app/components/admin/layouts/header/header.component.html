@@ -1,55 +1,35 @@
 <header>
   <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-      
-
-
-    <div class="flex justify-between items-center">
-      <div id="drawer-navigation-label" class="cursor-pointer text-base font-semibold text-red-700 uppercase dark:text-gray-400 flex"type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
-          <img src="/assets/logosg.png" class="h-10" alt="Flowbite Logo" />
-          SOGE-SIGN™ 
-       </div>
-      <div class="flex justify-start items-center gap-x-3"></div>
-      <div class="flex justify-end items-center gap-x-3">
-          <div class="relative inline-block mr-10">
-              
+      <div class="flex justify-between  ">
         
+           <div class="relative flex items-center left-10">
+            <div id="drawer-navigation-label" (click)="toggleSidebar()" class="cursor-pointer text-base font-semibold text-red-700 uppercase dark:text-gray-400 flex"type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+              <img src="/assets/logosg.png" class="h-10" alt="Flowbite Logo" />
+              SOGE-SIGN™ 
+            </div>
+          </div>
+        
+          <div class="relative flex items-center right-10">
+            <div class="flex items-center lg:order-2">
+                <button id="dropdownUserAvatarButton" (click)="toggleUserDropdown()" data-dropdown-toggle="dropdownAvatar" class="flex text-sm  rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button">
+                  <span class="sr-only">Open user menu</span>
+                  <img class="w-10 h-10 rounded-full" src="/assets/img/profile.png" alt="user photo">
+                </button>
+            </div>
+            <div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+              <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                <div>Bonnie Green</div>
+                <div class="font-medium truncate">nameflowbite.com</div>
+              </div>
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
 
-
-
-<button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button">
-<span class="sr-only">Open user menu</span>
-<img class="w-8 h-8 rounded-full" src="/assets/img/profile.png" alt="user photo">
-</button>
-
-<!-- Dropdown menu -->
-<div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-    <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-      <div>Bonnie Green</div>
-      <div class="font-medium truncate">nameflowbite.com</div>
-    </div>
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-      </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-      </li>
-    </ul>
-    <div class="py-2">
-      <a  (click)="logout()"  class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-    </div>
-</div>
-
-</div>
       </div>
-  </div>
-
-
   </nav>
 </header>
-
-

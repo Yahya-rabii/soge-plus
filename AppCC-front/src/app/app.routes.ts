@@ -19,7 +19,7 @@ export const routes: Routes = [
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
     // Add the dashboard route here
-    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
     { path: 'about', component: AboutComponent, canActivate: [AuthGuard] },
     { path: 'users', component: UserstableComponent,canActivate: [AuthGuard]  } ,
     { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },

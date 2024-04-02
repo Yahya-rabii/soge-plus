@@ -6,15 +6,22 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router ) { }
 
   async canActivate(): Promise<boolean> {
     if (this.authService.isLoggedIn()) {
         this.authService.getRoles().pipe( map((rolesObject: { roles: string[] }) => { // Assuming roles is an array of strings
           const rolesArray = rolesObject.roles;
       if (rolesArray.includes('ADMIN')) {
+        // window.location.href = '/admin'; this might cause a loop in the browser because the guard will be called again and again  so we use the router to navigate to the admin page
         this.router.navigate(['/admin']);
+        // to insure that the loading of the page is done before the guard returns true we use subscribe
+        return true;
       } else if (!rolesArray.includes('ADMIN')){
+       
+        if (window.location.href.includes('admin')) {
+          window.location.href = '/';
+        }
         return true;
 
       }

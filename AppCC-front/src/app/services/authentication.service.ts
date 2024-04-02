@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { User } from '../models/user.model';
 import { TokenRefreshService } from './token-refresh.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class AuthenticationService {
 
   constructor(
     private httpClient: HttpClient,
-    private tokenRefreshService: TokenRefreshService
+    private tokenRefreshService: TokenRefreshService, 
+    private router: Router
   ) { }
 
   login(username: string, password: string): Observable<any> {
@@ -53,10 +55,17 @@ export class AuthenticationService {
     const userId = localStorage.getItem('UserId') || '{}' ;
     return this.httpClient.post<any>(logoutUrl, userId)
       .pipe(
+    
+        // Clear data from local storage
+        tap(() => {
+          localStorage.clear();
+          this.router.navigate(['/login']);
+        }),
         catchError(error => {
           return throwError(error);
         })
       );
+    
   }
 
   isLoggedIn(): boolean {
@@ -79,4 +88,25 @@ export class AuthenticationService {
       })
     );
   }
+
+  isAdmin(): Observable<boolean> {
+    return this.getRoles().pipe(
+      map(answ => {
+        // Check if the roles array contains the admin role
+        if (answ.roles.includes('ADMIN')) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }),
+      catchError(error => {
+        // Handle errors
+        console.error('Error checking admin status:', error);
+        return of(false); // Return false in case of error
+      })
+    );
+  }
+  
+  
 }

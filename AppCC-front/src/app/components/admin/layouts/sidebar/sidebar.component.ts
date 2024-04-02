@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 //import mat-sidenav-container
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../../../services/authentication.service';
 
 
 
@@ -13,15 +14,17 @@ import { Router } from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SideBarComponent {
-  constructor( private router: Router ) { }
- 
-
-  isAdmin: boolean = false;
+  constructor(private authService: AuthenticationService, private router: Router) {}
   
+  logout() {
 
-  ngOnInit() {
     
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
   }
+
+
   showDropdown = false;
 
   toggleDropdown() {

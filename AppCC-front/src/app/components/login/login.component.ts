@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,7 @@ export class LoginComponent {
   username: string = '';
   password: string  ='';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService ) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthenticationService , private router: Router) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -62,9 +64,21 @@ export class LoginComponent {
   public login(username: string, password: string) {
     this.authService.login( username, password).subscribe(
       (response) => {
-        console.log(response);
-        window.location.href = '/';
         
+
+        this.authService.getRoles().pipe( map((rolesObject: { roles: string[] }) => { // Assuming roles is an array of strings
+          const rolesArray = rolesObject.roles;
+      if (rolesArray.includes('ADMIN')) {
+        window.location.href = '/admin';
+      } else if (!rolesArray.includes('ADMIN')){
+        window.location.href = '/';
+      }
+    } )).subscribe();
+
+
+
+
+
       },
       (error) => {
         console.log(error);
