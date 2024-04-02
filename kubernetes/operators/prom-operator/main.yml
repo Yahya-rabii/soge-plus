@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/version: "10.4.0"
     app.kubernetes.io/managed-by: Helm
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
 ---
 # Source: kube-prometheus-stack/charts/kube-state-metrics/templates/serviceaccount.yaml
 apiVersion: v1
@@ -27,14 +27,14 @@ metadata:
     app.kubernetes.io/version: "2.11.0"
     release: promgraf
   name: promgraf-kube-state-metrics
-  namespace: default
+  namespace: prom-operator
 ---
 # Source: kube-prometheus-stack/charts/prometheus-node-exporter/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: promgraf-prometheus-node-exporter
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: prometheus-node-exporter-4.32.0
     app.kubernetes.io/managed-by: Helm
@@ -111,7 +111,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -155,7 +155,7 @@ metadata:
     app.kubernetes.io/version: "10.4.0"
     app.kubernetes.io/managed-by: Helm
   name: promgraf-grafana-config-dashboards
-  namespace: default
+  namespace: prom-operator
 data:
   provider.yaml: |-
     apiVersion: 1
@@ -176,7 +176,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -205,7 +205,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: promgraf-kube-prometheus-s-grafana-datasource
-  namespace: default
+  namespace: prom-operator
   labels:
     grafana_datasource: "1"
     app: kube-prometheus-stack-grafana
@@ -243,7 +243,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-alertmanager-overview
   annotations:
     {}
@@ -266,7 +266,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-apiserver
   annotations:
     {}
@@ -289,7 +289,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-cluster-total
   annotations:
     {}
@@ -312,7 +312,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-controller-manager
   annotations:
     {}
@@ -335,7 +335,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-etcd
   annotations:
     {}
@@ -358,7 +358,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-grafana-overview
   annotations:
     {}
@@ -381,7 +381,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-coredns
   annotations:
     {}
@@ -404,7 +404,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-cluster
   annotations:
     {}
@@ -427,7 +427,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-multicluster
   annotations:
     {}
@@ -450,7 +450,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-namespace
   annotations:
     {}
@@ -473,7 +473,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-node
   annotations:
     {}
@@ -496,7 +496,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-pod
   annotations:
     {}
@@ -519,7 +519,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-workload
   annotations:
     {}
@@ -542,7 +542,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-k8s-resources-workloads-namespace
   annotations:
     {}
@@ -565,7 +565,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-kubelet
   annotations:
     {}
@@ -588,7 +588,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-namespace-by-pod
   annotations:
     {}
@@ -611,7 +611,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-namespace-by-workload
   annotations:
     {}
@@ -634,7 +634,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-node-cluster-rsrc-use
   annotations:
     {}
@@ -657,7 +657,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-node-rsrc-use
   annotations:
     {}
@@ -680,7 +680,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-nodes-darwin
   annotations:
     {}
@@ -703,7 +703,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-nodes
   annotations:
     {}
@@ -726,7 +726,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-persistentvolumesusage
   annotations:
     {}
@@ -749,7 +749,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-pod-total
   annotations:
     {}
@@ -772,7 +772,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-prometheus
   annotations:
     {}
@@ -795,7 +795,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-proxy
   annotations:
     {}
@@ -818,7 +818,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-scheduler
   annotations:
     {}
@@ -841,7 +841,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: default
+  namespace: prom-operator
   name: promgraf-kube-prometheus-s-workload-total
   annotations:
     {}
@@ -1197,7 +1197,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: promgraf-grafana
-    namespace: default
+    namespace: prom-operator
 roleRef:
   kind: ClusterRole
   name: promgraf-grafana-clusterrole
@@ -1224,7 +1224,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: promgraf-kube-state-metrics
-  namespace: default
+  namespace: prom-operator
 ---
 # Source: kube-prometheus-stack/templates/prometheus-operator/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1281,7 +1281,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -1295,7 +1295,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -1309,14 +1309,14 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
 ---
 # Source: kube-prometheus-stack/charts/grafana/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -1339,7 +1339,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: promgraf-kube-state-metrics
-  namespace: default
+  namespace: prom-operator
   labels:    
     helm.sh/chart: kube-state-metrics-5.18.0
     app.kubernetes.io/managed-by: Helm
@@ -1368,7 +1368,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: promgraf-prometheus-node-exporter
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: prometheus-node-exporter-4.32.0
     app.kubernetes.io/managed-by: Helm
@@ -1630,7 +1630,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: promgraf-prometheus-node-exporter
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: prometheus-node-exporter-4.32.0
     app.kubernetes.io/managed-by: Helm
@@ -1750,7 +1750,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -1953,7 +1953,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: promgraf-kube-state-metrics
-  namespace: default
+  namespace: prom-operator
   labels:    
     helm.sh/chart: kube-state-metrics-5.18.0
     app.kubernetes.io/managed-by: Helm
@@ -2129,7 +2129,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -5507,7 +5507,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: promgraf-grafana
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: grafana-7.3.7
     app.kubernetes.io/name: grafana
@@ -5535,7 +5535,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: promgraf-kube-state-metrics
-  namespace: default
+  namespace: prom-operator
   labels:    
     helm.sh/chart: kube-state-metrics-5.18.0
     app.kubernetes.io/managed-by: Helm
@@ -5560,7 +5560,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: promgraf-prometheus-node-exporter
-  namespace: default
+  namespace: prom-operator
   labels:
     helm.sh/chart: prometheus-node-exporter-4.32.0
     app.kubernetes.io/managed-by: Helm
