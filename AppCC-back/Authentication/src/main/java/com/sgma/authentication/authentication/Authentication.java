@@ -57,6 +57,14 @@ public class Authentication {
     @Value("${updateClient.Byid.endpoint}")
     private String updateClientById ;
 
+
+
+    @Value("${keycloak.auth.get.roles.endpoint}")
+    private String rolesEndpoint;
+
+    @Value("${keycloak.auth.getorCreate.users.endpoint}")
+    private String usersEndpoint;
+
     private List<String> roles = new ArrayList<>();
 
 
@@ -181,7 +189,7 @@ public class Authentication {
         }
         headers.setBearerAuth(accessToken);
         HttpEntity<Object> request = new HttpEntity<>(user, headers);
-        ResponseEntity<Map> response = restTemplate.postForEntity(authUrl , request, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity(authUrl + usersEndpoint , request, Map.class);
         System.out.println(response.getBody());
 
         if (response.getStatusCode() == HttpStatus.CREATED) {

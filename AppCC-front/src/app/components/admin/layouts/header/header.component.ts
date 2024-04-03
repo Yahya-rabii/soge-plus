@@ -1,6 +1,10 @@
 import { Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnInit } from '@angular/core';
+import { User } from '../../../../models/user.model';
+import { AuthenticationService } from '../../../../services/authentication.service';
+import { UsersService } from '../../../../services/user.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,15 +14,44 @@ import { OnInit } from '@angular/core';
   standalone: true
 })
 export class HeaderComponent implements OnInit{
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private authService: AuthenticationService, private userService: UsersService) { }
+
+
+  user: User = new User();
+
+
+
+  
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: (response) => {
+        console.log('Logged out successfully');
+      },
+      error: (error) => {
+        alert('An error occurred while logging out');
+      }
+    });
+  }
+  
+
 
   ngOnInit() {
+    this.getUser();
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {
       drawerNavigation.setAttribute('data-drawer-show', 'none');
     }
   }
 
+  getUser() {
+    from(this.userService.getUserById().then((user) => {
+      this.user = user;
+    }
+    ));
+    console.log(this.user);
+
+  }
 
   toggleSidebar() {
     const drawerNavigation = document.getElementById('drawer-navigation');
@@ -32,8 +65,8 @@ export class HeaderComponent implements OnInit{
   toggleUserDropdown() {
     const dropdownAvatar = document.getElementById('dropdownAvatar');
     if (dropdownAvatar) {
-      const isDropdownOpen = dropdownAvatar.classList.contains('hidden');
-      this.renderer.setStyle(dropdownAvatar, 'display', isDropdownOpen ? 'block' : 'none');
+      dropdownAvatar.classList.toggle('hidden');
     }
   }
+  
 }

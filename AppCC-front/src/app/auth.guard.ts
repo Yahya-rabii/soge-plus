@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
       } else if (!rolesArray.includes('ADMIN')){
        
         if (window.location.href.includes('admin')) {
-          window.location.href = '/';
+          window.location.href = '/inte';
         }
         return true;
 

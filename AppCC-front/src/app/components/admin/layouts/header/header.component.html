@@ -1,35 +1,48 @@
-<header>
-  <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-      <div class="flex justify-between  ">
-        
-           <div class="relative flex items-center left-10">
-            <div id="drawer-navigation-label" (click)="toggleSidebar()" class="cursor-pointer text-base font-semibold text-red-700 uppercase dark:text-gray-400 flex"type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
-              <img src="/assets/logosg.png" class="h-10" alt="Flowbite Logo" />
-              SOGE-SIGN™ 
-            </div>
-          </div>
-        
-          <div class="relative flex items-center right-10">
-            <div class="flex items-center lg:order-2">
-                <button id="dropdownUserAvatarButton" (click)="toggleUserDropdown()" data-dropdown-toggle="dropdownAvatar" class="flex text-sm  rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" type="button">
-                  <span class="sr-only">Open user menu</span>
-                  <img class="w-10 h-10 rounded-full" src="/assets/img/profile.png" alt="user photo">
-                </button>
-            </div>
-            <div id="dropdownAvatar" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-              <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                <div>Bonnie Green</div>
-                <div class="font-medium truncate">nameflowbite.com</div>
-              </div>
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
-                <li>
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                </li>
-              </ul>
-            </div>
-          </div>
+<nav class="bg-white border-gray-900 dark:bg-gray-900 border-b top-0 left-0 w-full relative">
+  <div class="flex justify-between items-center mx-auto p-6">
 
-
+    <!-- Logo aligned to the left -->
+    <div class="flex items-center">
+      <div id="drawer-navigation-label" (click)="toggleSidebar()"
+        class="cursor-pointer text-base font-semibold text-red-700 uppercase dark:text-gray-400 flex" type="button"
+        data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+        <img src="/assets/logosg.png" class="h-10" alt="Flowbite Logo" />
+        SOGE-SIGN™
       </div>
-  </nav>
-</header>
+    </div>
+
+    <div class="flex mr-10 items-center space-x-6">
+
+      
+
+      <div class="relative">
+        <button id="dropdownUserAvatarButton" (click)="toggleUserDropdown()" data-dropdown-toggle="dropdownAvatar"
+          class="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+          type="button">
+          <span class="sr-only">Toggle user menu</span>
+          <img class="w-10 h-10 rounded-full" src="/assets/img/profile.png" alt="user photo">
+        </button>
+        <div id="dropdownAvatar"
+          class="absolute top-full left-1/2 transform -translate-x-1/2 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+
+          <div class="px-4 py-3 text-sm text-center text-gray-900 dark:text-white">
+            <div class="font-medium truncate text-black"><strong>{{user.username}}</strong></div>
+            <div class="font-medium truncate text-red-700">{{user.email}}</div>
+          </div>
+
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
+            <li>
+              <a href="#"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+            </li>
+            <li>
+              <a (click)="logout()"
+                class="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>

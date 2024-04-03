@@ -19,7 +19,7 @@ export class NavBarComponent implements OnInit {
   constructor(private authService: AuthenticationService , private router: Router ,  private renderer: Renderer2 , private userService: UsersService) {}
   user: User = new User();
   isAdmin: boolean = false;
-
+ 
 
   
 
@@ -39,7 +39,18 @@ export class NavBarComponent implements OnInit {
     this.getUser();
     this.authService.isAdmin().subscribe(isAdmin => {
       this.isAdmin = isAdmin;
+      // set the init css style from display none to be visible
+      if (! isAdmin) {
+        const navBar = document.getElementById('init');
+        this.renderer.setStyle(navBar, 'display', 'block');
+      }
     });
+    const drawerNavigation = document.getElementById('drawer-navigation');
+    if (drawerNavigation) {
+      drawerNavigation.setAttribute('data-drawer-show', 'none');
+    }   
+      
+ 
   }
 
 
@@ -49,7 +60,16 @@ export class NavBarComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
+  login() {
+    this.router.navigate(['/login']);
+  }
+  signup() {
+    this.router.navigate(['/signup']);
+  }
 
+  applyLoan() {
+    this.router.navigate(['/loan/createloan']);
+  }
 
   getUser() {
     from(this.userService.getUserById().then((user) => {
@@ -67,4 +87,18 @@ export class NavBarComponent implements OnInit {
       this.renderer.setStyle(dropdownAvatar, 'display', isDropdownOpen ? 'block' : 'none');
     }
   }
+
+
+  toggleSidebar() {
+    const drawerNavigation = document.getElementById('drawer-navigation');
+    if (drawerNavigation) {
+      const isDrawerOpen = drawerNavigation.getAttribute('data-drawer-show') === 'drawer-navigation';
+      const newDrawerState = isDrawerOpen ? 'none' : 'drawer-navigation';
+      drawerNavigation.setAttribute('data-drawer-show', newDrawerState);
+    }
+  }
+
+
+
+
 }
