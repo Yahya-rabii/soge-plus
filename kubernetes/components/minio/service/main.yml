@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: minio
+  name: minio-service
+  labels:
+    app: minio
+spec:
+  selector:
+    app: minio
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9090
+  type: NodePort
