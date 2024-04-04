@@ -59,7 +59,7 @@ export class AuthenticationService {
         // Clear data from local storage
         tap(() => {
           localStorage.clear();
-          this.router.navigate(['/login']);
+          window.location.href = "/login"
         }),
         catchError(error => {
           return throwError(error);

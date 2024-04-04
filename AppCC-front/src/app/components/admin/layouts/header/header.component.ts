@@ -5,12 +5,13 @@ import { User } from '../../../../models/user.model';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { UsersService } from '../../../../services/user.service';
 import { from } from 'rxjs';
+import { SideBarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  imports: [CommonModule],
+  imports: [SideBarComponent,CommonModule],
   standalone: true
 })
 export class HeaderComponent implements OnInit{

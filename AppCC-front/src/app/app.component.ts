@@ -7,11 +7,12 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { OnInit } from '@angular/core';
 
 import { initFlowbite } from 'flowbite';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,LoginComponent , FooterComponent , NavBarComponent],
+  imports: [CarouselComponent,CommonModule, RouterOutlet,LoginComponent , FooterComponent , NavBarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 
@@ -24,7 +25,19 @@ export class AppComponent implements OnInit {
     initFlowbite();
 
   }
-
+  home(): boolean {
+    // Get the current URL
+    const currentUrl = window.location.href;
+  
+    // Check if the current URL ends with '/'
+    if (currentUrl.endsWith('/')) {
+      
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
   
 
 }

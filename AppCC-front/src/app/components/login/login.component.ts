@@ -62,30 +62,29 @@ export class LoginComponent {
 
   // Method to handle login
   public login(username: string, password: string) {
-    this.authService.login( username, password).subscribe(
-      (response) => {
-        
-
-        this.authService.getRoles().pipe( map((rolesObject: { roles: string[] }) => { // Assuming roles is an array of strings
+    this.authService.login(username, password).subscribe(
+      () => {
+        this.authService.getRoles().subscribe((rolesObject: { roles: string[] }) => {
           const rolesArray = rolesObject.roles;
-      if (rolesArray.includes('ADMIN')) {
-        window.location.href = '/admin';
-      } else if (!rolesArray.includes('ADMIN')){
-        window.location.href = '/';
-      }
-    } )).subscribe();
-
-
-
-
-
+          if (rolesArray.includes('ADMIN')) {
+           window.location.href = "/admin"
+          } else {
+            
+            window.location.href = "/"
+          }
+        }, error => {
+          console.error('Error fetching user roles:', error);
+          // Handle error appropriately, e.g., show an error message or navigate to a fallback route
+          this.router.navigate(['/error']); // Example of navigating to an error page
+        });
       },
       (error) => {
-        console.log(error);
+        console.error('Error logging in:', error);
         alert('Wrong username or password');
       }
     );
   }
+  
 
 }
 

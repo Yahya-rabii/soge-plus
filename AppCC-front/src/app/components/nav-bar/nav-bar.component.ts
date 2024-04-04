@@ -44,6 +44,10 @@ export class NavBarComponent implements OnInit {
         const navBar = document.getElementById('init');
         this.renderer.setStyle(navBar, 'display', 'block');
       }
+      else {
+        
+        
+      }
     });
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {
