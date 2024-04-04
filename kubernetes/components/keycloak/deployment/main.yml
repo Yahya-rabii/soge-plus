@@ -18,8 +18,25 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:24.0.2
-          args: ["start-dev"]
+          command: ["/opt/keycloak/bin/kc.sh"]
+          args: ["start"]
           env:
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KC_METRICS_ENABLED
+              value: "true"
+
+            - name: KC_HOSTNAME
+              value: "minikube-keycloak.socgen.com"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://dpg-co6iu9kf7o1s73dk977g-a.oregon-postgres.render.com:5432/socgendefault"
+            - name: KC_DB_USERNAME
+              value: "socgen"
+            - name: KC_DB_PASSWORD
+              value: "tAGYwXJHQoLwMaqbeIYlSV5S0Qmncpcr"
+
             - name: KEYCLOAK_ADMIN
               value: "admin"
             - name: KEYCLOAK_ADMIN_PASSWORD
@@ -27,21 +44,17 @@ spec:
             - name: KC_PROXY
               value: "edge"
             - name: KC_HTTPS_CERTIFICATE_FILE
-              value: "/etc/tls/tls.crt"
+              value: "/etc/tls/tls.crt"   # Update path to reflect subdirectory
             - name: KC_HTTPS_CERTIFICATE_KEY_FILE
-              value: "/etc/tls/tls.key"
+              value: "/etc/tls/tls.key"   # Update path to reflect subdirectory
           ports:
             - name: http
               containerPort: 8080
             - name: https
               containerPort: 8443
-          readinessProbe:
-            httpGet:
-              path: /realms/master
-              port: 8080
           volumeMounts:
             - name: host-etc
-              mountPath: "/etc/tls"
+              mountPath: "/etc/tls"   # Mount to a subdirectory within /etc
       volumes:
         - name: host-etc
           hostPath:

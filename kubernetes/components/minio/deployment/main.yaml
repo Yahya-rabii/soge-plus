@@ -34,4 +34,4 @@ spec:
       - name: localvolume
         hostPath: # MinIO generally recommends using locally-attached volumes
           path: /mnt/disk1/data # Specify a path to a local drive or volume on the Kubernetes worker node
-          type: DirectoryOrCreate # The path to the last directory must exist
+          type: DirectoryOrCreate
