@@ -39,9 +39,18 @@ export class HeaderComponent {
 
   toggleSidebar() {
     this.showSidebar = !this.showSidebar;
+    if (this.showSidebar) {
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.classList.remove('sidebar-open');
+    }
   }
-
+  
+  
   toggleUserDropdown() {
-    // Add your logic here to toggle the user dropdown
+    const dropdownAvatar = document.getElementById('dropdownAvatar');
+    if (dropdownAvatar) {
+      dropdownAvatar.classList.toggle('hidden');
+    }
   }
 }

@@ -1,0 +1,26 @@
+.admin-navbar {
+    z-index: 10;
+}
+
+.profile-dropdown-list {
+    position: absolute;
+    top: 9;
+    right: -3;
+    margin-top: 2;
+    display: flex;
+    width: 60;
+    flex-direction: column;
+    gap: 3;
+    border-radius: xl;
+    background-color: slate-100;
+    border: 1px solid rgba(slate-500, 0.3);
+    padding: 4;
+    box-shadow: lg;
+    transition: ease-in-out 150ms;
+}
+
+.profile-dropdown-list[aria-expanded=false] {
+    visibility: hidden;
+    transform: scale(0.9);
+    opacity: 0;
+}
