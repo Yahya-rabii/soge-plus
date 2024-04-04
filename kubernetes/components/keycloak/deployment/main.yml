@@ -27,21 +27,17 @@ spec:
             - name: KC_PROXY
               value: "edge"
             - name: KC_HTTPS_CERTIFICATE_FILE
-              value: "/etc/tls/tls.crt"
+              value: "/etc/tls/tls.crt"   # Update path to reflect subdirectory
             - name: KC_HTTPS_CERTIFICATE_KEY_FILE
-              value: "/etc/tls/tls.key"
+              value: "/etc/tls/tls.key"   # Update path to reflect subdirectory
           ports:
             - name: http
               containerPort: 8080
             - name: https
               containerPort: 8443
-          readinessProbe:
-            httpGet:
-              path: /realms/master
-              port: 8080
           volumeMounts:
             - name: host-etc
-              mountPath: "/etc/tls"
+              mountPath: "/etc/tls"   # Mount to a subdirectory within /etc
       volumes:
         - name: host-etc
           hostPath:

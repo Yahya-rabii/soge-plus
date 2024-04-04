@@ -18,8 +18,20 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 kubectl create --recursive -f crds
 kubectl apply --recursive -f namespaces
 
-kubectl apply --recursive -f operators/prom-operator
-apply --recursive -f components
+kubectl create --recursive -f crds
+kubectl apply --recursive -f namespaces
+
+kubectl apply -f operators/cert-manager
+kubectl apply -f operators/prom-operator
+kubectl apply -n argocd -f operators/argocd
+
+
+kubectl apply --recursive -f secrets
+kubectl apply --recursive -f clusterissuers
+
+kubectl apply --recursive -f components
+kubectl apply --recursive -f ingresses
+
 
 
 
