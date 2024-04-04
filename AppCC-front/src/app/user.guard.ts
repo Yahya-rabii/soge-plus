@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +9,23 @@ import { Observable, of } from 'rxjs';
 export class UserGuard implements CanActivate {
   constructor(private authService: AuthenticationService, private router: Router) { }
 
-  async canActivate(): Promise<boolean> {
+  canActivate(): boolean {
     try {
-      const rolesObject = await this.authService.getRoles();
-      const isAdmin = rolesObject.roles.includes('ADMIN');
-      if (isAdmin) {
-        this.router.navigate(['/admin']);
-        return false;
-      }
+      const rolesObject = this.authService.getRoles().then((role) => {
+        const isAdmin = role.roles.includes('ADMIN');
+        if (isAdmin) {
+          this.router.navigate(['/admin']);
+          return Promise.resolve(false);
+        } else {
+          this.router.navigate(['/']);
+          return Promise.resolve(true);
+        }
+      });
+  
       return true;
     } catch (error) {
-      console.error('Error in UserGuard:', error);
       this.router.navigate(['/login']);
-      return false;
+      return false
     }
   }
 }
