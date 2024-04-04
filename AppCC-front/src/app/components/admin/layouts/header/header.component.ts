@@ -1,28 +1,33 @@
-import { Component, Renderer2 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { OnInit } from '@angular/core';
-import { User } from '../../../../models/user.model';
+import { Component } from '@angular/core';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { UsersService } from '../../../../services/user.service';
-import { from } from 'rxjs';
+import { User } from '../../../../models/user.model';
+import { CommonModule } from '@angular/common';
 import { SideBarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  imports: [SideBarComponent,CommonModule],
+  imports: [CommonModule ,SideBarComponent],
   standalone: true
 })
-export class HeaderComponent implements OnInit{
-  constructor(private renderer: Renderer2, private authService: AuthenticationService, private userService: UsersService) { }
-
-
+export class HeaderComponent {
   user: User = new User();
+  showSidebar: boolean = false;
 
+  constructor(private authService: AuthenticationService, private userService: UsersService) { }
 
+  ngOnInit() {
+    this.getUser();
+  }
 
-  
+  getUser() {
+    this.userService.getUserById().then((user) => {
+      this.user = user;
+    }).catch(error => console.error('Error fetching user:', error));
+  }
+
   logout() {
     this.authService.logout().then(() => {
       console.log('Logged out successfully');
@@ -31,43 +36,12 @@ export class HeaderComponent implements OnInit{
       alert('An error occurred while logging out');
     });
   }
-  
-  
-
-
-  ngOnInit() {
-    this.getUser();
-    const drawerNavigation = document.getElementById('drawer-navigation');
-    if (drawerNavigation) {
-      drawerNavigation.setAttribute('data-drawer-show', 'none');
-    }
-  }
-
-  getUser() {
-    from(this.userService.getUserById().then((user) => {
-      this.user = user;
-    }
-    ));
-    console.log(this.user);
-
-  }
 
   toggleSidebar() {
-    
-    console.log("232312312312321")
-    const drawerNavigation = document.getElementById('drawer-navigation');
-    if (drawerNavigation) {
-      const isDrawerOpen = drawerNavigation.getAttribute('data-drawer-show') === 'drawer-navigation';
-      const newDrawerState = isDrawerOpen ? 'none' : 'drawer-navigation';
-      drawerNavigation.setAttribute('data-drawer-show', newDrawerState);
-    }
+    this.showSidebar = !this.showSidebar;
   }
 
   toggleUserDropdown() {
-    const dropdownAvatar = document.getElementById('dropdownAvatar');
-    if (dropdownAvatar) {
-      dropdownAvatar.classList.toggle('hidden');
-    }
+    // Add your logic here to toggle the user dropdown
   }
-  
 }

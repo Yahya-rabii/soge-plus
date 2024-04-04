@@ -1,16 +1,12 @@
 <nav class="bg-white border-gray-900 dark:bg-gray-900 border-b top-0 left-0 w-full relative">
   <div class="flex justify-between items-center mx-auto p-6">
-
     <!-- Logo aligned to the left -->
     <div class="flex items-center">
-      <div id="drawer-navigation-label" (click)="toggleSidebar()"
-        class="cursor-pointer text-base font-semibold text-red-700 uppercase dark:text-gray-400 flex" type="button"
-        data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+      <div (click)="toggleSidebar()" class="cursor-pointer text-base font-semibold text-red-700 uppercase dark:text-gray-400 flex" type="button">
         <img src="/assets/logosg.png" class="h-10" alt="Flowbite Logo" />
         SOGE-SIGN™
       </div>
     </div>
-
     <div class="flex mr-10 items-center space-x-6">
 
       
@@ -46,3 +42,5 @@
     </div>
   </div>
 </nav>
+
+<app-side-bar *ngIf="showSidebar" (closeSidebar)="toggleSidebar()"></app-side-bar>
