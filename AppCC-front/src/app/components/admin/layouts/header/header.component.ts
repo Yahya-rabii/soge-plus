@@ -15,7 +15,6 @@ import { SideBarComponent } from '../sidebar/sidebar.component';
 export class HeaderComponent {
   user: User = new User();
   showSidebar: boolean = false;
-
   constructor(private authService: AuthenticationService, private userService: UsersService) { }
 
   ngOnInit() {

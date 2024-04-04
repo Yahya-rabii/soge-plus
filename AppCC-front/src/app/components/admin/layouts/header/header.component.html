@@ -1,5 +1,4 @@
-<nav class="bg-white border-gray-900 dark:bg-gray-900 border-b top-0 left-0 w-full relative">
-    
+<nav class="bg-white border-gray-900 dark:bg-gray-900 border-b top-0 left-0 w-full relative">    
     <div class="flex justify-between items-center mx-auto p-6">
       <!-- Logo aligned to the left -->
       <div class="flex items-center">
@@ -45,3 +44,4 @@
 </nav>
 
 <app-side-bar *ngIf="showSidebar" (closeSidebar)="toggleSidebar()"></app-side-bar>
+<div *ngIf="showSidebar" class="fixed top-0 left-0 z-30 w-screen h-screen bg-black opacity-50" (click)="toggleSidebar()"></div>
