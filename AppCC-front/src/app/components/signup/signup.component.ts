@@ -36,7 +36,7 @@ export class SignupComponent {
   }
 
   // Method to handle form submission
-  public Submit() {
+  public async Submit() {
     if (this.signupForm.invalid) {
       alert('Please enter valid details');
       return;
@@ -51,7 +51,7 @@ export class SignupComponent {
 
     const credentials = [new Credential('password', formData.password)];
     const address = new Address(formData.street, formData.city, formData.postalCode, formData.country);
-    const { username, firstName, lastName, email, street, city, postalCode, country } = formData;
+    const { username, firstName, lastName, email } = formData;
 
     this.user.set_attributes(
       username,
@@ -62,21 +62,22 @@ export class SignupComponent {
       address
     );
 
-    this.signUp(this.user);
+    try {
+      await this.signUp(this.user);
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.log(error);
+      alert('An error occurred while signing up');
+    }
   }
 
   // Method to handle signup
-  public signUp(user: User) {
-    this.authService.signup(user).subscribe(
-      (response) => {
-        console.log(response);
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.log(error);
-        alert('An error occurred while signing up');
-      }
-    );
+  public async signUp(user: User) {
+    try {
+      await this.authService.signup(user);
+    } catch (error) {
+      throw error;
+    }
   }
 
   // Method to navigate to next form section

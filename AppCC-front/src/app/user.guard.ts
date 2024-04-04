@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class UserGuard implements CanActivate {
   constructor(private authService: AuthenticationService, private router: Router) { }
 
   async canActivate(): Promise<boolean> {
@@ -15,12 +15,12 @@ export class AdminGuard implements CanActivate {
       const rolesObject = await this.authService.getRoles();
       const isAdmin = rolesObject.roles.includes('ADMIN');
       if (isAdmin) {
-        return true;
+        this.router.navigate(['/admin']);
+        return false;
       }
-      this.router.navigate(['/']);
-      return false;
+      return true;
     } catch (error) {
-      console.error('Error in AdminGuard:', error);
+      console.error('Error in UserGuard:', error);
       this.router.navigate(['/login']);
       return false;
     }

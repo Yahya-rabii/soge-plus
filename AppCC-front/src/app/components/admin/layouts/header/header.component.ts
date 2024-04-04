@@ -23,17 +23,15 @@ export class HeaderComponent implements OnInit{
 
 
   
-
   logout() {
-    this.authService.logout().subscribe({
-      next: (response) => {
-        console.log('Logged out successfully');
-      },
-      error: (error) => {
-        alert('An error occurred while logging out');
-      }
+    this.authService.logout().then(() => {
+      console.log('Logged out successfully');
+    }).catch((error) => {
+      console.error('Error logging out:', error);
+      alert('An error occurred while logging out');
     });
   }
+  
   
 
 
@@ -55,6 +53,8 @@ export class HeaderComponent implements OnInit{
   }
 
   toggleSidebar() {
+    
+    console.log("232312312312321")
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {
       const isDrawerOpen = drawerNavigation.getAttribute('data-drawer-show') === 'drawer-navigation';

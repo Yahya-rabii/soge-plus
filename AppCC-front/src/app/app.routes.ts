@@ -14,9 +14,10 @@ import { DisplayLoanUserComponent } from './components/loan/display-loan-user/di
 import { ContractsComponent } from './components/admin/views/contracts/contracts.component';    
 import { LoansRequestsComponent } from './components/admin/views/loans-requests/loans-requests.component';
 import { AdminGuard } from './admin.guard';
+import { UserGuard } from './user.guard';
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // Protecting the home route
+    { path: '', component: HomeComponent, canActivate: [AuthGuard,UserGuard]  }, // Protecting the home route
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
     // Add the dashboard route here
