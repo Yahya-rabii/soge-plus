@@ -2,8 +2,8 @@ minikube start --container-runtime=containerd --memory 5120 --cpus 4 --driver do
 
 minikube addons enable ingress
 
-minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/
-minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/
+minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/tls/tls.key
+minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/tls/tls.crt
 
 
 token="YOUR DOCKER CONTAINER RUNTIME TOKEN" 

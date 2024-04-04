@@ -35,6 +35,10 @@ spec:
               containerPort: 8080
             - name: https
               containerPort: 8443
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8080
           volumeMounts:
             - name: host-etc
               mountPath: "/etc/tls"   # Mount to a subdirectory within /etc
