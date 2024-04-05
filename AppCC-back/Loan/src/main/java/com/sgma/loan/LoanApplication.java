@@ -15,10 +15,4 @@ public class LoanApplication {
 	}
 
 
-
-// create a bean to connect and configure minio for file storage
-
-
-
-
 }

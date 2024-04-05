@@ -1,24 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { UsersService } from '../../../../services/user.service';
 import { User } from '../../../../models/user.model';
 import { CommonModule } from '@angular/common';
-import { SideBarComponent } from '../sidebar/sidebar.component';
+import { SideBarAdminComponent } from '../side-bar-admin/side.bar.admin.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
-  imports: [CommonModule ,SideBarComponent],
+  templateUrl: './nav.bar.admin.component.html',
+  styleUrls: ['./nav.bar.admin.component.css'],
+  imports: [CommonModule ,SideBarAdminComponent],
   standalone: true
 })
-export class HeaderComponent {
+export class NavBarAdminComponent {
   user: User = new User();
   showSidebar: boolean = false;
-  constructor(private authService: AuthenticationService, private userService: UsersService) { }
-
+  constructor(private authService: AuthenticationService, private userService: UsersService , private router : Router, private renderer: Renderer2) { }
+  isAdmin: boolean = false;
   ngOnInit() {
     this.getUser();
+    
+    this.authService.isAdmin().then((isAdmin) =>
+    {
+      this.isAdmin = isAdmin;
+    });
   }
 
   getUser() {
@@ -49,7 +55,26 @@ export class HeaderComponent {
   toggleUserDropdown() {
     const dropdownAvatar = document.getElementById('dropdownAvatar');
     if (dropdownAvatar) {
-      dropdownAvatar.classList.toggle('hidden');
+      const isDropdownOpen = dropdownAvatar.classList.contains('hidden');
+      this.renderer.setStyle(dropdownAvatar, 'display', isDropdownOpen ? 'block' : 'none');
     }
   }
+
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
+  login() {
+    this.router.navigate(['/login']);
+  }
+
+  signup() {
+    this.router.navigate(['/signup']);
+  }
+
+  applyLoan() {
+    this.router.navigate(['/loan/createloan']);
+  }
+
 }

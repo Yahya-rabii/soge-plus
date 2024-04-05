@@ -5,15 +5,14 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../../services/authentication.service';
 
 
-
 @Component({
   selector: 'app-side-bar',
   standalone: true,
   imports: [CommonModule ],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+  templateUrl: './side.bar.admin.component.html',
+  styleUrl: './side.bar.admin.component.css'
 })
-export class SideBarComponent {
+export class SideBarAdminComponent {
   constructor(private authService: AuthenticationService, private router: Router) {}
   @Output() closeSidebar = new EventEmitter<void>();
 

@@ -1,0 +1,17 @@
+
+<div *ngIf="!isAdmin">
+<app-nav-bar></app-nav-bar>
+<router-outlet></router-outlet>
+<app-footer class="mt-20"></app-footer>
+</div>
+
+
+
+<div *ngIf="isAdmin" class="flex w-full items-start font-sans  bg-gray-200">
+    <div class="flex-1">
+      <app-header></app-header>
+      <main class="min-h-screen p-8">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+</div>
