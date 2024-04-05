@@ -1,7 +1,6 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../../services/authentication.service';
 import { UsersService } from '../../../../services/user.service';
-import { User } from '../../../../models/user.model';
 import { CommonModule } from '@angular/common';
 import { SideBarAdminComponent } from '../side-bar-admin/side.bar.admin.component';
 import { Router } from '@angular/router';
@@ -14,24 +13,16 @@ import { Router } from '@angular/router';
   standalone: true
 })
 export class NavBarAdminComponent {
-  user: User = new User();
   showSidebar: boolean = false;
   constructor(private authService: AuthenticationService, private userService: UsersService , private router : Router, private renderer: Renderer2) { }
   isAdmin: boolean = false;
   ngOnInit() {
-    this.getUser();
-    
     this.authService.isAdmin().then((isAdmin) =>
     {
       this.isAdmin = isAdmin;
     });
   }
 
-  getUser() {
-    this.userService.getUserById().then((user) => {
-      this.user = user;
-    }).catch(error => console.error('Error fetching user:', error));
-  }
 
   logout() {
     this.authService.logout().then(() => {
@@ -52,14 +43,22 @@ export class NavBarAdminComponent {
   }
   
   
-  toggleUserDropdown() {
-    const dropdownAvatar = document.getElementById('dropdownAvatar');
-    if (dropdownAvatar) {
-      const isDropdownOpen = dropdownAvatar.classList.contains('hidden');
-      this.renderer.setStyle(dropdownAvatar, 'display', isDropdownOpen ? 'block' : 'none');
-    }
-  }
+  @ViewChild('dropdownAvatar') dropdownAvatar!: ElementRef;
 
+  isDropdownOpen: boolean = false;
+
+
+  toggleUserDropdown() {
+    if (this.isDropdownOpen) {
+      // Close the dropdown
+      this.dropdownAvatar.nativeElement.classList.add('hidden');
+    } else {
+      // Open the dropdown
+      this.dropdownAvatar.nativeElement.classList.remove('hidden');
+    }
+    // Toggle the dropdown state
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
