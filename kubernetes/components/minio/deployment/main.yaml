@@ -6,7 +6,7 @@ metadata:
   name: minio-deployment
   namespace: minio
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: minio
@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         app: minio
-    spec: # Moved spec here to correct indentation
+    spec:
       containers:
       - name: minio
         image: quay.io/minio/minio:latest
@@ -27,11 +27,11 @@ spec:
         - minio server /data --console-address :9090
         volumeMounts:
         - mountPath: /data
-          name: localvolume # Corresponds to the `spec.volumes` Persistent Volume
+          name: localvolume
       nodeSelector:
-        kubernetes.io/hostname: minikube # Specify a node label associated to the Worker Node on which you want to deploy the pod.
+        kubernetes.io/hostname: minikube
       volumes:
       - name: localvolume
-        hostPath: # MinIO generally recommends using locally-attached volumes
-          path: /mnt/disk1/data # Specify a path to a local drive or volume on the Kubernetes worker node
+        hostPath:
+          path: /mnt/disk1/data
           type: DirectoryOrCreate
