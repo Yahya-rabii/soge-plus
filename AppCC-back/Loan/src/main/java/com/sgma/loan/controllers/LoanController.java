@@ -59,7 +59,7 @@ public class LoanController {
         return new ResponseEntity<>(savedLoan, HttpStatus.OK);
     }
 
-    @PutMapping("/updateLoan/{id}")
+    @PutMapping("/updateLoanN/{id}")
     public ResponseEntity<Loan> updateLoanN(@PathVariable Long id,
                                            @RequestBody Loan updatedLoan){
         Loan savedLoan = loanService.updateLoanN(id, updatedLoan);

@@ -51,8 +51,7 @@ export class LoanService {
     try {
       const response = await fetch(url);
       const data = await response.json();      
-      console.log('Loan Data:', data);
-      
+      this.Loans = [];
       //loop over the data and create a table of loans
       for (let i = 0; i < data.length; i++) {
         this.Loans.push(new Loan(
@@ -74,7 +73,6 @@ export class LoanService {
          
         ));
       }
-      console.log('Loans:', this.Loans);
 
       return this.Loans;
 

@@ -15,6 +15,8 @@ import { LoansRequestsComponent } from '../components/admin/views/loans-requests
 import { AdminGuard } from '../guards/admin.guard';
 import { UserGuard } from '../guards/user.guard';
 import { DashboardComponent } from '../components/admin/views/dashboard/dashboard.component';
+import { MyLoansComponent } from '../components/loan/my-loans/my-loans.component';
+
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
     { path: '', component: HomeComponent, canActivate: [AuthGuard,UserGuard]  }, // Protecting the home route
@@ -26,6 +28,7 @@ export const routes: Routes = [
     { path: 'users', component: UserstableComponent,canActivate: [AuthGuard]  } ,
     { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },
     { path: 'loan/confirmation', component: ValidationFormComponent,canActivate: [AuthGuard]  },
+    { path: 'myloans', component: MyLoansComponent,canActivate: [AuthGuard]  },
     { path: 'loansRequests', component: LoansRequestsComponent,canActivate: [AdminGuard]  },
     { path: 'privacypolicy', component: PrivacypolicyComponent,canActivate: [AuthGuard]  },
     { path: 'contact', component: ContactComponent,canActivate: [AuthGuard]  },

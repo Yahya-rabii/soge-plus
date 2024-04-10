@@ -29,6 +29,12 @@ export class SideBarUserComponent {
     this.closeSidebar.emit();
 
   }
+
+  MyLoans(){
+    this.router.navigate(['/myloans']);
+    this.closeSidebar.emit();
+
+  }
   applyLoan() {
     this.router.navigate(['/loan/createloan']);
     this.closeSidebar.emit();
