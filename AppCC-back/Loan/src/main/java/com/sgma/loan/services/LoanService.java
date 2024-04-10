@@ -113,6 +113,17 @@ public class LoanService {
         }
     }
 
+    public Loan updateLoanN(Long id, Loan loan){
+        if (loanRepository.existsById(id)) {
+
+            // normal update
+            return loanRepository.save(loan);
+
+        } else {
+            throw new IllegalArgumentException("Loan with id " + id + " does not exist.");
+        }
+    }
+
     public void deleteLoan(Long id) throws ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InternalException, ServerException, InvalidResponseException, InsufficientDataException {
         Optional<Loan> optionalLoan = loanRepository.findById(id);
         if (optionalLoan.isPresent()) {

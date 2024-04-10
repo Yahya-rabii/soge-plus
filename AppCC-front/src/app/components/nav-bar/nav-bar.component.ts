@@ -5,11 +5,13 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { OnInit } from '@angular/core';
+import { SideBarUserComponent } from '../side-bar-user/side-bar-user.component';
+
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,SideBarUserComponent],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
@@ -23,18 +25,10 @@ export class NavBarComponent implements OnInit {
   ) {}
 
   user: User = new User();
-  isAdmin: boolean = false;
 
   ngOnInit() {
     this.getUser();
-    this.authService.isAdmin().then(isAdmin => {
-      this.isAdmin = isAdmin;
-      // set the init css style from display none to be visible
-      if (!isAdmin) {
-        const navBar = document.getElementById('init');
-        this.renderer.setStyle(navBar, 'display', 'block');
-      }
-    });
+  
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {
       drawerNavigation.setAttribute('data-drawer-show', 'none');
@@ -54,9 +48,6 @@ export class NavBarComponent implements OnInit {
     this.router.navigate(['/signup']);
   }
 
-  applyLoan() {
-    this.router.navigate(['/loan/createloan']);
-  }
 
   async getUser() {
     try {
@@ -85,12 +76,20 @@ export class NavBarComponent implements OnInit {
     }
   }
 
+  showSidebar: boolean = false;
+
+  
   toggleSidebar() {
-    const drawerNavigation = document.getElementById('drawer-navigation');
-    if (drawerNavigation) {
-      const isDrawerOpen = drawerNavigation.getAttribute('data-drawer-show') === 'drawer-navigation';
-      const newDrawerState = isDrawerOpen ? 'none' : 'drawer-navigation';
-      drawerNavigation.setAttribute('data-drawer-show', newDrawerState);
+   if(this.isLoggedIn()){
+    this.showSidebar = !this.showSidebar;
+    if (this.showSidebar) {
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.classList.remove('sidebar-open');
     }
+   }
   }
+
+
+  
 }

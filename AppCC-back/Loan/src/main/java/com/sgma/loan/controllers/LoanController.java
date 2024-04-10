@@ -59,6 +59,15 @@ public class LoanController {
         return new ResponseEntity<>(savedLoan, HttpStatus.OK);
     }
 
+    @PutMapping("/updateLoan/{id}")
+    public ResponseEntity<Loan> updateLoanN(@PathVariable Long id,
+                                           @RequestBody Loan updatedLoan){
+        Loan savedLoan = loanService.updateLoanN(id, updatedLoan);
+        return new ResponseEntity<>(savedLoan, HttpStatus.OK);
+    }
+
+
+
     @DeleteMapping("/deleteLoan/{id}")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id) throws Exception {
         loanService.deleteLoan(id);
@@ -87,5 +96,17 @@ public class LoanController {
 
         Loan createdLoan = loanService.createLoan(newLoan, signature, cinCartRecto, cinCartVerso);
         return new ResponseEntity<>(createdLoan, HttpStatus.CREATED);
+    }
+
+
+
+    @PostMapping("/approveLoan/{id}")
+    public ResponseEntity<Loan> approveLoan(@PathVariable Long id  , @RequestBody boolean approved) {
+
+        Loan loan =  loanService.getLoanById(id).orElse(null);
+        assert loan != null; loan.setStatus(approved ? Status.APPROVED : Status.REJECTED);
+
+        return updateLoanN(loan.getId() , loan );
+        // todo  :  send an email to the requester telling  him that his loan has been either accepted or has been rejected and if the loan is accepted then send another mail to the agent so he would prepare a contract
     }
 }
