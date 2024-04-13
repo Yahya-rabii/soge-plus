@@ -19,7 +19,7 @@ import { MyLoansComponent } from '../components/loan/my-loans/my-loans.component
 import { LoansOfUserComponent } from '../components/admin/views/loans-requests/loans-of-user/loans-of-user.component';
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
-    { path: '', component: HomeComponent, canActivate: [AuthGuard,UserGuard]  }, // Protecting the home route
+    { path: '', component: HomeComponent, canActivate: [AuthGuard,UserGuard] , data: { animation: 'fadeInOut' } }, // Protecting the home route
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
     { path: 'admin', component:DashboardComponent, canActivate: [AdminGuard]  },
