@@ -155,6 +155,7 @@ export class ValidationFormComponent implements OnInit {
 
 
     this.loan = new Loan(
+      0,
       this.formData.get('loanAmount')?.value,
       this.formData.get('loanType')?.value,
       this.formData.get('paymentDuration')?.value,

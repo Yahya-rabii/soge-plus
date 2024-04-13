@@ -19,6 +19,7 @@ export class LoanService {
       const Loans: Loan[] = data.map((loanData: any) => {
         // Assuming your Loan model has appropriate constructor
         return new Loan(
+          loanData.id,
           loanData.amount,
           loanData.type,
           loanData.paymentDuration,
@@ -57,6 +58,7 @@ export class LoanService {
       //loop over the data and create a table of loans
       for (let i = 0; i < data.length; i++) {
         this.Loans.push(new Loan(
+          data[i].id,
           data[i].amount,
           data[i].type,
           data[i].paymentDuration,
@@ -86,9 +88,11 @@ export class LoanService {
   
 
   async createLoan(loan: Loan): Promise<any> {
+
     const url = `${environment.LoanMsUrl}${environment.createLoanEndpoint}`;
   
     const formData = new FormData();
+
     formData.append('amount', loan.amount.toString());
     formData.append('type', loan.type);
     formData.append('paymentDuration', loan.paymentDuration);
@@ -116,6 +120,68 @@ export class LoanService {
       throw error;
     }
   }
+
+
+  async approveLoan(loan: Loan): Promise<any> {
+    const url = `${environment.LoanMsUrl}${environment.validateLoanEndpoint}`.replace(/\/$/, ''); // Remove trailing slash
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loan)
+      });
+  
+      if (response.ok) {
+        try {
+          const data = await response.json();
+          console.log('Loan approved:', data);
+          return data;
+        } catch (jsonError) {
+          console.error('Error parsing JSON:', jsonError);
+          throw jsonError;
+        }
+      } else {
+        console.error('Error approving Loan:', response.statusText);
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      console.error('Error approving Loan:', error);
+      throw error;
+    }
+  }
+  
+  async rejectLoan(loan: Loan): Promise<any> {
+    const url = `${environment.LoanMsUrl}${environment.rejectLoanEndpoint}`.replace(/\/$/, ''); // Remove trailing slash
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loan)
+      });
+  
+      if (response.ok) {
+        try {
+          const data = await response.json();
+          console.log('Loan rejected:', data);
+          return data;
+        } catch (jsonError) {
+          console.error('Error parsing JSON:', jsonError);
+          throw jsonError;
+        }
+      } else {
+        console.error('Error rejecting Loan:', response.statusText);
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      console.error('Error rejecting Loan:', error);
+      throw error;
+    }
+  }
+  
   
 
 }

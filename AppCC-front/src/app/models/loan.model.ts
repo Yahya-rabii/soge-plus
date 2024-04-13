@@ -4,6 +4,7 @@ import { Credential } from "./credential.model";
 
 export class Loan {
 
+    id !: number | 0;
     amount!: number | 0;
     // type of type enum Type {PERSONAL, MORTGAGE, AUTO, STUDENT}
     type!: string | '';
@@ -34,6 +35,7 @@ export class Loan {
     // constructor AND GETTERS AND SETTERS AND GET_ATTRIBUTES AND SET_ATTRIBUTES
 
     constructor(
+        id ?: number,
         amount?: number,
         type?: string,
         paymentDuration?: string,
@@ -50,6 +52,7 @@ export class Loan {
         loanCreationDate?: Date,
         clientId?: string
     ) {
+        this.id = id || 0;
         this.amount = amount || 0;
         this.type = type || '';
         this.paymentDuration = paymentDuration || '';
@@ -72,7 +75,8 @@ export class Loan {
     }
 
 
-    public set_attributes(amount: number, type: string, paymentDuration: string, status: string, approuved: boolean, signature: File, cinCartFont: File, cinCartBack: File, cinNumber: string, taxId: string, receptionMethod: string, bankAccountCredentials_RIB: string, selectedAgency: string, loanCreationDate: Date, clientId: string): void {
+    public set_attributes(id :number ,amount: number, type: string, paymentDuration: string, status: string, approuved: boolean, signature: File, cinCartFont: File, cinCartBack: File, cinNumber: string, taxId: string, receptionMethod: string, bankAccountCredentials_RIB: string, selectedAgency: string, loanCreationDate: Date, clientId: string): void {
+        this.id = id;
         this.amount = amount;
         this.type = type;
         this.paymentDuration = paymentDuration;
@@ -90,6 +94,9 @@ export class Loan {
         this.clientId = clientId;
     }
   
+    public get_id(): number {
+        return this.id;
+    }
 
 
     public get_amount(): number {

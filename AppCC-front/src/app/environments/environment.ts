@@ -31,7 +31,8 @@ export const environment = {
     updateLoanEndpoint: '/updateLoan/',
     deleteLoanEndpoint: '/deleteLoan/',
     getLoansByClientIdEndpoint: '/loanByClientId/',
-
+    validateLoanEndpoint: '/validateLoan/',
+    rejectLoanEndpoint: '/rejectLoan/',
 
     // contract microservice
 

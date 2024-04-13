@@ -42,6 +42,10 @@ export class LoansRequestsComponent implements OnInit {
         this.loans = loans;
         // Set the loans data in the shared service
         this.loanSharingService.setLoans(this.loans);
+
+        // store the user id in the session storage
+        sessionStorage.setItem('UserId', id);
+
         // Navigate to the LoansOfUserComponent
         this.router.navigate(['/loans-of-user']);
       }

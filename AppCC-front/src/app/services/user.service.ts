@@ -36,16 +36,29 @@ export class UsersService {
     const url = `${environment.ClientMsUrl}${environment.getClientByIdEndpoint}/${id}`;
     try {
       const response = await fetch(url);
+  
+      // Check if response status is ok
+      if (!response.ok) {
+        throw new Error(`Failed to fetch user: ${response.status} ${response.statusText}`);
+      }
+  
+      // Check if response body is empty
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Empty or invalid response from server');
+      }
+  
       const data = await response.json();
       console.log('Data:', data);
-      const user = new User(data.firstName+' '+data.lastName, data.firstName, data.lastName, data.email , data.credentials, data.address);
-      console.log('Usercdcdcdc:', user);
+      const user = new User(data.id ,data.firstName + ' ' + data.lastName, data.firstName, data.lastName, data.email, data.credentials, data.address);
+      console.log('User:', user);
       return user;
     } catch (error) {
       console.error('Error fetching user:', error);
       throw error;
     }
   }
+  
 
   
   

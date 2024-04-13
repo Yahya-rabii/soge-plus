@@ -78,21 +78,14 @@ public class LoanController {
                 try {
                     loan = loanService.getDocumentsFromMinio(loan);
                     finalLoans.add(Optional.of(loan));
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-
-
-
             }
         }
-
         return finalLoans;
-
     }
+
 
 
 
@@ -146,14 +139,22 @@ public class LoanController {
     }
 
 
+    @PutMapping("/validateLoan")
+    public ResponseEntity<Loan> validateLoan(@RequestBody Loan loan) {
+        // Validate the loan
+        loanService.validateLoan(loan);
 
-    @PostMapping("/approveLoan/{id}")
-    public ResponseEntity<Loan> approveLoan(@PathVariable Long id  , @RequestBody boolean approved) {
-
-        Loan loan =  loanService.getLoanById(id).orElse(null);
-        assert loan != null; loan.setStatus(approved ? Status.APPROVED : Status.REJECTED);
-
-        return updateLoanN(loan.getId() , loan );
-        // todo  :  send an email to the requester telling  him that his loan has been either accepted or has been rejected and if the loan is accepted then send another mail to the agent so he would prepare a contract
+        // Optionally, you can return the validated loan
+        return new ResponseEntity<>(loan, HttpStatus.OK);
     }
+
+    @PutMapping("/rejectLoan")
+    public ResponseEntity<Loan> rejectLoan(@RequestBody Loan loan) {
+        // Reject the loan
+        loanService.rejectLoan(loan);
+
+        // Optionally, you can return the rejected loan
+        return new ResponseEntity<>(loan, HttpStatus.OK);
+    }
+
 }

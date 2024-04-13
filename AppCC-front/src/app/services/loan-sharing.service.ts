@@ -9,6 +9,7 @@ export class LoanSharingService {
 
   private loansSubject = new BehaviorSubject<Loan[]>([]);
   loans$ = this.loansSubject.asObservable();
+  
 
   constructor() {
     // Retrieve loans data from sessionStorage when the service is initialized

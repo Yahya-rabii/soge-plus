@@ -27,7 +27,13 @@ export class NavBarComponent implements OnInit {
   user: User = new User();
 
   ngOnInit() {
-    this.getUser();
+
+    // if the user is not an admin, call the getUser method
+    this.authService.isAdmin().then((isAdmin) => {
+      if (!isAdmin) {
+        this.getUser();
+      }
+    });
   
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {

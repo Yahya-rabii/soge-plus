@@ -32,14 +32,14 @@
     </p>
     <p
       *ngIf="loan.status === 'APPROVED'"
-      class="mb-3 text -green-400 dark:text-green-400 text-md font-bold"
+      class="mb-3 text-green-400 dark:text-green-400 text-md font-bold"
     >
       {{ "APPROVED" }} ✓
     </p>
 
     <p
       *ngIf="loan.status === 'REJECTED'"
-      class="mb-3 text -red-400 dark:text-red-400 text-md font-bold"
+      class="mb-3 text-red-600 dark:text-red-400 text-md font-bold"
     >
       {{ "REJECTED" }} X
     </p>
@@ -110,7 +110,24 @@
 
 
     
+<!-- Accept button and regect one one in the right and one in the left the accept is green and the regect in red -->
 
+    <div class="flex justify-between m-6">
+      <button
+        *ngIf="loan.status === 'PENDING'"
+        class="px-4 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-green-700"
+        (click)="approveLoan(loan)"
+      >
+        Accept
+      </button>
+      <button
+        *ngIf="loan.status === 'PENDING'"
+        class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-red-700"
+        (click)="rejectLoan(loan)"
+      >
+        Reject
+      </button>
+    </div>
 
     
     

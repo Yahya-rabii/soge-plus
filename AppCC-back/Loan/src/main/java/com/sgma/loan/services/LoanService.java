@@ -8,7 +8,11 @@ import io.minio.errors.*;
 import io.minio.http.Method;
 import org.apache.catalina.User;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -104,6 +108,32 @@ public class LoanService {
 
 
 
+    @PutMapping("/validateLoan")
+    public ResponseEntity<Loan> validateLoan(@RequestBody Loan loan) {
+        if (loanRepository.existsById(loan.getId())) {
+            Loan existingLoan = loanRepository.findById(loan.getId()).orElseThrow(() -> new IllegalArgumentException("Loan with id " + loan.getId() + " does not exist."));
+            existingLoan.setStatus(Status.APPROVED);
+            existingLoan.setApproved(true);
+            Loan updatedLoan = loanRepository.save(existingLoan);
+            return new ResponseEntity<>(updatedLoan, HttpStatus.OK);
+        } else {
+            throw new IllegalArgumentException("Loan with id " + loan.getId() + " does not exist.");
+        }
+    }
+
+
+    @PutMapping("/rejectLoan")
+    public ResponseEntity<Loan> rejectLoan(@RequestBody Loan loan) {
+        if (loanRepository.existsById(loan.getId())) {
+            Loan existingLoan = loanRepository.findById(loan.getId()).orElseThrow(() -> new IllegalArgumentException("Loan with id " + loan.getId() + " does not exist."));
+            existingLoan.setStatus(Status.REJECTED);
+            existingLoan.setApproved(false);
+            Loan updatedLoan = loanRepository.save(existingLoan);
+            return new ResponseEntity<>(updatedLoan, HttpStatus.OK);
+        } else {
+            throw new IllegalArgumentException("Loan with id " + loan.getId() + " does not exist.");
+        }
+    }
 
 
 
