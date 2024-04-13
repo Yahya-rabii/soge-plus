@@ -96,9 +96,13 @@
 			<artifactId>minio</artifactId>
 			<version>8.5.9</version>
 		</dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+        </dependency>
 
 
-	</dependencies>
+    </dependencies>
 
 
 	<dependencyManagement>

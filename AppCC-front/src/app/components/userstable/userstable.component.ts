@@ -16,8 +16,6 @@ import { UsersService } from '../../services/user.service';
 export class UserstableComponent {
 
   users !: User[];
-
-
   p: number = 1; // Current page number
   itemsPerPage: number = 5; // Number of items to display per page
   constructor(private UsersService:UsersService) { }
@@ -26,14 +24,9 @@ export class UserstableComponent {
     this.getUsers();
   }
 
-
-
   // get users from the service
   async getUsers() {
     this.users = await this.UsersService.getUsers();
   }
-  
-
-  
   
 }

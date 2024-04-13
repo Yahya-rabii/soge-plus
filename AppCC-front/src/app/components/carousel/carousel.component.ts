@@ -24,6 +24,7 @@ export class CarouselComponent implements OnInit {
       'assets/carousel/image3.png',
       'assets/carousel/image4.png',
   
+      //todo :  the images are not well reloded
     ];}
 
 

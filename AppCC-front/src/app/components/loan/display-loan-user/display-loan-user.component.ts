@@ -22,7 +22,7 @@ export class DisplayLoanUserComponent implements OnInit {
   constructor(private loanService: LoanService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.loanService.getLoansByClientId().then((loans) => {
+    this.loanService.getLoansByClientId('').then((loans) => {
       this.loans = loans;
       this.setPage(1);
     });

@@ -1,0 +1,118 @@
+<div
+  class="inline-flex items-baseline  flex-wrap gap-4 xl:grid-3 m-3 min-w-fit max-w-fit bg-white rounded-lg shadow dark:bg-red-800 border-red-700 border-2"
+  *ngFor="let loan of loans"
+>
+
+
+  <div class="pl-3 pr-10 m-3 bg-white border-2">
+    <p class="text-lg font-bold text-center text-red-700 dark:text-white">
+      {{ loan.loanCreationDate | date : "dd/MM/yyyy" }}
+    </p>
+  
+    <p class="text-lg font-bold text-center text-red-700 dark:text-white">
+      {{ loan.loanCreationDate | date : "HH:mm" }}
+    </p>
+    <img src="/assets/img/loan.png" alt="">
+    <div>
+      <h5
+        class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white"
+      >
+      type: {{ " " +  loan.type }}
+
+      </h5>
+    </div>
+    <p class="mb-3 text-green-600 dark:text-green-400 text-md font-bold">
+      {{ loan.amount  | currency : "USD" : true}}
+    </p>
+    <p
+      *ngIf="loan.status === 'PENDING'"
+      class="mb-3 text-yellow-400 dark:text-green-400 text-md font-bold"
+    >
+    status: {{ " " + "PENDING" }} ⏳
+    </p>
+    <p
+      *ngIf="loan.status === 'APPROVED'"
+      class="mb-3 text -green-400 dark:text-green-400 text-md font-bold"
+    >
+      {{ "APPROVED" }} ✓
+    </p>
+
+    <p
+      *ngIf="loan.status === 'REJECTED'"
+      class="mb-3 text -red-400 dark:text-red-400 text-md font-bold"
+    >
+      {{ "REJECTED" }} X
+    </p>
+
+
+    <p
+      class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2"
+    >
+      paymentDuration: {{ " " + loan.paymentDuration }}
+    </p>
+
+    <p
+      class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2"
+    >
+      cinNumber: {{ " " + loan.cinNumber }}
+    </p>
+
+    <p
+      class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2"
+
+    >
+      taxId: {{ " " + loan.taxId }}
+    </p>
+
+    <!--add three picks to display the signature and cinCartFont cinCartBack 
+    nb that the signature and the two others are urls of images -->
+
+    <div class="flex items-center space-x-2">
+      <p
+        class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2"
+      >
+        signature:
+    <img src="/assets/img/previewfile.png" alt="" (click)="openDialog(loan.signature!)"
+    class="w-8 h-8 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" />
+      </p>
+      
+
+      <p
+        class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2"
+      >
+        cinCartFont:
+    <img src="/assets/img/previewfile.png" alt="" (click)="openDialog(loan.cinCartFont!)"
+    class="w-8 h-8 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" />
+      </p>
+      <p
+        class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2"
+      >
+        cinCartBack:
+    <img src="/assets/img/previewfile.png" alt="" (click)="openDialog(loan.cinCartBack!)"
+    class="w-8 h-8 cursor-pointer opacity-70 hover:opacity-100 transition-opacity" />
+      </p>
+    </div>
+
+
+
+
+      <p *ngIf="loan.receptionMethod ==='ONLINE'" class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2" >
+        bankAccountCredentials_RIB: {{ " " + loan.bankAccountCredentials_RIB }}
+      </p>
+
+      <p *ngIf="loan.receptionMethod ==='ON_AGENCY'" class="mb-3 text-gray-600 dark:text-gray-400 text-md font-bold flex items-center space-x-2">
+        selectedAgency: {{ " " + loan.selectedAgency }}
+      </p>
+
+
+
+
+
+
+    
+
+
+    
+    
+  </div>
+</div>

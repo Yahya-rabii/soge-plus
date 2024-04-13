@@ -3,7 +3,7 @@ import { Credential } from "./credential.model";
 
 
 export class User {
-
+    id! : string | '';
     username!: string | '';
     firstName!: string | '';
     lastName!: string | '';
@@ -15,6 +15,7 @@ export class User {
     address!: Address | undefined;
 
     constructor(
+        id? : string,
         username?: string,
         firstName?: string,
         lastName?: string,
@@ -23,6 +24,7 @@ export class User {
         asdress?: Address | undefined
     ) {
 
+        this.id = id || '';
         this.username = username || '';
         this.firstName = firstName || '';
         this.lastName = lastName || '';

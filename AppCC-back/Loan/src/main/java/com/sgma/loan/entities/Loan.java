@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Date;
 
 
@@ -27,6 +29,15 @@ public class Loan {
     private String signatureFileName;
     private String cinCartRectoFileName;
     private String cinCartVersoFileName;
+
+    @Transient
+    private String signature;
+    @Transient
+    private String cinCartRecto;
+    @Transient
+    private String cinCartVerso;
+
+
     private String cinNumber;
 
     private String taxId; // Tax identification number

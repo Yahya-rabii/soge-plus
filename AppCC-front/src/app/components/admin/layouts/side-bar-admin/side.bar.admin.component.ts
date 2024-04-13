@@ -25,4 +25,10 @@ export class SideBarAdminComponent {
     this.showDropdown = !this.showDropdown;
   }
 
+  getloansRequests() {
+    console.log('getloansRequests');
+    this.router.navigate(['/loansRequests']);
+    this.closeSidebar.emit();
+  }
+
 }

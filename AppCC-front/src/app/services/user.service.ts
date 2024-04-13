@@ -16,7 +16,12 @@ export class UsersService {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      const users: User[] = data.map((user: { id: string | undefined; name: string | undefined; email: string | undefined; }) => new User(user.id, user.name ,user.email));
+   
+      const users: User[] = data.map((user: any) => {
+        return new User(user.id , user.firstName+' '+user.lastName, user.firstName, user.lastName, user.email , user.credentials, user.address);
+      });
+
+
       console.log('Users:', users);
       return users;
     } catch (error) {

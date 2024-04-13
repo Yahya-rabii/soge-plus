@@ -45,9 +45,11 @@ export class LoanService {
   }
 
 
-  async getLoansByClientId():   Promise<Loan[]> {
-    const clientId = localStorage.getItem('UserId');
-    const url = `${environment.LoanMsUrl}${environment.getLoansByClientIdEndpoint}${clientId}`;
+  async getLoansByClientId(clientId : string):   Promise<Loan[]> {
+     if (clientId === '') {
+       clientId = localStorage.getItem('UserId') ?? '';
+     }
+     const url = `${environment.LoanMsUrl}${environment.getLoansByClientIdEndpoint}${clientId}`;
     try {
       const response = await fetch(url);
       const data = await response.json();      

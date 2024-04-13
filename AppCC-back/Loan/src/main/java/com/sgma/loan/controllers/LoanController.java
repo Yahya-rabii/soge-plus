@@ -16,10 +16,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class LoanController {
@@ -37,9 +34,32 @@ public class LoanController {
 
     @GetMapping("/loan/{id}")
     public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
-        return loanService.getLoanById(id)
+
+     /*   return loanService.getLoanById(id)
                 .map(loan -> new ResponseEntity<>(loan, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));*/
+
+
+        // when the loan is found, get the signature, cinCartRecto, and cinCartVerso from minio and return them in the response as public URLs so that the client can display them
+
+        // step 1: get the loan from the database
+        Optional<Loan> optionalLoan = loanService.getLoanById(id);
+
+        // step 2: get the signature, cinCartRecto, and cinCartVerso from minio using the loan.signatureFileName , loan.cinCartRectoFileName, and loan.cinCartVersoFileName
+        if (optionalLoan.isPresent()) {
+            Loan loan = optionalLoan.get();
+            try {
+                loan = loanService.getDocumentsFromMinio(loan);
+                return new ResponseEntity<>(loan, HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
 
@@ -47,8 +67,35 @@ public class LoanController {
     // get loan by client id
     @GetMapping("/loanByClientId/{clientId}")
     public List<Optional<Loan>> getLoansByClientId(@PathVariable String clientId) {
-        return loanService.getLoanByClientId(clientId);
+        //return loanService.getLoanByClientId(clientId);
+
+        List<Optional<Loan>> loans = loanService.getLoanByClientId(clientId);
+        List<Optional<Loan>> finalLoans = new ArrayList<>();
+
+        for (Optional<Loan> optionalLoan : loans) {
+            if (optionalLoan.isPresent()) {
+                Loan loan = optionalLoan.get();
+                try {
+                    loan = loanService.getDocumentsFromMinio(loan);
+                    finalLoans.add(Optional.of(loan));
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+            }
+        }
+
+        return finalLoans;
+
     }
+
+
+
     @PutMapping("/updateLoan/{id}")
     public ResponseEntity<Loan> updateLoan(@PathVariable Long id,
                                            @RequestBody Loan updatedLoan,

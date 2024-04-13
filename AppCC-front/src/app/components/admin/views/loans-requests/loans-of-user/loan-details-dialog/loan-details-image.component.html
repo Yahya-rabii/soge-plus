@@ -1,0 +1,19 @@
+<div class="fixed inset-0 flex items-center justify-center z-50" >
+    <!-- Darken background -->
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+  
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full sm:max-w-md relative z-10">
+        <button class="absolute top-2 right-2 text-red-700 text-xl font-bold " (click)="onCloseClick()">X</button>
+        <div class="space-y-4">
+        <!-- Display loan details here -->
+        <img
+        class="w-full h-full object-cover rounded-lg"
+        src="{{
+            data.Image
+        }}"
+        alt="signature"
+      />
+    </div>
+
+</div>
+</div>
