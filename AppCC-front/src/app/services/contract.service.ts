@@ -15,7 +15,6 @@ export class ContractService {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log('Contracts:', data);
       return data;
     } catch (error) {
       console.error('Error fetching Contracts:', error);
@@ -30,7 +29,6 @@ export class ContractService {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log('Contractswdsqdqs:', data);
       return data;
     } catch (error) {
       console.error('Error fetching Contracts:', error);

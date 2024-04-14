@@ -29,15 +29,19 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     initFlowbite();
 
+   if (this.isLoggedIn()) {
     this.authService.isAdmin().then((isAdmin) =>
-    {
-      this.isAdmin = isAdmin;
-    });
+      {
+        this.isAdmin = isAdmin;
+      });
+    }
     
 
 
   }
-
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
   
 
 }

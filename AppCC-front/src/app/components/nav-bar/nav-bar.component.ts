@@ -29,11 +29,13 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {
 
     // if the user is not an admin, call the getUser method
-    this.authService.isAdmin().then((isAdmin) => {
-      if (!isAdmin) {
-        this.getUser();
-      }
-    });
+    if (this.isLoggedIn()) {
+      this.authService.isAdmin().then((isAdmin) => {
+        if (!isAdmin) {
+          this.getUser();
+        }
+      });
+    }
   
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {
@@ -58,7 +60,6 @@ export class NavBarComponent implements OnInit {
   async getUser() {
     try {
       this.user = await this.userService.getUserById();
-      console.log(this.user);
     } catch (error) {
       console.error('Error fetching user:', error);
     }

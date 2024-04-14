@@ -22,7 +22,7 @@
       </h5>
     </div>
     <p class="mb-3 text-green-600 dark:text-green-400 text-md font-bold">
-      {{ loan.amount  | currency : "USD" : true}}
+      {{" " + loan.amount  | currency : "USD" : "symbol-narrow"  }}
     </p>
     <p
       *ngIf="loan.status === 'PENDING'"

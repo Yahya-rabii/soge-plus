@@ -27,7 +27,6 @@ export class MyLoansComponent implements OnInit {
   async getUser() {
     try {
       this.user = await this.userService.getUserById();
-      console.log(this.user);
     } catch (error) {
       console.error('Error fetching user:', error);
     }
@@ -64,7 +63,6 @@ export class MyLoansComponent implements OnInit {
 
     // Handle dialog close event
     this.dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
       this.dialogRef = null; // Reset dialog reference
     });
   }

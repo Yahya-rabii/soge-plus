@@ -14,8 +14,6 @@ export class LoanDetailsImageComponent {
     public dialogRef: MatDialogRef<LoanDetailsImageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { Image: File }
   ) {
-
-    console.log('Image:', this.data.Image);
   }
 
   onCloseClick(): void {

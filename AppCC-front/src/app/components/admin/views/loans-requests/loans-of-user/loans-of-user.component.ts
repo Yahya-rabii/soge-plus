@@ -41,7 +41,6 @@ export class LoansOfUserComponent implements OnInit {
 
     // Handle dialog close event
     this.dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
       this.dialogRef = null; // Reset dialog reference
     });
   }
@@ -50,7 +49,6 @@ export class LoansOfUserComponent implements OnInit {
     this.loans = [];
     this.loanService.getLoansByClientId(sessionStorage.getItem('UserId') ?? '').then(loans => {
       this.loans = loans;
-      console.log('Loans:', this.loans);
       this.cdr.detectChanges(); // Trigger change detection after updating loans array
     }).catch(error => {
       console.error('Error fetching loans:', error);
@@ -59,7 +57,6 @@ export class LoansOfUserComponent implements OnInit {
 
   approveLoan(loan: Loan) {
     this.loanService.approveLoan(loan).then((updatedLoan) => {
-      console.log('Loan approved:', updatedLoan);
       // Update the loans array in the component with the updated loan
       const index = this.loans.findIndex(l => l.id === updatedLoan.id);
       if (index !== -1) {

@@ -1,8 +1,6 @@
 <div *ngIf="!isAdmin">
   <app-nav-bar></app-nav-bar>
-  <div [@fadeInOut]>
     <router-outlet></router-outlet>
-  </div>
   <app-footer class="mt-20"></app-footer>
 </div>
 
@@ -10,9 +8,7 @@
   <div class="flex-1">
     <app-header></app-header>
     <main class="min-h-screen p-8">
-      <div [@fadeInOut]>
         <router-outlet></router-outlet>
-      </div>
     </main>
   </div>
 </div>

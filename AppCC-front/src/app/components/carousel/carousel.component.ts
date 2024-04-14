@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OnInit } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-carousel',
@@ -9,47 +9,47 @@ import { OnInit } from '@angular/core';
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.css'
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
 
-  // Load the carousel images from the assets folder into a list of images
   images: string[] = [];
-  imagesLoaded: Promise<boolean> | undefined;
+  currentImageIndex: number = 0;
+  intervalId: any;
 
   constructor() { }
 
-  async ngOnInit(): Promise<void> {
-    this.imagesLoaded = this.loadImages();
-    await this.imagesLoaded;
+  ngOnInit(): void {
+    this.images = [
+      'assets/carousel/image1.png',
+      'assets/carousel/image2.png',
+      'assets/carousel/image3.png',
+      'assets/carousel/image4.png',
+    ];
+    this.startAutoSlide();
   }
 
-  private async loadImages(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      const imagePromises: Promise<boolean>[] = [];
-
-      this.images = [
-        'assets/carousel/image1.png',
-        'assets/carousel/image2.png',
-        'assets/carousel/image3.png',
-        'assets/carousel/image4.png',
-      ];
-
-      this.images.forEach((imageUrl: string) => {
-        const imagePromise = this.loadImage(imageUrl);
-        imagePromises.push(imagePromise);
-      });
-
-      Promise.all(imagePromises)
-        .then(() => resolve(true))
-        .catch(() => reject(false));
-    });
+  ngOnDestroy(): void {
+    this.stopAutoSlide();
   }
 
-  private loadImage(imageUrl: string): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => reject(false);
-      img.src = imageUrl;
-    });
+  startAutoSlide(): void {
+    this.intervalId = setInterval(() => {
+      this.nextSlide();
+    }, 2000);
+  }
+
+  stopAutoSlide(): void {
+    clearInterval(this.intervalId);
+  }
+
+  prevSlide(): void {
+    this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length;
+  }
+
+  nextSlide(): void {
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+  }
+
+  goToSlide(index: number): void {
+    this.currentImageIndex = index;
   }
 }

@@ -64,7 +64,8 @@ export class AuthenticationService {
           'Content-Type': 'application/json'
         })
       }).toPromise();
-    } catch (error) {
+    } 
+    catch (error) {
       throw error;
     }
   }
