@@ -1,7 +1,7 @@
 $radius: 9.5em;
 
 .circle {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: $radius;
@@ -9,8 +9,8 @@ $radius: 9.5em;
   transition: width 0.3s, height 0.3s, transform 0.3s;
   transform-origin: top right;
   border-bottom-left-radius: 100%;
-  //make the circle on top of the other elements
-    z-index: 1;
+
+
 }
 
 .wrapcircles.closed {

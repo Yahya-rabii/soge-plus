@@ -19,14 +19,13 @@ import { MyLoansComponent } from '../components/loan/my-loans/my-loans.component
 import { LoansOfUserComponent } from '../components/admin/loans-requests/loans-of-user/loans-of-user.component';
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard,UserGuard] }, // Protecting the home route
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
     { path: 'contact', component: ContactComponent  },
     { path: 'privacypolicy', component: PrivacypolicyComponent  },
     { path: 'about', component: AboutComponent },
 
-
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard,UserGuard] }, // Protecting the home route
     { path: 'admin', component:DashboardComponent, canActivate: [AdminGuard]  },
     { path: 'users', component: UserstableComponent,canActivate: [AuthGuard]  } ,
     { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },

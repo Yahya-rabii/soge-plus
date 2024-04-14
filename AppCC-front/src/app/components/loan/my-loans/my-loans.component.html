@@ -13,7 +13,10 @@
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
               Your loan request is 
               <div *ngIf="loan.get_status() == 'PENDING'" class="ml-1 mr-1">still</div>
-              <div *ngIf="loan.get_status() == 'PENDING'" class="text-red-700">PENDING</div>
+              <div *ngIf="loan.get_status() == 'PENDING'" class="text-yellow-400">PENDING</div>
+              <div *ngIf="loan.get_status() == 'APPROVED'" class="ml-1 text-green-500">APPROVED</div>
+              <div *ngIf="loan.get_status() == 'REJECTED'" class="ml-1 text-red-700">REJECTED</div>
+
           </h3>
           
           <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">loan amount : {{loan.get_amount()}}</p>
