@@ -5,12 +5,16 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { OnInit } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { CercularnavComponent } from '../cercularnav/cercularnav.component';
+
 
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule ,MatToolbarModule , MatIconModule ,CercularnavComponent],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })

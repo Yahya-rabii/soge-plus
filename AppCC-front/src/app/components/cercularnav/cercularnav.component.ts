@@ -15,26 +15,28 @@ export class CercularnavComponent {
   toggleNav() {
     const nav = document.getElementById('nav');
     nav?.classList.toggle('closed');
+
+    // if the nav is open, slide the element with the id of login-signup to the right by 20px with a transition of 0.5s and slide it back to the left by 20px with a transition of 0.5s if the nav is closed
+    const loginSignup = document.getElementById('login-signup');
+    if (loginSignup) {
+      loginSignup.style.transition = '0.5s';
+      loginSignup.style.transform = nav?.classList.contains('closed') ? 'translateX(0)' : 'translateX(-8.1rem)';
+    }
   }
 
   toggleAbout() {
     this.router.navigate(['/about']);
-    const nav = document.getElementById('nav');
-    nav?.classList.toggle('closed');
-
+    this.toggleNav();
   }
 
   toggleContact() {
     this.router.navigate(['/contact']);
-    const nav = document.getElementById('nav');
-    nav?.classList.toggle('closed');
-
+    this.toggleNav();
   }
 
   togglePolicy() {
     this.router.navigate(['/privacypolicy']);
-    const nav = document.getElementById('nav');
-    nav?.classList.toggle('closed');
+    this.toggleNav();
 
   }
 

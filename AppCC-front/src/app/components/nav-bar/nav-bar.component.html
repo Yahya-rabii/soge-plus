@@ -1,8 +1,10 @@
-<nav class=" bg-white border-gray-900 dark:bg-gray-900 border-b fixed top-0 left-0 w-full z-20">
+<mat-toolbar class="fixed top-0">
   <div class="flex justify-between items-center mx-auto max-w-screen-xl p-6">
 
     <!-- Logo aligned to the left -->
-    <div  class="fixed flex items-center left-10">
+        <app-cercularnav></app-cercularnav>
+
+    <div class="fixed flex items-center left-10">
       <a class="fixed flex items-center space-x-3">
         <img src="/assets/logoblack.png" class="h-8 flex-shrink-0 hover:cursor-pointer" alt="Logo" />
         <!-- Logo -->
@@ -10,37 +12,22 @@
     </div>
   
 
-    <div class="fixed right-5 flex items-center space-x-6 rtl:space-x-reverse">
+    <div id="login-signup" class="fixed right-16 flex items-center space-x-6 rtl:space-x-reverse">
       <div class="flex items-center space-x-6">
         <a (click)="login()"
           class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-          </svg>
+          <mat-icon>login</mat-icon>
           <span>Login</span>
         </a>
         <a (click)="signup()"
           class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
+          <mat-icon>person_add</mat-icon>
           <span>Signup</span>
         </a>
       </div>
     
 
-  
-
-<div class="border-r border-gray-600 h-6"></div>
-
-
-       
-<a href="tel:5541251234" class="text-sm text-gray-500 dark:text-white hover:underline">(+212) 701242563</a>
-
 
     </div>
   </div>
-</nav>
-<div *ngIf="showSidebar" class="fixed top-0 left-0 z-30 w-screen h-screen bg-black opacity-50" (click)="toggleSidebar()"></div>
+</mat-toolbar>

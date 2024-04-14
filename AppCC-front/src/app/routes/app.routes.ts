@@ -19,18 +19,20 @@ import { MyLoansComponent } from '../components/loan/my-loans/my-loans.component
 import { LoansOfUserComponent } from '../components/admin/loans-requests/loans-of-user/loans-of-user.component';
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard,UserGuard] , data: { animation: 'fadeInOut' } }, // Protecting the home route
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard,UserGuard] }, // Protecting the home route
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'contact', component: ContactComponent  },
+    { path: 'privacypolicy', component: PrivacypolicyComponent  },
+    { path: 'about', component: AboutComponent },
+
+
     { path: 'admin', component:DashboardComponent, canActivate: [AdminGuard]  },
-    { path: 'about', component: AboutComponent, canActivate: [AuthGuard] },
     { path: 'users', component: UserstableComponent,canActivate: [AuthGuard]  } ,
     { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },
     { path: 'loan/confirmation', component: ValidationFormComponent,canActivate: [AuthGuard]  },
     { path: 'myloans', component: MyLoansComponent,canActivate: [AuthGuard]  },
     { path: 'loansRequests', component: LoansRequestsComponent,canActivate: [AdminGuard]  },
-    { path: 'privacypolicy', component: PrivacypolicyComponent,canActivate: [AuthGuard]  },
-    { path: 'contact', component: ContactComponent,canActivate: [AuthGuard]  },
     { path: 'loan', component: DisplayLoanUserComponent,canActivate: [AuthGuard]  },
     { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard]  },
     { path: 'loans-of-user', component: LoansOfUserComponent,canActivate: [AdminGuard]  },
