@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnInit, OnDestroy } from '@angular/core';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-carousel',
@@ -15,16 +16,30 @@ export class CarouselComponent implements OnInit, OnDestroy {
   currentImageIndex: number = 0;
   intervalId: any;
 
-  constructor() { }
+  constructor(private authService : AuthenticationService) { }
 
   ngOnInit(): void {
-    this.images = [
-      'assets/carousel/image1.png',
-      'assets/carousel/image2.png',
-      'assets/carousel/image3.png',
-      'assets/carousel/image4.png',
-    ];
+
+
+     // if the user is not an admin, call the getUser method
+     if (this.isLoggedIn()) {
+      this.authService.isAdmin().then((isAdmin) => {
+        if (!isAdmin) {
+          this.images = [
+            'assets/carousel/image1.png',
+            'assets/carousel/image2.png',
+            'assets/carousel/image3.png',
+            'assets/carousel/image4.png',
+          ];
+        }
+      });
+    }
+    
     this.startAutoSlide();
+  }
+
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
   }
 
   ngOnDestroy(): void {
