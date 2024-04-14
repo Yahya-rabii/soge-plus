@@ -1,0 +1,130 @@
+$radius: 9.5em;
+
+.circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: $radius;
+  height: $radius;
+  transition: width 0.3s, height 0.3s, transform 0.3s;
+  transform-origin: top right;
+  border-bottom-left-radius: 100%;
+}
+
+.wrapcircles.closed {
+  .circle {
+    transform: rotate(-90deg);
+    width: $radius / 3;
+    height: $radius / 3;
+    transition-delay: 50ms;
+  }
+  #click {
+    transform: none;
+    transition: all 0.4s;
+    span {
+      top: (18em / 16);
+      right: 2em;
+      &::after {
+        transform: rotate(-90deg);
+      }
+      &::before {
+        transform: none;
+      }
+    }
+  }
+}
+
+#click {
+  cursor: pointer;
+}
+
+#click span {
+
+  opacity: 0.8; /* Adjust opacity value as needed */
+  transition: bottom 0.3s, right 0.3s;
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: 1em;
+  top: 1em;
+  position: absolute;
+  z-index: 1; /* Adjusted z-index */
+  &::before, &::after {
+    display: block;
+    position: absolute;
+    font-family: inherit;
+    content: '';
+    width: 30px;
+    height: 8px;
+    transition: transform 0.3s;
+    top: 0px;
+    border-radius: 3px;
+    background: white;
+  }
+  &::before {
+    transform: rotate(-45deg);
+  }
+  &::after {
+    transform: rotate(45deg);
+  }
+}
+
+.c-1, .c-2, .c-3, .c-4, .c-5 {
+  opacity: 0.8; /* Adjust opacity value as needed */
+  transition-delay: 0.1s, 0.1s, 0.1s;
+}
+
+.c-1 {
+  background: #640000;
+  transform: rotate((-90deg/5) * 1);
+  .link::before {
+    transform: rotate((-90deg/5) * -1);
+    content: '\f0f3';
+  }
+}
+
+.c-2 {
+  background: #ff3512;
+  transform: rotate((-90deg/5) * 2);
+  .link::before {
+    transform: rotate((-90deg/5) * -2);
+    content: '\f013';
+  }
+}
+
+.c-3 {
+  background: #b42525;
+  transform: rotate((-90deg/5) * 3);
+  .link::before {
+    transform: rotate((-90deg/5) * -3);
+    content: '\f1cb';
+  }
+}
+
+.c-4 {
+  background: #9e0000;
+  transform: rotate((-90deg/5) * 4);
+  .link::before {
+    transform: rotate((-90deg/5) * -4);
+    content: '\f099';
+  }
+}
+
+.c-5 {
+  background: #b30303;
+  z-index: -1;
+}
+
+.nav-element{
+   
+    color: white;
+    font-size: 1.5em;
+    left:0.8em;
+    position: relative;
+    top: 0.3em;
+    z-index: 1;
+    width: 30px;
+
+    
+    
+}

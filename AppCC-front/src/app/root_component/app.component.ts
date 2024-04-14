@@ -7,7 +7,7 @@ import { NavBarComponent } from '../components/nav-bar/nav-bar.component';
 import { OnInit } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { AuthenticationService } from '../services/authentication.service';
-
+import { CercularnavComponent } from '../components/cercularnav/cercularnav.component';
 
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,7 +19,7 @@ import { CustomSideComponent } from '../components/side/custom-side.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,LoginComponent , FooterComponent , NavBarComponent, MatToolbarModule,CommonModule , MatButtonModule, MatIconModule , MatSidenavModule , CustomSideComponent],
+  imports: [CommonModule, RouterOutlet,LoginComponent , FooterComponent , NavBarComponent, MatToolbarModule,CommonModule , MatButtonModule, MatIconModule , MatSidenavModule , CustomSideComponent , CercularnavComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 

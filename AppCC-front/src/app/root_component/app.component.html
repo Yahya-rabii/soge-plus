@@ -8,8 +8,11 @@
 
   
 <div *ngIf="!isAdmin">
+
   <mat-toolbar class=" mat-elevation-z3">
-    <button class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
+    <app-cercularnav></app-cercularnav>
+
+    <button id="al" aria-label="Name" class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
         <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>
