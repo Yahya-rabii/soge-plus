@@ -1,0 +1,58 @@
+.sidenav-header{
+    padding-top: 24px;
+    text-align: center;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > img {
+        
+        border-radius: 100%;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+}
+
+.header-text{
+    height: 3rem;
+    > h2 {
+        font-size: 1.5rem;
+        line-height: 1rem;
+        margin: 0;
+    }
+    > p {
+        font-size: 0.8rem;
+        line-height: 1rem;
+        margin-top: 10px;
+    }
+
+}
+
+.hide-header-text{
+    opacity: 0;
+    height: 0px !important;
+}
+
+mat-nav-list{
+    margin-top: 20px;
+    color: black;
+   
+}
+
+.menu-item{
+    border-left: 5px solid;
+    border-left-color: transparent;
+}
+
+.selected-menu-item{
+    border-left:5px solid;
+    border-left-color: crimson;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+:host *{
+    color: black;
+    transition: all 500ms ease-in-out;
+    
+}

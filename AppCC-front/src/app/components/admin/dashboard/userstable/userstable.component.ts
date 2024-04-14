@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ContractService } from '../../../../../services/contract.service';
+import { ContractService } from '../../../../services/contract.service';
 import { from } from 'rxjs';
 import { OnInit } from '@angular/core';
-import { User } from '../../../../../models/user.model';
+import { User } from '../../../../models/user.model';
 
 @Component({
   selector: 'app-userstable',

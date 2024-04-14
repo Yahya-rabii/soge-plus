@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Loan } from '../../../../../models/loan.model';
-import { LoanSharingService } from '../../../../../services/loan-sharing.service';
+import { Loan } from '../../../../models/loan.model';
+import { LoanSharingService } from '../../../../services/loan-sharing.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoanDetailsImageComponent } from './loan-details-dialog/loan-details-image.component';
-import { LoanService } from '../../../../../services/loan.service';
+import { LoanService } from '../../../../services/loan.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

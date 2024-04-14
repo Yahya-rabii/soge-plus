@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { formatDate } from '@angular/common';
-import { ContractService } from '../../../../../services/contract.service';
-import { Contract } from '../../../../../models/contract.model';
+import { ContractService } from '../../../../services/contract.service';
+import { Contract } from '../../../../models/contract.model';
 import { from } from 'rxjs';
 import { OnInit } from '@angular/core';
 

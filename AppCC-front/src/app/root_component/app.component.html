@@ -1,14 +1,46 @@
-<div *ngIf="!isAdmin">
-  <app-nav-bar></app-nav-bar>
+<div *ngIf="!isLoggedIn()">
+    <app-nav-bar></app-nav-bar>
     <router-outlet></router-outlet>
-  <app-footer class="mt-20"></app-footer>
+    <app-footer class="mt-20"></app-footer>
 </div>
 
-<div *ngIf="isAdmin" class="flex w-full items-start font-sans bg-gray-200">
-  <div class="flex-1">
-    <app-header></app-header>
-    <main class="min-h-screen p-8">
-        <router-outlet></router-outlet>
-    </main>
-  </div>
+<div *ngIf="isLoggedIn()">
+
+  
+<div *ngIf="!isAdmin">
+  <mat-toolbar class=" mat-elevation-z3">
+    <button class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
+        <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+        <app-custom-side [collapsed]="collapsed()" />
+    </mat-sidenav>
+    <mat-sidenav-content class="content" [style.margin-left]='sidenavWidth()'>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
+
+<div *ngIf="isAdmin" >
+  
+    <mat-toolbar class=" mat-elevation-z3">
+      <button class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
+          <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-sidenav-container>
+      <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+          <app-custom-side [collapsed]="collapsed()" />
+      </mat-sidenav>
+      <mat-sidenav-content class="content" [style.margin-left]='sidenavWidth()'>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
+</div>
+
+
+</div>
+

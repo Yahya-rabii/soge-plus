@@ -1,0 +1,34 @@
+<div class="sidenav-header">
+
+    <img src="/assets/img/yahya.jpg" [width]="profilePicSize()" [height]="profilePicSize()" />
+    <div class="header-text" [class.hide-header-text]="sideNavCollapsed()" >
+        <h2>Yahya</h2>
+        <p>Web Developer</p>
+
+    </div>
+
+</div>
+<mat-nav-list>
+
+    <a mat-list-item *ngFor="let item of menuItems()"
+     [routerLink]="item.route" 
+     #rla="routerLinkActive"
+     routerLinkActive="selected-menu-item"
+     class="menu-item"
+     [activated]="rla.isActive"
+     >
+        <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"  matListItemIcon>{{item.icon}}</mat-icon>
+        <span  *ngIf="!sideNavCollapsed()" matListItemTitle>{{item.label}}</span>
+    </a>
+
+    <div class="divider absolute bottom-0 w-full">
+        <mat-divider></mat-divider>
+   
+    
+        <a (click)="logout()" style="bottom: 0%;" class="hover:bg-opacity-50 hover:bg-red-600 dark:hover:bg-gray-700 group w-full "  mat-list-item *ngFor="let item of logoutItem()">
+            <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+            <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{item.label}}</span>
+        </a>
+    
+  </div>
+</mat-nav-list>

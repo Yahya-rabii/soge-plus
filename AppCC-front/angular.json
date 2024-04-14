@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/front-app-cc",
-            "index": "src/index.html",
+            "index": "src/pages/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -25,7 +25,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/custom-theme.scss",
+              "src/styles/styles.css"
             ],
             "scripts": []
           },
@@ -85,7 +86,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles/styles.css"
             ],
             "scripts": []
           }

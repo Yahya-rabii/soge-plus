@@ -57,7 +57,7 @@ export class LoginComponent {
       if (rolesArray.includes('ADMIN')) {
         window.location.href = '/admin';
       } else {
-        window.location.href = '/';
+        window.location.href = '/home';
       }
     } catch (error) {
       throw error;

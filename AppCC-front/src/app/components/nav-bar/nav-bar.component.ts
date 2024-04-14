@@ -5,13 +5,12 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { OnInit } from '@angular/core';
-import { SideBarUserComponent } from '../side-bar-user/side-bar-user.component';
 
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule,SideBarUserComponent],
+  imports: [CommonModule],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })

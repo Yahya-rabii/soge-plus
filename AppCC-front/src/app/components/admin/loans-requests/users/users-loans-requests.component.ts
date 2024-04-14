@@ -1,10 +1,10 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../../../../../services/user.service';
-import { User } from '../../../../../models/user.model';
-import { LoanService } from '../../../../../services/loan.service';
-import { Loan } from '../../../../../models/loan.model';
-import { LoanSharingService } from '../../../../../services/loan-sharing.service';
+import { UsersService } from '../../../../services/user.service';
+import { User } from '../../../../models/user.model';
+import { LoanService } from '../../../../services/loan.service';
+import { Loan } from '../../../../models/loan.model';
+import { LoanSharingService } from '../../../../services/loan-sharing.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

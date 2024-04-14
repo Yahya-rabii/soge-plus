@@ -3,6 +3,7 @@ import { provideRouter ,withComponentInputBinding,withInMemoryScrolling, withVie
 import { routes } from '../routes/app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient , withJsonpSupport } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 
@@ -13,5 +14,5 @@ export const appConfig: ApplicationConfig = {
     withComponentInputBinding(),
     withInMemoryScrolling({scrollPositionRestoration: 'enabled'})),
     provideAnimations(),
-    provideHttpClient(withJsonpSupport()),]
+    provideHttpClient(withJsonpSupport()), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(),]
 };
