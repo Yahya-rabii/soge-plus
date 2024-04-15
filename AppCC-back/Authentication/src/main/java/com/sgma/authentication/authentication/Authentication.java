@@ -15,6 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static com.sgma.authentication.Helper.getTokenHelper.getTokenHelper;
+
 @RestController
 @AllArgsConstructor
 @NoArgsConstructor
@@ -97,7 +99,7 @@ public class Authentication {
             if (clientData.getStatusCode() == HttpStatus.CREATED) {
 
                 // Get the roles of the user
-                roles = getRole(UserID).getBody().get("roles");
+                roles = Objects.requireNonNull(getRole(UserID).getBody()).get("roles");
 
 
 
@@ -153,18 +155,13 @@ public class Authentication {
         }
     }
 
+
+
     private String getAccessToken() {
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-            map.add("grant_type", "client_credentials");
-            map.add("client_id", clientId);
-            map.add("client_secret", clientSecret);
 
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-            ResponseEntity<Map> response = restTemplate.postForEntity(gettokenUrl, request, Map.class);
+
+            ResponseEntity<Map> response =  getTokenHelper(clientSecret , clientId , gettokenUrl);
             if (response.getStatusCode() == HttpStatus.OK) {
 
                 accessToken = (String) Objects.requireNonNull(response.getBody()).get("access_token");
@@ -248,7 +245,7 @@ public class Authentication {
 
 
                     // call the role endpoint to get the roles of the user and if the roles returned from getRole method are not the same as the roles of the user in the client microservice then update the roles of the user in the client microservice
-                    List<String> roles = getRole(userId).getBody().get("roles");
+                    List<String> roles = Objects.requireNonNull(getRole(userId).getBody()).get("roles");
                     if (roles != null) {
                         // Get the roles of the user from the client microservice
                         ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + userId, Map.class);

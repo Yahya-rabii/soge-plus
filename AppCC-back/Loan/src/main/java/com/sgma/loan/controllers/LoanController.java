@@ -1,5 +1,6 @@
 package com.sgma.loan.controllers;
 
+import com.sgma.loan.config.EmailSenderService;
 import com.sgma.loan.entities.Loan;
 import com.sgma.loan.enums.PaymentDuration;
 import com.sgma.loan.enums.ReceptionMethod;
@@ -7,9 +8,16 @@ import com.sgma.loan.enums.Status;
 import com.sgma.loan.enums.Type;
 import com.sgma.loan.services.LoanService;
 import io.minio.errors.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,10 +29,19 @@ import java.util.*;
 @RestController
 public class LoanController {
 
-    private final LoanService loanService;
+    @Value("${getclient.Byid.endpoint}")
+    private String getclientByidEndpoint;
 
-    public LoanController(LoanService loanService) {
+    @Value("${client.service.url}")
+    private String clientServiceUrl;
+
+
+
+    private final LoanService loanService;
+    private final EmailSenderService emailSenderService;
+    public LoanController(LoanService loanService , EmailSenderService emailSenderService) {
         this.loanService = loanService;
+        this.emailSenderService = emailSenderService;
     }
 
     @GetMapping("/loans")
@@ -139,10 +156,36 @@ public class LoanController {
     }
 
 
+
+    public Map<String, Object> getClient(String clientId){
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + clientId, Map.class);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            Map<String, Object> clientData = response.getBody();
+            if (clientData != null) {
+                return clientData;
+            }
+        }
+
+        return null;
+        }
+
+
+
     @PutMapping("/validateLoan")
     public ResponseEntity<Loan> validateLoan(@RequestBody Loan loan) {
         // Validate the loan
         loanService.validateLoan(loan);
+
+        // get the client email from the client service using the client id from the loan
+        Map<String, Object> clientData = getClient(loan.getClientId());
+
+
+        // Send an email to the client
+        emailSenderService.sendEmail("Sg@gmail.com",clientData.get("email").toString(), "Test Subject", "Test Body");
+
+
+
 
         // Optionally, you can return the validated loan
         return new ResponseEntity<>(loan, HttpStatus.OK);

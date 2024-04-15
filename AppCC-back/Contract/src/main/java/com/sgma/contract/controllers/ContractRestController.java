@@ -18,10 +18,10 @@ import java.util.*;
 @RestController
 public class ContractRestController {
 
-    private ContractRepository contractRepository;
-    private ClientFetchingService clientFetchingService;
+    private final ContractRepository contractRepository;
+    private final ClientFetchingService clientFetchingService;
 
-    private LoanFetchingService loanFetchingService;
+    private final LoanFetchingService loanFetchingService;
 
     public static Logger log = LoggerFactory.getLogger(ContractRestController.class);
 
@@ -125,7 +125,7 @@ public class ContractRestController {
         }
         else {
             MDC.put("traceId", "adding contract is failed because client does not exist");
-            log.info("add contract called from ContractRestController class of Contract microservice");
+            log.info("add contract called from ContractRestController class of Contract microservice but the client is null");
             return null;
         }
     }

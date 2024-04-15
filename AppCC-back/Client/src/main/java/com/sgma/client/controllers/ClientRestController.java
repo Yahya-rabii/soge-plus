@@ -28,7 +28,7 @@ public class ClientRestController {
     // CRUD methods here
     @GetMapping("/clients")
     public List<Client> getAllClients() {
-        MDC.put("traceId", "get all clients called from ClientRestController class of Client microservice");
+        MDC.put("traceId","");
         log.info("get all clients called from ClientRestController class of Client microservice");
         return clientService.getAllClients();
     }

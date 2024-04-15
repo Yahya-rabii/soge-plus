@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
+import static com.sgma.authentication.Helper.getTokenHelper.getTokenHelper;
+
 @Component
 public class KeycloakAdminUserCreator {
 
@@ -35,6 +37,8 @@ public class KeycloakAdminUserCreator {
     private String usersEndpoint;
     private String accessToken;
 
+    @Value("${keycloak.token.url}")
+    private String gettokenUrl;
     @Bean
     public void createAdminOnStartup() {
         try {
@@ -78,16 +82,8 @@ public class KeycloakAdminUserCreator {
 
     private ResponseEntity<Map> getToken() {
         try {
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-            map.add("grant_type", "client_credentials");
-            map.add("client_id", clientId);
-            map.add("client_secret", clientSecret);
 
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-            return restTemplate.postForEntity(getTokenUrl, request, Map.class);
+            return getTokenHelper(clientSecret , clientId , gettokenUrl);
         } catch (Exception e) {
             throw new RuntimeException("Failed to retrieve access token from Keycloak", e);
         }
@@ -103,6 +99,7 @@ public class KeycloakAdminUserCreator {
             ResponseEntity<List> response = restTemplate.exchange(authUrl + usersEndpoint, HttpMethod.GET, request, List.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 List<Map<String, Object>> users = response.getBody();
+                assert users != null;
                 for (Map<String, Object> user : users) {
                     if ("admin".equals(user.get("username"))) {
                         return true;
@@ -151,6 +148,7 @@ public class KeycloakAdminUserCreator {
             ResponseEntity<List> response = restTemplate.exchange(authUrl + rolesEndpoint, HttpMethod.GET, request, List.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 List<Map<String, Object>> roles = response.getBody();
+                assert roles != null;
                 for (Map<String, Object> role : roles) {
                     if ("ADMIN".equals(role.get("name"))) {
                         return true;
@@ -218,6 +216,7 @@ public class KeycloakAdminUserCreator {
             ResponseEntity<List> response = restTemplate.exchange(authUrl + usersEndpoint, HttpMethod.GET, request, List.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 List<Map<String, Object>> users = response.getBody();
+                assert users != null;
                 for (Map<String, Object> user : users) {
                     if (username.equals(user.get("username"))) {
                         return user.get("id").toString();
@@ -240,6 +239,7 @@ public class KeycloakAdminUserCreator {
             ResponseEntity<List> response = restTemplate.exchange(authUrl + rolesEndpoint, HttpMethod.GET, request, List.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 List<Map<String, Object>> roles = response.getBody();
+                assert roles != null;
                 for (Map<String, Object> role : roles) {
                     if (roleName.equals(role.get("name"))) {
                         return role.get("id").toString();

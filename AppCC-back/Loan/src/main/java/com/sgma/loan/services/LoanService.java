@@ -55,8 +55,7 @@ public class LoanService {
     public Loan createLoan(Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
         loan.setStatus(Status.PENDING);
         loan.setApproved(false);
-        loan  = handleMinioOperations(loan, signature, cinCartRecto, cinCartVerso);
-        return loanRepository.save(loan);
+        return loanRepository.save(handleMinioOperations(loan, signature, cinCartRecto, cinCartVerso));
     }
 
 
