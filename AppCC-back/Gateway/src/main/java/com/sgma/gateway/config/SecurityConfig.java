@@ -9,7 +9,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
 @EnableWebFluxSecurity
-
 public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity){
@@ -21,14 +20,14 @@ public class SecurityConfig {
                                 "/actuator/**",
                                 "/webjars/**",
                                 "/v3/api-docs/**",
-                                "/CLIENT-SERVICE/**",
-                                "/CONTRACT-SERVICE/**",
-                                "/ADMIN-SERVICE/**",
-                                "/LOAN-SERVICE/**",
-                                "/AUTH-SERVICE/**",
-                                "/ACCOUNT-SERVICE/**",
+                                "/client-service/**",
+                                "/contract-service/**",
+                                "/admin-service/**",
+                                "/loan-service/**",
+                                "/auth-service/**",
+                                "/account-service/**",
                                 "/instances/**",
-                                "/DISCOVERY-SERVICE/**"
+                                "/discovery-service/**"
                         ).permitAll()
                         .anyExchange().authenticated()
                 ).oauth2ResourceServer((oauth2) -> oauth2.jwt(

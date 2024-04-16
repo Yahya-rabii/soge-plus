@@ -24,20 +24,19 @@ public class GatewayApplication {
 
     // add dynamic routing here
     @Bean
-    public DiscoveryClientRouteDefinitionLocator dynamicRoutes( ReactiveDiscoveryClient rdc , DiscoveryLocatorProperties dlp){
-        return new DiscoveryClientRouteDefinitionLocator(rdc,dlp);
+    public DiscoveryClientRouteDefinitionLocator dynamicRoutes(ReactiveDiscoveryClient rdc, DiscoveryLocatorProperties dlp) {
+        return new DiscoveryClientRouteDefinitionLocator(rdc, dlp);
     }
 
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route(r -> r.path("/CLIENT-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://CLIENT-SERVICE"))
-                .route(r -> r.path("/CONTRACT-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://CONTRACT-SERVICE"))
-                .route(r -> r.path("/AUTH-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://AUTH-SERVICE"))
-                .route(r -> r.path("/LOAN-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://LOAN-SERVICE"))
-                .route(r -> r.path("/ACCOUNT-SERVICE/v3/api-docs").and().method(HttpMethod.GET).uri("lb://ACCOUNT-SERVICE"))
-
+                .route(r -> r.path("/client-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://client-service"))
+                .route(r -> r.path("/contract-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://contract-service"))
+                .route(r -> r.path("/auth-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://auth-service"))
+                .route(r -> r.path("/loan-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://loan-service"))
+                .route(r -> r.path("/account-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://account-service"))
                 .build();
     }
 }

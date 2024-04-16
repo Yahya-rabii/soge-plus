@@ -8,11 +8,11 @@ spring:
     config:
       server:
         git:
-          uri: file:///C:/Users/yahyarb/Desktop/configurationrepo
+          uri: https://github.com/Yahya-rabii/configrepo.git
           username: Yahya-rabii
           password: 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
           default-label: "master"
   application:
-    name: CONFIG-SERVER
+    name: config-server
 
 
