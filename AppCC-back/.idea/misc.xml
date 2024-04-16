@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/Admin/pom.xml" />
         <option value="$PROJECT_DIR$/Authentication/pom.xml" />
         <option value="$PROJECT_DIR$/Loan/pom.xml" />
+        <option value="$PROJECT_DIR$/Account/pom.xml" />
       </list>
     </option>
   </component>

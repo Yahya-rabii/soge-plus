@@ -26,6 +26,7 @@ public class SecurityConfig {
                                 "/ADMIN-SERVICE/**",
                                 "/LOAN-SERVICE/**",
                                 "/AUTH-SERVICE/**",
+                                "/ACCOUNT-SERVICE/**",
                                 "/instances/**",
                                 "/DISCOVERY-SERVICE/**"
                         ).permitAll()
