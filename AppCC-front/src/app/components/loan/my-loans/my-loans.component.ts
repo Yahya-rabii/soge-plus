@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoanService } from '../../../services/loan.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoanDetailsDialogComponent } from '../display-loan-user/loan-details-dialog/loan-details-dialog.component';
+import { LoanDetailsDialogComponent } from '../loan-details-dialog/loan-details-dialog.component';
 import { Loan } from '../../../models/loan.model';
 import { CommonModule } from '@angular/common';
 import { User } from '../../../models/user.model';

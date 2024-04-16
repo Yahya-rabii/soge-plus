@@ -9,7 +9,6 @@ import{CreateloanComponent} from '../components/loan/createloan/createloan.compo
 import { ValidationFormComponent } from '../components/loan/validation-form/validation-form.component';
 import { PrivacypolicyComponent } from '../components/privacypolicy/privacypolicy.component';
 import { ContactComponent } from '../components/contact/contact.component';
-import { DisplayLoanUserComponent } from '../components/loan/display-loan-user/display-loan-user.component';
 import { ContractsComponent } from '../components/admin/contracts/contracts.component';    
 import { LoansRequestsComponent } from '../components/admin/loans-requests/users/users-loans-requests.component';
 import { AdminGuard } from '../guards/admin.guard';
@@ -17,25 +16,26 @@ import { UserGuard } from '../guards/user.guard';
 import { DashboardComponent } from '../components/admin/dashboard/dashboard.component';
 import { MyLoansComponent } from '../components/loan/my-loans/my-loans.component';
 import { LoansOfUserComponent } from '../components/admin/loans-requests/loans-of-user/loans-of-user.component';
+import { NoAuthGuard } from '../guards/No.auth.guard';
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
-    { path: 'signup', component: SignupComponent },
-    { path: 'login', component: LoginComponent },
     { path: 'contact', component: ContactComponent  },
     { path: 'privacypolicy', component: PrivacypolicyComponent  },
     { path: 'about', component: AboutComponent },
-
+   
+    { path: 'signup', component: SignupComponent , canActivate: [NoAuthGuard] },
+    { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard,UserGuard] }, // Protecting the home route
-    { path: 'admin', component:DashboardComponent, canActivate: [AdminGuard]  },
-    { path: 'users', component: UserstableComponent,canActivate: [AuthGuard]  } ,
+    { path: 'admin', component:DashboardComponent, canActivate: [AdminGuard,AdminGuard]  },
+    
+    { path: 'users', component: UserstableComponent,canActivate: [AuthGuard,AdminGuard]  } ,
     { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },
     { path: 'loan/confirmation', component: ValidationFormComponent,canActivate: [AuthGuard]  },
-    { path: 'myloans', component: MyLoansComponent,canActivate: [AuthGuard]  },
+    { path: 'myloans', component: MyLoansComponent,canActivate: [AuthGuard,UserGuard]  },
     { path: 'loansRequests', component: LoansRequestsComponent,canActivate: [AdminGuard]  },
-    { path: 'loan', component: DisplayLoanUserComponent,canActivate: [AuthGuard]  },
-    { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard]  },
-    { path: 'loans-of-user', component: LoansOfUserComponent,canActivate: [AdminGuard]  },
-    { path: '**', redirectTo: '' }
+    { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard ,AdminGuard]  },
+    { path: 'loans-of-user', component: LoansOfUserComponent,canActivate: [AuthGuard,AdminGuard]  },
+    { path: '**', redirectTo: 'home' }
 ];
 
 export enum AppRoutes{

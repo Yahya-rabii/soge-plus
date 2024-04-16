@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-cercularnav',
   templateUrl: './cercularnav.component.html',
-  styleUrls: ['./cercularnav.component.scss'],
+  styleUrls: ['./cercularnav.component.css'],
   standalone: true,
   imports : [CommonModule,MatIconModule]
 })

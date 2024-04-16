@@ -189,7 +189,7 @@ export class ValidationFormComponent implements OnInit {
 
 
         // redirect to the home page
-        this.router.navigate(['/loan']);
+        this.router.navigate(['/myloans']);
       })
       .catch((error) => {
         // if the createLoan method fails, display an error message
