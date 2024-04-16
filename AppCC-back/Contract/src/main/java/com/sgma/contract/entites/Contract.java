@@ -21,8 +21,6 @@ public class Contract {
 
     private Date creationDate;
 
-
-
     private PaymentDuration paymentDuration;
 
     @Column(name = "loan_id")

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -24,7 +25,14 @@ public class ClientService {
     }
 
     public Client getClientById(String id) {
-        return clientRepository.findById(id).orElse(null);
+
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isPresent()) {
+            return client.get();
+        } else {
+            return null;
+        }
+
     }
 
     public Client addClient(Client client) {

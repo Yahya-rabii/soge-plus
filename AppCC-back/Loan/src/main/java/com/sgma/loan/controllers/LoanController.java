@@ -6,6 +6,8 @@ import com.sgma.loan.enums.PaymentDuration;
 import com.sgma.loan.enums.ReceptionMethod;
 import com.sgma.loan.enums.Status;
 import com.sgma.loan.enums.Type;
+import com.sgma.loan.model.Contract;
+import com.sgma.loan.services.ContractFetchingService;
 import com.sgma.loan.services.LoanService;
 import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class LoanController {
     private String clientServiceUrl;
 
 
+    @Autowired
+    ContractFetchingService contractFetchingService;
 
     private final LoanService loanService;
     private final EmailSenderService emailSenderService;
@@ -171,6 +175,19 @@ public class LoanController {
         }
 
 
+    public Contract createContract(Loan loan) {
+        Contract contract = new Contract();
+        contract.setCreationDate(new Date());
+        contract.setPaymentDuration(loan.getPaymentDuration());
+        contract.setLoanId(loan.getId());
+        contract.setClientId(loan.getClientId());
+        return contract;
+    }
+
+
+
+
+
 
     @PutMapping("/validateLoan")
     public ResponseEntity<Loan> validateLoan(@RequestBody Loan loan) {
@@ -184,7 +201,11 @@ public class LoanController {
         // Send an email to the client
         emailSenderService.sendEmail("Sg@gmail.com",clientData.get("email").toString(), "Test Subject", "Test Body");
 
+        // Create a contract for the loan
+        Contract contract = createContract(loan);
 
+        // Add the contract to the contract service
+        contractFetchingService.addContract(contract);
 
 
         // Optionally, you can return the validated loan

@@ -1,6 +1,5 @@
 package com.sgma.authentication.Helper;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,6 +25,7 @@ public class getTokenHelper {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         return restTemplate.postForEntity(gettokenUrl, request, Map.class);
     }
+
 
 
 }

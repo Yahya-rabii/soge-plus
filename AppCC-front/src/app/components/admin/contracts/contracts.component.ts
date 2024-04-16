@@ -4,6 +4,8 @@ import { ContractService } from '../../../services/contract.service';
 import { Contract } from '../../../models/contract.model';
 import { from } from 'rxjs';
 import { OnInit } from '@angular/core';
+import { UsersService } from '../../../services/user.service';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-contracts',
@@ -14,19 +16,37 @@ import { OnInit } from '@angular/core';
 })
 export class ContractsComponent implements OnInit {
 
-  constructor(private contractService: ContractService) { }
+  constructor(private contractService: ContractService , private userService :UsersService) { }
 
   ngOnInit(): void {
-    this.getContractsOfClient();
+    this.getContracts();
   }
 
   contracts : Contract[] = [];
+  users : User[] = [];
  
   // get contracts of the user 
-  getContractsOfClient(){
-    from(this.contractService.getContractsOfClient()).subscribe((data) => {
+  getContractsOfClient(userId : string){
+    from(this.contractService.getContractsOfClients(userId) ).subscribe((data) => {
       this.contracts = data.contracts;
     });
+  }
+
+
+  getContracts(){
+    {
+      //loop over all users and get their contracts 
+      from(this.userService.getUsers()).subscribe((data) => {
+        this.users = data;
+        this.users.forEach(user => {
+          this.getContractsOfClient(user.id);
+        });
+      });
+
+    }
+
+
+
   }
 
 }

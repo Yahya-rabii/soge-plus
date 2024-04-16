@@ -8,10 +8,9 @@ export class ContractService {
 
   constructor() { }
 
-  async getContractsOfClient(): Promise<any> {
+  async getContractsOfClients(clientId : string): Promise<any> {
 
-    const clientId = localStorage.getItem('UserId');
-    const url = `${environment.ContractMsUrl}${environment.getContractsOfClientEndpoint}${clientId}`;
+    const url = `${environment.ContractMsUrl}${environment.getAllContractsEndpoint}`;
     try {
       const response = await fetch(url);
       const data = await response.json();

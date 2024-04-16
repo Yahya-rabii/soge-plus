@@ -4,6 +4,7 @@ import { ContractService } from '../../../../services/contract.service';
 import { from } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { User } from '../../../../models/user.model';
+import { UsersService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-userstable',
@@ -13,20 +14,20 @@ import { User } from '../../../../models/user.model';
   styleUrl: './userstable.component.css'
 })
 export class UserstableComponent implements OnInit {
-  constructor(private contractService: ContractService) { }
+  constructor(private userService: UsersService) { }
 
   clients : User[] = [];
 
   ngOnInit(): void {
-    this.getContracts();
+    this.GetClients();
   }
  
 
   // get contracts from the server
  // get contracts of the user 
- getContracts(){
-  from(this.contractService.getContracts()).subscribe((data) => {
-    this.clients = data.clients;
+ GetClients(){
+  from(this.userService.getUsers()).subscribe((data) => {
+    this.clients = data;
   });
 }
 }

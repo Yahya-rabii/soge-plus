@@ -1,9 +1,11 @@
 package com.sgma.authentication.authentication;
 
 import com.sgma.authentication.model.*;
+import com.sgma.authentication.service.ClientFetchingService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -68,6 +70,11 @@ public class Authentication {
     private String usersEndpoint;
 
     private List<String> roles = new ArrayList<>();
+
+
+     @Autowired
+    private  ClientFetchingService clientFetchingService;
+
 
 
 
@@ -177,6 +184,9 @@ public class Authentication {
         }
     }
 
+
+
+
     private ResponseEntity<Map> createUser(ClientSignup user) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -246,25 +256,32 @@ public class Authentication {
 
                     // call the role endpoint to get the roles of the user and if the roles returned from getRole method are not the same as the roles of the user in the client microservice then update the roles of the user in the client microservice
                     List<String> roles = Objects.requireNonNull(getRole(userId).getBody()).get("roles");
-                    if (roles != null) {
+
+                    if (roles != null && !roles.contains("ADMIN") ) {
                         // Get the roles of the user from the client microservice
-                        ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + userId, Map.class);
-                        if (response.getStatusCode() == HttpStatus.OK) {
-                            Map<String, Object> clientData = response.getBody();
-                            if (clientData != null) {
-                                // Get the roles of the user from the client microservice
-                                Map<String, Object> roleData = (Map<String, Object>) clientData.get("roles");
-                                List<String> userRoles = (List<String>) roleData.get("roles");
+                        //ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + userId, Map.class);
+                        Client clientData = clientFetchingService.getClientById(userId);
+
+
+                        if (clientData != null) {
+
+                            // Get the roles of the user from the client microservice
+
+                                Map<String, Object> roleData = new HashMap<>();
+                                roleData.put("roles", clientData.getRoles());
+
+                                // roleData contains the roles of the user in the client microservice
+                                // userRoles contains the roles of the user returned from the getRole method (Keycloak)
 
                                 // Check if the roles of the user in the client microservice are different from the roles returned from the getRole method
-                                if (!userRoles.equals(roles)) {
+                                if (!roleData.equals(roles)) {
                                     // Update the roles of the user in the client microservice
                                     roleData.put("roles", roles);
                                     headers.setContentType(MediaType.APPLICATION_JSON);
-                                    HttpEntity<Map<String, Object>> request = new HttpEntity<>(clientData, headers);
+                                    HttpEntity<Client> request = new HttpEntity<>(clientData, headers);
                                     restTemplate.put(clientServiceUrl + updateClientById+  userId, request);
                                 }
-                            }
+
                         }
                     }
 

@@ -21,15 +21,10 @@ public class Client {
     private String email;
     private String firstName;
     private String lastName;
-
-
     @Embedded
     private Role roles;
-
     @Embedded
     private Address address;
-
-
     @Transient
     private List<Contract> contracts;
 

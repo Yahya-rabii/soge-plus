@@ -55,7 +55,7 @@ public class ContractRestController {
                 else {
                     MDC.put("traceId", "get all contracts failed because client does not exist");
                     log.info("get all contracts failed because client does not exist");
-                    return ResponseEntity.notFound().build();
+                    return ResponseEntity.status(444).build();
                 }
 
             }
@@ -69,7 +69,7 @@ public class ContractRestController {
     } else {
         MDC.put("traceId", "get all contracts failed because contracts do not exist");
         log.info("get all contracts failed because contracts do not exist");
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(444).build();
     }
 }
 
