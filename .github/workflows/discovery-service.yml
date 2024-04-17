@@ -1,14 +1,14 @@
-name: Soge-system-config-service pipeline
+name: Soge-system-Discovery-service pipeline # changes depending on service
 
 on:
   push:
     tags:
-      - 'CS-v*'
+      - 'DS-v*'
 
 env:
-  SERVICE_NAME: soge-system-config-service
+  SERVICE_NAME: soge-system-discovery-service # changes depending on service
   REGISTRY_NAME: salaheddine122/
-  APP_CONTEXT: AppCC-back/Config
+  APP_CONTEXT: AppCC-back/Discovery # changes depending on service
 
 jobs:
   explore_github_actions:
