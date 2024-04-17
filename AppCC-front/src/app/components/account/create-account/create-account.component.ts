@@ -10,20 +10,16 @@ import { Account } from '../../../models/account.model';
 export class CreateAccountComponent {
 
   constructor(private accountService: AccountService) { }
-
+  accountType : string = '';
   // Method to set the account type when a button is clicked
   public setAccountType(accountType: string) {
-    // Set the account type value in the form
-    const accountTypeControl = document.getElementById('accountType') as HTMLInputElement;
-    if (accountTypeControl) {
-      accountTypeControl.value = accountType;
-    }
+    this.accountType = accountType;
   }
 
   // Method to handle form submission
   public Submit() {
     const formData = {
-      accountType: (document.getElementById('accountType') as HTMLInputElement)?.value ?? '',
+      accountType: this.accountType,
       accountHolderId: this.getAccountHolderIdFromLocalStorage(),
       balance: 0,
       bankName: 'SOGE Bank'

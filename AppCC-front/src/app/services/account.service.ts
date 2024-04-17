@@ -53,6 +53,7 @@ export class AccountService {
 
     // create Account
     async createAccount(account: Account): Promise<any> {
+        console.log(account);
         const url = `${environment.AccountMsUrl}${environment.createAccountEndpoint}`;
         try {
             const response = await fetch(url, {
