@@ -54,10 +54,9 @@ jobs:
 
       - name: Create artifact
         run : mvn package -DskipTests
-      
-    
+
   scan_vulnerabilities_image:
-    needs: explore_github_actions
+    needs: java_setup_and_tests
     runs-on: ubuntu-latest
     steps:
       - name: Scan for vulnerabilities first build phase
