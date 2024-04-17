@@ -257,6 +257,8 @@ public class Authentication {
                     // call the role endpoint to get the roles of the user and if the roles returned from getRole method are not the same as the roles of the user in the client microservice then update the roles of the user in the client microservice
                     List<String> roles = Objects.requireNonNull(getRole(userId).getBody()).get("roles");
 
+
+
                     if (roles != null && !roles.contains("ADMIN") ) {
                         // Get the roles of the user from the client microservice
                         //ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + userId, Map.class);
@@ -267,16 +269,29 @@ public class Authentication {
 
                             // Get the roles of the user from the client microservice
 
-                                Map<String, Object> roleData = new HashMap<>();
-                                roleData.put("roles", clientData.getRoles());
+                            // Get the roles of the user from the client microservice
+                            String userRolesString = clientData.getRoles().getRoles().get(0);
 
-                                // roleData contains the roles of the user in the client microservice
+                            // Remove square brackets from the string
+                            userRolesString = userRolesString.replaceAll("\\[|\\]", "");
+
+                            // Split the string by comma and optional space
+                            List<String> userRoles = Arrays.asList(userRolesString.split(",\\s*"));
+
+                            // Now userRoles contains individual roles
+                            List<String> userRolesList = new ArrayList<>(userRoles);
+
+
+                            // roleData contains the roles of the user in the client microservice
                                 // userRoles contains the roles of the user returned from the getRole method (Keycloak)
 
                                 // Check if the roles of the user in the client microservice are different from the roles returned from the getRole method
-                                if (!roleData.equals(roles)) {
+                                if (!userRolesList.equals(roles)) {
                                     // Update the roles of the user in the client microservice
-                                    roleData.put("roles", roles);
+                                    Role role = new Role();
+                                    role.setRoles(roles);
+                                    clientData.setRoles(role);
+
                                     headers.setContentType(MediaType.APPLICATION_JSON);
                                     HttpEntity<Client> request = new HttpEntity<>(clientData, headers);
                                     restTemplate.put(clientServiceUrl + updateClientById+  userId, request);

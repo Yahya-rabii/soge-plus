@@ -12,17 +12,7 @@ import lombok.*;
 
 import java.util.List;
 
-@XmlRootElement(name = "client")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "client", propOrder = {
-        "id",
-        "email",
-        "firstName",
-        "lastName",
-        "roles",
-        "contracts",
-        "address"
-})
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -42,6 +32,10 @@ public class Client {
 
     @Embedded
     private Address address;
+
+    private boolean hasAccount = false;
+
+    private Long RIB;
 
 
     @Transient

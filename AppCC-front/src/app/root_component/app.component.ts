@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { LoginComponent } from '../components/login/login.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { NavBarComponent } from '../components/nav-bar/nav-bar.component';
@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CustomSideComponent } from '../components/side/custom-side.component';
+import { UsersService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -28,8 +30,9 @@ import { CustomSideComponent } from '../components/side/custom-side.component';
 export class AppComponent implements OnInit {
   title = 'appcc-front';
   isAdmin :Boolean = false;
-
-  constructor(private authService : AuthenticationService){}
+  hasAccount :Boolean = false;
+  user : User = new User();
+  constructor(private authService : AuthenticationService , private usersService :UsersService , private router : Router) { }
   collapsed =signal(false)
   sidenavWidth = computed(()=> this.collapsed() ? '65px' :'250px')
   
@@ -39,8 +42,13 @@ export class AppComponent implements OnInit {
    if (this.isLoggedIn()) {
     this.authService.isAdmin().then((isAdmin) =>
       {
-        this.isAdmin = isAdmin;
-      });
+        this.isAdmin = isAdmin; 
+        if(!this.isAdmin){
+          this.getCurrentUser();
+        }
+      });    
+     
+
     }
     
 
@@ -48,6 +56,17 @@ export class AppComponent implements OnInit {
   }
   isLoggedIn() {
     return this.authService.isLoggedIn();
+  }
+
+  getCurrentUser() {
+    return this.usersService.getUserById().then((user) => {
+      this.user = user;
+      this.hasAccount = user.hasAccount;
+    });
+  }
+  
+  createAccount(){
+    this.router.navigate(['create-account']);
   }
   
 

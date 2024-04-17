@@ -77,7 +77,20 @@ public class ClientRestController {
         return clientService.getContracts(id);
     }
 
+    //get client by rib
+    @GetMapping(path = "/client/rib/{rib}")
+    public Client getClientByRib(@PathVariable Long rib) {
+        MDC.put("traceId", "get client by rib called from ClientRestController class of Client microservice");
+        log.info("get client by rib called from ClientRestController class of Client microservice");
+        return clientService.getClientByRib(rib);
+    }
 
-
+    // set client has account to true
+    @GetMapping(path = "/client/hasAccount/{id}")
+    public void setClientHasAccount(@PathVariable String id) {
+        MDC.put("traceId", "set client has account to true called from ClientRestController class of Client microservice");
+        log.info("set client has account to true called from ClientRestController class of Client microservice");
+        clientService.setClientHasAccount(id);
+    }
 
 }

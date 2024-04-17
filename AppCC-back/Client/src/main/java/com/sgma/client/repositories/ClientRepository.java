@@ -7,4 +7,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface ClientRepository extends JpaRepository<Client, String> {
+Client findByRIB(Long RIB);
 }

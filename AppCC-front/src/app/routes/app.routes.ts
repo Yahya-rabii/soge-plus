@@ -17,6 +17,8 @@ import { DashboardComponent } from '../components/admin/dashboard/dashboard.comp
 import { MyLoansComponent } from '../components/loan/my-loans/my-loans.component';
 import { LoansOfUserComponent } from '../components/admin/loans-requests/loans-of-user/loans-of-user.component';
 import { NoAuthGuard } from '../guards/No.auth.guard';
+import { CreateAccountComponent } from '../components/account/create-account/create-account.component';
+import { MyAccountComponent } from '../components/account/my-account/my-account.component';
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
     { path: 'contact', component: ContactComponent  },
@@ -35,6 +37,11 @@ export const routes: Routes = [
     { path: 'loansRequests', component: LoansRequestsComponent,canActivate: [AdminGuard]  },
     { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard ,AdminGuard]  },
     { path: 'loans-of-user', component: LoansOfUserComponent,canActivate: [AuthGuard,AdminGuard]  },
+    {path : 'mycontracts', component: ContractsComponent,canActivate: [AuthGuard,UserGuard] },
+    // create account
+    { path: 'create-account', component: CreateAccountComponent,canActivate: [AuthGuard ,UserGuard] },
+    // my account
+    { path: 'myaccount', component: MyAccountComponent,canActivate: [AuthGuard ,UserGuard] },
     { path: '**', redirectTo: 'home' }
 ];
 

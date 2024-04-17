@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -148,7 +149,8 @@ public class LoanController {
         newLoan.setCinNumber(loanDetails.get("cinNumber"));
         newLoan.setTaxId(loanDetails.get("taxId"));
         newLoan.setReceptionMethod(ReceptionMethod.valueOf(loanDetails.get("receptionMethod")));
-        newLoan.setBankAccountCredentials_RIB(loanDetails.get("bankAccountCredentials_RIB"));
+        // bankAccountCredentials_RIB is a BigInteger
+        newLoan.setBankAccountCredentials_RIB(new BigInteger(loanDetails.get("bankAccountCredentials_RIB")));
         newLoan.setSelectedAgency(loanDetails.get("selectedAgency"));
         newLoan.setClientId(loanDetails.get("clientId"));
         newLoan.setStatus(Status.PENDING);

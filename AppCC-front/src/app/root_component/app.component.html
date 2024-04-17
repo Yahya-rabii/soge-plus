@@ -12,9 +12,19 @@
   <mat-toolbar class=" mat-elevation-z3">
     <app-cercularnav></app-cercularnav>
 
-    <button id="al" aria-label="Name" class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
+      
+      <button id="al" aria-label="Name" class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
         <mat-icon>menu</mat-icon>
-    </button>
+      </button>
+
+    
+        <button id="create-account-button" mat-button color="primary" class="create" *ngIf="!hasAccount" (click)="createAccount()">
+          <mat-icon>add</mat-icon>
+          Create Account
+        </button>
+   
+   
+
   </mat-toolbar>
   <mat-sidenav-container>
     <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">

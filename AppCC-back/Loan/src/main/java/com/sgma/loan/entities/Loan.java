@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.Date;
 
 
@@ -45,7 +46,7 @@ public class Loan {
     private ReceptionMethod receptionMethod; // Method of money reception
 
     // Fields related to ONLINE method
-    private String bankAccountCredentials_RIB; // User's bank account credentials (RIB)
+    private BigInteger bankAccountCredentials_RIB; // User's bank account credentials (RIB)
 
     // Fields related to AGENCY_SELECTION method
     private String selectedAgency; // Selected bank agency
