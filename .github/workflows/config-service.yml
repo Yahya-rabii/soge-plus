@@ -29,9 +29,7 @@ jobs:
   java_setup_and_tests:
     needs: explore_github_actions
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.APP_CONTEXT }}
+
     steps:
       - name: Setup Java JDK
         uses: actions/setup-java@v4.0.0
@@ -41,19 +39,19 @@ jobs:
           cache: 'maven'
 
       - name: Clean everything
-        run: mvn clean
+        run: cd ${{ env.APP_CONTEXT }} && mvn clean
 
       - name: Compile main code
-        run: mvn compile
+        run: cd ${{ env.APP_CONTEXT }} && mvn compile
       
       - name: Test test-cases
-        run: mvn test
+        run: cd ${{ env.APP_CONTEXT }} && mvn test
       
       - name: Test integration
-        run: mvn verify -DskipTests
+        run: cd ${{ env.APP_CONTEXT }} && mvn verify -DskipTests
 
       - name: Create artifact
-        run : mvn package -DskipTests
+        run : cd ${{ env.APP_CONTEXT }} && mvn package -DskipTests
 
   scan_vulnerabilities_image:
     needs: java_setup_and_tests
