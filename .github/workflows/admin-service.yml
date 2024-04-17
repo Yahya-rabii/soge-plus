@@ -5,6 +5,7 @@ on:
     tags:
       - 'AS-v*'
 
+      
 env:
   SERVICE_NAME: soge-system-admin-service # changes depending on service
   REGISTRY_NAME: salaheddine122/
