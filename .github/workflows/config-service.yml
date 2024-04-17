@@ -25,9 +25,53 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-
-  build_and_push_docker_images:
+  
+  java_setup_and_tests:
     needs: explore_github_actions
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.APP_CONTEXT }}
+    steps:
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.0.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Clean everything
+        run: mvn clean
+
+      - name: Compile main code
+        run: mvn compile
+      
+      - name: Test test-cases
+        run: mvn test
+      
+      - name: Test integration
+        run: mvn verify -DskipTests
+
+      - name: Create artifact
+        run : mvn package -DskipTests
+      
+    
+  scan_vulnerabilities_image:
+    needs: explore_github_actions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan for vulnerabilities first build phase
+        uses: crazy-max/ghaction-container-scan@v3.0.0
+        with:
+          image: maven:3.8.4-openjdk-17
+      
+      - name: Scan for vulnerabilities second build phase
+        uses: crazy-max/ghaction-container-scan@v3.0.0
+        with:
+          image: openjdk:17-jdk-alpine
+        
+  build_and_push_docker_images:
+    needs: scan_vulnerabilities_image
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -51,4 +95,3 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY_NAME }}${{ env.SERVICE_NAME }}:${{ github.ref_name }}
           context: ${{ env.APP_CONTEXT }}
-          
