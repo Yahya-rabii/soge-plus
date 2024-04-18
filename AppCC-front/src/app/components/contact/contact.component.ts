@@ -23,7 +23,8 @@ export class ContactComponent implements OnInit {
 
 
     // get the current user and then get the contracts of that user 
-    this.usersService.getUserById().then((user) => {
+    const userId :string = localStorage.getItem('UserId') ?? '';
+    this.usersService.getUserById(userId).then((user) => {
       this.contractService.getContractsOfClients(user.id).then((data) => {
         this.Contracts = data.contracts;
       });

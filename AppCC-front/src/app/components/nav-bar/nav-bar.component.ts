@@ -62,7 +62,8 @@ export class NavBarComponent implements OnInit {
 
   async getUser() {
     try {
-      this.user = await this.userService.getUserById();
+      const userid = localStorage.getItem('UserId') ?? '';
+      this.user = await this.userService.getUserById( userid);
     } catch (error) {
       console.error('Error fetching user:', error);
     }

@@ -1,6 +1,6 @@
 <div id="default-carousel" class="relative w-full z-0" data-carousel="slide">
     <!-- Carousel wrapper -->
-    <div class="relative h-32 overflow-hidden rounded-lg md:h-96" style="height: 70vh;">
+    <div class="relative h-full overflow-hidden rounded-lg md:h-96" style="height: 70vh;">
         <!-- Item 1 -->
         <div *ngFor="let image of images; let i = index" [ngClass]="{ 'opacity-100': i === currentImageIndex, 'opacity-0': i !== currentImageIndex, 'duration-1000': true, 'ease-in-out': true, 'absolute': true, 'w-full': true, '-translate-x-1/2': true, '-translate-y-1/2': true, 'top-1/2': true, 'left-1/2': true }" data-carousel-item>
             <img src="{{ image }}" class="block w-full h-full" alt="...">

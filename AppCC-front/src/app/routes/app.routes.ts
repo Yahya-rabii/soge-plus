@@ -21,6 +21,7 @@ import { CreateAccountComponent } from '../components/account/create-account/cre
 import { MyAccountComponent } from '../components/account/my-account/my-account.component';
 import { AddTransactionComponent } from '../components/account/my-account/add-transaction/add-transaction.component';
 import { AddBeneficiaryComponent } from '../components/account/my-account/add-beneficiary/add-beneficiary.component';
+import { MyContractsComponent } from '../components/contracts/my.contracts.component';
 
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
@@ -40,7 +41,7 @@ export const routes: Routes = [
     { path: 'loansRequests', component: LoansRequestsComponent,canActivate: [AdminGuard]  },
     { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard ,AdminGuard]  },
     { path: 'loans-of-user', component: LoansOfUserComponent,canActivate: [AuthGuard,AdminGuard]  },
-    {path : 'mycontracts', component: ContractsComponent,canActivate: [AuthGuard,UserGuard] },
+    {path : 'mycontracts', component: MyContractsComponent,canActivate: [AuthGuard,UserGuard] },
     // create account
     { path: 'create-account', component: CreateAccountComponent,canActivate: [AuthGuard ,UserGuard] },
     // add transaction

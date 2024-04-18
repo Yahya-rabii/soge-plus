@@ -52,7 +52,8 @@ export class CustomSideComponent implements OnInit {
             { label: 'My Contracts', icon: 'description', route: 'mycontracts' },
           ]);
 
-          this.usersService.getUserById().then((user) => {
+          const userId :string = localStorage.getItem('UserId') ?? '';
+          this.usersService.getUserById(userId).then((user) => {
             if (user.hasAccount == true) {
 
 

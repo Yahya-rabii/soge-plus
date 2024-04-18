@@ -59,7 +59,9 @@ export class AppComponent implements OnInit {
   }
 
   getCurrentUser() {
-    return this.usersService.getUserById().then((user) => {
+    const userId :string = localStorage.getItem('UserId') ?? '';
+
+    return this.usersService.getUserById(userId).then((user) => {
       this.user = user;
       this.hasAccount = user.hasAccount;
     });

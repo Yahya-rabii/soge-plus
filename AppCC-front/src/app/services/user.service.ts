@@ -13,7 +13,7 @@ export class UsersService {
       const response = await fetch(url);
       const data = await response.json();
       const users: User[] = data.map((user: any) => {
-        return new User(user.id , user.firstName+' '+user.lastName, user.firstName, user.lastName, user.email ,user.hasAccount, user.RIB, user.credentials, user.address);
+        return new User(user.id , user.firstName+' '+user.lastName, user.firstName, user.lastName, user.email ,user.hasAccount, user.rib, user.credentials, user.address);
       });
       console.log(users);
       return users;
@@ -25,8 +25,8 @@ export class UsersService {
   }
 
 
-  async getUserById(): Promise<User> {
-    const id = localStorage.getItem('UserId');
+  async getUserById(UserId : string): Promise<User> {
+    const id = UserId;
     const url = `${environment.ClientMsUrl}${environment.getClientByIdEndpoint}/${id}`;
     try {
       const response = await fetch(url);
@@ -43,7 +43,7 @@ export class UsersService {
       }
       const data = await response.json();
       console.log(data);
-      const user = new User(data.id ,data.firstName + ' ' + data.lastName, data.firstName, data.lastName, data.email, data.hasAccount , data.RIB, data.credentials, data.address);
+      const user = new User(data.id ,data.firstName + ' ' + data.lastName, data.firstName, data.lastName, data.email, data.hasAccount , data.rib, data.credentials, data.address);
       console.log("dsqddsds"+user);
       return user;
     } catch (error) {
