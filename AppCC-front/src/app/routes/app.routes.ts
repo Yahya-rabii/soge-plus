@@ -19,6 +19,9 @@ import { LoansOfUserComponent } from '../components/admin/loans-requests/loans-o
 import { NoAuthGuard } from '../guards/No.auth.guard';
 import { CreateAccountComponent } from '../components/account/create-account/create-account.component';
 import { MyAccountComponent } from '../components/account/my-account/my-account.component';
+import { AddTransactionComponent } from '../components/account/my-account/add-transaction/add-transaction.component';
+import { AddBeneficiaryComponent } from '../components/account/my-account/add-beneficiary/add-beneficiary.component';
+
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
     { path: 'contact', component: ContactComponent  },
@@ -40,6 +43,13 @@ export const routes: Routes = [
     {path : 'mycontracts', component: ContractsComponent,canActivate: [AuthGuard,UserGuard] },
     // create account
     { path: 'create-account', component: CreateAccountComponent,canActivate: [AuthGuard ,UserGuard] },
+    // add transaction
+    { path: 'add-transaction', component: AddTransactionComponent,canActivate: [AuthGuard ,UserGuard] },
+    //add beneficiary
+    { path: 'add-beneficiary', component: AddBeneficiaryComponent,canActivate: [AuthGuard ,UserGuard] },
+
+    
+
     // my account
     { path: 'myaccount', component: MyAccountComponent,canActivate: [AuthGuard ,UserGuard] },
     { path: '**', redirectTo: 'home' }

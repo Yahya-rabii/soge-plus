@@ -58,9 +58,8 @@ export class CustomSideComponent implements OnInit {
 
               this.subItems.update((items) => {
                 items.push(
-                  { label: 'Transactions', icon: 'account_balance_wallet', route: 'transactions' },
-                  { label: 'Credit Cards', icon: 'credit_card', route: 'creditcards' },
-                  { label: 'Contracts', icon: 'description', route: 'contracts' },
+                  { label: 'Add Transaction', icon: 'account_balance_wallet', route: 'add-transaction' },
+                  { label: 'Add Beneficiary', icon: 'person_add', route: 'add-beneficiary' }
                 );
                 return items;
               });
@@ -133,3 +132,4 @@ export type LogoutItem = {
   label: string;
   icon: string;
 };
+
