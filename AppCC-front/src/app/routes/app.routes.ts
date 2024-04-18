@@ -21,7 +21,7 @@ import { CreateAccountComponent } from '../components/account/create-account/cre
 import { MyAccountComponent } from '../components/account/my-account/my-account.component';
 import { AddTransactionComponent } from '../components/account/my-account/add-transaction/add-transaction.component';
 import { AddBeneficiaryComponent } from '../components/account/my-account/add-beneficiary/add-beneficiary.component';
-import { MyContractsComponent } from '../components/contracts/my.contracts.component';
+import { MyContractsComponent } from '../components/mycontracts/my.contracts.component';
 
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
