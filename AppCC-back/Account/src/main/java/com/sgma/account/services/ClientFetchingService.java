@@ -17,8 +17,8 @@ public interface ClientFetchingService {
     Client getAccountHolderByRib(@PathVariable("rib") BigInteger rib);
 
     // set client has account to true
-    @GetMapping(path = "/client/hasAccount/{id}")
-    void setClientHasAccount(@PathVariable("id") String id);
+    @GetMapping(path = "/client/hasAccount/{id}/{rib}")
+    void setClientHasAccount(@PathVariable("id") String id , @PathVariable("rib") BigInteger rib);
 
 
 

@@ -18,6 +18,7 @@ export class CustomSideComponent implements OnInit {
 
   isAdmin: boolean = false;
   menuItems = signal<MenuItem[]>([]);
+  subMenuItems = signal<SubMenuItem[]>([]);
   user: User = new User();
   hasAccount: boolean = false;
 
@@ -27,19 +28,11 @@ export class CustomSideComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  getCurrentUser() {
-    return this.usersService.getUserById().then((user) => {
-      this.user = user;
-      this.hasAccount = user.hasAccount;
-    });
-  }
-
+ 
   ngOnInit() {
     if (this.isLoggedIn()) {
       this.authService.isAdmin().then((isAdmin) => {
         this.isAdmin = isAdmin;
-
-
 
         if (this.isAdmin) {
           console.log("admin")
@@ -50,44 +43,40 @@ export class CustomSideComponent implements OnInit {
             { label: 'Contracts', icon: 'description', route: 'contracts' },
           ]);
 
-        }
-
-        else {
+        } else {
           this.menuItems = signal<MenuItem[]>([
-            // home and my loans and create loan
             { label: 'Home', icon: 'home', route: 'home' },
             { label: 'My Loans', icon: 'money', route: 'myloans' },
             { label: 'Create Loan', icon: 'add', route: 'loan/createloan' },
-            // my contracts 
             { label: 'My Contracts', icon: 'description', route: 'mycontracts' },
           ]);
-          this.getCurrentUser();
 
-          if (this.hasAccount) {
-            this.menuItems.update((items) => {
-              items.push({ label: 'My Account', icon: 'account_circle', route: 'myAccount' });
-              return items;
-            });
-          }
+          this.usersService.getUserById().then((user) => {
+            if (user.hasAccount == true) {
+              this.menuItems.update((items) => {
+                items.push({ label: 'My Account', icon: 'account_circle', route: 'myaccount'});
+                return items;
+              });
 
+              if (this.router.url === '/myaccount') {
+                this.subMenuItems.set([
+                  { label: 'Transactions', icon: 'account_balance_wallet', route: 'transactions' },
+                  { label: 'Credit Cards', icon: 'credit_card', route: 'creditcards' },
+                  { label: 'Contracts', icon: 'description', route: 'contracts' },
+                ]);
+              }
+
+            }
+          });
         }
-
-
-
       });
     }
   }
-
 
   sideNavCollapsed = signal(false);
   @Input() set collapsed(val: boolean) {
     this.sideNavCollapsed.set(val)
   }
-
-
-
-
-
 
   logoutItem = signal<LogoutItem[]>([
     { label: 'Logout', icon: 'logout' }
@@ -100,10 +89,22 @@ export class CustomSideComponent implements OnInit {
       this.router.navigate(['/login']);
     });
   }
+
+
+  // Method to check if the current route is /myaccount
+  isMyAccountRoute() {
+    return this.router.url === '/myaccount';
+  }
+
 }
 
-
 export type MenuItem = {
+  label: string;
+  icon: string;
+  route: string;
+};
+
+export type SubMenuItem = {
   label: string;
   icon: string;
   route: string;
@@ -113,5 +114,3 @@ export type LogoutItem = {
   label: string;
   icon: string;
 };
-
-

@@ -27,7 +27,7 @@ export class CreateAccountComponent {
 
     const account : Account = new Account(
       0,
-      this.generateRIB(),
+      this.generateRib(),
       formData.accountType,
       formData.accountHolderId,
       0,
@@ -45,8 +45,8 @@ export class CreateAccountComponent {
     return localStorage.getItem('UserId') ?? '';
   }
 
-  // Method to create a 16-digit random RIB number
-  public generateRIB(): string {
+  // Method to create a 16-digit random Rib number
+  public generateRib(): string {
     return Math.floor(1000000000000000 + Math.random() * 9000000000000000).toString();
   }
 }

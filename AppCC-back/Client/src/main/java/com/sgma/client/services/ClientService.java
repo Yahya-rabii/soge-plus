@@ -7,6 +7,7 @@ import com.sgma.client.repositories.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,16 +62,17 @@ public class ClientService {
 
     //get client by rib
     @GetMapping(path = "/client/rib/{rib}")
-    public Client getClientByRib(Long rib) {
+    public Client getClientByRib(BigInteger rib) {
         return clientRepository.findByRIB(rib);
     }
 
     // set client has account to true
-    @GetMapping(path = "/client/hasAccount/{id}")
-    public void setClientHasAccount(String id) {
+    @GetMapping(path = "/client/hasAccount/{id}/{rib}")
+    public void setClientHasAccount(String id, BigInteger rib) {
         Client client = clientRepository.findById(id).orElse(null);
         if (client != null) {
             client.setHasAccount(true);
+            client.setRIB(rib);
             clientRepository.save(client);
         }
     }

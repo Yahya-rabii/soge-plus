@@ -105,7 +105,7 @@ public class AccountRestController {
             MDC.put("traceId", "adding Account is successful");
             log.info("add Account called from AccountRestController class of Account microservice");
 
-            clientFetchingService.setClientHasAccount(Account.getAccountHolderId());
+            clientFetchingService.setClientHasAccount(Account.getAccountHolderId() , Account.getAccountHolderRib());
 
             return AccountRepository.save(Account);
         }

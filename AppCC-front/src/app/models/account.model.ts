@@ -5,7 +5,7 @@ import { Credential } from "./credential.model";
 export class Account {
 
     id !: number | 0;
-    accountHolderRIB!: string | '';
+    accountHolderRib!: string | '';
     // accountType of accountType enum accountType {PERSONAL, MORTGAGE, AUTO, STUDENT}
     accountType!: string | '';
     // payement duration of accountType enum Duration {MONTHLY, QUARTERLY, SEMIANNUALLY, ANNUALLY}
@@ -22,7 +22,7 @@ export class Account {
 
     constructor(
         id ?: number,
-        accountHolderRIB?: string,
+        accountHolderRib?: string,
         accountType?: string,
         accountHolderId?: string,
         balance?: number,
@@ -30,7 +30,7 @@ export class Account {
         beneficiariesIds?: string[]
     ) {
         this.id = id || 0;
-        this.accountHolderRIB = accountHolderRIB || '';
+        this.accountHolderRib = accountHolderRib || '';
         this.accountType = accountType || '';
         this.accountHolderId = accountHolderId || '';
         this.balance = balance || 0;
@@ -39,12 +39,12 @@ export class Account {
     }
 
     public get_attributes(): string {
-        return this.accountHolderRIB + ' ' + this.accountType + ' ' + this.accountHolderId + ' ' + this.balance;
+        return this.accountHolderRib + ' ' + this.accountType + ' ' + this.accountHolderId + ' ' + this.balance;
     }
 
 
-    public set_attributes(accountHolderRIB: string, accountType: string, accountHolderId: string, balance: number, bankName: string, beneficiariesIds: string[]): void {
-        this.accountHolderRIB = accountHolderRIB;
+    public set_attributes(accountHolderRib: string, accountType: string, accountHolderId: string, balance: number, bankName: string, beneficiariesIds: string[]): void {
+        this.accountHolderRib = accountHolderRib;
         this.accountType = accountType;
         this.accountHolderId = accountHolderId;
         this.balance = balance;
@@ -56,8 +56,8 @@ export class Account {
     }
 
 
-    public get_accountHolderRIB(): string {
-        return this.accountHolderRIB;
+    public get_accountHolderRib(): string {
+        return this.accountHolderRib;
     }
 
 
@@ -88,8 +88,8 @@ export class Account {
 
 
 
-    public set_accountHolderRIB(accountHolderRIB: string): void {
-        this.accountHolderRIB = accountHolderRIB;
+    public set_accountHolderRib(accountHolderRib: string): void {
+        this.accountHolderRib = accountHolderRib;
     } 
 
 

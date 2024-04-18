@@ -22,7 +22,7 @@ public class Account {
 
     private String accountHolderId;
 
-    private BigInteger accountHolderRIB;
+    private BigInteger accountHolderRib;
 
     private Double balance = 0.0;
 

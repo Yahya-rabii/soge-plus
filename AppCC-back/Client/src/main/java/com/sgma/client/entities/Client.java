@@ -10,6 +10,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import lombok.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 
@@ -35,7 +36,7 @@ public class Client {
 
     private boolean hasAccount = false;
 
-    private Long RIB;
+    private BigInteger RIB;
 
 
     @Transient
