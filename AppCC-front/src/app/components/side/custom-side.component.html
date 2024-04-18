@@ -1,45 +1,93 @@
 <div class="sidenav-header">
-    <img src="/assets/img/yahya.jpg" alt="image" [width]="profilePicSize()" [height]="profilePicSize()" />
-    <div class="header-text" [class.hide-header-text]="sideNavCollapsed()" >
-        <h2>Yahya</h2>
-        <p>Web Developer</p>
-    </div>
+  <img
+    src="/assets/img/yahya.jpg"
+    alt="image"
+    [width]="profilePicSize()"
+    [height]="profilePicSize()"
+  />
+  <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
+    <h2>Yahya</h2>
+    <p>Web Developer</p>
+  </div>
 </div>
 <mat-nav-list>
-    <a mat-list-item *ngFor="let item of menuItems()"
-     [routerLink]="item.route" 
-     #rla="routerLinkActive"
-     routerLinkActive="selected-menu-item"
-     class="menu-item"
-     [activated]="rla.isActive"
-     >
-        <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"  matListItemIcon>{{item.icon}}</mat-icon>
-        <span  *ngIf="!sideNavCollapsed()" matListItemTitle>{{item.label}}</span>
-        
+  <a
+    mat-list-item
+    *ngFor="let item of menuItems()"
+    [routerLink]="item.route"
+    #rla="routerLinkActive"
+    routerLinkActive="selected-menu-item"
+    class="menu-item"
+    [activated]="rla.isActive"
+  >
+    <mat-icon
+      [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"
+      matListItemIcon
+      >{{ item.icon }}</mat-icon
+    >
+    <span *ngIf="!sideNavCollapsed()" matListItemTitle>
+      {{ item.label }}
+    </span>
+  </a>
+
+  <div>
+    <a
+    mat-list-item
+    *ngFor="let item of MenuWithSubItems()"
+    [routerLink]="item.route"
+    #rla="routerLinkActive"
+    routerLinkActive="selected-menu-item"
+    class="menu-item"
+    [activated]="rla.isActive"
+    >
+      <mat-icon
+        [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"
+        matListItemIcon
+      >
+        {{ item.icon }}
+      </mat-icon>
+      <span
+        *ngIf="!sideNavCollapsed()"
+        class="menu-item-label"
+        matListItemTitle
+      >
+        {{ item.label }}
+
+        <mat-icon
+          class="dropdown-icon hover:bg-red-700 hover:bg-opacity-50 hover:rounded-full ml-7"
+          (click)="toggleDropdown()"
+        >
+          arrow_drop_down
+        </mat-icon>
+      </span>
     </a>
 
-    <div *ngIf="isMyAccountRoute()">
-
-        <a mat-list-item *ngFor="let item of subMenuItems()"
-        [routerLink]="item.route" 
-        #rla="routerLinkActive"
-        routerLinkActive="selected-menu-item"
-        class="menu-item ml-10"
-        
-        >
-           <mat-icon [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"  matListItemIcon>{{item.icon}}</mat-icon>
-           <span  *ngIf="!sideNavCollapsed()" matListItemTitle>{{item.label}}</span>
-           
-       </a>
+    <div *ngIf="isMyAccountRoute() && isDropdownOpen" class="dropdown-menu">
+      <a
+        mat-list-item
+        *ngFor="let subItem of subItems()"
+        [routerLink]="subItem.route"
+        class="sub-menu-item ml-8"
+      >
+        <mat-icon matListItemIcon>{{ subItem.icon }}</mat-icon>
+        <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{
+          subItem.label
+        }}</span>
+      </a>
     </div>
+  </div>
 
-   
-
-    <div class="divider absolute bottom-0 w-full">
-        <mat-divider></mat-divider>
-        <a (click)="logout()" style="bottom: 0%;" class="hover:bg-opacity-50 hover:bg-red-600 dark:hover:bg-gray-700 group w-full "  mat-list-item *ngFor="let item of logoutItem()">
-            <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
-            <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{item.label}}</span>
-        </a>
-    </div>
+  <div class="divider absolute bottom-0 w-full">
+    <mat-divider></mat-divider>
+    <a
+      (click)="logout()"
+      style="bottom: 0%"
+      class="hover:bg-opacity-50 hover:bg-red-600 dark:hover:bg-gray-700 group w-full"
+      mat-list-item
+      *ngFor="let item of logoutItem()"
+    >
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{ item.label }}</span>
+    </a>
+  </div>
 </mat-nav-list>

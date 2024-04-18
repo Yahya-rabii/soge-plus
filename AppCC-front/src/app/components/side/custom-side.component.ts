@@ -18,17 +18,18 @@ export class CustomSideComponent implements OnInit {
 
   isAdmin: boolean = false;
   menuItems = signal<MenuItem[]>([]);
-  subMenuItems = signal<SubMenuItem[]>([]);
+  MenuWithSubItems = signal<MenuWithSubItems[]>([]);
+  subItems = signal<subItems[]>([]);
   user: User = new User();
   hasAccount: boolean = false;
 
-  constructor(private authService: AuthenticationService, private router: Router , private usersService : UsersService) { }
+  constructor(private authService: AuthenticationService, private router: Router, private usersService: UsersService) { }
 
   isLoggedIn() {
     return this.authService.isLoggedIn();
   }
 
- 
+
   ngOnInit() {
     if (this.isLoggedIn()) {
       this.authService.isAdmin().then((isAdmin) => {
@@ -53,18 +54,22 @@ export class CustomSideComponent implements OnInit {
 
           this.usersService.getUserById().then((user) => {
             if (user.hasAccount == true) {
-              this.menuItems.update((items) => {
-                items.push({ label: 'My Account', icon: 'account_circle', route: 'myaccount'});
-                return items;
-              });
 
-              if (this.router.url === '/myaccount') {
-                this.subMenuItems.set([
+
+              this.subItems.update((items) => {
+                items.push(
                   { label: 'Transactions', icon: 'account_balance_wallet', route: 'transactions' },
                   { label: 'Credit Cards', icon: 'credit_card', route: 'creditcards' },
                   { label: 'Contracts', icon: 'description', route: 'contracts' },
-                ]);
-              }
+                );
+                return items;
+              });
+
+              this.MenuWithSubItems.update((items) => {
+                items.push({ label: 'My Account', icon: 'account_circle', route: 'myaccount', subItems: this.subItems() });
+                return items;
+              });
+
 
             }
           });
@@ -96,6 +101,13 @@ export class CustomSideComponent implements OnInit {
     return this.router.url === '/myaccount';
   }
 
+
+  isDropdownOpen: boolean = false;
+
+  // Method to toggle the dropdown state
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 }
 
 export type MenuItem = {
@@ -104,10 +116,17 @@ export type MenuItem = {
   route: string;
 };
 
-export type SubMenuItem = {
+export type subItems = {
   label: string;
   icon: string;
   route: string;
+};
+
+export type MenuWithSubItems = {
+  label: string;
+  icon: string;
+  route: string;
+  subItems: subItems[];
 };
 
 export type LogoutItem = {
