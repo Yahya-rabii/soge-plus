@@ -71,17 +71,17 @@ export class AccountService {
             throw error;
         }
     }
-
-    // add Beneficiary
-    async addBeneficiary(accountId: number, beneficiaryRIB: string): Promise<any> {
-        const url = `${environment.AccountMsUrl}${environment.addBeneficiaryEndpoint}${accountId}`;
+    
+    async addBeneficiary(accountId: number, beneficiaryRIB: number): Promise<any> {
+        const url = `${environment.AccountMsUrl}/beneficiary/${accountId}`;
+    
         try {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(beneficiaryRIB)
+                body: JSON.stringify(beneficiaryRIB) // Sending the RIB directly as the request body
             });
             const data = await response.json();
             return data;
@@ -89,5 +89,7 @@ export class AccountService {
             console.error('Error adding Beneficiary:', error);
             throw error;
         }
+
     }
+    
 }

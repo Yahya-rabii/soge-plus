@@ -185,13 +185,12 @@ public class AccountRestController {
         Optional<Account> accountOptional = AccountRepository.findById(id);
         if (accountOptional.isPresent()) {
             Account account = accountOptional.get();
-            List<String> beneficiariesIds = account.getBeneficiariesIds();
+
             Client beneficiary = clientFetchingService.getAccountHolderByRib(beneficiaryRIB);
             if (beneficiary == null) {
                 return null;
             }
-            beneficiariesIds.add(beneficiary.getId());
-            account.setBeneficiariesIds(beneficiariesIds);
+            account.getBeneficiariesIds().add(beneficiary.getId());
             return AccountRepository.save(account);
         }
         return null;
