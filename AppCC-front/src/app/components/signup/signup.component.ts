@@ -80,6 +80,11 @@ export class SignupComponent {
     }
   }
 
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
+  }
+
   // Method to navigate to next form section
   public NextSection() {
     if (this.currentSection === 1) {

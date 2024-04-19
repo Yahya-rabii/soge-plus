@@ -48,11 +48,16 @@ export class LoginComponent {
     }
   }
 
+  navigateToRegister() {
+    this.router.navigate(['/signup']);
+  }
+  
+
   // Method to handle login
   public async login(username: string, password: string): Promise<void> {
     try {
       const response = await this.authService.login(username, password).then();
-      window.location.href = '/';
+      this.router.navigate(['/']);
       
     } catch (error) {
       throw error;
