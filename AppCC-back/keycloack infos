@@ -5,7 +5,6 @@ client secret : zyVMNaemfJYEuIImwrUx5G4XXktBQrz5
 issuer uri : http://localhost:8080/realms/AppCC-realm
 token_endpoint: http://localhost:8080/realms/AppCC-realm/protocol/openid-connect/token
 
-
 -------------------------------
 
 admin role name : AppCC-Admin-role
@@ -18,3 +17,5 @@ user user name : user
 user user password : user123
 
 -------------------------------
+
+# tmp comment to ignore 
