@@ -10,6 +10,7 @@ import org.slf4j.MDC;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +78,20 @@ public class ClientRestController {
         return clientService.getContracts(id);
     }
 
+    //get client by rib
+    @GetMapping(path = "/client/rib/{rib}")
+    public Client getClientByRib(@PathVariable BigInteger rib) {
+        MDC.put("traceId", "get client by rib called from ClientRestController class of Client microservice");
+        log.info("get client by rib called from ClientRestController class of Client microservice");
+        return clientService.getClientByRib(rib);
+    }
 
-
+    // set client has account to true
+    @GetMapping(path = "/client/hasAccount/{id}/{rib}")
+    public void setClientHasAccount(@PathVariable String id, @PathVariable BigInteger rib) {
+        MDC.put("traceId", "set client has account to true called from ClientRestController class of Client microservice");
+        log.info("set client has account to true called from ClientRestController class of Client microservice");
+        clientService.setClientHasAccount(id, rib);
+    }
 
 }

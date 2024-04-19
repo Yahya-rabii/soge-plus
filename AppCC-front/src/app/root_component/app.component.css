@@ -36,3 +36,18 @@ mat-sidenav-container {
 mat-sidenav , mat-sidenav-content{
     transition: all 500ms ease-in-out;
 }
+
+.create {
+   /*the create button*/
+    position: relative;
+    left: 79%;
+
+    
+    
+}
+.create:hover {
+    color: black;
+    border-radius: 5px;
+
+    
+}

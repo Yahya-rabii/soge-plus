@@ -1,0 +1,27 @@
+<div class="bg-gradient-to-b from-white to-red-700 p-8 rounded-xl shadow-2xl" *ngFor="let contract of contracts">
+    <div class="flex items-center justify-between mb-8 cursor-pointer" (click)="showrest()">
+        <div class="flex items-center">
+            <img src="assets/logosg.png" alt="Company Logo" class="h-12 w-auto mr-4">
+            <h1 class="text-4xl font-extrabold text-gray-800">Loan Agreement N° {{contract.id}}</h1>
+        </div>
+        <p class="text-lg font-semibold text-gray-600">{{ contract.creationDate | date: "yyyy/MM/dd" }}</p>
+    </div>
+
+    <div class="border-t border-gray-300 pt-6" [@slideInOut]="rest ? 'in' : 'out'">
+        <h2 class="text-2xl font-semibold mb-4">Loan Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-lg font-semibold mb-2">Payment Duration:</p>
+                <p class="text-lg text-gray-800">{{ contract.paymentDuration }}</p>
+            </div>
+            <div>
+                <p class="text-lg font-semibold mb-2">Loan ID:</p>
+                <p class="text-lg text-gray-800">{{ contract.loanId }}</p>
+            </div>
+            <div>
+                <p class="text-lg font-semibold mb-2">Client ID:</p>
+                <p class="text-lg text-white">{{ contract.clientId }}</p>
+            </div>
+        </div>
+    </div>
+</div>

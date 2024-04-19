@@ -13,9 +13,11 @@ export class UsersService {
       const response = await fetch(url);
       const data = await response.json();
       const users: User[] = data.map((user: any) => {
-        return new User(user.id , user.firstName+' '+user.lastName, user.firstName, user.lastName, user.email , user.credentials, user.address);
+        return new User(user.id , user.firstName+' '+user.lastName, user.firstName, user.lastName, user.email ,user.hasAccount, user.rib, user.credentials, user.address);
       });
+      console.log(users);
       return users;
+
     } catch (error) {
       console.error('Error fetching users:', error);
       throw error;
@@ -23,8 +25,8 @@ export class UsersService {
   }
 
 
-  async getUserById(): Promise<User> {
-    const id = localStorage.getItem('UserId');
+  async getUserById(UserId : string): Promise<User> {
+    const id = UserId;
     const url = `${environment.ClientMsUrl}${environment.getClientByIdEndpoint}/${id}`;
     try {
       const response = await fetch(url);
@@ -40,7 +42,9 @@ export class UsersService {
         throw new Error('Empty or invalid response from server');
       }
       const data = await response.json();
-      const user = new User(data.id ,data.firstName + ' ' + data.lastName, data.firstName, data.lastName, data.email, data.credentials, data.address);
+      console.log(data);
+      const user = new User(data.id ,data.firstName + ' ' + data.lastName, data.firstName, data.lastName, data.email, data.hasAccount , data.rib, data.credentials, data.address);
+      console.log("dsqddsds"+user);
       return user;
     } catch (error) {
       console.error('Error fetching user:', error);

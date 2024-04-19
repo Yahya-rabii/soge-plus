@@ -25,12 +25,7 @@ export class ContractsComponent implements OnInit {
   contracts : Contract[] = [];
   users : User[] = [];
  
-  // get contracts of the user 
-  getContractsOfClient(userId : string){
-    from(this.contractService.getContractsOfClients(userId) ).subscribe((data) => {
-      this.contracts = data.contracts;
-    });
-  }
+ 
 
 
   getContracts(){
@@ -39,7 +34,9 @@ export class ContractsComponent implements OnInit {
       from(this.userService.getUsers()).subscribe((data) => {
         this.users = data;
         this.users.forEach(user => {
-          this.getContractsOfClient(user.id);
+          this.contractService.getContractsOfClients(user.id).then((data) => {
+            this.contracts = data.contracts;
+          });
         });
       });
 

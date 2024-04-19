@@ -1,0 +1,43 @@
+<div class="bg-gradient-to-br from-white to-red-600 p-6 rounded-xl shadow-lg">
+    <h2 class="text-3xl font-bold mb-6 text-center">{{ client.firstName }} {{ client.lastName }}'s Account Data</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" *ngFor="let account of accounts" >
+        <div>
+            <p class="text-gray-700 text-lg mb-2">Account Type:</p>
+            <p class="text-xl font-semibold text-blue-900">{{ account.accountType }}</p>
+        </div>
+
+        <div>
+            <p class="text-gray-700 text-lg mb-2">Account Holder Rib:</p>
+            <p class="text-xl font-semibold">{{ account.accountHolderRib | rib }}</p>
+        </div>
+
+        <div>
+            <p class="text-gray-700 text-lg mb-2">Balance:</p>
+            <p class="text-xl font-semibold text-green-800">{{ account.balance | balance }}</p>
+        </div>
+    </div>
+
+    <div class="mt-8">
+        <p class="text-gray-700 text-lg mb-2">Beneficiaries:</p>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <ng-container *ngFor="let beneficiary of beneficiaries">
+                <li class="flex items-center py-2 px-4 bg-white rounded-xl shadow-md">
+                    <div class="flex-1">
+                        <p class="text-xl font-semibold">{{ beneficiary.firstName }} {{ beneficiary.lastName }}</p>
+                        <p class="text-sm text-gray-600">{{ beneficiary.rib }}</p>
+                    </div>
+                    <mat-icon
+                    class=" mr-2 text-red-700"
+                    
+                  >
+                  
+                  person
+        
+        
+                  </mat-icon>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+</div>

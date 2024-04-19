@@ -4,13 +4,15 @@ import { Credential } from "./credential.model";
 
 export class Contract {
 
+    id! : Number;
     creationDate!: Date;
     paymentDuration!: string;
     loanId!: Number;
 
     clientId!: string;
 
-    constructor(creationDate: Date, paymentDuration: string, loanId: Number, clientId: string) {
+    constructor(id:Number , creationDate: Date, paymentDuration: string, loanId: Number, clientId: string) {
+        this.id = id;
         this.creationDate = creationDate;
         this.paymentDuration = paymentDuration;
         this.loanId = loanId;

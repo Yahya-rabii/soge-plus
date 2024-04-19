@@ -8,11 +8,15 @@ export class User {
     firstName!: string | '';
     lastName!: string | '';
     email!: string | '';
+    
+    hasAccount!: boolean | false;
+    rib!: Number | 0;
 
     
     // table of credential
     credentials!: Credential[] | undefined;
     address!: Address | undefined;
+    
 
     constructor(
         id? : string,
@@ -20,6 +24,8 @@ export class User {
         firstName?: string,
         lastName?: string,
         email?: string,
+        hasAccount?: boolean,
+        rib?: Number,
         credentials?: Credential[] | undefined,
         asdress?: Address | undefined
     ) {
@@ -29,6 +35,8 @@ export class User {
         this.firstName = firstName || '';
         this.lastName = lastName || '';
         this.email = email || '';
+        this.hasAccount = hasAccount || false;
+        this.rib = rib || 0;
         this.credentials = credentials || undefined;
         this.address = asdress || undefined;
     }
@@ -49,6 +57,16 @@ export class User {
 
 
    
+    public get_id(): string {
+        return this.id;
+    }
+
+    public get_has_Account(): boolean {
+        return this.hasAccount;
+    }
+
+
+
     public get_username(): string {
         return this.username;
     }
