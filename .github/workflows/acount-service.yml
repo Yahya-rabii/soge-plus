@@ -48,11 +48,6 @@ jobs:
       - name: Compile main code
         run: cd ${{ env.APP_CONTEXT }} && mvn compile
       
-      #- name: Test test-cases
-      #  run: cd ${{ env.APP_CONTEXT }} && mvn test
-      
-      #- name: Test integration
-      #  run: cd ${{ env.APP_CONTEXT }} && mvn verify -DskipTests
 
       - name: Create artifact
         run : cd ${{ env.APP_CONTEXT }} && mvn package -DskipTests
