@@ -3,7 +3,7 @@ name: Soge-system-Discovery-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'DS-v*'
+      - 'DISCOVERY-SERVICE-v*'
 
 env:
   SERVICE_NAME: soge-system-discovery-service # changes depending on service

@@ -3,7 +3,7 @@ name: Soge-system-loan-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'LO-v*'
+      - 'LOAN-SERVICE-v*'
       
 env:
   SERVICE_NAME: soge-system-loan-service # changes depending on service

@@ -3,7 +3,7 @@ name: Soge-system-contract-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'CO-v*'
+      - 'CONTRACT-SERVICE-v*'
 
       
 env:

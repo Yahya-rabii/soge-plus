@@ -3,7 +3,7 @@ name: Soge-system-client-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'CL-v*'
+      - 'CLIENT-SERVICE-v*'
 
       
 env:

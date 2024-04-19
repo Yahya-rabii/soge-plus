@@ -3,7 +3,7 @@ name: Soge-system-authentication-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'AutS-v*'
+      - 'AUTH-SERVICE-v*'
 
       
 env:

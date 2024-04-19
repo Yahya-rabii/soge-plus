@@ -3,7 +3,7 @@ name: Soge-system-config-service pipeline
 on:
   push:
     tags:
-      - 'CS-v*'
+      - 'CONFIG-SERVICE-v*'
 
 env:
   SERVICE_NAME: soge-system-config-service

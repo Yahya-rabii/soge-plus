@@ -3,7 +3,7 @@ name: Soge-system-account-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'AccS-v*'
+      - 'ACCOUNT-SERVICE-v*'
 
       
 env:

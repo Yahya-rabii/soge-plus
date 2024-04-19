@@ -3,7 +3,7 @@ name: Soge-system-admin-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'AS-v*'
+      - 'ADMIN-SERVICE-v*'
 
       
 env:

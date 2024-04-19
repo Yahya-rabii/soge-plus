@@ -3,7 +3,7 @@ name: Soge-system-gateway-service pipeline # changes depending on service
 on:
   push:
     tags:
-      - 'GA-v*'
+      - 'GATEWAY-SERVICE-v*'
 
       
 env:
