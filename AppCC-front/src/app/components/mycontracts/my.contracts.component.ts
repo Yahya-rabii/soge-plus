@@ -57,12 +57,12 @@ export class MyContractsComponent implements OnInit {
     {
       //loop over all users and get their contracts 
       from(this.userService.getUsers()).subscribe((data) => {
-        this.users = data;
-        this.users.forEach(user => {
-          this.contractService.getContractsOfClients(user.id).then((data) => {
+        const userid :string = localStorage.getItem('UserId') || '';
+        
+          this.contractService.getContractsOfClient(userid).then((data) => {
             this.contracts = data.contracts;
           });
-        });
+ 
       });
 
     }

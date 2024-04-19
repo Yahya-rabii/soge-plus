@@ -40,14 +40,13 @@ public class ContractRestController {
         log.info("get all contracts called from ContractRestController class of Contract microservice");
 
         List<Contract> contracts = contractRepository.findAll();
-        List<Client> clients = new ArrayList<>();
         List<Loan> loans = new ArrayList<>();
+        Client client = new Client();
         Map<String, Object> response = new HashMap<>();
 
         if (!contracts.isEmpty()) {
             for (Contract contract : contracts) {
-                Client client = clientFetchingService.getClientById(contract.getClientId());
-                clients.add(client);
+                client = clientFetchingService.getClientById(contract.getClientId());
                 if (client != null) {
                     List<Loan> loansByClient = loanFetchingService.getLoansByClientId(client.getId());
                     loans.addAll(loansByClient);
@@ -61,7 +60,7 @@ public class ContractRestController {
             }
 
             response.put("contracts", contracts);
-            response.put("clients", clients);
+            response.put("client", client);
             response.put("loans", loans);
 
             return ResponseEntity.ok(response);

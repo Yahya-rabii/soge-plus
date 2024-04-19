@@ -52,13 +52,8 @@ export class LoginComponent {
   public async login(username: string, password: string): Promise<void> {
     try {
       const response = await this.authService.login(username, password).then();
-      const rolesObject = await this.authService.getRoles().then();
-      const rolesArray = rolesObject.roles;
-      if (rolesArray.includes('ADMIN')) {
-        window.location.href = '/admin';
-      } else {
-        window.location.href = '/home';
-      }
+      window.location.href = '/';
+      
     } catch (error) {
       throw error;
     }

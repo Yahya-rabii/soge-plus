@@ -91,7 +91,8 @@ export class CustomSideComponent implements OnInit {
 
   logout() {
     this.authService.logout().then(() => {
-      this.router.navigate(['/login']);
+      //do nothing
+      
     });
   }
 

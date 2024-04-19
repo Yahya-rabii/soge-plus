@@ -12,25 +12,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css'
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent  {
 
 
-  constructor(private contractService  :ContractService , private usersService : UsersService) { }
-
-  Contracts : Contract[] = [];
-
-  ngOnInit(): void {
 
 
-    // get the current user and then get the contracts of that user 
-    const userId :string = localStorage.getItem('UserId') ?? '';
-    this.usersService.getUserById(userId).then((user) => {
-      this.contractService.getContractsOfClients(user.id).then((data) => {
-        this.Contracts = data.contracts;
-      });
-    });
-
-
-  }
 
 }
