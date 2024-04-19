@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: admin-service-configmap
+  namespace: sgma-system
+data:
+  SERVER_PORT: "8765"
+  SPRING_BOOT_ADMIN_DISCOVERY_IGNORED_SERVICES: "gateway-service"
+  EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
+  EUREKA_CLIENT_REGISTER_WITH_EUREKA: "true"
+  EUREKA_CLIENT_FETCH_REGISTRY: "true"
+  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://localhost:8761/eureka/"
+  EUREKA_INSTANCE_HOSTNAME: "localhost"
+  CUSTOM_CONFIG_URL: "optional:configserver:http://localhost:9999"
