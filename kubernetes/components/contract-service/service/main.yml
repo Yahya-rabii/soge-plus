@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sgma-system
+  name: contract-service-service
+  labels:
+    app: contract-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8083
+  selector:
+    app: contract-service
+  #type: NodePort

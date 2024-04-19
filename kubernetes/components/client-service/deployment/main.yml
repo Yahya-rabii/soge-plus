@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sgma-system
+  name: client-service-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client-service
+  template:
+    metadata:
+      labels:
+        app: client-service
+    spec:
+      containers:
+      - name: client-service
+        image: salaheddine122/soge-system-client-service:CLIENT-SERVICE-v0.1.0
+        ports:
+        - containerPort: 8084
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8084
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8084
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        #resources:
+         # requests:
+          #  memory: "64Mi"
+           # cpu: "50m"
+          #limits:
+           # memory: "128Mi"
+            #cpu: "100m"
+      imagePullSecrets:
+        - name: regcred

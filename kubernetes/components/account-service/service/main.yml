@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sgma-system
+  name: account-service-service
+  labels:
+    app: account-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8089
+  selector:
+    app: account-service
+  #type: NodePort
