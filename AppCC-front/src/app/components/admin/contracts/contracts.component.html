@@ -5,7 +5,7 @@
             <h1 class="text-4xl font-extrabold text-gray-800">Contracts of {{ userWithContracts.user.firstName }} {{ userWithContracts.user.lastName }}</h1>
         </div>
     </div>
-    <div *ngIf="userWithContracts.isOpen" [@slideDownUp]>
+    <div *ngIf="userWithContracts.isOpen" [@slideInOut]="rest ? 'in' : 'out'">
         <div *ngFor="let contract of userWithContracts.contracts" class="border-t border-gray-300 pt-6">
             <h2 class="text-2xl font-semibold mb-4">Loan Details</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

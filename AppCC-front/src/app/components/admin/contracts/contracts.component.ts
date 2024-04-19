@@ -13,7 +13,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   templateUrl: './contracts.component.html',
   styleUrls: ['./contracts.component.css'],
   animations: [
-    trigger('slideDownUp', [
+    trigger('slideInOut', [
       state('in', style({
         height: '*',
         opacity: 1,
@@ -24,12 +24,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         opacity: 0,
         overflow: 'hidden'
       })),
-      transition('in => out', [
-        animate('4000ms ease-out')
-      ]),
-      transition('out => in', [
-        animate('400ms ease-in')
-      ]),
+      transition('in => out', animate('400ms ease-in-out')),
+      transition('out => in', animate('400ms ease-in-out'))
     ])
   ]
 })
@@ -37,6 +33,7 @@ export class ContractsComponent implements OnInit {
   usersWithContracts: { user: User, contracts: Contract[], isOpen: boolean }[] = [];
   users: User[] = [];
   contracts: Contract[] = [];
+  rest : boolean = false;
 
   constructor(private contractService: ContractService, private userService: UsersService) { }
 
@@ -46,6 +43,9 @@ export class ContractsComponent implements OnInit {
 
   toggleDetails(index: number) {
     this.usersWithContracts[index].isOpen = !this.usersWithContracts[index].isOpen;
+      this.rest = !this.rest;
+    
+  
   }
 
   getContracts() {
