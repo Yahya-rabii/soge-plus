@@ -5,29 +5,32 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoanDetailsImageComponent } from './loan-details-dialog/loan-details-image.component';
 import { LoanService } from '../../../../services/loan.service';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-loans-of-user',
   templateUrl: './loans-of-user.component.html',
   styleUrls: ['./loans-of-user.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, MatIconModule]
 })
 export class LoansOfUserComponent implements OnInit {
 
   loans: Loan[] = [];
   dialogRef: any; // Reference to the dialog
-  constructor(private loanSharingService: LoanSharingService ,
-              private dialog: MatDialog ,
-              private loanService: LoanService,
-              private cdr: ChangeDetectorRef) { }
+  openFabIndex: number | null = null; // Index of the opened FAB
+
+  constructor(private loanSharingService: LoanSharingService,
+    private dialog: MatDialog,
+    private loanService: LoanService,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.getLoans(); // Load loans on component initialization
-  }    
+  }
 
   // Open dialog with loan details
-  openDialog(file : File ): void {
+  openDialog(file: File): void {
     // Close any existing dialog before opening a new one
     if (this.dialogRef) {
       this.dialogRef.close();
@@ -78,10 +81,20 @@ export class LoansOfUserComponent implements OnInit {
         this.loans[index] = updatedLoan;
         this.cdr.detectChanges(); // Trigger change detection after updating loans array
         window.location.reload();
-
       }
     }).catch(error => {
       console.error('Error rejecting loan:', error);
     });
+  }
+
+  // Toggle visibility of the speed dial
+  toggleSpeedDial(index: number): void {
+    if (this.openFabIndex === index) {
+      // Close the clicked FAB
+      this.openFabIndex = null;
+    } else {
+      // Open the clicked FAB
+      this.openFabIndex = index;
+    }
   }
 }

@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContractService } from '../../services/contract.service';
 import { Contract } from '../../models/contract.model';
 import { from } from 'rxjs';
-import { OnInit } from '@angular/core';
 import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -22,7 +21,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
         overflow: 'hidden'
       })),
       state('out', style({
-        height: '0px',
+        height: '0', 
         opacity: 0,
         overflow: 'hidden'
       })),
@@ -33,15 +32,21 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 
 export class MyContractsComponent implements OnInit {
-
-  rest : boolean = false;
+  openContracts: number[] = []; // Array to track indices of opened contracts
 
   constructor(private contractService: ContractService , private userService :UsersService) { }
 
-  showrest(){
-    this.rest = !this.rest
+  toggleContract(index: number){
+    if(this.openContracts.includes(index)){
+      this.openContracts = this.openContracts.filter(i => i !== index); // Close the clicked contract if already open
+    } else {
+      this.openContracts.push(index); // Open the clicked contract
+    }
   }
 
+  isContractOpen(index: number): boolean {
+    return this.openContracts.includes(index); // Check if the contract at the given index is open
+  }
 
   ngOnInit(): void {
     this.getContracts();
@@ -50,25 +55,13 @@ export class MyContractsComponent implements OnInit {
   contracts : Contract[] = [];
   users : User[] = [];
  
- 
-
-
   getContracts(){
-    {
-      //loop over all users and get their contracts 
-      from(this.userService.getUsers()).subscribe((data) => {
-        const userid :string = localStorage.getItem('UserId') || '';
-        
-          this.contractService.getContractsOfClient(userid).then((data) => {
-            this.contracts = data.contracts;
-          });
- 
+    // Loop over all users and get their contracts 
+    from(this.userService.getUsers()).subscribe((data) => {
+      const userid :string = localStorage.getItem('UserId') || '';
+      this.contractService.getContractsOfClient(userid).then((data) => {
+        this.contracts = data.contracts;
       });
-
-    }
-
-
-
+    });
   }
-
 }

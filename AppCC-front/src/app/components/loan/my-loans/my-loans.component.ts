@@ -1,3 +1,5 @@
+// my loans component .ts file
+
 import { Component, OnInit } from '@angular/core';
 import { LoanService } from '../../../services/loan.service';
 import { MatDialog } from '@angular/material/dialog';

@@ -1,26 +1,32 @@
-<div class="bg-gradient-to-b from-white to-red-700 p-8 rounded-xl shadow-2xl" *ngFor="let contract of contracts">
-    <div class="flex items-center justify-between mb-8 cursor-pointer" (click)="showrest()">
+<div *ngFor="let contract of contracts; let i = index" class="contract-card shadow-lg rounded-md bg-white my-4">
+    <div class="hover:bg-slate-200 contract-header cursor-pointer flex items-center justify-between py-4 px-6" (click)="toggleContract(i)">
         <div class="flex items-center">
-            <img src="assets/logosg.png" alt="Company Logo" class="h-12 w-auto mr-4">
-            <h1 class="text-4xl font-extrabold text-gray-800">Loan Agreement N° {{contract.id}}</h1>
+            <img src="assets/logosg.png" alt="Company Logo" class="w-10 h-10 company-logo mr-3">
+            <h1 class="text-lg font-semibold text-gray-800">Loan Agreement N° {{ contract.id }}</h1>
         </div>
-        <p class="text-lg font-semibold text-gray-600">{{ contract.creationDate | date: "yyyy/MM/dd" }}</p>
+        <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon transition-transform duration-300 transform" [class.rotate-up]="isContractOpen(i)" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="currentColor" d="M7 10l5 5 5-5z" />
+        </svg>
     </div>
-
-    <div class="border-t border-gray-300 pt-6" [@slideInOut]="rest ? 'in' : 'out'">
-        <h2 class="text-2xl font-semibold mb-4">Loan Details</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <p class="text-lg font-semibold mb-2">Payment Duration:</p>
-                <p class="text-lg text-gray-800">{{ contract.paymentDuration }}</p>
-            </div>
-            <div>
-                <p class="text-lg font-semibold mb-2">Loan ID:</p>
-                <p class="text-lg text-gray-800">{{ contract.loanId }}</p>
-            </div>
-            <div>
-                <p class="text-lg font-semibold mb-2">Client ID:</p>
-                <p class="text-lg text-white">{{ contract.clientId }}</p>
+    
+    <div [@slideInOut]="isContractOpen(i) ? 'in' : 'out'">
+        <div id="details-container" class="details-container px-6 py-4" >
+            <div class="contract-details">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Loan Details</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm text-gray-600">Payment Duration:</p>
+                        <p class="text-base text-gray-800">{{ contract.paymentDuration }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Loan ID:</p>
+                        <p class="text-base text-gray-800">{{ contract.loanId }}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Client ID:</p>
+                        <p class="text-base text-gray-800">{{ contract.clientId }}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

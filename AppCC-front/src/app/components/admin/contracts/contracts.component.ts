@@ -1,3 +1,4 @@
+// contracts.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContractService } from '../../../services/contract.service';
@@ -31,10 +32,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class ContractsComponent implements OnInit {
   usersWithContracts: { user: User, contracts: Contract[], isOpen: boolean }[] = [];
-  users: User[] = [];
-  contracts: Contract[] = [];
-  rest : boolean = false;
-
+  
   constructor(private contractService: ContractService, private userService: UsersService) { }
 
   ngOnInit(): void {
@@ -43,21 +41,22 @@ export class ContractsComponent implements OnInit {
 
   toggleDetails(index: number) {
     this.usersWithContracts[index].isOpen = !this.usersWithContracts[index].isOpen;
-      this.rest = !this.rest;
-    
-  
   }
 
   getContracts() {
-    this.userService.getUsers().then((data) => {
-      this.users = data;
-
-      for (const user of this.users) {
-        this.contractService.getContractsOfClient(user.id).then((data) => {
-          this.contracts = data.contracts;
-          this.usersWithContracts.push({ user, contracts: this.contracts, isOpen: false });
+    this.userService.getUsers().then((users) => {
+      // Fetch contracts for each user
+      Promise.all(users.map(user => this.contractService.getContractsOfClient(user.id)))
+        .then((contractsArray) => {
+          contractsArray.forEach((contracts, index) => {
+            // Associate contracts with the corresponding user
+            this.usersWithContracts.push({
+              user: users[index],
+              contracts: contracts.contracts,
+              isOpen: false
+            });
+          });
         });
-      }
     });
   }
 }
