@@ -26,10 +26,23 @@ export class MyLoansComponent implements OnInit {
   constructor(private loanService: LoanService, private dialog: MatDialog , private userService :UsersService) {}
   user: User = new User();
 
-  async getUser() {
+  getUser() {
     try {
       const userid: string = localStorage.getItem('UserId') ?? '';
-      this.user = await this.userService.getUserById(userid);
+      this.userService.getUserById(userid).then((user) => {
+        if (user) {
+          this.user = user;
+          
+            
+              this.loanService.getLoansByClientId(user.id).then((loans) => {
+                this.loans = loans;
+                this.setPage(1);
+              });
+            
+          
+        }
+
+      });
     } catch (error) {
       console.error('Error fetching user:', error);
     }
@@ -38,18 +51,10 @@ export class MyLoansComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.getUserLoans();
   }
 
 
-  getUserLoans(){
-    this.loans =  []
-      this.loanService.getLoansByClientId('').then((loans) => {
-        this.loans = loans;
-        this.setPage(1);
-      });
-    
-  }
+
 
   // Open dialog with loan details
   openDialog(loan: Loan): void {

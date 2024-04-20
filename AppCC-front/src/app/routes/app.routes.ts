@@ -4,7 +4,7 @@ import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
 import { AuthGuard } from '../guards/auth.guard'; // Import your AuthGuard
 import { AboutComponent } from '../components/about/about.component';
-import { UserstableComponent } from '../components/userstable/userstable.component';
+import { UserstableComponent } from '../components/admin/userstable/userstable.component';
 import{CreateloanComponent} from '../components/loan/createloan/createloan.component';
 import { ValidationFormComponent } from '../components/loan/validation-form/validation-form.component';
 import { PrivacypolicyComponent } from '../components/privacypolicy/privacypolicy.component';
@@ -22,6 +22,7 @@ import { MyAccountComponent } from '../components/account/my-account/my-account.
 import { AddTransactionComponent } from '../components/account/my-account/add-transaction/add-transaction.component';
 import { AddBeneficiaryComponent } from '../components/account/my-account/add-beneficiary/add-beneficiary.component';
 import { MyContractsComponent } from '../components/mycontracts/my.contracts.component';
+import { AccountGuard } from '../guards/account.guard';
 
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
@@ -45,14 +46,14 @@ export const routes: Routes = [
     // create account
     { path: 'create-account', component: CreateAccountComponent,canActivate: [AuthGuard ,UserGuard] },
     // add transaction
-    { path: 'add-transaction', component: AddTransactionComponent,canActivate: [AuthGuard ,UserGuard] },
+    { path: 'add-transaction', component: AddTransactionComponent,canActivate: [AuthGuard ,UserGuard, AccountGuard] },
     //add beneficiary
-    { path: 'add-beneficiary', component: AddBeneficiaryComponent,canActivate: [AuthGuard ,UserGuard] },
+    { path: 'add-beneficiary', component: AddBeneficiaryComponent,canActivate: [AuthGuard ,UserGuard, AccountGuard] },
 
     
 
     // my account
-    { path: 'myaccount', component: MyAccountComponent,canActivate: [AuthGuard ,UserGuard] },
+    { path: 'myaccount', component: MyAccountComponent,canActivate: [AuthGuard ,UserGuard, AccountGuard] },
     { path: '**', redirectTo: 'home' }
 ];
 

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 
 // import mat MatPaginator
 import { NgxPaginationModule } from 'ngx-pagination';
-import { User } from '../../models/user.model';
-import { UsersService } from '../../services/user.service';
+import { User } from '../../../models/user.model';
+import { UsersService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-usertable',
@@ -15,8 +15,9 @@ import { UsersService } from '../../services/user.service';
 })
 export class UserstableComponent {
 
-  users !: User[];
+  users : User[] = [];
   p: number = 1; // Current page number
+  length: number = 0; // Number of items in the array
   itemsPerPage: number = 5; // Number of items to display per page
   constructor(private UsersService:UsersService) { }
 
@@ -25,8 +26,19 @@ export class UserstableComponent {
   }
 
   // get users from the service
-  async getUsers() {
-    this.users = await this.UsersService.getUsers();
+  getUsers() {
+   this.UsersService.getUsers().then((data) => {
+      if (data) {
+        this.users = data;
+      }
+      else {
+        this.users = [];
+      }
+    });
   }
   
+getLength(): number {
+  return this.users.length;
+}
+
 }

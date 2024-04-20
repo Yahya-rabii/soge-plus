@@ -1,4 +1,17 @@
-<div class="card m-4">
+
+<div class="card m-4" *ngIf="contracts.length === 0" >
+  <div class="card-title flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>
+  </div>
+  
+
+  <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
+    <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Contracts Found</h1>
+  </div>
+
+</div>
+
+<div class="card m-4" *ngIf="contracts.length > 0">
 
   <div class="card-title flex justify-between items-center mb-4">
     <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>

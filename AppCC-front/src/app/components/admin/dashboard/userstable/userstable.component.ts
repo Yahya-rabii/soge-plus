@@ -27,7 +27,12 @@ export class UserstableComponent implements OnInit {
  // get contracts of the user 
  GetClients(){
   from(this.userService.getUsers()).subscribe((data) => {
-    this.clients = data;
+    if (data) {
+      this.clients = data;
+    }
+    else {
+      this.clients = [];
+    }
   });
 }
 }

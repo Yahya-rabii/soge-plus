@@ -29,7 +29,12 @@ export class ContractsVComponent implements OnInit {
  // get contracts of the user 
  getContracts(){
   from(this.contractService.getContracts()).subscribe((data) => {
-    this.contracts = data.contracts;
+   if (data) {
+     this.contracts = data;
+   }
+   else {
+     this.contracts = [];
+   }
   });
 }
 

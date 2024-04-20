@@ -60,7 +60,12 @@ export class MyContractsComponent implements OnInit {
     from(this.userService.getUsers()).subscribe((data) => {
       const userid :string = localStorage.getItem('UserId') || '';
       this.contractService.getContractsOfClient(userid).then((data) => {
-        this.contracts = data.contracts;
+        if (data) {
+          this.contracts = data.contracts;
+        }
+        else {
+          this.contracts = [];
+        }
       });
     });
   }

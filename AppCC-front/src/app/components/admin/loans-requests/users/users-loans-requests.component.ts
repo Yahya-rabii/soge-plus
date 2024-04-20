@@ -53,4 +53,6 @@ export class LoansRequestsComponent implements OnInit {
       console.error('Error fetching loans:', error);
     });
   }
+
+  
 }

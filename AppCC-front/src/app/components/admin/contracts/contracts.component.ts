@@ -48,14 +48,34 @@ export class ContractsComponent implements OnInit {
       // Fetch contracts for each user
       Promise.all(users.map(user => this.contractService.getContractsOfClient(user.id)))
         .then((contractsArray) => {
-          contractsArray.forEach((contracts, index) => {
-            // Associate contracts with the corresponding user
-            this.usersWithContracts.push({
-              user: users[index],
-              contracts: contracts.contracts,
-              isOpen: false
+          if (contractsArray && contractsArray.length > 0) {
+
+            
+            contractsArray.forEach((contracts, index) => {
+              // Associate contracts with the corresponding user
+               
+              if (contracts) {
+
+                this.usersWithContracts.push({
+                  user: users[index],
+                  contracts: contracts.contracts,
+                  isOpen: false
+                });
+  
+
+              }
+             
+
+
             });
-          });
+
+            
+          }
+          else {
+            this.usersWithContracts = [];
+
+           
+          }
         });
     });
   }

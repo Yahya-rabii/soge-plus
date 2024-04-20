@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarouselComponent } from '../carousel/carousel.component';
-import { UserstableComponent } from '../userstable/userstable.component';
+import { UserstableComponent } from '../admin/userstable/userstable.component';
 import { AnimationSnowflakeComponent } from '../../animations/animation-snowflake/animation-snowflake.component';
 @Component({
   selector: 'app-home',

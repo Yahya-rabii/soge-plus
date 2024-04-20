@@ -1,3 +1,11 @@
+<div *ngIf="users.length === 0">
+    <img src="/assets/img/gif/no_result.gif" alt="GIF" class="w-fit h-f bg-transparent opacity-15 mx-auto">
+    <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Clients Found</h1>
+
+
+</div>
+<div *ngIf="users.length > 0">
+
 
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -44,4 +52,5 @@
 
         </tbody>
     </table>
+</div>
 </div>

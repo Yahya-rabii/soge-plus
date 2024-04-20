@@ -68,7 +68,7 @@ export class User {
 
 
     public get_username(): string {
-        return this.username;
+        return this.firstName + ' ' + this.lastName;
     }
 
 

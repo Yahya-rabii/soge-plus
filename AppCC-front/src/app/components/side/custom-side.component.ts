@@ -22,6 +22,7 @@ export class CustomSideComponent implements OnInit {
   subItems = signal<subItems[]>([]);
   user: User = new User();
   hasAccount: boolean = false;
+  image: string = '';
 
   constructor(private authService: AuthenticationService, private router: Router, private usersService: UsersService) { }
 
@@ -37,6 +38,8 @@ export class CustomSideComponent implements OnInit {
 
         if (this.isAdmin) {
           console.log("admin")
+          // get the image from assets folder
+          this.image = 'assets/img/profiles/admin.png';
           this.menuItems = signal<MenuItem[]>([
             { label: 'Dashboard', icon: 'dashboard', route: 'admin' },
             { label: 'Loans Requests', icon: 'account_balance', route: 'loansRequests' },
@@ -45,6 +48,7 @@ export class CustomSideComponent implements OnInit {
           ]);
 
         } else {
+          this.image = 'assets/img/profiles/user.png';
           this.menuItems = signal<MenuItem[]>([
             { label: 'Home', icon: 'home', route: 'home' },
             { label: 'My Loans', icon: 'money', route: 'myloans' },
