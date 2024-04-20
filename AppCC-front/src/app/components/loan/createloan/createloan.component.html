@@ -2,8 +2,7 @@
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto mt-20 lg:py-0 mb-20">
     <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo">
-      <span class="text-2xl font-semibold text-primary-500"> Get a loan in <span
-          class="text-2xl font-semibold text-red-700">5 Steps</span></span>
+      <span class="text-2xl font-semibold text-primary-500"> Get a loan in <span class="text-2xl font-semibold text-red-700">5 Steps</span></span>
     </a>
     <!-- Progress Bar -->
     <div class="w-full max-w-md mb-6">
@@ -20,29 +19,23 @@
         <div class="w-1/5 transition-all duration-500" [class.bg-red-600]="currentSection >= 5"></div>
       </div>
       <div class="flex mt-2 text-xs text-gray-600">
-        <div
-          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
-          [class.border-red-600]="currentSection === 1">1</div>
-        <div
-          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
-          [class.border-red-600]="currentSection === 2">2</div>
-        <div
-          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
-          [class.border-red-600]="currentSection === 3">3</div>
-        <div
-          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
-          [class.border-red-600]="currentSection === 4">4</div>
-        <div
-          class="w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
-          [class.border-red-600]="currentSection === 5">5</div>
+        <div class="cursor-pointer w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 1" (click)="GoToSection(1)">1</div>
+        <div class="cursor-pointer w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 2" (click)="GoToSection(2)">2</div>
+        <div class="cursor-pointer w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 3" (click)="GoToSection(3)">3</div>
+        <div class="cursor-pointer w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 4" (click)="GoToSection(4)">4</div>
+        <div class="cursor-pointer w-1/5 text-center justify-center border-2 rounded-full text-red-600 dark:text-white dark:border-gray-700 progress-bar-step"
+          [class.border-red-600]="currentSection === 5" (click)="GoToSection(5)">5</div>
       </div>
     </div>
-    <div
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
       <form [formGroup]="createLoanForm" (ngSubmit)="Submit()" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg"
         id="createLoanForm">
         <!-- Loan Info Section -->
-        <div id="loanInfoSection">
+        <div *ngIf="currentSection === 1">
           <div>
             <label for="loanAmount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
               Amount (DHs)</label>
@@ -74,35 +67,38 @@
           </div>
         </div>
         <!-- Signature Section -->
-        <div id="signatureSection" style="display:none;">
-          <div>
-            <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature
-              (PNG)</label>
-            <!-- Add file input for signature -->
-            <input type="file" formControlName="signature" id="signature" accept="image/png"
-              (change)="onFileSelected($event, 'signature')" required>
+        <div *ngIf="currentSection === 2">
+          <div id="signatureSection" >
+            <div>
+              <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature (PNG)</label>
+              <!-- Add file input for signature -->
+              <input type="file" formControlName="signature" id="signature" accept="image/png"
+                (change)="onFileSelected($event, 'signature')" required>
+              <span *ngIf="signature" class="text-sm text-gray-500">{{ signature.name }}</span>
+            </div>
           </div>
         </div>
         <!-- ID Card Section -->
-        <div id="idCardSection" style="display:none;">
-          <div>
-            <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front
-              (PNG)</label>
-            <!-- Add file input for ID card front -->
-            <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/png"
-              (change)="onFileSelected($event, 'idCardFront')" required>
-            <img *ngIf="imageUrl" [src]="imageUrl" alt="Selected Image">
-          </div>
-          <div>
-            <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back
-              (PNG)</label>
-            <!-- Add file input for ID card back -->
-            <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/png"
-              (change)="onFileSelected($event, 'idCardBack')" required>
+        <div *ngIf="currentSection === 3">
+          <div id="idCardSection" >
+            <div>
+              <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front (PNG)</label>
+              <!-- Add file input for ID card front -->
+              <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/png"
+                (change)="onFileSelected($event, 'idCardFront')" required>
+              <span *ngIf="idCardFront" class="text-sm text-gray-500">{{ idCardFront.name }}</span>
+            </div>
+            <div>
+              <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back (PNG)</label>
+              <!-- Add file input for ID card back -->
+              <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/png"
+                (change)="onFileSelected($event, 'idCardBack')" required>
+              <span *ngIf="idCardBack" class="text-sm text-gray-500">{{ idCardBack.name }}</span>
+            </div>
           </div>
         </div>
         <!-- Additional Info Section -->
-        <div id="additionalInfoSection" style="display:none;">
+        <div *ngIf="currentSection === 4">
           <div>
             <label for="cinNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CIN
               Number</label>
@@ -128,7 +124,7 @@
           </div>
         </div>
         <!-- RIB Section -->
-        <div id="ribSection" style="display:none;">
+        <div *ngIf="currentSection === 5">
           <div>
             <label for="rib" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RIB (Relevé d'Identité
               Bancaire)</label>
@@ -138,7 +134,7 @@
           </div>
         </div>
         <!-- Agency Selection Section -->
-        <div id="agencySelectionSection" style="display:none;">
+        <div *ngIf="currentSection === 6">
           <div>
             <label for="agency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select
               Agency</label>
