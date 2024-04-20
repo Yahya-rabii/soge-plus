@@ -1,0 +1,145 @@
+server:
+  port: ${SERVER_PORT:8888}
+  servlet:
+    context-path: ${SERVER_SERVLET_CONTEXT_PATH:/}
+
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:gateway-service}
+  cloud:
+    gateway:
+      routes:
+        - id: client-service
+          uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_CLIENT_SERVICE_URI:client-service}
+          predicates:
+            - Path=${SPRING_CLOUD_GATEWAY_ROUTES_CLIENT_SERVICE_PREDICATES_PATH:/client-service/**}
+          metadata:
+            cors:
+              allowedOrigins:
+                - "${SPRING_CLOUD_GATEWAY_ROUTES_CLIENT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS:http://localhost:4200}"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                - OPTIONS
+                - HEAD
+                - TRACE
+                - CONNECT
+              allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_CLIENT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
+              allowCredentials: true
+        - id: loan-service
+          uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_URI:loan-service}
+          predicates:
+            - Path=${SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_PREDICATES_PATH:/loan-service/**}
+          metadata:
+            cors:
+              allowedOrigins:
+                - "${SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_METADATA_CORS_ALLOWED_ORIGINS:http://localhost:4200}"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                - OPTIONS
+                - HEAD
+                - TRACE
+                - CONNECT
+              allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
+              allowCredentials: true
+        - id: contract-service
+          uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_URI:contract-service}
+          predicates:
+            - Path=${SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_PREDICATES_PATH:/contract-service/**}
+          metadata:
+            cors:
+              allowedOrigins:
+                - "${SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS:http://localhost:4200}"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                - OPTIONS
+                - HEAD
+                - TRACE
+                - CONNECT
+              allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
+              allowCredentials: true
+        - id: auth-service
+          uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_URI:auth-service}
+          predicates:
+            - Path=${SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_PREDICATES_PATH:/auth-service/**}
+          metadata:
+            cors:
+              allowedOrigins:
+                - "${SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_METADATA_CORS_ALLOWED_ORIGINS:http://localhost:4200}"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                - OPTIONS
+                - HEAD
+                - TRACE
+                - CONNECT
+              allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
+              allowCredentials: true
+        - id: account-service
+          uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_URI:account-service}
+          predicates:
+            - Path=${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_PREDICATES_PATH:/account-service/**}
+          metadata:
+            cors:
+              allowedOrigins:
+                - "${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS:http://localhost:4200}"
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                - OPTIONS
+                - HEAD
+                - TRACE
+                - CONNECT
+              allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
+              allowCredentials: true
+    discovery:
+      enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:true}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:8080/realms/AppCC-realm}
+springdoc:
+  enable-native-support: ${SPRINGDOC_ENABLE_NATIVE_SUPPORT:true}
+  api-docs:
+    enabled: ${SPRINGDOC_API_DOCS_ENABLED:true}
+  swagger-ui:
+    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:true}
+    path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+    config-url: ${SPRINGDOC_SWAGGER_UI_CONFIG_URL:/v3/api-docs/swagger-config}
+    urls:
+      - url: ${SPRINGDOC_SWAGGER_UI_URL_GATEWAY:/v3/api-docs}
+        name: ${SPRINGDOC_SWAGGER_UI_NAME_GATEWAY:gateway}
+        display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_GATEWAY:gateway}
+      - url: ${SPRINGDOC_SWAGGER_UI_URL_CLIENT_SERVICE:/client-service/v3/api-docs}
+        name: ${SPRINGDOC_SWAGGER_UI_NAME_CLIENT_SERVICE:client service}
+        display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_CLIENT_SERVICE:client service}
+      - url: ${SPRINGDOC_SWAGGER_UI_URL_CONTRACT_SERVICE:/contract-service/v3/api-docs}
+        name: ${SPRINGDOC_SWAGGER_UI_NAME_CONTRACT_SERVICE:contract service}
+        display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_CONTRACT_SERVICE:contract service}
+      - url: ${SPRINGDOC_SWAGGER_UI_URL_AUTH_SERVICE:/auth-service/v3/api-docs}
+        name: ${SPRINGDOC_SWAGGER_UI_NAME_AUTH_SERVICE:auth service}
+        display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_AUTH_SERVICE:auth service}
+      - url: ${SPRINGDOC_SWAGGER_UI_URL_LOAN_SERVICE:/loan-service/v3/api-docs}
+        name: ${SPRINGDOC_SWAGGER_UI_NAME_LOAN_SERVICE:loan service}
+        display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_LOAN_SERVICE:loan service}
+      - url: ${SPRINGDOC_SWAGGER_UI_URL_ACCOUNT_SERVICE:/account-service/v3/api-docs}
+        name: ${SPRINGDOC_SWAGGER_UI_NAME_ACCOUNT_SERVICE:account service}
+        display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_ACCOUNT_SERVICE:account service}
