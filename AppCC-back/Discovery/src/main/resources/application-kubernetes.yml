@@ -1,7 +1,7 @@
 spring:
   application:
     name: ${DISCOVERY_SERVICE_NAME:discovery-service}
-    
+
 eureka:
   client:
     fetch-registry: ${EUREKA_CLIENT_FETCH_REGISTRY:false}
