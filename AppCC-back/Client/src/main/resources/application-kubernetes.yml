@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: '${SPRING_APPLICATION_NAME:client-service}'
+  datasource:
+    driverClassName: '${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}'
+    url: '${SPRING_DATASOURCE_URL:jdbc:h2:mem:clientdb}'
+    username: '${SPRING_DATASOURCE_USERNAME:admin}'
+    password: '${SPRING_DATASOURCE_PASSWORD:admin}'
+  jpa:
+    database-platform: '${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
+  h2:
+    console:
+      enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
+      path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
+      settings:
+        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
+  cloud:
+    discovery:
+      enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
+server:
+  port: '${SERVER_PORT:8084}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:*}'
+  endpoint:
+    health:
+      show-details: '${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}'
+logging:
+  file:
+    path: '${LOGGING_FILE_PATH:C:/Users/yahyarb/Desktop/Loggs}'
+openapi:
+  service:
+    title: '${OPENAPI_SERVICE_TITLE:CLIENT-SERVICE doc}'
+    version: '${OPENAPI_SERVICE_VERSION:1.0.0}'
+    url: '${OPENAPI_SERVICE_URL:http://localhost:8888}'
+springdoc:
+  api-docs:
+    path: '${SPRINGDOC_API_DOCS_PATH:/client-service/v3/api-docs}'
+  swagger-ui:
+    path: '${SPRINGDOC_SWAGGER_UI_PATH:/client-service/swagger-ui.html}'
