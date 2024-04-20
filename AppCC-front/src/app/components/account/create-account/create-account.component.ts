@@ -40,7 +40,7 @@ export class CreateAccountComponent {
 
     // Call the service to create an account
     this.accountService.createAccount(account).then(() => {
-      this.router.navigate(['/myaccount']);
+      window.location.href = '/myaccount';
     });
   }
 
