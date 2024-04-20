@@ -42,6 +42,9 @@ export class UsersService {
         throw new Error('Empty or invalid response from server');
       }
       const data = await response.json();
+
+      
+
       console.log(data);
       const user = new User(data.id ,data.firstName + ' ' + data.lastName, data.firstName, data.lastName, data.email, data.hasAccount , data.rib, data.credentials, data.address);
       console.log("dsqddsds"+user);

@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
 import { AccountService } from '../../../services/account.service';
 import { Account } from '../../../models/account.model';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.css']
+  styleUrls: ['./create-account.component.css'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class CreateAccountComponent {
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService , private router: Router) { }
   accountType : string = '';
   // Method to set the account type when a button is clicked
   public setAccountType(accountType: string) {
@@ -36,7 +40,7 @@ export class CreateAccountComponent {
 
     // Call the service to create an account
     this.accountService.createAccount(account).then(() => {
-      alert('Account created successfully');
+      this.router.navigate(['/myaccount']);
     });
   }
 

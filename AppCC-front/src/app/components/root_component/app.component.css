@@ -42,7 +42,10 @@ mat-sidenav , mat-sidenav-content{
     position: relative;
     left: 79%;
 
-    
+    display: none ;
+    vertical-align: middle;
+
+
     
 }
 .create:hover {
@@ -51,3 +54,4 @@ mat-sidenav , mat-sidenav-content{
 
     
 }
+

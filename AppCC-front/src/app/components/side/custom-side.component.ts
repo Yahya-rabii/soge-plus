@@ -57,6 +57,11 @@ export class CustomSideComponent implements OnInit {
             if (user.hasAccount == true) {
 
 
+              const element = document.getElementById('create-account-button');
+              if (element) {
+                element.style.display = 'none';
+              }
+
               this.subItems.update((items) => {
                 items.push(
                   { label: 'Add Transaction', icon: 'account_balance_wallet', route: 'add-transaction' },
@@ -72,6 +77,15 @@ export class CustomSideComponent implements OnInit {
 
 
             }
+            else {
+              const element = document.getElementById('create-account-button');
+              if (element) {
+                element.style.display = 'block';
+              }
+            }
+           
+  
+           
           });
         }
       });
