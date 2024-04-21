@@ -4,24 +4,25 @@
       <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo">
       <span class="text-2xl font-semibold text-primary-500"> Create Your <span class="text-2xl font-semibold text-red-700">SOGE</span> Account Here !! </span>
     </a>
-    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
+    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 ">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg" id="createAccountForm">
         <!-- Account Type Selection -->
         <div class="flex justify-between">
-          <button type="button" 
+          <button 
+          tooltip="This offer is 100% free but you can only withdraw $200 daily." flow="left"
+          type="button" 
                   class="w-1/2 border-2 border-gray-300 rounded-md hover:bg-red-700 hover:opacity-90 hover:text-white mr-3 p-2.5"
                   [ngClass]="{'selected': accountType === 'SOGE'}" 
                   (click)="setAccountType('SOGE')"
-                  (mouseover)="showSogeBox = true" 
-                  (mouseout)="showSogeBox = false">SOGE</button>
+                  style="position: relative;">SOGE</button>
           <button type="button" 
+                  tooltip="This offer is not free. You must pay $3 daily." flow="right"
                   class="w-1/2 border-2 border-gray-300 rounded-md hover:bg-red-700 hover:opacity-90 hover:text-white p-2.5"
                   [ngClass]="{'selected': accountType === 'SOGEPLUS'}" 
                   (click)="setAccountType('SOGEPLUS')"
-                  (mouseover)="showSogePlusBox = true" 
-                  (mouseout)="showSogePlusBox = false">SOGEPLUS</button>
+                  style="position: relative;">SOGEPLUS</button>
         </div>
-        
+     
         <!-- Hidden field for account holder ID -->
         <input type="hidden" formControlName="accountHolderId" id="accountHolderId" [value]="getAccountHolderIdFromLocalStorage()">
         <!-- Hidden field for balance -->
@@ -31,11 +32,7 @@
         <!-- Submit Button -->
         <button type="button" id="submitButton" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700" (click)="Submit()">Create Account</button>
 
-        <!-- Boxes -->
-        <div *ngIf="showSogeBox" class="button">SOGE Box</div>
-        <div *ngIf="showSogePlusBox" class="button">SOGEPLUS Box</div>
 
-        
       </div>
     </div>
   </div>
