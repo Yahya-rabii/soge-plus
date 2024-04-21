@@ -15,6 +15,8 @@ export class CreateAccountComponent {
 
   constructor(private accountService: AccountService , private router: Router) { }
   accountType : string = '';
+  showSogeBox: boolean = false;
+  showSogePlusBox: boolean = false;
   // Method to set the account type when a button is clicked
   public setAccountType(accountType: string) {
     this.accountType = accountType;

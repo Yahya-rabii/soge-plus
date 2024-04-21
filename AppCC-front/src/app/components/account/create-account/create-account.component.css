@@ -2,4 +2,25 @@
     background-color: #d10000;
     color: white;
   }
+  .box-right {
+    position: absolute;
+    top: 50%;
+    right: 0%; /* Adjust the distance from the form */
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999; /* Ensure the box is on top of other elements */
+  }
+  
+  .box-left {
+    position: absolute;
+    top: 50%;
+    left: 0%; /* Adjust the distance from the form */
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 999; /* Ensure the box is on top of other elements */
+  }
   

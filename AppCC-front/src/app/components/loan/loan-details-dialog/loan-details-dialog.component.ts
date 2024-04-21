@@ -1,7 +1,7 @@
 // loan-details-dialog.component.ts
 
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Component, Inject  } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Loan } from '../../../models/loan.model';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,8 @@ import { LoanDetailsImageComponent } from './loan-image-dialog/loan-details-imag
     imports: [CommonModule, MatIconModule]
 })
 export class LoanDetailsDialogComponent {
+
+   
     openFabIndex: number | null = null; // Index of the opened FAB
   dialogRef: any // Reference to the dialog  
   

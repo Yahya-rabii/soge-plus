@@ -38,8 +38,8 @@ export class CardsComponent {
   }
 
   getContracts(){
-    this.contractService.getContracts().then((contracts) => {
-      this.Contracts = contracts;
+    this.contractService.getContracts().then((data) => {
+      this.Contracts = data.contracts;
     });
   }
 

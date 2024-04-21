@@ -37,7 +37,6 @@ export class CustomSideComponent implements OnInit {
         this.isAdmin = isAdmin;
 
         if (this.isAdmin) {
-          console.log("admin")
           // get the image from assets folder
           this.image = 'assets/img/profiles/admin.png';
           this.menuItems = signal<MenuItem[]>([

@@ -37,7 +37,6 @@ export class LoanService {
           loanData.cinCartVerso // Assuming cinCartVerso is already a base64 string
         );
       });
-      console.log('Loans:', Loans);
       return Loans;
     } catch (error) {
       console.error('Error fetching Loans:', error);
@@ -113,7 +112,6 @@ export class LoanService {
         body: formData
       });
       const data = await response.json();
-      console.log('Loan created:', data);
       return data;
     } catch (error) {
       console.error('Error creating Loan:', error);
@@ -136,7 +134,6 @@ export class LoanService {
       if (response.ok) {
         try {
           const data = await response.json();
-          console.log('Loan approved:', data);
           return data;
         } catch (jsonError) {
           console.error('Error parsing JSON:', jsonError);
@@ -166,7 +163,6 @@ export class LoanService {
       if (response.ok) {
         try {
           const data = await response.json();
-          console.log('Loan rejected:', data);
           return data;
         } catch (jsonError) {
           console.error('Error parsing JSON:', jsonError);

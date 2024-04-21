@@ -36,10 +36,8 @@ export class UsersService {
     const url = `${environment.ClientMsUrl}${environment.getClientByIdEndpoint}${id}`;
     try {
         const response = await fetch(url);
-        console.log(response);
-    
+     
           const data = await response.json();
-          console.log(data);
           
 
 

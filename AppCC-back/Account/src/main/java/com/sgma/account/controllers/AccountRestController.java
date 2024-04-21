@@ -56,7 +56,7 @@ public class AccountRestController {
     } else {
         MDC.put("traceId", "get all Accounts failed because Accounts do not exist");
         log.info("get all Accounts failed because Accounts do not exist");
-        return ResponseEntity.status(444).build();
+        return ResponseEntity.status(204).build();
     }
 }
 
@@ -88,13 +88,13 @@ public class AccountRestController {
                 // If client not found, return 404 Not Found
                 MDC.put("traceId", "get Account by id failed because client does not exist");
                 log.info("get Account by id failed because client does not exist");
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(204).build();
             }
         }
 
 
         // If Account or client not found, return 404 Not Found
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(204).build();
     }
 
 
@@ -155,7 +155,7 @@ public class AccountRestController {
                 // If client not found, return 404 Not Found
                 MDC.put("traceId", "get Account by client id failed because client does not exist");
                 log.info("get Account by client id failed because client does not exist");
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(204).build();
             }
         }
         // If Account or client not found, return 404 Not Found

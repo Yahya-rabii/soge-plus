@@ -15,8 +15,21 @@ export class AccountService {
         const url = `${environment.AccountMsUrl}${environment.getAllAccountsEndpoint}`;
         try {
             const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to fetch Accounts: ${response.status} ${response.statusText}`);
+            }
+            else{
+                if(response.status === 204){
+                    return [];
+                }
+            }
+
             const data = await response.json();
+
             return data;
+            
+
         } catch (error) {
             console.error('Error fetching Accounts:', error);
             throw error;
@@ -86,8 +99,8 @@ export class AccountService {
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error('Error adding Beneficiary:', error);
-            throw error;
+            console.error('Error adding beneficiary:', error);
+            throw error;            
         }
 
     }

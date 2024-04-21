@@ -38,20 +38,20 @@ mat-sidenav , mat-sidenav-content{
 }
 
 .create {
-   /*the create button*/
+   /*the create button should be on the right side of the screen*/
     position: relative;
-    left: 79%;
-
-    display: none ;
-    vertical-align: middle;
-
-
-    
+    left: 85%;
+    border-radius: 5px;
+    transition: all 500ms ease-in-out;
 }
 .create:hover {
     color: black;
     border-radius: 5px;
-
-    
 }
-
+.flexible-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    margin-right: 10px;
+}

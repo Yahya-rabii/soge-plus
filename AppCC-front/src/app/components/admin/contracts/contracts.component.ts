@@ -32,7 +32,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class ContractsComponent implements OnInit {
   usersWithContracts: { user: User, contracts: Contract[], isOpen: boolean }[] = [];
-  
+
   constructor(private contractService: ContractService, private userService: UsersService) { }
 
   ngOnInit(): void {
@@ -49,32 +49,19 @@ export class ContractsComponent implements OnInit {
       Promise.all(users.map(user => this.contractService.getContractsOfClient(user.id)))
         .then((contractsArray) => {
           if (contractsArray && contractsArray.length > 0) {
-
-            
             contractsArray.forEach((contracts, index) => {
               // Associate contracts with the corresponding user
-               
               if (contracts) {
-
                 this.usersWithContracts.push({
                   user: users[index],
                   contracts: contracts.contracts,
                   isOpen: false
                 });
-  
-
               }
-             
-
-
             });
-
-            
           }
           else {
             this.usersWithContracts = [];
-
-           
           }
         });
     });
