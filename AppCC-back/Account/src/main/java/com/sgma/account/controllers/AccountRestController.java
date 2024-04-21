@@ -190,6 +190,18 @@ public class AccountRestController {
             if (beneficiary == null) {
                 return null;
             }
+
+            // check if the beneficiary is already added
+            List<String> beneficiariesIds = account.getBeneficiariesIds();
+            for (String beneficiaryId : beneficiariesIds) {
+                if (beneficiaryId.equals(beneficiary.getId())) {
+                    // return the a response with status 204
+
+                    return null;
+
+                }
+            }
+
             account.getBeneficiariesIds().add(beneficiary.getId());
             return AccountRepository.save(account);
         }

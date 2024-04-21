@@ -89,6 +89,9 @@ export class AccountService {
         const url = `${environment.AccountMsUrl}/beneficiary/${accountId}`;
     
         try {
+
+
+            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -96,11 +99,22 @@ export class AccountService {
                 },
                 body: JSON.stringify(beneficiaryRIB) // Sending the RIB directly as the request body
             });
+
+
+            if (!response.ok) {
+                throw new Error(`Failed to add beneficiary: ${response.status} ${response.statusText}`);
+            }
+
+            if (response.body === null) {
+                return;
+            }
+
+            console.log(response);
+    
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error('Error adding beneficiary:', error);
-            throw error;            
+            return
         }
 
     }
