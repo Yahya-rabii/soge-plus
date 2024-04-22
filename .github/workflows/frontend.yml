@@ -3,7 +3,7 @@ name: Soge-system-UI pipeline
 on:
   push:
     tags:
-      - 'UI-v*'
+      - 'UI-SERVICE-v*'
    
 env:
   SERVICE_NAME: soge-system-ui
