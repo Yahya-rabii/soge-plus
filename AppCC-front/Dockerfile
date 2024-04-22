@@ -3,7 +3,7 @@ WORKDIR /ng-app
 COPY package*.json /ng-app/
 RUN npm ci
 COPY . .
-RUN npm install -g @angular/cli@latest
+RUN npm install -g @angular/cli@17.3.4
 RUN ng build --configuration=production
 
 
