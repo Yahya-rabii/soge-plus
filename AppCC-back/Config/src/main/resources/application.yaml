@@ -5,7 +5,7 @@ server:
 spring:
   cloud:
     discovery:
-      enabled: ${DISCOVERY_ENABLED:true}
+      enabled: ${DISCOVERY_ENABLED:false}
     config:
       server:
         native:
@@ -20,7 +20,7 @@ spring:
   application:
     name: ${SPRING_APPLICATION_NAME:config-server}
   profiles:
-    default: native
+    default: ${ACTIVE_PROFILE:native}
 
 
 eureka:
