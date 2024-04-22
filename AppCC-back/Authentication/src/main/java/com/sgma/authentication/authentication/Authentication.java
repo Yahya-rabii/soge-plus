@@ -163,7 +163,6 @@ public class Authentication {
     }
 
 
-
     private String getAccessToken() {
         try {
 
@@ -183,8 +182,6 @@ public class Authentication {
             throw new RuntimeException("Failed to retrieve access token from Keycloak");
         }
     }
-
-
 
 
     private ResponseEntity<Map> createUser(ClientSignup user) {
@@ -409,6 +406,9 @@ public class Authentication {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
+
+
 
     @PostMapping("/role")
     private ResponseEntity<Map<String, List<String>>> getRole(@RequestBody String UserId) {

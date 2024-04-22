@@ -36,7 +36,8 @@ public class Client {
 
     private boolean hasAccount = false;
 
-    private BigInteger RIB;
+    @ElementCollection
+    private List<BigInteger> RIBS;
 
 
     @Transient

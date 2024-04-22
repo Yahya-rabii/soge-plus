@@ -10,6 +10,6 @@ VALUES ('400dfcd1-c606-4fe6-8a37-56cde11f5f30', 'salah@sgma.com', 'mourchid', 's
 
 
 */
-INSERT INTO client (id, email, first_name, last_name,has_account , rib , street, city, postal_code, country, roles)
-VALUES ('39993cfa-dc4b-4f8a-b781-b40393984b39', 'rabiiyahya8@gmail.com', 'yahya', 'rabii', FALSE, null,'ghandi', 'casablanca', '20400', 'morocco', '[default-roles-appcc-realm]');
+--INSERT INTO client (id, email, first_name, last_name,has_account , rib , street, city, postal_code, country, roles)
+--VALUES ('39993cfa-dc4b-4f8a-b781-b40393984b39', 'rabiiyahya8@gmail.com', 'yahya', 'rabii', FALSE, null,'ghandi', 'casablanca', '20400', 'morocco', '[default-roles-appcc-realm]');
 
