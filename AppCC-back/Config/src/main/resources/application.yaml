@@ -17,11 +17,11 @@ spring:
           default-label: ${CONFIG_GIT_DEFAULT_LABEL:master}
         bootstrap: true
       allow-override: true
-      override-none: false
   application:
     name: ${SPRING_APPLICATION_NAME:config-server}
   profiles:
     default: native
+
 
 eureka:
   client:
@@ -33,3 +33,9 @@ eureka:
   instance:
     hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
 
+logging:
+  level:
+    com.netflix.discovery: OFF
+    com.netflix.discovery.shared.transport: OFF
+    com.netflix.discovery.shared.transport.decorator: OFF
+    # Add more packages or classes if needed

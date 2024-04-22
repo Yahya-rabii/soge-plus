@@ -20,7 +20,7 @@ export class AddBeneficiaryComponent implements OnInit{
 
   addBeneficiaryForm: FormGroup;
   beneficiary: User = new User();
-  accounts: Account[] = [];
+  account: Account = new Account();
   rib: string = ''; // Change the type to string to handle the spaces
 
   constructor(private formBuilder: FormBuilder, private router: Router , private accountService: AccountService) {
@@ -39,7 +39,7 @@ export class AddBeneficiaryComponent implements OnInit{
   public getAccountByHolderId() {
     this.accountService.getAccountByHolderId().then((data) => {
       console.log(data);
-      this.accounts = data.Accounts;
+      this.account = data.Account;
     });
   }
 
@@ -62,8 +62,8 @@ export class AddBeneficiaryComponent implements OnInit{
     this.rib = formData.rib.replace(/\s/g, ''); // Remove any existing spaces
   
     // Call the service to add a beneficiary
-    for (let account of this.accounts) {
-      this.accountService.addBeneficiary(account.id , Number(this.rib)).then(() => {
+    if (this.account) {
+      this.accountService.addBeneficiary(this.account.id , Number(this.rib)).then(() => {
         alert('Beneficiary added successfully');
         this.router.navigate(['/myaccount']);
       });

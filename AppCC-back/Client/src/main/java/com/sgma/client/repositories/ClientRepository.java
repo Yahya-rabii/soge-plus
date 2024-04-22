@@ -9,5 +9,5 @@ import java.math.BigInteger;
 
 @RepositoryRestResource
 public interface ClientRepository extends JpaRepository<Client, String> {
-Client findByRIBS(BigInteger RIB);
+    Client findByRIB(BigInteger rib);
 }
