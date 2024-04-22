@@ -1,4 +1,5 @@
 package com.sgma.loan.services;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.sgma.loan.entities.Loan;
 import com.sgma.loan.enums.Status;
@@ -31,6 +32,9 @@ public class LoanService {
 
     private final LoanRepository loanRepository;
     private final MinioClient minioClient;
+    
+    @Value("${minio.bucket.name}")
+    private String bucketName;
 
     public LoanService(LoanRepository loanRepository, MinioClient minioClient) {
         this.loanRepository = loanRepository;
@@ -71,7 +75,7 @@ public class LoanService {
         String signatureUrl = minioClient.getPresignedObjectUrl(
                 GetPresignedObjectUrlArgs.builder()
                         .method(Method.GET)
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(loan.getSignatureFileName())
                         .expiry(60 * 60 * 24 * 7) // 7 days
                         .build());
@@ -79,7 +83,7 @@ public class LoanService {
         String cinCartRectoUrl = minioClient.getPresignedObjectUrl(
                 GetPresignedObjectUrlArgs.builder()
                         .method(Method.GET)
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(loan.getCinCartRectoFileName())
                         .expiry(60 * 60 * 24 * 7) // 7 days
                         .build());
@@ -87,7 +91,7 @@ public class LoanService {
         String cinCartVersoUrl = minioClient.getPresignedObjectUrl(
                 GetPresignedObjectUrlArgs.builder()
                         .method(Method.GET)
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(loan.getCinCartVersoFileName())
                         .expiry(60 * 60 * 24 * 7) // 7 days
                         .build());
@@ -145,7 +149,7 @@ public class LoanService {
         String signatureFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
         minioClient.putObject(
                 PutObjectArgs.builder()
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(signatureFileName)
                         .stream(signature.getInputStream(), signature.getSize(), -1)
                         .build());
@@ -153,7 +157,7 @@ public class LoanService {
         String cinCartRectoFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
         minioClient.putObject(
                 PutObjectArgs.builder()
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(cinCartRectoFileName)
                         .stream(cinCartRecto.getInputStream(), cinCartRecto.getSize(), -1)
                         .build());
@@ -161,7 +165,7 @@ public class LoanService {
         String cinCartVersoFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
         minioClient.putObject(
                 PutObjectArgs.builder()
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(cinCartVersoFileName)
                         .stream(cinCartVerso.getInputStream(), cinCartVerso.getSize(), -1)
                         .build());
@@ -221,17 +225,17 @@ public class LoanService {
     private void deleteDocumentsFromMinio(Loan loan) throws ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InternalException, ServerException, InvalidResponseException, InsufficientDataException {
         minioClient.removeObject(
                 RemoveObjectArgs.builder()
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(loan.getSignatureFileName())
                         .build());
         minioClient.removeObject(
                 RemoveObjectArgs.builder()
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(loan.getCinCartRectoFileName())
                         .build());
         minioClient.removeObject(
                 RemoveObjectArgs.builder()
-                        .bucket("appccbucket")
+                        .bucket(bucketName)
                         .object(loan.getCinCartVersoFileName())
                         .build());
     }

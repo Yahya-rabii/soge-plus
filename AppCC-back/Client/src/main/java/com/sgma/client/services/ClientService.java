@@ -63,7 +63,7 @@ public class ClientService {
     //get client by rib
     @GetMapping(path = "/client/rib/{rib}")
     public Client getClientByRib(BigInteger rib) {
-        return clientRepository.findByRIB(rib);
+        return clientRepository.findByRIBS(rib);
     }
 
     // set client has account to true
@@ -72,7 +72,7 @@ public class ClientService {
         Client client = clientRepository.findById(id).orElse(null);
         if (client != null) {
             client.setHasAccount(true);
-            client.setRIB(rib);
+            client.getRIBS().add(rib);
             clientRepository.save(client);
         }
     }

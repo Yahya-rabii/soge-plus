@@ -207,4 +207,23 @@ public class AccountRestController {
         }
         return null;
     }
+
+
+/*
+    @PostMapping("/addTransaction/{id}")
+    public Account addTransaction(@PathVariable("id") BigInteger Rib, @RequestBody Long Ammount) {
+
+        Client client = clientFetchingService.getAccountHolderByRib(Rib);
+        if (client == null) {
+            return null;
+        }
+
+
+        Account account = AccountRepository.findByAccountHolderId(client.getId());
+        if (account != null) {
+            account.setBalance(account.getBalance() + Ammount);
+            return AccountRepository.save(account);
+        }
+        return null;
+    }*/
 }
