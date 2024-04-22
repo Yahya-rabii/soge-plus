@@ -150,7 +150,15 @@ public class LoanController {
         newLoan.setTaxId(loanDetails.get("taxId"));
         newLoan.setReceptionMethod(ReceptionMethod.valueOf(loanDetails.get("receptionMethod")));
         // bankAccountCredentials_RIB is a BigInteger
-        newLoan.setBankAccountCredentials_RIB(new BigInteger(loanDetails.get("bankAccountCredentials_RIB")));
+
+        if(newLoan.getReceptionMethod() == ReceptionMethod.ONLINE){
+
+            newLoan.setBankAccountCredentials_RIB(new BigInteger(loanDetails.get("bankAccountCredentials_RIB")));
+        }
+        else {
+            newLoan.setBankAccountCredentials_RIB(null);
+        }
+
         newLoan.setSelectedAgency(loanDetails.get("selectedAgency"));
         newLoan.setClientId(loanDetails.get("clientId"));
         newLoan.setStatus(Status.PENDING);

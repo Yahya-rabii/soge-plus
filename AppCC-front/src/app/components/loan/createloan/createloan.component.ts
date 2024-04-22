@@ -52,17 +52,16 @@ export class CreateloanComponent {
     if (file) {
       if (field === 'signature') {
         this.signature = file;
-        this.createLoanForm.patchValue({ signature: null }); // Clear the input field after processing the file
+        this.createLoanForm.patchValue({ signature: file });
       } else if (field === 'idCardFront') {
         this.idCardFront = file;
-        this.createLoanForm.patchValue({ idCardFront: null }); // Clear the input field after processing the file
+        this.createLoanForm.patchValue({ idCardFront: file });
       } else if (field === 'idCardBack') {
         this.idCardBack = file;
-        this.createLoanForm.patchValue({ idCardBack: null }); // Clear the input field after processing the file
+        this.createLoanForm.patchValue({ idCardBack: file });
       }
     }
   }
-  
 
   public GoToSection(section: number) {
     if (section <= this.currentSection) {
