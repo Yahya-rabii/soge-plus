@@ -3,7 +3,8 @@ WORKDIR /ng-app
 COPY package*.json /ng-app/
 RUN npm ci
 COPY . .
-RUN npm run build
+RUN npm install -g @angular/cli@latest
+RUN ng build --configuration=production
 
 
 FROM nginx:alpine
