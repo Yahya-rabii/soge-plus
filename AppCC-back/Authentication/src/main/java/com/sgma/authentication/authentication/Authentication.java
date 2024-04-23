@@ -231,6 +231,9 @@ public class Authentication {
 
             // Send request to Keycloak
             ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(gettokenUrl, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>() {});
+            System.out.println("\n \n \n Here's the token url: "+gettokenUrl+"\n \n \n");
+            System.out.println("\n \n \n Here's the clientServiceUrl : "+clientServiceUrl+"\n \n \n");
+            System.out.println("\n \n \n Here's the authUrl : "+authUrl+"\n \n \n");
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> responseBody = responseEntity.getBody();
