@@ -45,4 +45,4 @@ COPY --from=builder /app/target/${jar_name} /app/${jar_name}
 # ENV UPDATECLIENT_BYID_ENDPOINT
 
 # Add manualy here
-CMD java -jar Admin-0.0.1-SNAPSHOT.jar
+CMD java -jar Authentication-0.0.1-SNAPSHOT.jar

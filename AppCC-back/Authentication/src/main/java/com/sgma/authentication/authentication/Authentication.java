@@ -217,7 +217,7 @@ public class Authentication {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-
+            System.out.println("\n \n \n ana hna 0 \n \n \n");
             // Set request parameters
             requestBody.add("grant_type", client.getGrant_type());
             requestBody.add("client_id", clientId);
@@ -227,10 +227,14 @@ public class Authentication {
 
 
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            System.out.println("\n \n \n ana hna 1 \n \n \n");
             HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-
+            System.out.println("\n \n \n ana hna 2 \n \n \n");
             // Send request to Keycloak
             ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(gettokenUrl, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>() {});
+            System.out.println("\n \n \n Here's the token url: "+gettokenUrl+"\n \n \n");
+            System.out.println("\n \n \n Here's the clientServiceUrl : "+clientServiceUrl+"\n \n \n");
+            System.out.println("\n \n \n Here's the authUrl : "+authUrl+"\n \n \n");
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> responseBody = responseEntity.getBody();
