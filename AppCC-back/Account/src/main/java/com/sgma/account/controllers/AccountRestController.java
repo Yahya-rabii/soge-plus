@@ -209,7 +209,7 @@ public class AccountRestController {
 
 
     @PostMapping("/addTransaction/{id}/{Rib}")
-    public Account addTransaction(@PathVariable("id") Long id ,@PathVariable("id")  BigInteger Rib, @RequestBody Long Ammount) {
+    public Account addTransaction(@PathVariable("id") Long id ,@PathVariable("Rib")  BigInteger Rib, @RequestBody Long Amount) {
 
         // todo : this method is responsible of sending money ammounts  from two persons :
 
@@ -228,13 +228,13 @@ public class AccountRestController {
             return null;
         }
 
-        if (sender.getBalance() > Ammount+ 200){
+        if (sender.getBalance() > Amount+ 200){
 
-            sender.setBalance(sender.getBalance() - Ammount);
-            receiver.setBalance(receiver.getBalance() + Ammount);
+            sender.setBalance(sender.getBalance() - Amount);
+            receiver.setBalance(receiver.getBalance() + Amount);
 
         }
 
-        return sender;
+        return AccountRepository.save(sender);
     }
 }

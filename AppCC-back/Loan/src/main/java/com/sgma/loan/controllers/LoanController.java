@@ -153,7 +153,10 @@ public class LoanController {
 
         if(newLoan.getReceptionMethod() == ReceptionMethod.ONLINE){
 
-            newLoan.setBankAccountCredentials_RIB(new BigInteger(loanDetails.get("bankAccountCredentials_RIB")));
+            // the rib is a string that contains numbers and spaces so we need to remove the spaces
+            String rib = loanDetails.get("bankAccountCredentials_RIB").replaceAll("\\s", "");
+
+            newLoan.setBankAccountCredentials_RIB(new BigInteger(rib));
         }
         else {
             newLoan.setBankAccountCredentials_RIB(null);

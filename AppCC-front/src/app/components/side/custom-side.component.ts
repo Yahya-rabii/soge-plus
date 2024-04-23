@@ -68,7 +68,8 @@ export class CustomSideComponent implements OnInit {
               this.subItems.update((items) => {
                 items.push(
                   { label: 'Add Transaction', icon: 'account_balance_wallet', route: 'add-transaction' },
-                  { label: 'Add Beneficiary', icon: 'person_add', route: 'add-beneficiary' }
+                  { label: 'Add Beneficiary', icon: 'person_add', route: 'add-beneficiary' },
+                  { label: 'My Transactions', icon: 'alt_route', route: 'my-transactions' }
                 );
                 return items;
               });
