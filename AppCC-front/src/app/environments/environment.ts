@@ -55,6 +55,7 @@ export const environment = {
     getAccountByAccountHolderIdEndpoint: '/Accounts/client/',
     getBeneficiariesEndpoint: '/beneficiaries/',
     addBeneficiaryEndpoint: '/beneficiary/',
+    addTransactionEndpoint: '/addTransaction/',
 
   };
 

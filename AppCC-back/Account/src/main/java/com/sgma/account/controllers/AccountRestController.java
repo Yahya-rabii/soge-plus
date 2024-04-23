@@ -136,15 +136,15 @@ public class AccountRestController {
     @GetMapping("/Accounts/client/{AccountHolderId}")
     public ResponseEntity<Map<String, Object>> getAccountByAccountHolderId(@PathVariable("AccountHolderId") String AccountHolderId) {
         // Retrieve the Account by client id
-        List<Account> Accounts = AccountRepository.findByAccountHolderId(AccountHolderId);
+        Account Account = AccountRepository.findByAccountHolderId(AccountHolderId);
 
-        if (!Accounts.isEmpty()) {
+        if (Account != null) {
             // Retrieve the client by id
             Client client = clientFetchingService.getAccountHolderById(AccountHolderId);
             if (client != null) {
                 // Construct a Map to hold Account, client, and loans
                 Map<String, Object> response = new HashMap<>();
-                response.put("Accounts", Accounts);
+                response.put("Account", Account);
                 response.put("client", client);
                 // Log
                 MDC.put("traceId", "get Account by client id called from AccountRestController class of Account microservice");
@@ -190,8 +190,6 @@ public class AccountRestController {
             if (beneficiary == null) {
                 return null;
             }
-
-            // check if the beneficiary is already added
             List<String> beneficiariesIds = account.getBeneficiariesIds();
             for (String beneficiaryId : beneficiariesIds) {
                 if (beneficiaryId.equals(beneficiary.getId())) {
@@ -209,21 +207,34 @@ public class AccountRestController {
     }
 
 
-/*
-    @PostMapping("/addTransaction/{id}")
-    public Account addTransaction(@PathVariable("id") BigInteger Rib, @RequestBody Long Ammount) {
 
-        Client client = clientFetchingService.getAccountHolderByRib(Rib);
-        if (client == null) {
+    @PostMapping("/addTransaction/{id}/{Rib}")
+    public Account addTransaction(@PathVariable("id") Long id ,@PathVariable("id")  BigInteger Rib, @RequestBody Long Ammount) {
+
+        // todo : this method is responsible of sending money ammounts  from two persons :
+
+        // step one : get the sender account by id :
+        Account sender  = AccountRepository.findById(id).orElse(null);
+        if (sender == null){
+            return  null;
+        }
+        // step two : get the receiver client by rib
+        Client client =  clientFetchingService.getAccountHolderByRib(Rib);
+        if (client == null){
+            return null;
+        }
+        Account receiver = AccountRepository.findByAccountHolderId(client.getId());
+        if(receiver == null){
             return null;
         }
 
+        if (sender.getBalance() > Ammount+ 200){
 
-        Account account = AccountRepository.findByAccountHolderId(client.getId());
-        if (account != null) {
-            account.setBalance(account.getBalance() + Ammount);
-            return AccountRepository.save(account);
+            sender.setBalance(sender.getBalance() - Ammount);
+            receiver.setBalance(receiver.getBalance() + Ammount);
+
         }
-        return null;
-    }*/
+
+        return sender;
+    }
 }

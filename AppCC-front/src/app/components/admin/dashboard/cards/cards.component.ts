@@ -38,8 +38,8 @@ export class CardsComponent {
   }
 
   getContracts(){
-    this.contractService.getContracts().then((data) => {
-      this.Contracts = data.contracts;
+    this.contractService.getContracts().then((contracts) => {
+      this.Contracts = contracts;
     });
   }
 
@@ -50,10 +50,39 @@ export class CardsComponent {
   }
 
   getAccounts(){
-    this.accountService.getAccounts().then((accounts) => {
-      this.Accounts = accounts;
+    this.accountService.getAccounts().then((data) => {
+      this.Accounts = data.Accounts;
     });
   }
+
+  AccountsCount(){
+    if( typeof this.Accounts === undefined){
+      return 0;
+    }
+    else return this.Accounts.length;
+  }
+
+  LoansCount(){
+    if(typeof this.Loans === undefined){
+      return 0;
+    }
+    else return this.Loans.length;
+  }
+
+  ContractsCount(){
+    if(typeof this.Contracts === undefined ){
+      return 0;
+    }
+    else return this.Contracts.length;
+  }
+
+  UsersCount(){
+    if(typeof this.Users === undefined){
+      return 0;
+    }
+    else return this.Users.length;
+  }
+
 
 
 

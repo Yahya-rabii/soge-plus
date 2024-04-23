@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class MyAccountComponent implements OnInit {
 
   constructor(private accountService: AccountService, private userService : UsersService) { }
-  accounts: Account[] = [];
+  account: Account = new Account();
   client: User = new User();
   beneficiaries: User[] = [];
   
@@ -35,11 +35,10 @@ export class MyAccountComponent implements OnInit {
   public getAccountByHolderId() {
     this.accountService.getAccountByHolderId().then((data) => {
       console.log(data);
-      this.accounts = data.Accounts;
+      this.account = data.Account;
       this.client = data.client;
-      for (let account of this.accounts) {
-        this.myBeneficiaries(account);
-      }
+      this.myBeneficiaries(this.account);
+      
     });
   }
 

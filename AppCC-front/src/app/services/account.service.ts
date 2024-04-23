@@ -23,11 +23,12 @@ export class AccountService {
                 if(response.status === 204){
                     return [];
                 }
+                const data = await response.json();
+            
+            return data;
+            
             }
 
-            const data = await response.json();
-
-            return data;
             
 
         } catch (error) {
@@ -118,5 +119,25 @@ export class AccountService {
         }
 
     }
+
+    // add transaction take :  account id , rib on the path variable and amount on the request body
+    async addTransaction( accountId: number, rib: number, amount: number): Promise<any> {
+        const url = `${environment.AccountMsUrl}${environment.addTransactionEndpoint}${accountId}/${rib}`;
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(amount)
+            });
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error creating Transaction:', error);
+            throw error;
+        }
+    }
+
     
 }
