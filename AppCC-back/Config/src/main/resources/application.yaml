@@ -1,11 +1,9 @@
 server:
   port: ${SERVER_PORT:9999}
-
-
 spring:
   cloud:
     discovery:
-      enabled: ${DISCOVERY_ENABLED:false}
+      enabled: ${DISCOVERY_ENABLED:true}
     config:
       server:
         native:

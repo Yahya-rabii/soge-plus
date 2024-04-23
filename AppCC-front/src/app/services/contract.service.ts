@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { Contract } from '../models/contract.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,13 +41,17 @@ export class ContractService {
   
 
   // get contracts of all clients 
-  async getContracts(): Promise<any> {
+  async getContracts(): Promise<Contract[]> {
     const url = `${environment.ContractMsUrl}${environment.getAllContractsEndpoint}`;
     try {
       const response = await fetch(url);
+      if (response.status == 444) {
+        return [];
+      }
       if (response.ok) {
         const data = await response.json();
-        return data;
+        console.log(data);  
+        return data.contracts;
       }
    
       else {

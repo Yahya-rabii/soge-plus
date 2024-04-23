@@ -27,9 +27,9 @@ export class ContractsVComponent implements OnInit {
 
  // get contracts of the user 
  getContracts(){
-  this.contractService.getContracts().then((data) => {
-    if (data) {
-      this.contracts = data.contracts;
+  this.contractService.getContracts().then((contracts) => {
+    if (contracts) {
+      this.contracts = contracts;
     }
     else{
       console.log("No contracts found");
