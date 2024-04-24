@@ -43,6 +43,14 @@ public class ClientRestController {
         return clientService.getClientById(id);
     }
 
+    @GetMapping("/client/email/{email}")
+    public Client getClientByEmail(@PathVariable("email") String email) {
+        MDC.put("traceId", "get client by email called from ClientRestController class of Client microservice");
+        log.info("get client by email called from ClientRestController class of Client microservice");
+        return clientService.getClientByEmail(email);
+    }
+
+
     @PostMapping("/createClient")
     public Client addClient(@RequestBody Client client) {
         MDC.put("traceId", "add client called from ClientRestController class of Client microservice");
@@ -50,7 +58,7 @@ public class ClientRestController {
         List<Client> clients = clientService.getAllClients();
 
         if (clients.stream().anyMatch(c -> c.getEmail().equals(client.getEmail()) )){
-                throw new RuntimeException("Email already exists");
+                return null;
         }
 
         return clientService.addClient(client);
@@ -68,7 +76,21 @@ public class ClientRestController {
     public void deleteClient(@PathVariable("id") String id) {
         MDC.put("traceId", "delete client called from ClientRestController class of Client microservice");
         log.info("delete client called from ClientRestController class of Client microservice");
-        clientService.deleteClient(id);
+        Client client = clientService.getClientById(id);
+        if (client != null) {
+            clientService.deleteClient(id);
+        }
+    }
+
+    //delete client by Email
+    @DeleteMapping("/deleteClientByEmail/{email}")
+    public void deleteClientByEmail(@PathVariable("email") String email) {
+        MDC.put("traceId", "delete client by email called from ClientRestController class of Client microservice");
+        log.info("delete client by email called from ClientRestController class of Client microservice");
+        Client client = clientService.getClientByEmail(email);
+        if (client != null) {
+            clientService.deleteClient(client.getId());
+        }
     }
 
     @GetMapping("/contracts/{id}")

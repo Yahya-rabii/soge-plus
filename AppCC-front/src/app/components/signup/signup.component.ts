@@ -50,7 +50,8 @@ export class SignupComponent {
     }
 
     const credentials = [new Credential('password', formData.password)];
-    const address = new Address(formData.street, formData.city, formData.postalCode, formData.country);
+    const postalCode = parseInt(formData.postalCode);
+    const address = new Address(formData.street, formData.city, postalCode, formData.country);
     const { username, firstName, lastName, email } = formData;
 
     this.user.set_attributes(

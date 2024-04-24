@@ -2,19 +2,19 @@ export class Address {
 
     street: string | '';
     city: string | '';
-    postalCode: string | '';
+    postalCode: number | 0;
     country: string | '';
 
 
     constructor(
         street: string,
         city?: string,
-        postalCode?: string,
+        postalCode?: number,
         country?: string
     ) {
         this.street = street || '';
         this.city = city || '';
-        this.postalCode = postalCode || '';
+        this.postalCode = postalCode || 0;
         this.country = country || '';
     }
 
@@ -34,11 +34,11 @@ export class Address {
         this.city = city;
     }
 
-    getPostalCode(): string {
+    getPostalCode(): number {
         return this.postalCode;
     }
 
-    setPostalCode(postalCode: string): void {
+    setPostalCode(postalCode: number): void {
         this.postalCode = postalCode;
     }
 
@@ -55,7 +55,7 @@ export class Address {
         );
     }
 
-    setAttributes( street: string, city: string, postalCode: string, country: string): void {
+    setAttributes( street: string, city: string, postalCode: number, country: string): void {
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;

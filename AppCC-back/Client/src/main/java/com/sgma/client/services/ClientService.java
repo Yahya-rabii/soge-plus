@@ -59,11 +59,15 @@ public class ClientService {
         }
     }
 
-
     //get client by rib
     @GetMapping(path = "/client/rib/{rib}")
     public Client getClientByRib(BigInteger rib) {
         return clientRepository.findByRIB(rib);
+    }
+
+    //Get client by email
+    public Client getClientByEmail(String email) {
+        return clientRepository.findByEmail(email);
     }
 
     // set client has account to true

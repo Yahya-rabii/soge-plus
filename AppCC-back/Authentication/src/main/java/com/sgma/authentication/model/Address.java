@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,7 +13,7 @@ public class Address {
 
     private String street;
     private String city;
-    private String postalCode;
+    private Integer postalCode;
     private String country;
 
 }

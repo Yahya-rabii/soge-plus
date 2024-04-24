@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -82,8 +83,6 @@ public class Authentication {
     public ResponseEntity signUp(@RequestBody Map<String,Object> userData) {
         try {
 
-
-            // Parse credentials from userData and extract the password
             List<Map<String, String>> credentialsList = (List<Map<String, String>>) userData.get("credentials");
             String password = null;
             for (Map<String, String> credentialMap : credentialsList) {
@@ -92,43 +91,42 @@ public class Authentication {
                     break;
                 }
             }
-            // Create a new object for keycloak signup
-
             ClientSignup user = new ClientSignup(userData.get("username").toString(), userData.get("email").toString(), userData.get("firstName").toString(), userData.get("lastName").toString(),password);
-
-
             // Step 1: Retrieve access token from Keycloak
             accessToken = getAccessToken();
-
             // Step 2: Send user data to Keycloak for signup
             ResponseEntity<Map> clientData = createUser(user);
 
             if (clientData.getStatusCode() == HttpStatus.CREATED) {
-
                 // Get the roles of the user
                 roles = Objects.requireNonNull(getRole(UserID).getBody()).get("roles");
+                String street = ((Map<String, String>) userData.get("address")).get("street");
+                String city = ((Map<String, String>) userData.get("address")).get("city");
+                Integer postalCode = ((Map<String, Integer>) userData.get("address")).get("postalCode");
+                String country = ((Map<String, String>) userData.get("address")).get("country");
 
 
 
-
-
-
-                // Create a new Address
-                Map<String, String> addressData = (Map<String, String>) userData.get("address");
-
-// Create a new Address object using extracted data
-                Address address = new Address(addressData.get("street"), addressData.get("city"), addressData.get("postalCode"), addressData.get("country"));
+                Address address = new Address(street, city, postalCode, country);
 
                 Role role = new Role(roles);
-
                 // Create a new Client object
                 Client client = new Client(UserID, userData.get("email").toString(), userData.get("firstName").toString(), userData.get("lastName").toString() , userData.get("username").toString(),role, address);
+                // Step 3: Send user data to client microservice and check if the method returns true if so then return appropriate response to the client if no then delete the user from the keycloak so that both the client microservice and the keycloak are in sync
 
-                // Step 3: Send user data to client microservice
-                sendUserDataToClientService(client, accessToken);
+                if (sendUserDataToClientService(client, accessToken)) {
+                    return ResponseEntity.status(HttpStatus.CREATED).body(null);
+                }else {
 
-                // Return appropriate response to the client
-                return ResponseEntity.status(HttpStatus.CREATED).body(null);
+
+
+                    // delete user from the client microservice using feign client
+                    clientFetchingService.deleteClientByEmail(userData.get("email").toString() );
+
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+                }
+
             } else {
                 throw new RuntimeException("Failed to create user in Keycloak");
             }
@@ -141,25 +139,52 @@ public class Authentication {
         }
     }
 
-    private void sendUserDataToClientService(Client client, String accessToken) {
+    private Boolean sendUserDataToClientService(Client client, String accessToken) {
         try {
-            // Prepare HTTP request to send user data to client microservice
+
+
+            // get all the clients from the keycloak by calling the authUrl + usersEndpoint endpoint and then loop through the response body and search for the user with the same username if its found then add the user to the client microservice
+            // nb that the response body is a list of users that looks like this : [{"id":"4b91761c-59c3-4614-9964-4e615e0c2a44","username":"admin","firstName":"admin","lastName":"admin","email":"admin@appcc.com","emailVerified":true,"createdTimestamp":1713817106406,"enabled":true,"totp":false,"disableableCredentialTypes":[],"requiredActions":[],"notBefore":1713859501,"access":{"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,"manage":true}},{"id":"c3801d19-e849-46a5-8cdc-5646e0c2c046","username":"oumabhj","firstName":"ouma","lastName":"bhj","email":"oumabhj@example.com","emailVerified":true,"createdTimestamp":1713882439359,"enabled":true,"totp":false,"disableableCredentialTypes":[],"requiredActions":[],"notBefore":1713883299,"access":{"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,"manage":true}},{"id":"85c8ef35-e43f-402d-80c0-1d3b6a645371","username":"yahyarb","firstName":"yahya","lastName":"rabii","email":"rabiiyahya8@gmail.com","emailVerified":true,"createdTimestamp":1713882062688,"enabled":true,"totp":false,"disableableCredentialTypes":[],"requiredActions":[],"notBefore":1713883374,"access":{"manageGroupMembership":true,"view":true,"mapRoles":true,"impersonate":true,"manage":true}}]
+
+
+            // the authUrl + usersEndpoint endpoint its a get request that returns a list of users
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + accessToken);
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Client> requestEntity = new HttpEntity<>(client, headers);
+            headers.setBearerAuth(accessToken);
+            HttpEntity<Object> request = new HttpEntity<>(headers);
+            ResponseEntity<List<Map>> response = restTemplate.exchange(authUrl + usersEndpoint, HttpMethod.GET, request, new ParameterizedTypeReference<List<Map>>() {});
 
-            // Send HTTP request to client microservice
-            ResponseEntity<String> responseEntity = restTemplate.exchange(clientServiceUrl+createClientEndpoint, HttpMethod.POST, requestEntity, String.class);
-            if (responseEntity.getStatusCode() != HttpStatus.OK) {
-                throw new RuntimeException("Failed to send user data to client microservice");
+            // loop through the response body and search for the user with the same username if its found then add the user to the client microservice
+
+            if (response.getStatusCode() == HttpStatus.OK) {
+                List<Map> users = response.getBody();
+                for (Map user : users) {
+                    if (user.get("username").equals(client.getUsername())) {
+                        // Send user data to client microservice using feign client
+
+                        Client savedClient = clientFetchingService.createClient(client);
+
+                        if ( savedClient == null) {
+                           return false;
+
+                        }
+
+                        return true;
+
+                    }
+                }
+            } else {
+                throw new RuntimeException("Failed to retrieve user data from Keycloak");
             }
+
+
         } catch (Exception e) {
             // Log the exception or handle it appropriately
             System.out.println(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             throw new RuntimeException("Failed to send user data to client microservice");
         }
+        return false;
     }
 
 
@@ -182,7 +207,6 @@ public class Authentication {
             throw new RuntimeException("Failed to retrieve access token from Keycloak");
         }
     }
-
 
     private ResponseEntity<Map> createUser(ClientSignup user) {
         RestTemplate restTemplate = new RestTemplate();
@@ -217,7 +241,6 @@ public class Authentication {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-            System.out.println("\n \n \n ana hna 0 \n \n \n");
             // Set request parameters
             requestBody.add("grant_type", client.getGrant_type());
             requestBody.add("client_id", clientId);
@@ -227,14 +250,9 @@ public class Authentication {
 
 
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            System.out.println("\n \n \n ana hna 1 \n \n \n");
             HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-            System.out.println("\n \n \n ana hna 2 \n \n \n");
             // Send request to Keycloak
             ResponseEntity<Map<String, Object>> responseEntity = restTemplate.exchange(gettokenUrl, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>() {});
-            System.out.println("\n \n \n Here's the token url: "+gettokenUrl+"\n \n \n");
-            System.out.println("\n \n \n Here's the clientServiceUrl : "+clientServiceUrl+"\n \n \n");
-            System.out.println("\n \n \n Here's the authUrl : "+authUrl+"\n \n \n");
 
             if (responseEntity.getStatusCode() == HttpStatus.OK) {
                 Map<String, Object> responseBody = responseEntity.getBody();
@@ -315,30 +333,16 @@ public class Authentication {
         }
     }
 
-
     @PostMapping("/refresh")
     private ResponseEntity<Map> refresh(@RequestBody String refreshToken) {
         try {
-
-            // Convert Client object to form-urlencoded data
-            // refresh token in parameters need to be extracted to be sent to keycloak
-            // the string inparameters is hold this : {"refresh_token":"eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI1NjQyZThlMC1jZGNiLTQxODEtYmIyNC0zYTE2MzJhZjg2NDgifQyZC1iOTFkLTFmMGE1Y2MxMzc3NyIsInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6Ijg0MWRjOGVjLTExYmEtNDkyZC1iOTFkLTFmMGE1Y2MxMzc3NyJ9.l9YbnCXhMiGc_Qf4Cishqv8QncNVs2zbLyshPzePZOSIIu8r-2vLiUzglm8o3V5fAYtakbFBeaQ-76TQBmTqXw"}
-            // so we need to extract the value of refresh_token
-            // i need only this : eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia.....
-
-
-
-            // todo here
-
             JSONObject jsonRequest = new JSONObject(refreshToken);
             refreshToken = jsonRequest.getString("refresh_token");
-
             MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
             requestBody.add("grant_type", "refresh_token" );
             requestBody.add("client_id", clientId);
             requestBody.add("client_secret", clientSecret);
             requestBody.add("refresh_token", refreshToken );
-
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -351,8 +355,7 @@ public class Authentication {
                 this.refreshToken = (String) Objects.requireNonNull(response.getBody()).get("refresh_token");
                 accessToken = (String) Objects.requireNonNull(response.getBody()).get("access_token");
 
-                // add the user id to the response body
-                // Decode the access token to get the UserID
+
                 String[] chunks = accessToken.split("\\.");
                 Base64.Decoder decoder = Base64.getDecoder();
                 String payload = new String(decoder.decode(chunks[1]));
@@ -366,9 +369,7 @@ public class Authentication {
                 throw new RuntimeException("Failed to get refresh token");
             }
         } catch (Exception e) {
-            // Log the exception or handle it appropriately
             System.out.println(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
-            // Return appropriate response to the client
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
@@ -410,9 +411,6 @@ public class Authentication {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-
-
-
 
     @PostMapping("/role")
     private ResponseEntity<Map<String, List<String>>> getRole(@RequestBody String UserId) {
