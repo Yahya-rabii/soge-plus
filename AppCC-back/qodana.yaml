@@ -9,6 +9,7 @@ profile:
   name: qodana.starter
 
 #Enable inspections
+#
 #include:
 #  - name: <SomeEnabledInspectionId>
 
