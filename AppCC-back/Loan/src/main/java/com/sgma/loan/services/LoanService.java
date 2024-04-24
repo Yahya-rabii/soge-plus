@@ -36,6 +36,9 @@ public class LoanService {
     @Value("${minio.bucket.name}")
     private String bucketName;
 
+    @Value("${minio.domain}")
+    private String minioDomain;
+
     public LoanService(LoanRepository loanRepository, MinioClient minioClient) {
         this.loanRepository = loanRepository;
         this.minioClient = minioClient;
@@ -95,6 +98,15 @@ public class LoanService {
                         .object(loan.getCinCartVersoFileName())
                         .expiry(60 * 60 * 24 * 7) // 7 days
                         .build());
+
+
+
+        // take the signature, cinCartRecto, and cinCartVerso from minio and then remove anything befoure http://localhost:9000/ from the url and use miniDomain to replace it
+        signatureUrl = minioDomain + signatureUrl.substring(signatureUrl.indexOf("loan-service"));
+        cinCartRectoUrl = minioDomain + cinCartRectoUrl.substring(cinCartRectoUrl.indexOf("loan-service"));
+        cinCartVersoUrl = minioDomain + cinCartVersoUrl.substring(cinCartVersoUrl.indexOf("loan-service"));
+
+
 
         loan.setSignature( signatureUrl);
         loan.setCinCartRecto( cinCartRectoUrl);

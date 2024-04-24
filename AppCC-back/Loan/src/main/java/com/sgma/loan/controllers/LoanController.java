@@ -39,14 +39,14 @@ public class LoanController {
     private String clientServiceUrl;
 
 
-    @Autowired
     ContractFetchingService contractFetchingService;
 
     private final LoanService loanService;
     private final EmailSenderService emailSenderService;
-    public LoanController(LoanService loanService , EmailSenderService emailSenderService) {
+    public LoanController(LoanService loanService , EmailSenderService emailSenderService , ContractFetchingService contractFetchingService) {
         this.loanService = loanService;
         this.emailSenderService = emailSenderService;
+        this.contractFetchingService = contractFetchingService;
     }
 
     @GetMapping("/loans")
@@ -57,7 +57,7 @@ public class LoanController {
     @GetMapping("/loan/{id}")
     public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
 
-     /*   return loanService.getLoanById(id)
+        /* return loanService.getLoanById(id)
                 .map(loan -> new ResponseEntity<>(loan, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));*/
 

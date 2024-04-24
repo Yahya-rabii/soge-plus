@@ -64,13 +64,13 @@ public class ClientRestController {
         return clientService.addClient(client);
     }
 
-
     @PutMapping("/updateClient/{id}")
     public Client updateClient(@PathVariable("id") String id, @RequestBody Client client) {
         MDC.put("traceId", "update client called from ClientRestController class of Client microservice");
         log.info("update client called from ClientRestController class of Client microservice");
         return clientService.updateClient(id, client);
     }
+
 
     @DeleteMapping("/deleteClient/{id}")
     public void deleteClient(@PathVariable("id") String id) {

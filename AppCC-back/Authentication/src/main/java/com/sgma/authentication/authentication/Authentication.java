@@ -73,9 +73,13 @@ public class Authentication {
     private List<String> roles = new ArrayList<>();
 
 
-     @Autowired
     private  ClientFetchingService clientFetchingService;
 
+    // inject the clientFetchingService into the constructor
+    @Autowired
+    public Authentication(ClientFetchingService clientFetchingService) {
+        this.clientFetchingService = clientFetchingService;
+    }
 
 
 
@@ -159,21 +163,24 @@ public class Authentication {
 
             if (response.getStatusCode() == HttpStatus.OK) {
                 List<Map> users = response.getBody();
-                for (Map user : users) {
-                    if (user.get("username").equals(client.getUsername())) {
-                        // Send user data to client microservice using feign client
+                if (users != null){
+                    for (Map user : users) {
+                        if (user.get("username").equals(client.getUsername())) {
+                            // Send user data to client microservice using feign client
 
-                        Client savedClient = clientFetchingService.createClient(client);
+                            Client savedClient = clientFetchingService.createClient(client);
 
-                        if ( savedClient == null) {
-                           return false;
+                            if ( savedClient == null) {
+                                return false;
+
+                            }
+
+                            return true;
 
                         }
-
-                        return true;
-
                     }
                 }
+
             } else {
                 throw new RuntimeException("Failed to retrieve user data from Keycloak");
             }
@@ -292,7 +299,7 @@ public class Authentication {
                             String userRolesString = clientData.getRoles().getRoles().get(0);
 
                             // Remove square brackets from the string
-                            userRolesString = userRolesString.replaceAll("\\[|\\]", "");
+                            userRolesString = userRolesString.replaceAll("[\\[\\]]", "");
 
                             // Split the string by comma and optional space
                             List<String> userRoles = Arrays.asList(userRolesString.split(",\\s*"));
