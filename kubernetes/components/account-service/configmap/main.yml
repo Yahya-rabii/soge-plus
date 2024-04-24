@@ -23,5 +23,6 @@ data:
   OPENAPI_SERVICE_URL: "http://localhost:8888"
   SPRINGDOC_API_DOCS_PATH: "/account-service/v3/api-docs"
   SPRINGDOC_SWAGGER_UI_PATH: "/account-service/swagger-ui.html"
-  CUSTOM_CONFIG_URL: "optional:configserver:http://localhost:9999"
   SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
+  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://discovery-service-service.sgma-system.svc.cluster.local/eureka/"
+  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"

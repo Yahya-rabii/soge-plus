@@ -4,10 +4,4 @@ metadata:
   name: discovery-service-configmap
   namespace: sgma-system
 data:
-  DISCOVERY_SERVICE_NAME: discovery-service
-  EUREKA_CLIENT_FETCH_REGISTRY: "false"
-  EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS: "5"
-  EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
-  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: http://localhost:8761/eureka/  # to update
-  EUREKA_INSTANCE_HOSTNAME: localhost # to update
-  SERVER_PORT: "8761"
+  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"

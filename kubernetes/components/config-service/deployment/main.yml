@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: config-service-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: config-service
@@ -15,20 +15,23 @@ spec:
     spec:
       containers:
       - name: config-service
-        image: salaheddine122/soge-system-config-service:CONFIG-SERVICE-v0.1.0
+        image: salaheddine122/soge-system-config-service:CONFIG-SERVICE-v1.0.0
+        envFrom:
+          - configMapRef:
+              name: config-service-configmap
         ports:
         - containerPort: 9999
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/liveness
             port: 9999
           initialDelaySeconds: 10
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/readiness
             port: 9999
           initialDelaySeconds: 10
           periodSeconds: 10

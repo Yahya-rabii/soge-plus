@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: contract-service-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: contract-service
@@ -15,20 +15,23 @@ spec:
     spec:
       containers:
       - name: contract-service
-        image: salaheddine122/soge-system-contract-service:CONTRACT-SERVICE-v0.1.0
+        image: salaheddine122/soge-system-contract-service:CONTRACT-SERVICE-v1.0.0
+        envFrom:
+          - configMapRef:
+              name: contract-service-configmap
         ports:
         - containerPort: 8083
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/liveness
             port: 8083
           initialDelaySeconds: 10
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/readiness
             port: 8083
           initialDelaySeconds: 10
           periodSeconds: 10

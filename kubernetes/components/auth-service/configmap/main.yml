@@ -36,4 +36,5 @@ data:
   CREATECLIENT_ENDPOINT: "/createClient"
   GETCLIENT_BYID_ENDPOINT: "/client/"
   UPDATECLIENT_BYID_ENDPOINT: "/updateClient/"
-  CUSTOM_CONFIG_URL: "optional:configserver:http://localhost:9999"
+  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://discovery-service-service.sgma-system.svc.cluster.local/eureka/"
+  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"

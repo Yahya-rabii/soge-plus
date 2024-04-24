@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: admin-service-deployment
 spec:
-  replicas: 2
+  replicas: 
   selector:
     matchLabels:
       app: admin-service
@@ -15,20 +15,23 @@ spec:
     spec:
       containers:
       - name: admin-service
-        image: salaheddine122/soge-system-admin-service:ADMIN-SERVICE-v0.1.0
+        image: salaheddine122/soge-system-admin-service:ADMIN-SERVICE-v1.0.0
+        envFrom:
+          - configMapRef:
+              name: admin-service-configmap
         ports:
         - containerPort: 8765
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/liveness
             port: 8765
           initialDelaySeconds: 10
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/readiness
             port: 8765
           initialDelaySeconds: 10
           periodSeconds: 10

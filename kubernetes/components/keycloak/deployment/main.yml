@@ -31,11 +31,11 @@ spec:
             - name: KC_DB
               value: "postgres"
             - name: KC_DB_URL
-              value: "jdbc:postgresql://dpg-co6iu9kf7o1s73dk977g-a.oregon-postgres.render.com:5432/socgendefault"
+              value: "jdbc:postgresql://dpg-cokjqbn79t8c73ccbjvg-a.oregon-postgres.render.com:5432/socgendb"
             - name: KC_DB_USERNAME
-              value: "socgen"
+              value: "socgendb_user"
             - name: KC_DB_PASSWORD
-              value: "tAGYwXJHQoLwMaqbeIYlSV5S0Qmncpcr"
+              value: "GFaYLzxgGj01SS5SRkO2JcOBvsa0C5v6"
 
             - name: KEYCLOAK_ADMIN
               value: "admin"
