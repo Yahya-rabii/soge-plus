@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: account-service-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: account-service
@@ -15,20 +15,23 @@ spec:
     spec:
       containers:
       - name: account-service
-        image: salaheddine122/soge-system-account-service:ACCOUNT-SERVICE-v0.1.0
+        image: salaheddine122/soge-system-account-service:ACCOUNT-SERVICE-v1.0.0
+        envFrom:
+          - configMapRef:
+              name: account-service-configmap
         ports:
         - containerPort: 8089
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/liveness
             port: 8089
           initialDelaySeconds: 10
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/readiness
             port: 8089
           initialDelaySeconds: 10
           periodSeconds: 10

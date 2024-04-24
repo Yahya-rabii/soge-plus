@@ -10,6 +10,13 @@ spec:
     app: minio
   ports:
     - protocol: TCP
+      name: "dashboard-port"
       port: 80
       targetPort: 9090
+
+    - protocol: TCP
+      name: "internal-port"
+      port: 9000
+      targetPort: 9000
+
   type: NodePort

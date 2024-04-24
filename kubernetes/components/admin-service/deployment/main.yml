@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: admin-service-deployment
 spec:
-  replicas: 
+  replicas: 1
   selector:
     matchLabels:
       app: admin-service
