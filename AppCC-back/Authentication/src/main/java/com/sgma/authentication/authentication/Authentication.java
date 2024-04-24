@@ -120,7 +120,7 @@ public class Authentication {
 
 
 
-                    // delete user from the client microservice using feign client
+                    //  not needed
                     clientFetchingService.deleteClientByEmail(userData.get("email").toString() );
 
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

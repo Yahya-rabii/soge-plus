@@ -112,6 +112,8 @@ export class SignupComponent {
     } else if (this.currentSection === 2) {
       // Validate credentials fields
       if (this.signupForm.get('password')?.valid && this.signupForm.get('confirmPassword')?.valid) {
+       if (this.signupForm.get('password')?.value === this.signupForm.get('confirmPassword')?.value) {
+       
         this.currentSection = 3;
         const credentialsSection = document.getElementById('credentialsSection');
         const addressSection = document.getElementById('addressSection');
@@ -130,6 +132,10 @@ export class SignupComponent {
         if (submitButton) {
           submitButton.style.display = 'block';
         }
+      }
+      else {
+        alert('Passwords do not match');
+      }
       } else {
         alert('Please fill all fields in this section');
       }
