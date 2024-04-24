@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: socgen-ui-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: socgen-ui
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: socgen-ui
-        image: salaheddine122/soge-system-ui:UI-v0.1.3
+        image: salaheddine122/soge-system-ui:UI-SERVICE-v1.0.0
         ports:
         - containerPort: 80
 

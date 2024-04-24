@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  namespace: sgma-system
+  annotations:
+    #nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    #cert-manager.io/cluster-issuer: ca-issuer
+spec:
+  ingressClassName: nginx
+  #tls:
+  #  - hosts:
+  #      - minikube-keycloak.socgen.com
+  #    secretName: keycloak-cert
+  rules:
+    - host: minikube-gateway.socgen.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service-service
+                port:
+                  number: 80

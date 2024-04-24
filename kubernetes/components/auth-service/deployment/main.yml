@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: auth-service-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: auth-service
@@ -15,20 +15,23 @@ spec:
     spec:
       containers:
       - name: auth-service
-        image: salaheddine122/soge-system-authentication-service:AUTH-SERVICE-v0.1.0
+        image: salaheddine122/soge-system-authentication-service:AUTH-SERVICE-v1.0.0
+        envFrom:
+          - configMapRef:
+              name: auth-service-configmap
         ports:
         - containerPort: 8081
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/liveness
             port: 8081
           initialDelaySeconds: 10
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/readiness
             port: 8081
           initialDelaySeconds: 10
           periodSeconds: 10

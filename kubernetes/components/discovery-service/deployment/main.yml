@@ -4,7 +4,7 @@ metadata:
   namespace: sgma-system
   name: discovery-service-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: discovery-service
@@ -15,20 +15,23 @@ spec:
     spec:
       containers:
       - name: discovery-service
-        image: salaheddine122/soge-system-discovery-service:DISCOVERY-SERVICE-v0.1.0
+        image: salaheddine122/soge-system-discovery-service:DISCOVERY-SERVICE-v1.0.0
+        envFrom:
+          - configMapRef:
+              name: discovery-service-configmap
         ports:
         - containerPort: 8761
 
         livenessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/liveness
             port: 8761
           initialDelaySeconds: 10
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /
+            path: /actuator/health/readiness
             port: 8761
           initialDelaySeconds: 10
           periodSeconds: 10

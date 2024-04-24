@@ -3,14 +3,14 @@ kind: Ingress
 metadata:
   name: socgen-ui-ingress
   namespace: sgma-system
-  annotations:
-    cert-manager.io/cluster-issuer: ca-issuer
+  #annotations:
+  #  cert-manager.io/cluster-issuer: ca-issuer
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - minikube-socgen-ui.socgen.com
-      secretName: socgen-ui-cert
+  #tls:
+  #  - hosts:
+  #      - minikube-socgen-ui.socgen.com
+  #    secretName: socgen-ui-cert
   rules:
     - host: minikube-socgen-ui.socgen.com
       http:

@@ -12,4 +12,5 @@ spec:
       targetPort: 8761
   selector:
     app: discovery-service
+
   #type: NodePort
