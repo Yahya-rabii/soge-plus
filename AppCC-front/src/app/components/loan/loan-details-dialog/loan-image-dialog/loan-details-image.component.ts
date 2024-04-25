@@ -13,16 +13,23 @@ import { CommonModule } from '@angular/common';
 })
 export class LoanDetailsImageComponent {
 
+
   @HostBinding('attr.id')
   get id(): string {
     // Generate a unique ID here
     return 'unique-id-for-component';
   }
 
+   img = new Image();
+
   constructor(
     public dialogRef: MatDialogRef<LoanDetailsImageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { Image: File }
   ) {
+    
+   
+    this.img.src = 'data:image/png;base64,' + data.Image;
+
   }
 
   onCloseClick(): void {

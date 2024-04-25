@@ -56,7 +56,7 @@ export const environment = {
     getBeneficiariesEndpoint: '/beneficiaries/',
     addBeneficiaryEndpoint: '/beneficiary/',
     addTransactionEndpoint: '/addTransaction/',
-
+    getTransactionsEndpoint: '/transactions/',
   };
 
 

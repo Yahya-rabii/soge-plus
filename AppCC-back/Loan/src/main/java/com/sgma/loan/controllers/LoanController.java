@@ -43,6 +43,8 @@ public class LoanController {
 
     private final LoanService loanService;
     private final EmailSenderService emailSenderService;
+
+
     public LoanController(LoanService loanService , EmailSenderService emailSenderService , ContractFetchingService contractFetchingService) {
         this.loanService = loanService;
         this.emailSenderService = emailSenderService;
@@ -173,7 +175,6 @@ public class LoanController {
     }
 
 
-
     public Map<String, Object> getClient(String clientId){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.getForEntity(clientServiceUrl+getclientByidEndpoint + clientId, Map.class);
@@ -196,10 +197,6 @@ public class LoanController {
         contract.setClientId(loan.getClientId());
         return contract;
     }
-
-
-
-
 
 
     @PutMapping("/validateLoan")

@@ -3,8 +3,10 @@ package com.sgma.account.controllers;
 
 
 import com.sgma.account.entities.Account;
+import com.sgma.account.entities.Transaction;
 import com.sgma.account.model.Client;
 import com.sgma.account.repository.AccountRepository;
+import com.sgma.account.repository.TransactionRepository;
 import com.sgma.account.services.ClientFetchingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +22,16 @@ public class AccountRestController {
 
     private final AccountRepository AccountRepository;
     private final ClientFetchingService clientFetchingService;
+    private final TransactionRepository transactionRepository;
 
 
     public static Logger log = LoggerFactory.getLogger(AccountRestController.class);
 
 
-    public AccountRestController(AccountRepository AccountRepository, ClientFetchingService clientFetchingService) {
+    public AccountRestController(AccountRepository AccountRepository, ClientFetchingService clientFetchingService , TransactionRepository transactionRepository) {
         this.AccountRepository = AccountRepository;
         this.clientFetchingService = clientFetchingService;
+        this.transactionRepository = transactionRepository;
 
     }
 
@@ -232,9 +236,17 @@ public class AccountRestController {
 
             sender.setBalance(sender.getBalance() - Amount);
             receiver.setBalance(receiver.getBalance() + Amount);
+            //Amount should be BigInteger instead of Long
+            BigInteger amount = BigInteger.valueOf(Amount);
+            transactionRepository.save(new Transaction(null , amount ,sender.getAccountHolderId() , receiver.getAccountHolderId() , new Date()) );
 
         }
 
         return AccountRepository.save(sender);
+    }
+
+    @GetMapping("/transactions/{id}")
+    public List<Transaction> getTransactions(@PathVariable("id") String id) {
+        return transactionRepository.findBySenderId(id);
     }
 }

@@ -139,5 +139,23 @@ export class AccountService {
         }
     }
 
+    // get transactions of an account by client id
+    async getTransactions(): Promise<any> {
+        const UserId = localStorage.getItem('UserId');
+        const url = `${environment.AccountMsUrl}${environment.getTransactionsEndpoint}${UserId}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch Transactions: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching Transactions:', error);
+            throw error;
+        }
+    }
+
+
     
 }

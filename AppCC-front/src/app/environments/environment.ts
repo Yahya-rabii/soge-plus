@@ -1,3 +1,4 @@
+
 export const environment = {
     production: false,
     
@@ -56,6 +57,7 @@ export const environment = {
     getBeneficiariesEndpoint: '/beneficiaries/',
     addBeneficiaryEndpoint: '/beneficiary/',
     addTransactionEndpoint: '/addTransaction/',
+    getTransactionsEndpoint: '/transactions/',
 
   };
 

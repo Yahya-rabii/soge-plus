@@ -52,7 +52,8 @@ export class LoanService {
      const url = `${environment.LoanMsUrl}${environment.getLoansByClientIdEndpoint}${clientId}`;
     try {
       const response = await fetch(url);
-      const data = await response.json();      
+      const data = await response.json();    
+      console.log(data);  
       this.Loans = [];
       //loop over the data and create a table of loans
       for (let i = 0; i < data.length; i++) {
@@ -63,9 +64,9 @@ export class LoanService {
           data[i].paymentDuration,
           data[i].status,
           data[i].approved,
-          data[i].signature,
-          data[i].cinCartRecto,
-          data[i].cinCartVerso,
+          data[i].signatureFile,
+          data[i].cinCartRectoFile,
+          data[i].cinCartVersoFile,
           data[i].cinNumber,
           data[i].taxId,
           data[i].receptionMethod,

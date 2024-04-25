@@ -101,6 +101,16 @@
             <artifactId>micrometer-core</artifactId>
         </dependency>
 
+		<!--firebase -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.1.1</version>
+		</dependency>
+
+		<!-- ImageService -->
+
+
 		<!--mail -->
 		<dependency>
 			<groupId>org.springframework</groupId>

@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Path;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -51,7 +50,6 @@ public class LoanService {
     public Optional<Loan> getLoanById(Long id) {
         return loanRepository.findById(id);
     }
-
 
     // get loan by client id
     public List<Optional<Loan>> getLoanByClientId(String clientId) {
@@ -100,26 +98,60 @@ public class LoanService {
                         .build());
 
 
-
-        // take the signature, cinCartRecto, and cinCartVerso from minio and then remove anything befoure http://localhost:9000/ from the url and use miniDomain to replace it
+        // take the signature, cinCartRecto, and cinCartVerso from minio and then remove anything before http://localhost:9000/ from the url and use minioDomain to replace it
         signatureUrl = minioDomain + signatureUrl.substring(signatureUrl.indexOf("loan-service"));
         cinCartRectoUrl = minioDomain + cinCartRectoUrl.substring(cinCartRectoUrl.indexOf("loan-service"));
         cinCartVersoUrl = minioDomain + cinCartVersoUrl.substring(cinCartVersoUrl.indexOf("loan-service"));
 
+        loan.setSignature(signatureUrl);
+        loan.setCinCartRecto(cinCartRectoUrl);
+        loan.setCinCartVerso(cinCartVersoUrl);
+
+        // Now, send the images to the client
 
 
-        loan.setSignature( signatureUrl);
-        loan.setCinCartRecto( cinCartRectoUrl);
-        loan.setCinCartVerso( cinCartVersoUrl);
-
-        return loan;
-
-
-
+        return sendImagesToClient(loan, signatureUrl, cinCartRectoUrl, cinCartVersoUrl);
     }
 
+    public static byte[] downloadImage(String imageUrl) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            URL url = new URL(imageUrl);
+            URLConnection connection = url.openConnection();
+            try (InputStream inputStream = connection.getInputStream()) {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle any errors that may occur during the download process
+        }
+        return outputStream.toByteArray();
+    }
+
+    // Method to send images to the client
+    public Loan sendImagesToClient(Loan loan, String signatureUrl, String cinCartRectoUrl, String cinCartVersoUrl) {
+        // Download the images
+        byte[] signatureBytes = downloadImage(signatureUrl);
+        byte[] cinCartRectoBytes = downloadImage(cinCartRectoUrl);
+        byte[] cinCartVersoBytes = downloadImage(cinCartVersoUrl);
+
+        // Create base64 strings from the images
+        String signatureBase64 = Base64.getEncoder().encodeToString(signatureBytes);
+        String cinCartRectoBase64 = Base64.getEncoder().encodeToString(cinCartRectoBytes);
+        String cinCartVersoBase64 = Base64.getEncoder().encodeToString(cinCartVersoBytes);
 
 
+        // Set the files to the loan object
+        loan.setSignatureFile(signatureBase64);
+        loan.setCinCartRectoFile(cinCartRectoBase64);
+        loan.setCinCartVersoFile(cinCartVersoBase64 );
+
+        return loan;
+    }
 
 
 
@@ -189,6 +221,7 @@ public class LoanService {
         return loan;
     }
 
+
     public Loan updateLoan(Long id, Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
         if (loanRepository.existsById(id)) {
             Loan existingLoan = loanRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan with id " + id + " does not exist."));
@@ -233,6 +266,7 @@ public class LoanService {
             throw new IllegalArgumentException("Loan with id " + id + " does not exist.");
         }
     }
+
 
     private void deleteDocumentsFromMinio(Loan loan) throws ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InternalException, ServerException, InvalidResponseException, InsufficientDataException {
         minioClient.removeObject(
