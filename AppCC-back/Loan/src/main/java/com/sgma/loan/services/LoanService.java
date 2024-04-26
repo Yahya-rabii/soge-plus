@@ -82,8 +82,8 @@ public class LoanService {
 
         String clientId = loan.getClientId();
         SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String folderName = folderDateFormat.format(loan.getLoanCreationDate());
-        String objectPrefix = clientId + "/" + folderName + "/";
+        String fName = folderDateFormat.format(loan.getLoanCreationDate());
+        String objectPrefix = clientId + "/" + fName + "/";
 
         // Get the images from Firebase Storage and download them
         Blob signatureBlob = storage.get(BlobId.of(bucketName, folderName +objectPrefix + loan.getSignatureFileName()));
@@ -140,7 +140,7 @@ public class LoanService {
 
         // Set up Firebase Storage
         StorageOptions storageOptions = StorageOptions.newBuilder()
-                .setProjectId("soge-sign")
+                .setProjectId(projetId)
                 .setCredentials(GoogleCredentials.fromStream(new ClassPathResource("soge-sign-firebase.json").getInputStream()))
                 .build();
 
@@ -151,8 +151,8 @@ public class LoanService {
 
         String clientId = loan.getClientId();
         SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String folderName = folderDateFormat.format(loan.getLoanCreationDate());
-        String objectPrefix = clientId + "/" + folderName + "/";
+        String fName = folderDateFormat.format(loan.getLoanCreationDate());
+        String objectPrefix = clientId + "/" + fName + "/";
 
 
         // Upload signature
@@ -180,7 +180,7 @@ public class LoanService {
 
     private void uploadFileToFirebase(String objectPrefix, Storage storage, String bucketName, String objectName, byte[] fileBytes, String contentType) {
 
-        BlobId blobId = BlobId.of(bucketName, "soge/" + objectPrefix + objectName);
+        BlobId blobId = BlobId.of(bucketName, folderName + objectPrefix + objectName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentType).build();
         storage.create(blobInfo, fileBytes);
     }
