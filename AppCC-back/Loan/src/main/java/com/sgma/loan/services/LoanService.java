@@ -49,14 +49,14 @@ public class LoanService {
         return loanRepository.findById(id);
     }
 
-    public List<Optional<Loan>> getLoanByClientId(String clientId) throws IOException {
-        List<Optional<Loan>> loans =  loanRepository.findLoansByClientId(clientId);
+    public List<Loan> getLoanByClientId(String clientId) throws IOException {
+        List<Loan> loans =  loanRepository.findLoansByClientId(clientId);
         if (loans.isEmpty()) {
             throw new IllegalArgumentException("No loans found for client with id " + clientId);
         }
         // get the images from firebase
-        for (Optional<Loan> loan : loans) {
-            loan = Optional.of(getImagesFromFirebase(loan.get()));
+        for (Loan loan : loans) {
+            getImagesFromFirebase(loan);
         }
         return loans;
 
@@ -187,6 +187,7 @@ public class LoanService {
 
     private String generateFileName(MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
+        assert originalFileName != null;
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         return UUID.randomUUID().toString() + extension;
     }

@@ -11,6 +11,6 @@ import java.util.Optional;
 @RepositoryRestResource
 public interface LoanRepository extends JpaRepository<Loan, Long> {
 
-    List<Optional<Loan>> findLoansByClientId(String clientId);
+    List<Loan> findLoansByClientId(String clientId);
 
 }

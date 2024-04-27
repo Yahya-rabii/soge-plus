@@ -69,11 +69,9 @@ public class LoanController {
     }
 
     @GetMapping("/loanByClientId/{clientId}")
-    public List<Optional<Loan>> getLoansByClientId(@PathVariable String clientId) throws IOException {
-        //return loanService.getLoanByClientId(clientId);
-
-        List<Optional<Loan>> loans = loanService.getLoanByClientId(clientId);
-
+    public List<Loan> getLoansByClientId(@PathVariable String clientId) throws IOException {
+        List<Loan> loans = loanService.getLoanByClientId(clientId);
+        assert loans != null;
         return loans;
     }
 
