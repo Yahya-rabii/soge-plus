@@ -30,11 +30,7 @@ public class ClientService {
     public Client getClientById(String id) {
 
         Optional<Client> client = clientRepository.findById(id);
-        if (client.isPresent()) {
-            return client.get();
-        } else {
-            return null;
-        }
+        return client.orElse(null);
 
     }
 

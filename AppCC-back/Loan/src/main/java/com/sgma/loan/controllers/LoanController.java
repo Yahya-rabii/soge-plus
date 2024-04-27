@@ -58,13 +58,8 @@ public class LoanController {
 
     @GetMapping("/loan/{id}")
     public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
-
-
         Optional<Loan> optionalLoan = loanService.getLoanById(id);
-        if (optionalLoan.isPresent()) {
-            return new ResponseEntity<>(optionalLoan.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return optionalLoan.map(loan -> new ResponseEntity<>(loan, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
 

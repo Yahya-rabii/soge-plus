@@ -129,8 +129,7 @@ public class LoanService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            // Handle any errors that may occur during the download process
+            System.out.println("An error occurred while downloading the image." + e.getMessage());
         }
         return outputStream.toByteArray();
     }

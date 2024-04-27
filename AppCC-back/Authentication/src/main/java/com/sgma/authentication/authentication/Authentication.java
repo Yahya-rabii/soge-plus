@@ -333,9 +333,7 @@ public class Authentication {
             // Handle authentication failure
             throw new RuntimeException("Failed to authenticate user");
         } catch (Exception e) {
-            // Log the exception
-            e.printStackTrace();
-            // Return appropriate response to the client
+            System.out.println(e.getMessage() + " " + Arrays.toString(e.getStackTrace()));
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
