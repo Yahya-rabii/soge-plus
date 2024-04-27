@@ -17,7 +17,7 @@ import static com.sgma.authentication.Helper.getTokenHelper.getTokenHelper;
 
 
 @Component
-public class ClientClieaningBean {
+public class ClientsCleaningBean {
 
     @Value("${keycloak.credentials.secret}")
     private String clientSecret;
@@ -28,17 +28,9 @@ public class ClientClieaningBean {
     @Value("${keycloak.auth-server-url}")
     private String authUrl;
 
-    @Value("${keycloak.token.url}")
-    private String getTokenUrl;
-
-    @Value("${keycloak.realm}")
-    private String realm;
-
-    @Value("${keycloak.auth.get.roles.endpoint}")
-    private String rolesEndpoint;
-
     @Value("${keycloak.auth.getorCreate.users.endpoint}")
     private String usersEndpoint;
+
     private String accessToken;
 
     @Value("${keycloak.token.url}")
@@ -49,10 +41,9 @@ public class ClientClieaningBean {
 
     // inject the clientFetchingService into the constructor
     @Autowired
-    public ClientClieaningBean(ClientFetchingService clientFetchingService) {
+    public ClientsCleaningBean(ClientFetchingService clientFetchingService) {
         this.clientFetchingService = clientFetchingService;
     }
-
 
     @Bean
     private String getAccessToken() {
