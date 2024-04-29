@@ -5,19 +5,19 @@ minikube addons enable ingress
 minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/tls/tls.key
 minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/tls/tls.crt
 
-minikube cp /home/salaheddine/Bureau/SOGE/CA/Minio/minio.key /etc/tls/private.key
-minikube cp /home/salaheddine/Bureau/SOGE/CA/Minio/minio.crt /etc/tls/public.crt
-token="YOUR DOCKER CONTAINER RUNTIME TOKEN" 
+
+kubectl apply --recursive -f namespaces
+kubectl apply --recursive -f globalconfigmaps 
 
 kubectl create secret docker-registry regcred \
-    --docker-username=<yourregistryusername> \
+    --docker-username=salaheddine122 \
     --docker-password=${token} \
-    --docker-email=<youremail>
-
+    --docker-email=salaheddinemorchid1@gmail.com
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
+
 kubectl create --recursive -f crds
-kubectl apply --recursive -f namespaces
+
 
 kubectl apply --recursive -f operators/prom-operator
 apply --recursive -f components

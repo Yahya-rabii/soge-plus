@@ -20,6 +20,8 @@ spec:
         envFrom:
           - configMapRef:
               name: admin-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
         ports:
         - containerPort: 8765
 

@@ -20,6 +20,8 @@ spec:
         envFrom:
           - configMapRef:
               name: auth-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
         ports:
         - containerPort: 8081
 
