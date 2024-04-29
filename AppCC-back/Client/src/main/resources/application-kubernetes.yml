@@ -13,12 +13,24 @@ spring:
       enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
       path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
       settings:
-        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
+        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:true}'
   cloud:
     discovery:
       enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
 server:
   port: '${SERVER_PORT:8084}'
+eureka:
+  client:
+    registryFetchIntervalSeconds: '${EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS:5}'
+    registerWithEureka: '${EUREKA_CLIENT_REGISTER_WITH_EUREKA:true}'
+    fetchRegistry: '${EUREKA_CLIENT_FETCH_REGISTRY:true}'
+    serviceUrl:
+      defaultZone: '${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka/}'
+  instance:
+    prefer-ip-address: true
+'#eureka':
+  instance:
+    hostname: '${EUREKA_INSTANCE_HOSTNAME:localhost}'
 management:
   endpoints:
     web:

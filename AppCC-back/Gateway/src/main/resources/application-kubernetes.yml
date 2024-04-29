@@ -2,7 +2,17 @@ server:
   port: ${SERVER_PORT:8888}
   servlet:
     context-path: ${SERVER_SERVLET_CONTEXT_PATH:/}
-
+    
+eureka:
+  client:
+    registryFetchIntervalSeconds: ${EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS:5}
+    registerWithEureka: ${EUREKA_CLIENT_REGISTER_WITH_EUREKA:true}
+    fetchRegistry: ${EUREKA_CLIENT_FETCH_REGISTRY:true}
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka/}
+#eureka.instance.hostname=${EUREKA_INSTANCE_HOSTNAME:localhost}
+eureka.instance.prefer-ip-address: true
+    
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME:gateway-service}
@@ -28,7 +38,7 @@ spring:
                 - TRACE
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_CLIENT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
-              allowCredentials: true
+              allowCredentials: false
         - id: loan-service
           uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_URI:loan-service}
           predicates:
@@ -48,7 +58,7 @@ spring:
                 - TRACE
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
-              allowCredentials: true
+              allowCredentials: false
         - id: contract-service
           uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_URI:contract-service}
           predicates:
@@ -68,7 +78,7 @@ spring:
                 - TRACE
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
-              allowCredentials: true
+              allowCredentials: false
         - id: auth-service
           uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_URI:auth-service}
           predicates:
@@ -88,7 +98,7 @@ spring:
                 - TRACE
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
-              allowCredentials: true
+              allowCredentials: false
         - id: account-service
           uri: lb://${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_URI:account-service}
           predicates:
@@ -108,7 +118,7 @@ spring:
                 - TRACE
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
-              allowCredentials: true
+              allowCredentials: false
     discovery:
       enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:true}
   security:

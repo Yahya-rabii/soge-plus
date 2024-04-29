@@ -1,39 +1,54 @@
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME:account-service}
+    name: '${SPRING_APPLICATION_NAME:account-service}'
   datasource:
-    driverClassName: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
-    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:accountdb}
-    username: ${SPRING_DATASOURCE_USERNAME:admin}
-    password: ${SPRING_DATASOURCE_PASSWORD:admin}
+    driverClassName: '${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}'
+    url: '${SPRING_DATASOURCE_URL:jdbc:h2:mem:accountdb}'
+    username: '${SPRING_DATASOURCE_USERNAME:admin}'
+    password: '${SPRING_DATASOURCE_PASSWORD:admin}'
   jpa:
-    database-platform: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}
+    database-platform: '${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
   h2:
     console:
-      enabled: ${SPRING_H2_CONSOLE_ENABLED:true}
-      path: ${SPRING_H2_CONSOLE_PATH:/h2-console}
+      enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
+      path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
       settings:
-        web-allow-others: ${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}
+        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
   cloud:
     discovery:
-      enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:true}
+      enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
+server:
+  port: '${SERVER_PORT:8089}'
+eureka:
+  client:
+    registryFetchIntervalSeconds: '${EUREKA_CLIENT_REGISTRY_FETCH_INTERVAL_SECONDS:5}'
+    registerWithEureka: '${EUREKA_CLIENT_REGISTER_WITH_EUREKA:true}'
+    fetchRegistry: '${EUREKA_CLIENT_FETCH_REGISTRY:true}'
+    serviceUrl:
+      defaultZone: '${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE:http://localhost:8761/eureka/}'
+  instance:
+    prefer-ip-address: true
+'#eureka':
+  instance:
+    hostname: '${EUREKA_INSTANCE_HOSTNAME:localhost}'
 management:
   endpoints:
     web:
       exposure:
-        include: ${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:*}
+        include: '${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:*}'
   endpoint:
     health:
-      show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}
+      show-details: '${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}'
+logging:
+  file:
+    path: '${LOGGING_FILE_PATH:C:/Users/yahyarb/Desktop/Loggs}'
 openapi:
   service:
-    title: ${OPENAPI_SERVICE_TITLE:ACCOUNT-SERVICE doc}
-    version: ${OPENAPI_SERVICE_VERSION:1.0.0}
-    url: ${OPENAPI_SERVICE_URL:http://localhost:8888}
+    title: '${OPENAPI_SERVICE_TITLE:ACCOUNT-SERVICE doc}'
+    version: '${OPENAPI_SERVICE_VERSION:1.0.0}'
+    url: '${OPENAPI_SERVICE_URL:http://localhost:8888}'
 springdoc:
   api-docs:
-    path: ${SPRINGDOC_API_DOCS_PATH:/account-service/v3/api-docs}
+    path: '${SPRINGDOC_API_DOCS_PATH:/account-service/v3/api-docs}'
   swagger-ui:
-    path: ${SPRINGDOC_SWAGGER_UI_PATH:/account-service/swagger-ui.html}
-server:
-  port: ${SERVER_PORT:8089}
+    path: '${SPRINGDOC_SWAGGER_UI_PATH:/account-service/swagger-ui.html}'
