@@ -68,7 +68,7 @@ export class AddTransactionComponent implements OnInit{
     if (this.account) {
       this.accountService.addTransaction(this.account.id , Number(this.rib) , Number(this.amount)).then(() => {
         alert('Transaction sent successfully');
-        this.router.navigate(['/transactions']);
+        this.router.navigate(['/my-transactions']);
       });
     }
   }

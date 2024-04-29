@@ -46,6 +46,11 @@ export class CustomSideComponent implements OnInit {
             { label: 'Contracts', icon: 'description', route: 'contracts' },
           ]);
 
+          const element = document.getElementById('create-account-button');
+              if (element) {
+                element.style.display = 'none';
+              }
+
         } else {
           this.image = 'assets/img/profiles/user.png';
           this.menuItems = signal<MenuItem[]>([

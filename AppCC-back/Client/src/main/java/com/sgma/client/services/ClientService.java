@@ -6,6 +6,7 @@ import com.sgma.client.Model.Contract;
 import com.sgma.client.repositories.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -29,11 +30,7 @@ public class ClientService {
     public Client getClientById(String id) {
 
         Optional<Client> client = clientRepository.findById(id);
-        if (client.isPresent()) {
-            return client.get();
-        } else {
-            return null;
-        }
+        return client.orElse(null);
 
     }
 
@@ -61,7 +58,7 @@ public class ClientService {
 
     //get client by rib
     @GetMapping(path = "/client/rib/{rib}")
-    public Client getClientByRib(BigInteger rib) {
+    public Client getClientByRib( @PathVariable BigInteger rib) {
         return clientRepository.findByRIB(rib);
     }
 
@@ -72,7 +69,7 @@ public class ClientService {
 
     // set client has account to true
     @GetMapping(path = "/client/hasAccount/{id}/{rib}")
-    public void setClientHasAccount(String id, BigInteger rib) {
+    public void setClientHasAccount(@PathVariable String id, @PathVariable BigInteger rib) {
         Client client = clientRepository.findById(id).orElse(null);
         if (client != null) {
             client.setHasAccount(true);

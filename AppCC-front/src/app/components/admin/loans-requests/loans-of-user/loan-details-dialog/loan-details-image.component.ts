@@ -10,10 +10,15 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class LoanDetailsImageComponent {
+
+  img = new Image();
+
   constructor(
     public dialogRef: MatDialogRef<LoanDetailsImageComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { Image: File }
   ) {
+    this.img.src = 'data:image/png;base64,' + data.Image;
+
   }
 
   onCloseClick(): void {

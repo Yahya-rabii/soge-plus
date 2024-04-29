@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @FeignClient(name = "CLIENT-SERVICE")
 public interface ClientFetchingService {
     @GetMapping(path = "/client/{id}")
@@ -14,6 +16,10 @@ public interface ClientFetchingService {
 
     @PostMapping(path = "/createClient")
     Client createClient(Client client);
+
+    // get all clients
+    @GetMapping(path = "/clients")
+    List<Client> getAllClients();
 
 
     @DeleteMapping("/deleteClientByEmail/{email}")

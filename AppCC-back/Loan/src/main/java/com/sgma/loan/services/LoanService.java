@@ -1,14 +1,13 @@
 package com.sgma.loan.services;
-import org.springframework.beans.factory.annotation.Value;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
 
 import com.sgma.loan.entities.Loan;
 import com.sgma.loan.enums.Status;
 import com.sgma.loan.repositories.LoanRepository;
-import io.minio.*;
 import io.minio.errors.*;
-import io.minio.http.Method;
-import org.apache.catalina.User;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,29 +15,30 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class LoanService {
 
     private final LoanRepository loanRepository;
-    private final MinioClient minioClient;
-    
-    @Value("${minio.bucket.name}")
-    private String bucketName;
 
-    public LoanService(LoanRepository loanRepository, MinioClient minioClient) {
+    @Value("${project.id}")
+    private String projetId ;
+
+    // folder name
+    @Value("${folder.name}")
+    private String folderName ;
+
+
+    public LoanService(LoanRepository loanRepository) {
         this.loanRepository = loanRepository;
-        this.minioClient = minioClient;
     }
 
     public List<Loan> getAllLoans() {
@@ -49,66 +49,147 @@ public class LoanService {
         return loanRepository.findById(id);
     }
 
+    public List<Loan> getLoanByClientId(String clientId) throws IOException {
+        List<Loan> loans =  loanRepository.findLoansByClientId(clientId);
+        if (loans.isEmpty()) {
+            throw new IllegalArgumentException("No loans found for client with id " + clientId);
+        }
+        // get the images from firebase
+        for (Loan loan : loans) {
+            getImagesFromFirebase(loan);
+        }
+        return loans;
 
-    // get loan by client id
-    public List<Optional<Loan>> getLoanByClientId(String clientId) {
-        return loanRepository.findLoansByClientId(clientId);
     }
-
 
     public Loan createLoan(Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
         loan.setStatus(Status.PENDING);
         loan.setApproved(false);
-        return loanRepository.save(handleMinioOperations(loan, signature, cinCartRecto, cinCartVerso));
+        return loanRepository.save(uploadImagesToFirebase(signature, cinCartRecto, cinCartVerso, loan));
     }
 
+    public Loan getImagesFromFirebase(Loan loan) throws IOException {
+        // Set up Firebase Storage
+        StorageOptions storageOptions = StorageOptions.newBuilder()
+                .setProjectId(projetId)
+                .setCredentials(GoogleCredentials.fromStream(new ClassPathResource("soge-sign-firebase.json").getInputStream()))
+                .build();
+
+        Storage storage = storageOptions.getService();
+
+        // Get the default bucket from the Firebase Storage project
+        String bucketName = storageOptions.getProjectId() + ".appspot.com";
+
+        String clientId = loan.getClientId();
+        SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        String fName = folderDateFormat.format(loan.getLoanCreationDate());
+        String objectPrefix = clientId + "/" + fName + "/";
+
+        // Get the images from Firebase Storage and download them
+        Blob signatureBlob = storage.get(BlobId.of(bucketName, folderName +objectPrefix + loan.getSignatureFileName()));
+        Blob cinCartRectoBlob = storage.get(BlobId.of(bucketName, folderName + objectPrefix + loan.getCinCartRectoFileName()));
+        Blob cinCartVersoBlob = storage.get(BlobId.of(bucketName, folderName + objectPrefix + loan.getCinCartVersoFileName()));
 
 
-    public Loan getDocumentsFromMinio(Loan loan) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
 
-        // Example of how loan.signatureFileName looks: a66e0c83-47bc-476a-8baf-acd71019dfc9/2024-04-01-10-05-00/d2f0cc23-66f8-435b-866a-d07b03156884.png
-        // a66e0c83-47bc-476a-8baf-acd71019dfc9 : clientId
-        // 2024-04-01-10-05-00 : folderName
-        // d2f0cc23-66f8-435b-866a-d07b03156884 : random UUID
 
-        // get the documents from minio using the loan.signatureFileName , loan.cinCartRectoFileName, and loan.cinCartVersoFileName as a public URL
-        String signatureUrl = minioClient.getPresignedObjectUrl(
-                GetPresignedObjectUrlArgs.builder()
-                        .method(Method.GET)
-                        .bucket(bucketName)
-                        .object(loan.getSignatureFileName())
-                        .expiry(60 * 60 * 24 * 7) // 7 days
-                        .build());
+        // Get the download URLs for the images
+        URL signatureUrl = signatureBlob.signUrl(7 , TimeUnit.DAYS);
+        URL cinCartRectoUrl = cinCartRectoBlob.signUrl(7, TimeUnit.DAYS);
+        URL cinCartVersoUrl = cinCartVersoBlob.signUrl(7, TimeUnit.DAYS);
 
-        String cinCartRectoUrl = minioClient.getPresignedObjectUrl(
-                GetPresignedObjectUrlArgs.builder()
-                        .method(Method.GET)
-                        .bucket(bucketName)
-                        .object(loan.getCinCartRectoFileName())
-                        .expiry(60 * 60 * 24 * 7) // 7 days
-                        .build());
+        // Download the images
+        byte[] signatureBytes = downloadImage(signatureUrl);
+        byte[] cinCartRectoBytes = downloadImage(cinCartRectoUrl);
+        byte[] cinCartVersoBytes = downloadImage(cinCartVersoUrl);
 
-        String cinCartVersoUrl = minioClient.getPresignedObjectUrl(
-                GetPresignedObjectUrlArgs.builder()
-                        .method(Method.GET)
-                        .bucket(bucketName)
-                        .object(loan.getCinCartVersoFileName())
-                        .expiry(60 * 60 * 24 * 7) // 7 days
-                        .build());
+        // Create base64 strings from the images
+        String signatureBase64 = Base64.getEncoder().encodeToString(signatureBytes);
+        String cinCartRectoBase64 = Base64.getEncoder().encodeToString(cinCartRectoBytes);
+        String cinCartVersoBase64 = Base64.getEncoder().encodeToString(cinCartVersoBytes);
 
-        loan.setSignature( signatureUrl);
-        loan.setCinCartRecto( cinCartRectoUrl);
-        loan.setCinCartVerso( cinCartVersoUrl);
+        // Set the files to the loan object
+        loan.setSignatureFile(signatureBase64);
+        loan.setCinCartRectoFile(cinCartRectoBase64);
+        loan.setCinCartVersoFile(cinCartVersoBase64);
+
 
         return loan;
-
-
-
     }
 
+    public static byte[] downloadImage(URL imageUrl) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            URLConnection connection = imageUrl.openConnection();
+            try (InputStream inputStream = connection.getInputStream()) {
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while downloading the image." + e.getMessage());
+        }
+        return outputStream.toByteArray();
+    }
+
+    public Loan uploadImagesToFirebase(MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso, Loan loan) throws IOException {
+        String objectName;
+
+        // Set up Firebase Storage
+        StorageOptions storageOptions = StorageOptions.newBuilder()
+                .setProjectId(projetId)
+                .setCredentials(GoogleCredentials.fromStream(new ClassPathResource("soge-sign-firebase.json").getInputStream()))
+                .build();
+
+        Storage storage = storageOptions.getService();
+
+        // Get the default bucket from the Firebase Storage project
+        String bucketName = storageOptions.getProjectId() + ".appspot.com";
+
+        String clientId = loan.getClientId();
+        SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        String fName = folderDateFormat.format(loan.getLoanCreationDate());
+        String objectPrefix = clientId + "/" + fName + "/";
 
 
+        // Upload signature
+        objectName = generateFileName(signature);
+        String signatureContentType = Objects.requireNonNull(signature.getContentType()); // Get the content type of the file
+        uploadFileToFirebase(objectPrefix, storage, bucketName, objectName, signature.getBytes(), signatureContentType);
 
+        // Upload cinCartRecto
+        objectName = generateFileName(cinCartRecto);
+        String cinCartRectoContentType = Objects.requireNonNull(cinCartRecto.getContentType()); // Get the content type of the file
+        uploadFileToFirebase(objectPrefix,storage, bucketName, objectName, cinCartRecto.getBytes(), cinCartRectoContentType);
+
+        // Upload cinCartVerso
+        objectName = generateFileName(cinCartVerso);
+        String cinCartVersoContentType = Objects.requireNonNull(cinCartVerso.getContentType()); // Get the content type of the file
+        uploadFileToFirebase(objectPrefix,storage, bucketName, objectName, cinCartVerso.getBytes(), cinCartVersoContentType);
+
+        // Set file names in loan object
+        loan.setSignatureFileName(objectName);
+        loan.setCinCartRectoFileName(objectName);
+        loan.setCinCartVersoFileName(objectName);
+
+        return loan;
+    }
+
+    private void uploadFileToFirebase(String objectPrefix, Storage storage, String bucketName, String objectName, byte[] fileBytes, String contentType) {
+
+        BlobId blobId = BlobId.of(bucketName, folderName + objectPrefix + objectName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(contentType).build();
+        storage.create(blobInfo, fileBytes);
+    }
+
+    private String generateFileName(MultipartFile file) {
+        String originalFileName = file.getOriginalFilename();
+        assert originalFileName != null;
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        return UUID.randomUUID().toString() + extension;
+    }
 
 
     @PutMapping("/validateLoan")
@@ -139,50 +220,12 @@ public class LoanService {
     }
 
 
-
-    private Loan handleMinioOperations(Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
-        String theme = loan.getClientId();
-        SimpleDateFormat folderDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String folderName = folderDateFormat.format(loan.getLoanCreationDate());
-        String objectPrefix = theme + "/" + folderName + "/";
-
-        String signatureFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
-        minioClient.putObject(
-                PutObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(signatureFileName)
-                        .stream(signature.getInputStream(), signature.getSize(), -1)
-                        .build());
-
-        String cinCartRectoFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
-        minioClient.putObject(
-                PutObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(cinCartRectoFileName)
-                        .stream(cinCartRecto.getInputStream(), cinCartRecto.getSize(), -1)
-                        .build());
-
-        String cinCartVersoFileName = objectPrefix + UUID.randomUUID().toString() + ".png";
-        minioClient.putObject(
-                PutObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(cinCartVersoFileName)
-                        .stream(cinCartVerso.getInputStream(), cinCartVerso.getSize(), -1)
-                        .build());
-
-        loan.setSignatureFileName(signatureFileName);
-        loan.setCinCartRectoFileName(cinCartRectoFileName);
-        loan.setCinCartVersoFileName(cinCartVersoFileName);
-
-        return loan;
-    }
-
     public Loan updateLoan(Long id, Loan loan, MultipartFile signature, MultipartFile cinCartRecto, MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InternalException, InvalidResponseException {
         if (loanRepository.existsById(id)) {
             Loan existingLoan = loanRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Loan with id " + id + " does not exist."));
 
             // Delete existing documents from Minio
-            deleteDocumentsFromMinio(existingLoan);
+            //deleteDocumentsFromMinio(existingLoan);
 
             // Update loan entity with new data
             existingLoan.setAmount(loan.getAmount());
@@ -192,7 +235,7 @@ public class LoanService {
             Loan updatedLoan = loanRepository.save(existingLoan);
 
             // Save new documents to Minio
-            handleMinioOperations(updatedLoan, signature, cinCartRecto, cinCartVerso);
+          //  handleMinioOperations(updatedLoan, signature, cinCartRecto, cinCartVerso);
 
             return updatedLoan;
         } else {
@@ -215,28 +258,11 @@ public class LoanService {
         Optional<Loan> optionalLoan = loanRepository.findById(id);
         if (optionalLoan.isPresent()) {
             Loan loanToDelete = optionalLoan.get();
-            deleteDocumentsFromMinio(loanToDelete);
+           // deleteDocumentsFromMinio(loanToDelete);
             loanRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Loan with id " + id + " does not exist.");
         }
     }
 
-    private void deleteDocumentsFromMinio(Loan loan) throws ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InternalException, ServerException, InvalidResponseException, InsufficientDataException {
-        minioClient.removeObject(
-                RemoveObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(loan.getSignatureFileName())
-                        .build());
-        minioClient.removeObject(
-                RemoveObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(loan.getCinCartRectoFileName())
-                        .build());
-        minioClient.removeObject(
-                RemoveObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(loan.getCinCartVersoFileName())
-                        .build());
-    }
 }

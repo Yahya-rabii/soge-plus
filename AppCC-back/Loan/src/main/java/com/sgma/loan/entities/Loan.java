@@ -9,8 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.File;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -30,6 +30,18 @@ public class Loan {
     private String signatureFileName;
     private String cinCartRectoFileName;
     private String cinCartVersoFileName;
+
+
+
+    //base64 of the files
+    @Transient
+    private String signatureFile;
+
+    @Transient
+    private String cinCartRectoFile;
+
+    @Transient
+    private String cinCartVersoFile;
 
     @Transient
     private String signature;
