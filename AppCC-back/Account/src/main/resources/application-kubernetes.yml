@@ -1,4 +1,5 @@
 spring:
+
   application:
     name: '${SPRING_APPLICATION_NAME:account-service}'
   datasource:
@@ -15,6 +16,8 @@ spring:
       settings:
         web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
   cloud:
+    config:
+      enabled: false
     discovery:
       enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
 server:

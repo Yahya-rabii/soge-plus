@@ -17,6 +17,8 @@ spring:
   application:
     name: ${SPRING_APPLICATION_NAME:gateway-service}
   cloud:
+    config:
+      enabled: false
     gateway:
       routes:
         - id: client-service

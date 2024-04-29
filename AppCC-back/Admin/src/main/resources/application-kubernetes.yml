@@ -2,6 +2,9 @@ server:
   port: ${SERVER_PORT:8765}
 
 spring:
+  cloud:
+    config:
+      enabled: false
   boot:
     admin:
       discovery:
