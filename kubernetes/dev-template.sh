@@ -5,7 +5,8 @@ minikube addons enable ingress
 minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/tls/tls.key
 minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/tls/tls.crt
 
-
+minikube cp /home/salaheddine/Bureau/SOGE/CA/Minio/minio.key /etc/tls/private.key
+minikube cp /home/salaheddine/Bureau/SOGE/CA/Minio/minio.crt /etc/tls/public.crt
 token="YOUR DOCKER CONTAINER RUNTIME TOKEN" 
 
 kubectl create secret docker-registry regcred \

@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: config-service
-        image: salaheddine122/soge-system-config-service:CONFIG-SERVICE-v1.0.0
+        image: salaheddine122/soge-system-config-service:CONFIG-SERVICE-v1.1.0
+        imagePullPolicy: Always
         envFrom:
           - configMapRef:
               name: config-service-configmap

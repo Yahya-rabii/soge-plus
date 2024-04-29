@@ -13,3 +13,5 @@ data:
   MINIO_ACCESS_USERNAME: "noxideuxTheGoat"
   MINIO_ACCESS_SECRET: "noxideux11102001noxideux"
   MINIO_BUCKET_NAME: "loan-service"
+  MINIO_DOMAIN: "http://minio-service.minio.svc.cluster.local:9000"
+

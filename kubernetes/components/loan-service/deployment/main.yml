@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: loan-service
-        image: salaheddine122/soge-system-loan-service:LOAN-SERVICE-v1.0.0
+        image: salaheddine122/soge-system-loan-service:LOAN-SERVICE-v1.1.0
+        imagePullPolicy: Always
         envFrom:
           - configMapRef:
               name: loan-service-configmap

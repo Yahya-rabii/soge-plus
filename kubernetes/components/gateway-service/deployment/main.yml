@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: gateway-service
-        image: salaheddine122/soge-system-gateway-service:GATEWAY-SERVICE-v1.0.0
+        image: salaheddine122/soge-system-gateway-service:GATEWAY-SERVICE-v1.1.0
+        imagePullPolicy: Always
         envFrom:
           - configMapRef:
               name: gateway-service-configmap
