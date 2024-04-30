@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContractService } from '../../../services/contract.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-validation-contract-secret',
@@ -19,7 +20,7 @@ export class ValidationContractSecretComponent {
   secret5: string = ''; // Variable to store the fifth digit of the secret
   secret6: string = ''; // Variable to store the sixth digit of the secret
 
-  constructor(private contractService :  ContractService, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { }) { }
+  constructor(private contractService :  ContractService, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { } , private router: Router) { }
 
   onSubmit() {
     // Concatenate all digits to form the complete secret
@@ -31,7 +32,7 @@ export class ValidationContractSecretComponent {
   validateSecret(secret: string) {
     this.contractService.verifySecret(secret).then((response) => {
       if (response) {
-        alert('The secret is correct');
+        this.router.navigate(['/mycontracts']);
       } else {
         alert('The secret is incorrect');
       }
