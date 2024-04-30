@@ -13,12 +13,32 @@ spring:
       enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
       path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
       settings:
-        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
+        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:true}'
   cloud:
+    kubernetes:
+      enabled: true
+        #reload:
+        #enabled: true
+        #mode: event
+        #strategy: shutdown
+        #config:
+        #sources:
+          #- namespace: common
+            #name: environment
+          #- name: gestion
+      discovery:
+        enabled: true
+        all-namespaces: true
+eureka:
+  client:
+    enabled: false
+    config:
+      enabled: false
     discovery:
       enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
 server:
   port: '${SERVER_PORT:8084}'
+
 management:
   endpoints:
     web:

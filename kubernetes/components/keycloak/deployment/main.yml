@@ -21,32 +21,32 @@ spec:
           command: ["/opt/keycloak/bin/kc.sh"]
           args: ["start-dev"]
           env:
-          #  - name: KC_HEALTH_ENABLED
-          #    value: "true"
-          #  - name: KC_METRICS_ENABLED
-          #    value: "true"
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KC_METRICS_ENABLED
+              value: "true"
 
-          #  - name: KC_HOSTNAME
-          #    value: "minikube-keycloak.socgen.com"
-          #  - name: KC_DB
-          #    value: "postgres"
-          #  - name: KC_DB_URL
-          #    value: "jdbc:postgresql://dpg-cokjqbn79t8c73ccbjvg-a.oregon-postgres.render.com:5432/socgendb"
-          #  - name: KC_DB_USERNAME
-          #    value: "socgendb_user"
-          #  - name: KC_DB_PASSWORD
-          #    value: "GFaYLzxgGj01SS5SRkO2JcOBvsa0C5v6"
+            - name: KC_HOSTNAME
+              value: "minikube-keycloak.socgen.com"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://dpg-cokjqbn79t8c73ccbjvg-a.oregon-postgres.render.com:5432/socgendb"
+            - name: KC_DB_USERNAME
+              value: "socgendb_user"
+            - name: KC_DB_PASSWORD
+              value: "GFaYLzxgGj01SS5SRkO2JcOBvsa0C5v6"
 
             - name: KEYCLOAK_ADMIN
               value: "admin"
             - name: KEYCLOAK_ADMIN_PASSWORD
               value: "admin"
-          #  - name: KC_PROXY
-          #    value: "edge"
-          #  - name: KC_HTTPS_CERTIFICATE_FILE
-          #    value: "/etc/tls/tls.crt"
-          #  - name: KC_HTTPS_CERTIFICATE_KEY_FILE
-          #    value: "/etc/tls/tls.key"
+            - name: KC_PROXY
+              value: "edge"
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: "/etc/tls/tls.crt"
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: "/etc/tls/tls.key"
           ports:
             - name: http
               containerPort: 8080

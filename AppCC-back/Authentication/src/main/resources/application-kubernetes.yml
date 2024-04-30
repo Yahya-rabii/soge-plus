@@ -15,10 +15,30 @@ spring:
       settings:
         web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
   cloud:
+    kubernetes:
+      enabled: true
+        #reload:
+        #enabled: true
+        #mode: event
+        #strategy: shutdown
+        #config:
+        #sources:
+          #- namespace: common
+            #name: environment
+          #- name: gestion
+      discovery:
+        enabled: true
+        all-namespaces: true
+    config:
+      enabled: false
     discovery:
       enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
 server:
   port: '${SERVER_PORT:8081}'
+
+eureka:
+  client:
+    enabled: false
 management:
   endpoints:
     web:

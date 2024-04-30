@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: socgen-ui
-        image: salaheddine122/soge-system-ui:UI-SERVICE-v1.0.0
+        image: salaheddine122/soge-system-ui:UI-SERVICE-v1.1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 

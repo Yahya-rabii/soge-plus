@@ -15,10 +15,13 @@ spec:
     spec:
       containers:
       - name: client-service
-        image: salaheddine122/soge-system-client-service:CLIENT-SERVICE-v1.0.0
+        image: salaheddine122/soge-system-client-service:CLIENT-SERVICE-v1.1.0
+        imagePullPolicy: Always
         envFrom:
           - configMapRef:
               name: client-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
         ports:
         - containerPort: 8084
 
