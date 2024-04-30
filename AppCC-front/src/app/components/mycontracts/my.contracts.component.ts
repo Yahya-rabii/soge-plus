@@ -6,7 +6,7 @@ import { from } from 'rxjs';
 import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ValidationContractSecretComponent } from './validation-contract-secret/validation-contract-secret.component';
+import { ValidationContractSecretComponent } from '../../validation-contract-secret/validation-contract-secret.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

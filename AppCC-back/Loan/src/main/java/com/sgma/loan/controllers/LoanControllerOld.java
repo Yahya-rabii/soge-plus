@@ -1,5 +1,5 @@
-/*
 package com.sgma.loan.controllers;
+
 
 import com.sgma.loan.config.EmailSenderService;
 import com.sgma.loan.entities.Loan;
@@ -9,16 +9,13 @@ import com.sgma.loan.enums.Status;
 import com.sgma.loan.enums.Type;
 import com.sgma.loan.model.Contract;
 import com.sgma.loan.services.ContractFetchingService;
-import com.sgma.loan.services.LoanService;
+import com.sgma.loan.services.LoanServiceOld;
 import io.minio.errors.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +28,7 @@ import java.text.ParseException;
 import java.util.*;
 
 @RestController
-public class LoanController {
+public class LoanControllerOld {
 
     @Value("${getclient.Byid.endpoint}")
     private String getclientByidEndpoint;
@@ -42,11 +39,11 @@ public class LoanController {
 
     ContractFetchingService contractFetchingService;
 
-    private final LoanService loanService;
+    private final LoanServiceOld loanService;
     private final EmailSenderService emailSenderService;
 
 
-    public LoanController(LoanService loanService , EmailSenderService emailSenderService , ContractFetchingService contractFetchingService) {
+    public LoanControllerOld(LoanServiceOld loanService , EmailSenderService emailSenderService , ContractFetchingService contractFetchingService) {
         this.loanService = loanService;
         this.emailSenderService = emailSenderService;
         this.contractFetchingService = contractFetchingService;
@@ -59,17 +56,58 @@ public class LoanController {
 
     @GetMapping("/loan/{id}")
     public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
+
+        /* return loanService.getLoanById(id)
+                .map(loan -> new ResponseEntity<>(loan, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));*/
+
+
+        // when the loan is found, get the signature, cinCartRecto, and cinCartVerso from minio and return them in the response as public URLs so that the client can display them
+
+        // step 1: get the loan from the database
         Optional<Loan> optionalLoan = loanService.getLoanById(id);
-        return optionalLoan.map(loan -> new ResponseEntity<>(loan, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+        // step 2: get the signature, cinCartRecto, and cinCartVerso from minio using the loan.signatureFileName , loan.cinCartRectoFileName, and loan.cinCartVersoFileName
+        if (optionalLoan.isPresent()) {
+            Loan loan = optionalLoan.get();
+            try {
+                loan = loanService.getDocumentsFromMinio(loan);
+                return new ResponseEntity<>(loan, HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
+
+
+    // get loan by client id
     @GetMapping("/loanByClientId/{clientId}")
-    public List<Loan> getLoansByClientId(@PathVariable String clientId) throws IOException {
+    public List<Optional<Loan>> getLoansByClientId(@PathVariable String clientId) {
+        //return loanService.getLoanByClientId(clientId);
+
         List<Loan> loans = loanService.getLoanByClientId(clientId);
-        assert loans != null;
-        return loans;
+        List<Optional<Loan>> finalLoans = new ArrayList<>();
+
+        for (Loan loan : loans) {
+            if (loan != null) {
+                try {
+                    loan = loanService.getDocumentsFromMinio(loan);
+                    finalLoans.add(Optional.of(loan));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return finalLoans;
     }
+
+
 
 
     @PutMapping("/updateLoan/{id}")
@@ -84,7 +122,7 @@ public class LoanController {
 
     @PutMapping("/updateLoanN/{id}")
     public ResponseEntity<Loan> updateLoanN(@PathVariable Long id,
-                                           @RequestBody Loan updatedLoan){
+                                            @RequestBody Loan updatedLoan){
         Loan savedLoan = loanService.updateLoanN(id, updatedLoan);
         return new ResponseEntity<>(savedLoan, HttpStatus.OK);
     }
@@ -145,7 +183,7 @@ public class LoanController {
         }
 
         return null;
-        }
+    }
 
 
     public Contract createContract(Loan loan) {
@@ -191,4 +229,3 @@ public class LoanController {
     }
 
 }
-*/
