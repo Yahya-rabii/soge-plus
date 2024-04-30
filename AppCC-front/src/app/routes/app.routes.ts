@@ -24,6 +24,7 @@ import { AddBeneficiaryComponent } from '../components/account/my-account/add-be
 import { MyContractsComponent } from '../components/mycontracts/my.contracts.component';
 import { AccountGuard } from '../guards/account.guard';
 import { TransactionsComponent } from '../components/account/my-account/transactions/transactions.component';
+import { ValidationContractSecretComponent } from '../components/mycontracts/validation-contract-secret/validation-contract-secret.component';
 
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
@@ -53,6 +54,7 @@ export const routes: Routes = [
     // my transactions
     { path: 'my-transactions', component: TransactionsComponent,canActivate: [AuthGuard ,UserGuard, AccountGuard] },
     
+    { path: 'my', component: ValidationContractSecretComponent,canActivate: [AuthGuard ,UserGuard] },
 
     // my account
     { path: 'myaccount', component: MyAccountComponent,canActivate: [AuthGuard ,UserGuard, AccountGuard] },

@@ -29,4 +29,6 @@ public class Contract {
     @Column(name = "client_id")
     private String clientId;
 
+    private Boolean isSigned = false;
+
 }

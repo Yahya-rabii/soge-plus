@@ -8,15 +8,17 @@ export class Contract {
     creationDate!: Date;
     paymentDuration!: string;
     loanId!: Number;
+    isSigned!: boolean;
 
     clientId!: string;
 
-    constructor(id:Number , creationDate: Date, paymentDuration: string, loanId: Number, clientId: string) {
+    constructor(id:Number , creationDate: Date, paymentDuration: string, loanId: Number, clientId: string , isSigned: boolean) {
         this.id = id;
         this.creationDate = creationDate;
         this.paymentDuration = paymentDuration;
         this.loanId = loanId;
         this.clientId = clientId;
+        this.isSigned = isSigned;
     }
 
     // getters and setters
@@ -32,6 +34,13 @@ export class Contract {
         return this.paymentDuration;
     }
 
+    getisSigned(): boolean {
+        return this.isSigned;
+    }
+
+
+
+    
     setPaymentDuration(paymentDuration: string): void {
         this.paymentDuration = paymentDuration;
     }
@@ -50,6 +59,10 @@ export class Contract {
 
     setClientId(clientId: string): void {
         this.clientId = clientId;
+    }
+
+    setisSigned(isSigned: boolean): void {
+        this.isSigned = isSigned;
     }
 
     // methods

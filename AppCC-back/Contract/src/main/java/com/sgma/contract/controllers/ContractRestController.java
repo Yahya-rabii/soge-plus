@@ -1,10 +1,13 @@
 package com.sgma.contract.controllers;
 
 
+import com.sgma.contract.config.EmailSenderService;
 import com.sgma.contract.entites.Contract;
+import com.sgma.contract.entites.Secret;
 import com.sgma.contract.model.Client;
 import com.sgma.contract.model.Loan;
 import com.sgma.contract.repository.ContractRepository;
+import com.sgma.contract.repository.SecretRepository;
 import com.sgma.contract.services.ClientFetchingService;
 import com.sgma.contract.services.LoanFetchingService;
 import org.slf4j.Logger;
@@ -20,17 +23,19 @@ public class ContractRestController {
 
     private final ContractRepository contractRepository;
     private final ClientFetchingService clientFetchingService;
-
+    private final SecretRepository secretRepository;
     private final LoanFetchingService loanFetchingService;
 
     public static Logger log = LoggerFactory.getLogger(ContractRestController.class);
+    private final EmailSenderService emailSenderService;
 
 
-    public ContractRestController(ContractRepository ContractRepository, ClientFetchingService clientFetchingService , LoanFetchingService loanFetchingService) {
+    public ContractRestController(ContractRepository ContractRepository, ClientFetchingService clientFetchingService , LoanFetchingService loanFetchingService , EmailSenderService emailSenderService, SecretRepository secretRepository) {
         this.contractRepository = ContractRepository;
         this.clientFetchingService = clientFetchingService;
         this.loanFetchingService = loanFetchingService;
-
+        this.emailSenderService = emailSenderService;
+        this.secretRepository = secretRepository;
     }
 
     // CRUD methods here
@@ -183,6 +188,59 @@ public class ContractRestController {
 
         // If contract or client not found, return 404 Not Found
         return ResponseEntity.notFound().build();
+    }
+
+
+
+    // sign contract that takes the id and the secret key
+    @PostMapping("/signContract/{id}")
+    public  Boolean signContract(@PathVariable("id") Long id, @RequestBody String secretKey) {
+        // Retrieve the contract by id
+        Optional<Contract> contractOptional = contractRepository.findById(id);
+
+        if (contractOptional.isPresent()) {
+            Contract contract = contractOptional.get();
+
+            Client client = clientFetchingService.getClientById(contract.getClientId());
+
+
+            secretRepository.save(new Secret(null,secretKey, client.getId() , contract.getId() ) );
+
+
+            // Send an email to the client
+            emailSenderService.sendEmail("Sg@gmail.com",client.getEmail() , "Test Subject", secretKey);
+
+
+
+
+
+                return true;
+
+        }
+        return false;
+    }
+
+
+    // verification of the secret key
+    @PostMapping("/verifySecret/{UserId}")
+    public  Boolean verifySecret(@PathVariable("UserId") String userId, @RequestBody String secretKey) {
+        // Retrieve the contract by id
+
+        Optional<Secret> secretOptional = secretRepository.findByClientId(userId);
+        if (secretOptional.isPresent()) {
+
+            Secret secret = secretOptional.get();
+            Optional<Contract> contractOptional = contractRepository.findById(secret.getContractId());
+
+            if (secret.getSecretValue().equals(secretKey) && contractOptional.isPresent()) {
+                Contract contract = contractOptional.get();
+                contract.setIsSigned(true);
+                secretRepository.delete(secret);
+                return true;
+            }
+
+        }
+        return false;
     }
 
 }

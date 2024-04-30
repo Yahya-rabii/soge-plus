@@ -6,6 +6,8 @@ import { from } from 'rxjs';
 import { UsersService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ValidationContractSecretComponent } from './validation-contract-secret/validation-contract-secret.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-my-contracts',
@@ -34,7 +36,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class MyContractsComponent implements OnInit {
   openContracts: number[] = []; // Array to track indices of opened contracts
 
-  constructor(private contractService: ContractService , private userService :UsersService) { }
+  constructor(private contractService: ContractService , private userService :UsersService , private dialog: MatDialog) { }
 
   toggleContract(index: number){
     if(this.openContracts.includes(index)){
@@ -69,4 +71,32 @@ export class MyContractsComponent implements OnInit {
       });
     });
   }
+
+  signContract(contractId: Number){
+    this.contractService.signContract(contractId).then((data) => {
+      if (data) {
+        this.openDialog();
+      }
+    });
+  }
+  dialogRef: any; // Reference to the dialog
+
+  openDialog(): void {
+    // Close any existing dialog before opening a new one
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
+
+    // Open new dialog
+    this.dialogRef = this.dialog.open(ValidationContractSecretComponent, {
+      width: '500px',
+      data: {},
+    });
+
+    // Handle dialog close event
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.dialogRef = null; // Reset dialog reference
+    });
+  }
+
 }

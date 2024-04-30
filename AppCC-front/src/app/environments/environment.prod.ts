@@ -43,6 +43,8 @@ export const environment = {
     updateContractEndpoint: '/updateContract/',
     deleteContractEndpoint: '/deleteContract/',
     getContractsOfClientEndpoint: '/contracts/client/',
+    signContractEndpoint: '/signContract/',
+    verifySecretEndpoint: '/verifySecret/',
 
 
     // Account microservice
