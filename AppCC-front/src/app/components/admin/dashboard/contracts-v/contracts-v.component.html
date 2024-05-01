@@ -1,0 +1,42 @@
+
+<div class="card m-4" *ngIf="contracts.length === 0" >
+  <div class="card-title flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>
+  </div>
+  
+
+  <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
+    <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Contracts Found</h1>
+  </div>
+
+</div>
+
+<div class="card m-4" *ngIf="contracts.length > 0">
+
+  <div class="card-title flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>
+  </div>
+    <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
+      <div class="block md:flex md:items-center gap-6 py-3 my-3 border-b" *ngFor="let contract of contracts">
+        <div class="hidden relative lg:block">
+          <img src="/assets/img/dashboard/contract.png" alt="event image" class="w-14 h-14 rounded-lg animate-pulse">
+        </div>
+        <div class="flex-1 my-3">
+          <h4 class="text-lg font-semibold leading-none">
+           Created the : {{contract.creationDate | date:'short'}}
+          </h4>
+          <p class="my-1 text-emerald-500">Payment Duration :   {{contract.paymentDuration}}</p>
+          <p class="text-xs text-justify">
+          </p>
+
+        </div>
+        <div class="flex-1 my-3">
+          <p class="my-1 text-red-700">Loan ID : {{contract.loanId}}</p>
+          <p class="text-xs text-justify">
+          <p class="my-1 text-red-700">Client ID : {{contract.clientId}}</p>
+          <p class="text-xs text-justify">
+          </p>
+      </div>
+     
+    </div>
+</div>

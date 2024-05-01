@@ -1,0 +1,17 @@
+
+.costum{
+    border: 1px solid rgb(0, 138, 138);
+   
+  }
+
+  /* Define transition for app-side-bar */
+app-side-bar {
+  position: fixed;
+  top: 0;
+  left: -100%; /* Initially off-screen */
+  width: 280px; /* Adjust width as needed */
+  height: 100%;
+  background-color: #fff; /* Adjust background color as needed */
+  transition: left 0.3s ease; /* Slide transition */
+  z-index: 40; /* Ensure sidebar is above other content */
+}

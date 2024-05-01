@@ -1,0 +1,50 @@
+<div class="card m-4" *ngIf="clients.length === 0" >
+  <div class="card-title flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold leading-none text-black">Clients List</h3>
+  </div>
+  <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
+
+  <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Clients Found</h1>
+  </div>
+</div>
+
+<div>
+
+
+  
+<div class="card m-4" *ngIf="clients.length > 0">
+
+  <div class="card-title flex justify-between items-center mb-4">
+    <h3 class="text-xl font-bold leading-none text-black">Clients List</h3>
+  </div>
+    <div class="overflow-y-auto overflow-x-hidden pr-4  p-4  bg-white rounded-lg opacity-80" style="max-height: 535px;">
+      
+<div class="flow-root  bg-white rounded-lg opacity-80">
+  <ul role="list" class="divide-y divide-gray-200">
+    <li class="sm:py-4" *ngFor="let client of clients">
+      <div class="flex items-center space-x-4">
+        <div class="flex-shrink-0">
+          <img class="w-8 h-8 rounded-full" src="/assets/img/profiles/user.png" alt="user image">
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium text-gray-900 truncate">
+            {{client.email}}
+          </p>
+          <p class="text-sm text-gray-500 truncate">
+            {{client.firstName}} {{client.lastName}}
+          </p>
+        </div>
+        <div class="inline-flex items-center text-base font-semibold text-gray-900">
+          {{client.address?.city }} {{client.address?.street}}
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</div>
+</div>
+
+
+
+
+</div>

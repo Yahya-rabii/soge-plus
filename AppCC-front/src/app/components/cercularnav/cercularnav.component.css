@@ -1,0 +1,114 @@
+.circle {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 9.5em;
+  height: 9.5em;
+  transition: width 0.3s, height 0.3s, transform 0.3s;
+  transform-origin: top right;
+  border-bottom-left-radius: 100%;
+}
+.wrapcircles.closed .circle {
+  transform: rotate(-90deg);
+  width: 3.1666666667em;
+  height: 3.1666666667em;
+  transition-delay: 50ms;
+}
+.wrapcircles.closed #click {
+  transform: none;
+  transition: all 0.4s;
+}
+.wrapcircles.closed #click span {
+  top: 1.125em;
+  right: 2em;
+}
+.wrapcircles.closed #click span::after {
+  transform: rotate(-90deg);
+}
+.wrapcircles.closed #click span::before {
+  transform: none;
+}
+#click {
+  cursor: pointer;
+}
+#click span {
+  opacity: 0.8;
+ /* Adjust opacity value as needed */
+  transition: bottom 0.3s, right 0.3s;
+  display: block;
+  width: 30px;
+  height: 30px;
+  left: 1em;
+  top: 1em;
+  position: absolute;
+  z-index: 1;
+ /* Adjusted z-index */
+}
+#click span::before, #click span::after {
+  display: block;
+  position: absolute;
+  font-family: inherit;
+  content: '';
+  width: 30px;
+  height: 8px;
+  transition: transform 0.3s;
+  top: 0px;
+  border-radius: 3px;
+  background: white;
+}
+#click span::before {
+  transform: rotate(-45deg);
+}
+#click span::after {
+  transform: rotate(45deg);
+}
+.c-1, .c-2, .c-3, .c-4, .c-5 {
+  opacity: 0.8;
+ /* Adjust opacity value as needed */
+  transition-delay: 0.1s, 0.1s, 0.1s;
+}
+.c-1 {
+  background: #640000;
+  transform: rotate(-18deg);
+}
+.c-1 .link::before {
+  transform: rotate(18deg);
+  content: '\f0f3';
+}
+.c-2 {
+  background: #ff3512;
+  transform: rotate(-36deg);
+}
+.c-2 .link::before {
+  transform: rotate(36deg);
+  content: '\f013';
+}
+.c-3 {
+  background: #b42525;
+  transform: rotate(-54deg);
+}
+.c-3 .link::before {
+  transform: rotate(54deg);
+  content: '\f1cb';
+}
+.c-4 {
+  background: #9e0000;
+  transform: rotate(-72deg);
+}
+.c-4 .link::before {
+  transform: rotate(72deg);
+  content: '\f099';
+}
+.c-5 {
+  background: #b30303;
+  z-index: -1;
+}
+.nav-element {
+  color: white;
+  font-size: 1.5em;
+  left: 0.8em;
+  position: relative;
+  top: 0.3em;
+  z-index: 1;
+  width: 30px;
+}

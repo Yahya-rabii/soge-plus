@@ -1,0 +1,57 @@
+mat-sidenav-content{
+    padding: 24px;
+    background-color: rgba(236, 235, 235, 0.904);
+    color: black;
+}
+
+mat-toolbar {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    z-index: 5;
+}
+
+mat-sidenav-container {
+    height: calc(100vh - 64px);
+    background-color: rgb(255, 255, 255);
+    color: black;
+}
+
+
+.mat-icon-button {
+    color: black;
+    &:hover {
+        color: red;
+        background-color: rgb(241, 241, 241);
+
+    }
+
+}
+
+
+.mat-drawer-side {
+    color: rgb(0, 0, 0);
+    
+}
+
+mat-sidenav , mat-sidenav-content{
+    transition: all 500ms ease-in-out;
+}
+
+.create {
+   /*the create button should be on the right side of the screen*/
+    position: relative;
+    left: 85%;
+    border-radius: 5px;
+    transition: all 500ms ease-in-out;
+}
+.create:hover {
+    color: black;
+    border-radius: 5px;
+}
+.flexible-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    margin-right: 10px;
+}

@@ -1,0 +1,16 @@
+/* contracts.component.css */
+.contract-card {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.contract-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotate-up {
+  transform: rotate(180deg);
+}
