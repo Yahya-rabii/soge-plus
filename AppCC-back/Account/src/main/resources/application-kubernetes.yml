@@ -1,5 +1,4 @@
 spring:
-
   application:
     name: '${SPRING_APPLICATION_NAME:account-service}'
   datasource:

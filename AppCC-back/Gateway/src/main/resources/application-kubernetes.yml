@@ -2,35 +2,11 @@ server:
   port: ${SERVER_PORT:8888}
   servlet:
     context-path: ${SERVER_SERVLET_CONTEXT_PATH:/}
-    
 
-    
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME:gateway-service}
   cloud:
-    kubernetes:
-      enabled: true
-        #reload:
-        #enabled: true
-        #mode: event
-        #strategy: shutdown
-        #config:
-        #sources:
-          #- namespace: common
-            #name: environment
-          #- name: gestion
-      discovery:
-        enabled: true
-        namespace: sgma-system
-        #namespaces:
-        #  - sgma-system
-        #  - namespace2
-        #  - namespace3
-        #all-namespaces: true
-eureka:
-  client:
-    enabled: false
     config:
       enabled: false
     gateway:
@@ -169,3 +145,12 @@ springdoc:
       - url: ${SPRINGDOC_SWAGGER_UI_URL_ACCOUNT_SERVICE:/account-service/v3/api-docs}
         name: ${SPRINGDOC_SWAGGER_UI_NAME_ACCOUNT_SERVICE:account service}
         display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_ACCOUNT_SERVICE:account service}
+    kubernetes:
+      enabled: true
+      discovery:
+        enabled: true
+        namespace: sgma-system
+
+eureka:
+  client:
+    enabled: false
