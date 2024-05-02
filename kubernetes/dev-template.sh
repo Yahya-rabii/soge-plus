@@ -7,7 +7,8 @@ minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/t
 
 kubectl apply --recursive -f namespaces
 kubectl apply --recursive -f globalconfigmaps 
-
+kubectl apply --recursive -f rbac
+ 
 kubectl create secret docker-registry regcred \
     --docker-username=salaheddine122 \
     --docker-password=${token} \
