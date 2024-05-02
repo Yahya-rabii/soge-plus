@@ -4,6 +4,3 @@ metadata:
   name: account-service-configmap
   namespace: sgma-system
 data:
- 
-  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://discovery-service-service.sgma-system.svc.cluster.local/eureka/"
-  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"

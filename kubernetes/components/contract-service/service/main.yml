@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: sgma-system
-  name: contract-service-service
+  name: contract-service
   labels:
     app: contract-service
 spec:

@@ -11,6 +11,3 @@ data:
   SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS: "*"
 
   SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://keycloak-service.keycloak.svc.cluster.local/realms/AppCC-realm"
-  EUREKA_INSTANCE_HOSTNAME: gateway-service-service.sgma-system.svc.cluster.local
-  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://discovery-service-service.sgma-system.svc.cluster.local/eureka/"
-  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"

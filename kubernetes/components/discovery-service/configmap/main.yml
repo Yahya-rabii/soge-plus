@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: discovery-service-configmap
-  namespace: sgma-system
-data:
-  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"

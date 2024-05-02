@@ -5,10 +5,8 @@ metadata:
   namespace: sgma-system
 data:
   
-  CLIENT_SERVICE_URL: "http://gateway-service-service.sgma-system.svc.cluster.local/client-service"
+  CLIENT_SERVICE_URL: "http://gateway-service.sgma-system.svc.cluster.local/client-service"
 
-  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://discovery-service-service.sgma-system.svc.cluster.local/eureka/"
-  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"
   MINIO_SERVER_URL: "http://minio-service.minio.svc.cluster.local:9000"
   MINIO_ACCESS_USERNAME: "noxideuxTheGoat"
   MINIO_ACCESS_SECRET: "noxideux11102001noxideux"
