@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-@FeignClient(name = "CONTRACT-SERVICE")
+@FeignClient(name = "contract-service")
 public interface ContractFetchingService {
     @PostMapping("/createContract")
     Contract addContract(@RequestBody Contract contract);
