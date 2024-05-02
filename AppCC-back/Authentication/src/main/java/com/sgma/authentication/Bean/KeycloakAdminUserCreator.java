@@ -48,7 +48,7 @@ public class KeycloakAdminUserCreator {
             } else {
                 throw new RuntimeException("Failed to retrieve access token from Keycloak");
             }
-
+            
             // Check if the admin user exists
             if (!isAdminUserExists()) {
                 // Create admin user
