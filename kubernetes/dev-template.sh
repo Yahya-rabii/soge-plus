@@ -1,5 +1,4 @@
-minikube start --container-runtime=containerd --memory 5120 --cpus 4 --driver docker --static-ip 192.168.100.100
-
+minikube start --container-runtime=containerd --memory 10240 --cpus 8 --driver docker --static-ip 192.168.100.100
 minikube addons enable ingress
 
 minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/tls/tls.key

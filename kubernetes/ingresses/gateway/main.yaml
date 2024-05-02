@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: gateway-service-service
+                name: gateway-service
                 port:
                   number: 80
