@@ -22,7 +22,12 @@ spring:
           #- name: gestion
       discovery:
         enabled: true
-        all-namespaces: true
+        namespace: sgma-system
+        #namespaces:
+        #  - sgma-system
+        #  - namespace2
+        #  - namespace3
+        #all-namespaces: true
 eureka:
   client:
     enabled: false

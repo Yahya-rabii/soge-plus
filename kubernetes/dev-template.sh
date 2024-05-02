@@ -1,5 +1,4 @@
-minikube start --container-runtime=containerd --memory 5120 --cpus 4 --driver docker --static-ip 192.168.100.100
-
+minikube start --container-runtime=containerd --memory 10240 --cpus 8 --driver docker --static-ip 192.168.100.100
 minikube addons enable ingress
 
 minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/tls/tls.key
@@ -8,13 +7,16 @@ minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/t
 
 kubectl apply --recursive -f namespaces
 kubectl apply --recursive -f globalconfigmaps 
-
+kubectl apply --recursive -f rbac
+ 
 kubectl create secret docker-registry regcred \
     --docker-username=salaheddine122 \
     --docker-password=${token} \
     --docker-email=salaheddinemorchid1@gmail.com
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
-
+kubectl apply --recursive -f operators/cert-manager
+kubectl apply --recursive -f secrets 
+kubectl apply --recursive -f clusterissuers
 
 kubectl create --recursive -f crds
 

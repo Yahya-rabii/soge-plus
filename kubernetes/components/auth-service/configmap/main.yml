@@ -14,6 +14,4 @@ data:
   KEYCLOAK_TOKEN_URL: "http://keycloak-service.keycloak.svc.cluster.local/realms/AppCC-realm/protocol/openid-connect/token"
   KEYCLOAK_LOGOUT_URL: "http://keycloak-service.keycloak.svc.cluster.local/admin/realms/AppCC-realm/users/UserId/logout"
   KEYCLOAK_USER_ROLES_URL: "http://keycloak-service.keycloak.svc.cluster.local/admin/realms/AppCC-realm/users/UserId/role-mappings/realm"
-  CLIENT_SERVICE_URL: "http://gateway-service-service.sgma-system.svc.cluster.local/client-service"
-  EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE: "http://discovery-service-service.sgma-system.svc.cluster.local/eureka/"
-  CUSTOM_CONFIG_URL: "optional:configserver:http://config-service-service.sgma-system.svc.cluster.local"
+  CLIENT_SERVICE_URL: "http://gateway-service.sgma-system.svc.cluster.local/client-service"

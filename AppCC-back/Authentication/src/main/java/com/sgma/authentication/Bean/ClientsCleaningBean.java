@@ -72,15 +72,19 @@ public class ClientsCleaningBean {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setBearerAuth(accessToken);
+            System.out.println("ha access token: "+ accessToken);
             HttpEntity<Object> request = new HttpEntity<>(headers);
 
             ResponseEntity<List> response = restTemplate.exchange(authUrl + usersEndpoint, HttpMethod.GET, request, List.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 assert response.getBody() != null;
+                System.out.println("ana wslt hna 1");
                 List<Map<String, Object>> users = response.getBody();
                 List<Client> clients = getAllClients();
                 assert users != null && clients != null;
+                System.out.println("ana wslt hna 2");
                 for (Map<String, Object> user : users) {
+                    System.out.println("ana wslt hna 8");
                     String UserID = user.get("id").toString();
                     boolean found = false;
                     for (Client client : clients) {
@@ -88,8 +92,10 @@ public class ClientsCleaningBean {
                             found = true;
                             break;
                         }
+                        System.out.println("ana wslt hna 3");
                     }
                     if (!found) {
+                        System.out.println("ana wslt hna 4");
                         deleteClient(UserID);
                     }
                 }
