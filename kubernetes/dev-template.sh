@@ -14,7 +14,9 @@ kubectl create secret docker-registry regcred \
     --docker-password=${token} \
     --docker-email=salaheddinemorchid1@gmail.com
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
-
+kubectl apply --recursive -f operators/cert-manager
+kubectl apply --recursive -f secrets 
+kubectl apply --recursive -f clusterissuers
 
 kubectl create --recursive -f crds
 
