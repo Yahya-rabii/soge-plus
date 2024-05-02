@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigInteger;
 
-@FeignClient(name = "CLIENT-SERVICE")
+@FeignClient(name = "client-service")
 public interface ClientFetchingService {
     @GetMapping(path = "/client/{id}")
     Client getAccountHolderById(@PathVariable("id") String id);

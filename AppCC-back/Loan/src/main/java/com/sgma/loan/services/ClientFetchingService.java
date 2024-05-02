@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "CLIENT-SERVICE")
+@FeignClient(name = "client-service")
 public interface ClientFetchingService {
     @GetMapping(path = "/client/{id}")
     List<Client> getClientById(@PathVariable String id);

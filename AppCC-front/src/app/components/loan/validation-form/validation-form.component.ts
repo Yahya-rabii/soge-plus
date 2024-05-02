@@ -24,11 +24,23 @@ export class ValidationFormComponent implements OnInit {
   receptionMethod: string | null = null;
   loan: Loan = new Loan();
   image : File | undefined = undefined;
+  signatureFileName: string | undefined = undefined;
+  idCardFrontFileName: string | undefined = undefined;
+  idCardBackFileName: string | undefined = undefined;
+
   constructor(private dialog: MatDialog ,private formDataService: FormDataService, private fb: FormBuilder , private LoanService: LoanService , private router: Router) { }
 
   ngOnInit(): void {
 
     this.formData = this.formDataService.getFormData();
+
+    this.signature = this.formData.get('signature')?.value;
+    this.idCardFront = this.formData.get('idCardFront')?.value;
+    this.idCardBack = this.formData.get('idCardBack')?.value;
+
+    this.signatureFileName = this.signature?.name;
+    this.idCardFrontFileName = this.idCardFront?.name;
+    this.idCardBackFileName = this.idCardBack?.name;
 
 
     this.receptionMethod = this.formData.get('receptionMethod')?.value;
@@ -121,7 +133,6 @@ export class ValidationFormComponent implements OnInit {
   }
 
 
-
   onFileSelected(event: Event, field: string): void {
     const inputElement = event.target as HTMLInputElement;
     const file: File | null = (inputElement.files as FileList)[0] || null;
@@ -139,7 +150,7 @@ export class ValidationFormComponent implements OnInit {
       }
     }
   }
-
+  
 
   
   
