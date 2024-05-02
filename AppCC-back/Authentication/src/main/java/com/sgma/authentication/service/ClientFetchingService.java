@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-@FeignClient(name = "CLIENT-SERVICE")
+@FeignClient(name = "client-service")
 public interface ClientFetchingService {
     @GetMapping(path = "/client/{id}")
     Client getClientById(@PathVariable("id") String id);
