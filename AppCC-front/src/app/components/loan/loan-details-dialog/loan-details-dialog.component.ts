@@ -17,7 +17,7 @@ import { LoanDetailsImageComponent } from './loan-image-dialog/loan-details-imag
 export class LoanDetailsDialogComponent {
 
    
-    openFabIndex: number | null = null; // Index of the opened FAB
+  openFabIndex: number | null = null; // Index of the opened FAB
   dialogRef: any // Reference to the dialog  
   
     constructor(

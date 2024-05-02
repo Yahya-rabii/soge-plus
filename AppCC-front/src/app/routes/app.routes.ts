@@ -25,6 +25,7 @@ import { MyContractsComponent } from '../components/mycontracts/my.contracts.com
 import { AccountGuard } from '../guards/account.guard';
 import { TransactionsComponent } from '../components/account/my-account/transactions/transactions.component';
 import { ValidationContractSecretComponent } from '../validation-contract-secret/validation-contract-secret.component';
+import { LoanConfirmationGuard } from '../guards/loanConfirmation.guard';
 
 export const routes: Routes = [
     // '/' accessible only if the user is logged in authService.isLoggedIn()
@@ -39,7 +40,7 @@ export const routes: Routes = [
     
     { path: 'users', component: UserstableComponent,canActivate: [AuthGuard,AdminGuard]  } ,
     { path: 'loan/createloan', component: CreateloanComponent,canActivate: [AuthGuard]  },
-    { path: 'loan/confirmation', component: ValidationFormComponent,canActivate: [AuthGuard]  },
+    { path: 'loan/confirmation', component: ValidationFormComponent,canActivate: [AuthGuard,LoanConfirmationGuard]  },
     { path: 'myloans', component: MyLoansComponent,canActivate: [AuthGuard,UserGuard]  },
     { path: 'loansRequests', component: LoansRequestsComponent,canActivate: [AdminGuard]  },
     { path: 'contracts', component: ContractsComponent,canActivate: [AuthGuard ,AdminGuard]  },

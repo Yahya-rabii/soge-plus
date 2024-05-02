@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './createloan.component.html',
   styleUrls: ['./createloan.component.css'],
   standalone: true,
-  imports: [ CommonModule , ReactiveFormsModule ]
+  imports: [CommonModule, ReactiveFormsModule]
 })
 export class CreateloanComponent {
 
@@ -30,6 +30,11 @@ export class CreateloanComponent {
   rib: string | null = null;
   agency: string | null = null;
 
+  // Store selected file names
+  signatureFileName: string | null = null;
+  idCardFrontFileName: string | null = null;
+  idCardBackFileName: string | null = null;
+
   constructor(private formBuilder: FormBuilder, private router: Router, private formDataService: FormDataService) {
     this.createLoanForm = this.formBuilder.group({
       loanAmount: ['', [Validators.required]],
@@ -46,28 +51,56 @@ export class CreateloanComponent {
     });
   }
 
-  onFileSelected(event: Event, field: string): void {
-    const inputElement = event.target as HTMLInputElement;
-    const file: File | null = (inputElement.files as FileList)[0] || null;
-    if (file) {
-      if (field === 'signature') {
-        this.signature = file;
-        this.createLoanForm.patchValue({ signature: file });
-      } else if (field === 'idCardFront') {
-        this.idCardFront = file;
-        this.createLoanForm.patchValue({ idCardFront: file });
-      } else if (field === 'idCardBack') {
-        this.idCardBack = file;
-        this.createLoanForm.patchValue({ idCardBack: file });
+  onChooseFile(field: string): void {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.accept = '.jpg,.jpeg,.png,.pdf'; // Specify accepted file types if needed
+  
+    inputElement.onchange = (event: Event) => {
+      const file: File | null = (event.target as HTMLInputElement).files?.[0] || null;
+      if (file) {
+        if (field === 'signature') {
+          this.signature = file;
+          this.signatureFileName = file.name; // Update selected file name
+          this.createLoanForm.controls['signature'].setValue(file); // Directly set file object to form control
+        } else if (field === 'idCardFront') {
+          this.idCardFront = file;
+          this.idCardFrontFileName = file.name; // Update selected file name
+          this.createLoanForm.controls['idCardFront'].setValue(file); // Directly set file object to form control
+        } else if (field === 'idCardBack') {
+          this.idCardBack = file;
+          this.idCardBackFileName = file.name; // Update selected file name
+          this.createLoanForm.controls['idCardBack'].setValue(file); // Directly set file object to form control
+        }
       }
-    }
+    };
+  
+    inputElement.click(); // Simulate a click event on the dynamically created input element
   }
+  
+  getSignatureFileName(): string {
+    return this.signatureFileName || 'Choose file';
+  }
+  
+  getIdCardFrontFileName(): string {
+    return this.idCardFrontFileName || 'Choose file';
+  }
+  
+  getIdCardBackFileName(): string {
+    return this.idCardBackFileName || 'Choose file';
+  }
+  
+  
+  
+  
+
 
   public GoToSection(section: number) {
     if (section <= this.currentSection) {
       this.currentSection = section;
     }
   }
+
 
   public NextSection() {
     if (this.currentSection === 1) {

@@ -67,36 +67,38 @@
           </div>
         </div>
         <!-- Signature Section -->
-        <div *ngIf="currentSection === 2">
-          <div id="signatureSection" >
-            <div>
-              <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature (PNG)</label>
-              <!-- Add file input for signature -->
-              <input type="file" formControlName="signature" id="signature" accept="image/png"
-                (change)="onFileSelected($event, 'signature')" required>
-              <span *ngIf="signature" class="text-sm text-gray-500">{{ signature.name }}</span>
-            </div>
-          </div>
-        </div>
-        <!-- ID Card Section -->
-        <div *ngIf="currentSection === 3">
-          <div id="idCardSection" >
-            <div>
-              <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front (PNG)</label>
-              <!-- Add file input for ID card front -->
-              <input type="file" formControlName="idCardFront" id="idCardFront" accept="image/png"
-                (change)="onFileSelected($event, 'idCardFront')" required>
-              <span *ngIf="idCardFront" class="text-sm text-gray-500">{{ idCardFront.name }}</span>
-            </div>
-            <div>
-              <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back (PNG)</label>
-              <!-- Add file input for ID card back -->
-              <input type="file" formControlName="idCardBack" id="idCardBack" accept="image/png"
-                (change)="onFileSelected($event, 'idCardBack')" required>
-              <span *ngIf="idCardBack" class="text-sm text-gray-500">{{ idCardBack.name }}</span>
-            </div>
-          </div>
-        </div>
+        <!-- Signature Section -->
+<div *ngIf="currentSection === 2">
+  <div id="signatureSection">
+    <div>
+      <label for="signature" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Signature (PNG)</label>
+      <!-- Replace file input with button -->
+      <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" (click)="onChooseFile('signature')">Choose Signature File</button>
+      <span class="pl-4 text-sm text-gray-500">{{ getSignatureFileName() }}</span>
+      
+    </div>
+  </div>
+</div>
+<!-- ID Card Section -->
+<div *ngIf="currentSection === 3">
+  <div id="idCardSection">
+    <div>
+      <label for="idCardFront" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Front (PNG)</label>
+      <!-- Replace file input with button -->
+      <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" (click)="onChooseFile('idCardFront')">Choose ID Card Front File</button>
+      <span class="pl-4 text-sm text-gray-500">{{ getIdCardFrontFileName() }}</span>
+
+    </div>
+    <div class="mt-4">
+      <label for="idCardBack" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Card Back (PNG)</label>
+      <!-- Replace file input with button -->
+      <button type="button" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" (click)="onChooseFile('idCardBack')">Choose ID Card Back File</button>
+      <span class="pl-4 text-sm text-gray-500">{{ getIdCardBackFileName() }}</span>
+
+    </div>
+  </div>
+</div>
+
         <!-- Additional Info Section -->
         <div *ngIf="currentSection === 4">
           <div>
