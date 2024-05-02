@@ -10,7 +10,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableScheduling
 @EnableAdminServer
 public class AdminApplication {
     public static void main(String[] args) {
