@@ -264,6 +264,7 @@ export class MyAccountComponent implements OnInit {
       chart.render();
     }
   }
+  
 
 
 }
