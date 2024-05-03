@@ -24,6 +24,7 @@
     "@fortawesome/fontawesome-free": "6.5.1",
     "@popperjs/core": "2.11.8",
     "@types/node": "^20.11.30",
+    "apexcharts": "^3.49.0",
     "chart.js": "^4.4.2",
     "flowbite": "^2.3.0",
     "ngx-image-cropper": "^7.2.1",

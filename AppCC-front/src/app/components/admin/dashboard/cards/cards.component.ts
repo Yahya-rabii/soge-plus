@@ -21,14 +21,26 @@ export class CardsComponent {
   Contracts: Contract[] = [];
   Users : User[] = [];
   Accounts: Account[] = [];
+  
+  LoansCountcnt: number = 0;
+  ContractsCountcnt: number = 0;
+  UsersCountcnt: number = 0;
+  AccontsCountcnt: number = 0;
+
 
   constructor(private contractService: ContractService, private userService: UsersService , private loanService: LoanService , private accountService: AccountService) { }
 
   ngOnInit(): void {
+
+
+
     this.getLoans();
     this.getContracts();
     this.getUsers();
     this.getAccounts();
+
+
+
   }
 
   getLoans(){
@@ -51,39 +63,47 @@ export class CardsComponent {
 
   getAccounts(){
     this.accountService.getAccounts().then((data) => {
-      this.Accounts = data.Accounts;
+      if(data.accounts){
+        this.Accounts = data.accounts;
+      }
+      else{
+        this.Accounts = []; 
+      }
     });
   }
 
   AccountsCount(){
-    if( typeof this.Accounts === undefined){
-      return 0;
-    }
-    else return this.Accounts.length;
+    this.AccontsCountcnt = 0;
+   for(let account of this.Accounts){
+      this.AccontsCountcnt++;
+   }
+   return this.AccontsCountcnt;
   }
 
+
   LoansCount(){
-    if(typeof this.Loans === undefined){
-      return 0;
+    this.LoansCountcnt = 0;
+    for(let loan of this.Loans){
+      this.LoansCountcnt++;
     }
-    else return this.Loans.length;
+    return this.LoansCountcnt;
   }
 
   ContractsCount(){
-    if(typeof this.Contracts === undefined ){
-      return 0;
+    this.ContractsCountcnt = 0;
+    for(let contract of this.Contracts){
+      this.ContractsCountcnt++;
     }
-    else return this.Contracts.length;
+    return this.ContractsCountcnt;
   }
 
   UsersCount(){
-    if(typeof this.Users === undefined){
-      return 0;
+    this.UsersCountcnt = 0;
+    for(let user of this.Users){
+      this.UsersCountcnt++;
     }
-    else return this.Users.length;
+    return this.UsersCountcnt;
   }
-
-
 
 
 }

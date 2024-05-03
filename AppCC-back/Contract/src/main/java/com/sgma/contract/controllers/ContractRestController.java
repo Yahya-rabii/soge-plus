@@ -204,6 +204,12 @@ public class ContractRestController {
             Client client = clientFetchingService.getClientById(contract.getClientId());
 
 
+            // if there is a secret key for the client delete it and create a new one
+            Optional<Secret> secretOptional = secretRepository.findByClientId(client.getId());
+            assert secretOptional.isPresent();
+            secretOptional.ifPresent(secretRepository::delete);
+
+
             secretRepository.save(new Secret(null,secretKey, client.getId() , contract.getId() ) );
 
 
