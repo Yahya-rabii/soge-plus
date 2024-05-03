@@ -7,6 +7,11 @@ spring:
   application:
     name: ${SPRING_APPLICATION_NAME:gateway-service}
   cloud:
+    kubernetes:
+      enabled: true
+      discovery:
+        enabled: true
+        namespace: sgma-system
     config:
       enabled: false
     gateway:
@@ -111,8 +116,7 @@ spring:
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
               allowCredentials: false
-    discovery:
-      enabled: ${SPRING_CLOUD_DISCOVERY_ENABLED:true}
+
   security:
     oauth2:
       resourceserver:
@@ -145,11 +149,7 @@ springdoc:
       - url: ${SPRINGDOC_SWAGGER_UI_URL_ACCOUNT_SERVICE:/account-service/v3/api-docs}
         name: ${SPRINGDOC_SWAGGER_UI_NAME_ACCOUNT_SERVICE:account service}
         display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_ACCOUNT_SERVICE:account service}
-    kubernetes:
-      enabled: true
-      discovery:
-        enabled: true
-        namespace: sgma-system
+    
 
 eureka:
   client:
