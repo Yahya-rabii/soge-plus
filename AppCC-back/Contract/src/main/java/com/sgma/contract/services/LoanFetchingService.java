@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "LOAN-SERVICE")
+@FeignClient(name = "loan-service")
 public interface LoanFetchingService {
     @GetMapping(path = "/loanByClientId/{clientId}")
     List<Loan> getLoansByClientId(@PathVariable("clientId") String clientId);
