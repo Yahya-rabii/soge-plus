@@ -3,9 +3,14 @@ package com.sgma.account.controllers;
 
 
 import com.sgma.account.entities.Account;
+import com.sgma.account.entities.AddTransaction;
+import com.sgma.account.entities.SubTransaction;
 import com.sgma.account.entities.Transaction;
+import com.sgma.account.enums.TType;
 import com.sgma.account.model.Client;
 import com.sgma.account.repository.AccountRepository;
+import com.sgma.account.repository.AddTransactionRepository;
+import com.sgma.account.repository.SubTransactionRepository;
 import com.sgma.account.repository.TransactionRepository;
 import com.sgma.account.services.ClientFetchingService;
 import org.slf4j.Logger;
@@ -23,16 +28,20 @@ public class AccountRestController {
     private final AccountRepository AccountRepository;
     private final ClientFetchingService clientFetchingService;
     private final TransactionRepository transactionRepository;
+    private final AddTransactionRepository addTransactionRepository;
+    private final SubTransactionRepository subTransactionRepository;
+
 
 
     public static Logger log = LoggerFactory.getLogger(AccountRestController.class);
 
 
-    public AccountRestController(AccountRepository AccountRepository, ClientFetchingService clientFetchingService , TransactionRepository transactionRepository) {
+    public AccountRestController(AccountRepository AccountRepository, ClientFetchingService clientFetchingService , TransactionRepository transactionRepository , AddTransactionRepository addTransactionRepository , SubTransactionRepository subTransactionRepository ){
         this.AccountRepository = AccountRepository;
         this.clientFetchingService = clientFetchingService;
         this.transactionRepository = transactionRepository;
-
+        this.addTransactionRepository =addTransactionRepository;
+        this.subTransactionRepository = subTransactionRepository;
     }
 
     // CRUD methods here
@@ -238,7 +247,14 @@ public class AccountRestController {
             receiver.setBalance(receiver.getBalance() + Amount);
             //Amount should be BigInteger instead of Long
             BigInteger amount = BigInteger.valueOf(Amount);
-            transactionRepository.save(new Transaction(null , amount ,sender.getAccountHolderId() , receiver.getAccountHolderId() , new Date()) );
+
+            //add the transaction for the sender ;
+            transactionRepository.save(new Transaction( null , amount ,sender.getAccountHolderId() , receiver.getAccountHolderId() , new Date() ) );
+            addTransactionRepository.save(new AddTransaction(null , amount , receiver.getAccountHolderId() , new Date() ) );
+            subTransactionRepository.save(new SubTransaction( null , amount , sender.getAccountHolderId() , new Date() ) );
+                    // add the transacion for the reciever same but ttype diffrent ,
+
+
 
         }
 
@@ -246,7 +262,18 @@ public class AccountRestController {
     }
 
     @GetMapping("/transactions/{id}")
-    public List<Transaction> getTransactions(@PathVariable("id") String id) {
-        return transactionRepository.findBySenderId(id);
+    public  ResponseEntity<Map<String, Object>> getTransactions(@PathVariable("id") String id) {
+
+        List<Transaction> transactions = transactionRepository.findBySenderId(id);
+        List<AddTransaction> addTransactions = addTransactionRepository.findByUserId(id);
+        List<SubTransaction> subTransactions = subTransactionRepository.findByUserId(id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("transactions", transactions);
+        response.put("addTransactions", addTransactions);
+        response.put("subTransactions", subTransactions);
+
+        return ResponseEntity.ok(response);
+
     }
 }

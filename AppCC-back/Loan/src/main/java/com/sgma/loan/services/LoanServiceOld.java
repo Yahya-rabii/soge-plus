@@ -2,6 +2,7 @@ package com.sgma.loan.services;
 
 
 
+import io.minio.messages.Upload;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.sgma.loan.entities.Loan;
@@ -106,52 +107,48 @@ public class LoanServiceOld {
         loan.setCinCartRecto(cinCartRectoUrl);
         loan.setCinCartVerso(cinCartVersoUrl);
 
-        // Now, send the images to the client
+       // instead of using the url to download the images, we can use minioclient.getObject to get the images as byte[] and then convert them to base64 strings
 
+        try (InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(loan.getSignatureFileName())
+                        .build())) {
 
-        return sendImagesToClient(loan, signatureUrl, cinCartRectoUrl, cinCartVersoUrl);
-    }
+            byte[] signatureBytes = stream.readAllBytes();
+            String signatureBase64 = Base64.getEncoder().encodeToString(signatureBytes);
+            loan.setSignatureFile(signatureBase64);
 
-    public static byte[] downloadImage(String imageUrl) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            URL url = new URL(imageUrl);
-            URLConnection connection = url.openConnection();
-            try (InputStream inputStream = connection.getInputStream()) {
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle any errors that may occur during the download process
         }
-        return outputStream.toByteArray();
-    }
 
-    // Method to send images to the client
-    public Loan sendImagesToClient(Loan loan, String signatureUrl, String cinCartRectoUrl, String cinCartVersoUrl) {
-        // Download the images
-        byte[] signatureBytes = downloadImage(signatureUrl);
-        byte[] cinCartRectoBytes = downloadImage(cinCartRectoUrl);
-        byte[] cinCartVersoBytes = downloadImage(cinCartVersoUrl);
+        try (InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(loan.getCinCartRectoFileName())
+                        .build())) {
 
-        // Create base64 strings from the images
-        String signatureBase64 = Base64.getEncoder().encodeToString(signatureBytes);
-        String cinCartRectoBase64 = Base64.getEncoder().encodeToString(cinCartRectoBytes);
-        String cinCartVersoBase64 = Base64.getEncoder().encodeToString(cinCartVersoBytes);
+            byte[] cinCartRectoBytes = stream.readAllBytes();
+            String cinCartRectoBase64 = Base64.getEncoder().encodeToString(cinCartRectoBytes);
+            loan.setCinCartRectoFile(cinCartRectoBase64);
+
+        }
+
+        try (InputStream stream = minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(loan.getCinCartVersoFileName())
+                        .build())) {
+
+            byte[] cinCartVersoBytes = stream.readAllBytes();
+            String cinCartVersoBase64 = Base64.getEncoder().encodeToString(cinCartVersoBytes);
+            loan.setCinCartVersoFile(cinCartVersoBase64);
+
+        }
 
 
-        // Set the files to the loan object
-        loan.setSignatureFile(signatureBase64);
-        loan.setCinCartRectoFile(cinCartRectoBase64);
-        loan.setCinCartVersoFile(cinCartVersoBase64 );
 
         return loan;
     }
-
 
 
     @PutMapping("/validateLoan")

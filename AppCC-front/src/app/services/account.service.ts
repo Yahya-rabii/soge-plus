@@ -149,7 +149,23 @@ export class AccountService {
                 throw new Error(`Failed to fetch Transactions: ${response.status} ${response.statusText}`);
             }
             const data = await response.json();
-            return data;
+            return data.transactions;
+        } catch (error) {
+            console.error('Error fetching Transactions:', error);
+            throw error;
+        }
+    }
+
+    async getDeposits(): Promise<any> {
+        const UserId = localStorage.getItem('UserId');
+        const url = `${environment.AccountMsUrl}${environment.getTransactionsEndpoint}${UserId}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch Transactions: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data.addTransactions;
         } catch (error) {
             console.error('Error fetching Transactions:', error);
             throw error;
@@ -157,5 +173,20 @@ export class AccountService {
     }
 
 
+    async getWithdrawals(): Promise<any> {
+        const UserId = localStorage.getItem('UserId');
+        const url = `${environment.AccountMsUrl}${environment.getTransactionsEndpoint}${UserId}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch Transactions: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data.subTransactions;
+        } catch (error) {
+            console.error('Error fetching Transactions:', error);
+            throw error;
+        }
+    }
     
 }

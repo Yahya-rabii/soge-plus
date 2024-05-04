@@ -3,12 +3,15 @@ import { Credential } from "./credential.model";
 
 
 export class Transaction {
+   
 
     id!: number | 0;
     transactionDate!: Date;
     senderId!: string | '';
     ReceiverId!: string | '';
     amount!: number | 0;
+    type !: string | '';
+    
 
    
     
@@ -18,15 +21,18 @@ export class Transaction {
 
     constructor(
         id ?: number,
-        transactionDate?: string,
+        transactionDate?: Date,
         senderId?: string,
         ReceiverId?: string,
         amount?: number,
+        type ?:string ,
     ) {
         this.id = id || 0;
         this.senderId = senderId || '';
         this.ReceiverId = ReceiverId || '';
         this.amount = amount || 0;
+        this.transactionDate = transactionDate || new Date();
+        this.type  = type || '';
     }
 
     public get_attributes(): string {
