@@ -21,4 +21,4 @@ spec:
               service:
                 name: minio-service
                 port:
-                  number: 80
+                  number: 9001
