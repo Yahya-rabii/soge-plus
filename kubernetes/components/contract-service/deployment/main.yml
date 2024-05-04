@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: contract-service
-        image: salaheddine122/soge-system-contract-service:CONTRACT-SERVICE-v1.1.0
+        image: salaheddine122/soge-system-contract-service:CONTRACT-SERVICE-v1.0.0
         imagePullPolicy: Always
         envFrom:
           - configMapRef:

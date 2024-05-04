@@ -7,7 +7,6 @@ metadata:
 data:
   
   CLIENT_SERVICE_URL: "http://gateway-service.sgma-system.svc.cluster.local/client-service"
-
   MINIO_SERVER_URL: "http://minio-service.minio.svc.cluster.local"
   MINIO_ACCESS_USERNAME: "noxideuxTheGoat"
   MINIO_ACCESS_SECRET: "noxideux11102001noxideux"

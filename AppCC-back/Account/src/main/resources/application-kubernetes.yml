@@ -36,8 +36,6 @@ spring:
         #all-namespaces: true
     config:
       enabled: false
-    discovery:
-      enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
 server:
   port: '${SERVER_PORT:8089}'
 

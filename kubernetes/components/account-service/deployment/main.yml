@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: account-service
-        image: salaheddine122/soge-system-account-service:ACCOUNT-SERVICE-v1.1.0
+        image: salaheddine122/soge-system-account-service:ACCOUNT-SERVICE-v1.0.0
         imagePullPolicy: Always
         envFrom:
           - configMapRef:
