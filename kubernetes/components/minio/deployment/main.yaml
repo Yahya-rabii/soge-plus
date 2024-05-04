@@ -1,52 +1,39 @@
-#apiVersion: apps/v1
-#kind: Deployment
-#metadata:
-#  labels:
-#    app: minio
-#  name: minio-deployment
-#  namespace: minio
-#spec:
-#  replicas: 1
-#  selector:
-#    matchLabels:
-#      app: minio
-#  template:
-#    metadata:
-#      labels:
-#        app: minio
-#    spec:
-#      containers:
-#      - name: minio
-#        image: bitnami/minio:2024.4.6-debian-12-r0
-#        ports:
-#        - containerPort: 9000
-#        - containerPort: 9001
-#        env:
-#        - name: MINIO_ROOT_USER
-#          value: "noxideuxTheGoat"
-#        - name: MINIO_ROOT_PASSWORD
-#          value: "noxideux11102001noxideux"
-#        - name: MINIO_DEFAULT_BUCKETS
-#          value: "loan-service"
-        # the big issue here is that minio server connects the admin dashboard
-        # to the minio api , meaning that it should resolve the url , but its
-        # not existant in its /etc/host , so it always fails , and i can't either 
-        # use localhost, because it will simply ban the request when i use the custom
-        # domain to map ingress to localhost , the last solution is to use yahya's
-        # code and last version and get the crypted url, but this won't work since
-        # theres no api
-
-        #- name: MINIO_SERVER_URL
-        #  value: "http://minikube-entry-minio.socgen.com"
-#        - name: MINIO_BROWSER_REDIRECT_URL
-#          value: "https://minikube-minio.socgen.com"
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: minio
+  name: minio-deployment
+  namespace: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        image: bitnami/minio:2024.4.6-debian-12-r0
+        ports:
+        - containerPort: 9000
+        - containerPort: 9001
+        env:
+        - name: MINIO_ROOT_USER
+          value: "noxideuxTheGoat"
+        - name: MINIO_ROOT_PASSWORD
+          value: "noxideux11102001noxideux"
+        - name: MINIO_DEFAULT_BUCKETS
+          value: "loan-service"
 
 
-
-        #volumeMounts:
-        #- name: host-etc
-        #  mountPath: "/certs"
-#      volumes:
-#      - name: host-etc
-#        hostPath:
-#          path: "/etc/tls"
+        volumeMounts:
+        - name: host-etc
+          mountPath: "/certs"
+      volumes:
+      - name: host-etc
+        hostPath:
+          path: "/etc/tls"
