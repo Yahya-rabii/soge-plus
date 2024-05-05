@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sgma-system
+  name: admin-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-service
+  template:
+    metadata:
+      labels:
+        app: admin-service
+    spec:
+      containers:
+      - name: admin-service
+        image: salaheddine122/soge-system-admin-service:ADMIN-SERVICE-v1.0.0
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: admin-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
+        ports:
+        - containerPort: 8765
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8765
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8765
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        #resources:
+         # requests:
+          #  memory: "64Mi"
+           # cpu: "50m"
+          #limits:
+           # memory: "128Mi"
+            #cpu: "100m"
+      imagePullSecrets:
+        - name: regcred

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: active-profile-configmap
+  namespace: sgma-system
+data:
+  ACTIVE_PROFILE: kubernetes

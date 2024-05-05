@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-ingress
+  namespace: minio
+  annotations:
+    cert-manager.io/cluster-issuer: ca-issuer
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - minikube-minio.socgen.com
+      secretName: minio-cert
+  rules:
+    - host: minikube-minio.socgen.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio-service
+                port:
+                  number: 9001

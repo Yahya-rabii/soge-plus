@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loan-service-configmap
+  
+  namespace: sgma-system
+data:
+  
+  CLIENT_SERVICE_URL: "http://gateway-service.sgma-system.svc.cluster.local/client-service"
+  MINIO_SERVER_URL: "http://minio-service.minio.svc.cluster.local"
+  MINIO_BUCKET_NAME: "loan-service"
+  MINIO_DOMAIN: "http://minio-service.minio.svc.cluster.local"
+

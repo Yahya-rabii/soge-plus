@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: socgen-ui-ingress
+  namespace: sgma-system
+  annotations:
+    cert-manager.io/cluster-issuer: ca-issuer
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - minikube-socgen-ui.socgen.com
+      secretName: socgen-ui-cert
+  rules:
+    - host: minikube-socgen-ui.socgen.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: socgen-ui-service
+                port:
+                  number: 80

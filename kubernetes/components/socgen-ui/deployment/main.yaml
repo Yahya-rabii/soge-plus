@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sgma-system
+  name: socgen-ui-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socgen-ui
+  template:
+    metadata:
+      labels:
+        app: socgen-ui
+    spec:
+      containers:
+      - name: socgen-ui
+        image: salaheddine122/soge-system-ui:UI-SERVICE-v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+      imagePullSecrets:
+        - name: regcred
+

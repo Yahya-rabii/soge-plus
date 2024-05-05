@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-service-configmap
+  namespace: sgma-system
+data:
+  KEYCLOAK_AUTH_SERVER_URL: "http://keycloak-service.keycloak.svc.cluster.local/admin/realms/AppCC-realm/"
+  KEYCLOAK_AUTH_GET_ROLES_ENDPOINT: "roles"
+  KEYCLOAK_AUTH_GETORCREATE_USERS_ENDPOINT: "users"
+  KEYCLOAK_REALM: "AppCC-realm"
+  KEYCLOAK_RESOURCE: "AppCC-client"
+  KEYCLOAK_TOKEN_URL: "http://keycloak-service.keycloak.svc.cluster.local/realms/AppCC-realm/protocol/openid-connect/token"
+  KEYCLOAK_LOGOUT_URL: "http://keycloak-service.keycloak.svc.cluster.local/admin/realms/AppCC-realm/users/UserId/logout"
+  KEYCLOAK_USER_ROLES_URL: "http://keycloak-service.keycloak.svc.cluster.local/admin/realms/AppCC-realm/users/UserId/role-mappings/realm"
+  CLIENT_SERVICE_URL: "http://gateway-service.sgma-system.svc.cluster.local/client-service"

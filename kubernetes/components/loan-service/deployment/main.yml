@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sgma-system
+  name: loan-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loan-service
+  template:
+    metadata:
+      labels:
+        app: loan-service
+    spec:
+      containers:
+      - name: loan-service
+        image: salaheddine122/soge-system-loan-service:LOAN-SERVICE-v1.0.0
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: loan-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
+          - secretKeyRef:
+                name: minio-credentials
+                key: MINIO_ACCESS_SECRET
+          - secretKeyRef:
+                name: minio-credentials
+                key: MINIO_ACCESS_USERNAME
+        ports:
+        - containerPort: 8082
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8082
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8082
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        #resources:
+         # requests:
+          #  memory: "64Mi"
+           # cpu: "50m"
+          #limits:
+           # memory: "128Mi"
+            #cpu: "100m"
+      imagePullSecrets:
+        - name: regcred

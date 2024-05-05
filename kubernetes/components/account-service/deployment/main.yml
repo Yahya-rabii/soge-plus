@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sgma-system
+  name: account-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: account-service
+  template:
+    metadata:
+      labels:
+        app: account-service
+    spec:
+      containers:
+      - name: account-service
+        image: salaheddine122/soge-system-account-service:ACCOUNT-SERVICE-v1.0.0
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: account-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
+        ports:
+        - containerPort: 8089
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8089
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8089
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        #resources:
+         # requests:
+          #  memory: "64Mi"
+           # cpu: "50m"
+          #limits:
+           # memory: "128Mi"
+            #cpu: "100m"
+      imagePullSecrets:
+        - name: regcred

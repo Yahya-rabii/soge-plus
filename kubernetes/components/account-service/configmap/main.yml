@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: account-service-configmap
+  namespace: sgma-system
+data:
+  SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: "true"

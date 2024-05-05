@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: keycloak
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    cert-manager.io/cluster-issuer: ca-issuer
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - minikube-keycloak.socgen.com
+      secretName: keycloak-cert
+  rules:
+    - host: minikube-keycloak.socgen.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak-service
+                port:
+                  number: 443

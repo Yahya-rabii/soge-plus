@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sgma-system
+  name: loan-service
+  labels:
+    app: loan-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8082
+  selector:
+    app: loan-service

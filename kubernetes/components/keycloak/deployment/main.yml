@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: keycloak
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:24.0.2
+          envFrom:
+            - secretKeyRef:
+                name: kc-db-credentials
+                key: KC_DB_PASSWORD
+            - secretKeyRef:
+                name: kc-db-credentials
+                key: KC_DB_USERNAME
+
+          command: ["/opt/keycloak/bin/kc.sh"]
+          args: ["start","--hostname-strict-https=true","--http-enabled=true"]
+          env:
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KC_METRICS_ENABLED
+              value: "true"
+
+            - name: KC_HOSTNAME
+              value: "minikube-keycloak.socgen.com"
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL
+              value: "jdbc:postgresql://dpg-cokjqbn79t8c73ccbjvg-a.oregon-postgres.render.com:5432/socgendb"
+
+            - name: KC_PROXY
+              value: "reencrypt"
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: "/etc/tls/tls.crt"
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: "/etc/tls/tls.key"
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 8443
+          volumeMounts:
+            - name: host-etc
+              mountPath: "/etc/tls"
+      volumes:
+        - name: host-etc
+          hostPath:
+            path: "/etc/tls"
