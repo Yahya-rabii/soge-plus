@@ -2,11 +2,15 @@ package com.sgma.account.controllers;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sgma.account.entities.Account;
 import com.sgma.account.entities.AddTransaction;
 import com.sgma.account.entities.SubTransaction;
 import com.sgma.account.entities.Transaction;
 import com.sgma.account.enums.TType;
+import com.sgma.account.enums.Type;
 import com.sgma.account.model.Client;
 import com.sgma.account.repository.AccountRepository;
 import com.sgma.account.repository.AddTransactionRepository;
@@ -18,7 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -112,24 +118,32 @@ public class AccountRestController {
 
 
     @PostMapping("/createAccount")
-    public Account addAccount(@RequestBody Account Account) {
-        Client client = clientFetchingService.getAccountHolderById( Account.getAccountHolderId());
-        if (client != null) {
-            MDC.put("traceId", "adding Account is successful");
-            log.info("add Account called from AccountRestController class of Account microservice");
+    public Account addAccount(@RequestParam("account") String accountJson, @RequestParam("chosenImage") MultipartFile chosenImage) {
+        try {
+            // Convert the JSON string to an Account object
+            ObjectMapper objectMapper = new ObjectMapper();
+            Account Account = objectMapper.readValue(accountJson, Account.class);
 
-            clientFetchingService.setClientHasAccount(Account.getAccountHolderId() , Account.getAccountHolderRib());
 
-            return AccountRepository.save(Account);
-        }
-        else {
-            MDC.put("traceId", "adding Account is failed because client does not exist");
-            log.info("add Account called from AccountRestController class of Account microservice but the client is null");
-            return null;
+            Client client = clientFetchingService.getAccountHolderById(Account.getAccountHolderId());
+            if (client != null) {
+                MDC.put("traceId", "adding Account is successful");
+                log.info("add Account called from AccountRestController class of Account microservice");
+
+                clientFetchingService.setClientHasAccount(Account.getAccountHolderId(), Account.getAccountHolderRib());
+                System.out.println(chosenImage);
+                return AccountRepository.save(Account);
+            } else {
+                MDC.put("traceId", "adding Account is failed because client does not exist");
+                log.info("add Account called from AccountRestController class of Account microservice but the client is null");
+                return null;
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    @PutMapping("/updateAccount/{id}")
+        @PutMapping("/updateAccount/{id}")
     public Account updateAccount(@PathVariable("id") Long id, @RequestBody Account Account) {
 
         MDC.put("traceId", "update Account called from AccountRestController class of Account microservice");

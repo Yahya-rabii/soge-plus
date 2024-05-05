@@ -2,36 +2,86 @@
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20">
     <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       <img class="w-8 h-8 mr-2" src="assets/logosg.png" alt="logo">
-      <span class="text-2xl font-semibold text-primary-500"> Create Your <span class="text-2xl font-semibold text-red-700">SOGE</span> Account Here !! </span>
+      <span *ngIf="currentSection===1" class="text-2xl font-semibold text-primary-500"> Create Your <span class="text-2xl font-semibold text-red-700">SOGE</span> Account Here !! </span>
+      <span *ngIf="currentSection===2" class="text-2xl font-semibold text-primary-500"> Customise Your <span class="text-2xl font-semibold text-red-700">{{accountType}} </span>Card Now !! </span>
+
     </a>
     <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 ">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg" id="createAccountForm">
         <!-- Account Type Selection -->
-        <div class="flex justify-between">
-          <button 
-          tooltip="This offer is 100% free but you can only withdraw $200 daily." flow="left"
-          type="button" 
-                  class="w-1/2 border-2 border-gray-300 rounded-md hover:bg-red-700 hover:opacity-90 hover:text-white mr-3 p-2.5"
-                  [ngClass]="{'selected': accountType === 'SOGE'}" 
-                  (click)="setAccountType('SOGE')"
-                  style="position: relative;">SOGE</button>
-          <button type="button" 
-                  tooltip="This offer is not free. You must pay $3 daily." flow="right"
-                  class="w-1/2 border-2 border-gray-300 rounded-md hover:bg-red-700 hover:opacity-90 hover:text-white p-2.5"
-                  [ngClass]="{'selected': accountType === 'SOGEPLUS'}" 
-                  (click)="setAccountType('SOGEPLUS')"
-                  style="position: relative;">SOGEPLUS</button>
+        
+        <div id="section1" *ngIf="currentSection === 1">
+          <div class="flex justify-between mb-7">
+            <button 
+              tooltip="This offer is 100% free but you can only withdraw $200 daily." flow="left"
+              type="button" 
+              class="w-1/2 border-2 border-gray-300 rounded-md hover:bg-red-700 hover:opacity-90 hover:text-white mr-3 p-2.5"
+              [ngClass]="{'selected': accountType === 'SOGE'}" 
+              (click)="setAccountType('SOGE')"
+              style="position: relative;">SOGE</button>
+            <button type="button" 
+              tooltip="This offer is not free. You must pay $3 daily." flow="right"
+              class="w-1/2 border-2 border-gray-300 rounded-md hover:bg-red-700 hover:opacity-90 hover:text-white p-2.5"
+              [ngClass]="{'selected': accountType === 'SOGEPLUS'}" 
+              (click)="setAccountType('SOGEPLUS')"
+              style="position: relative;">SOGEPLUS</button>
+          </div>
+          
+          <!-- Next Button to slide to the next section -->
+          <button type="button" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700" (click)="slideToSection2()">Next</button>
         </div>
-     
-        <!-- Hidden field for account holder ID -->
-        <input type="hidden" formControlName="accountHolderId" id="accountHolderId" [value]="getAccountHolderIdFromLocalStorage()">
-        <!-- Hidden field for balance -->
-        <input type="hidden" formControlName="balance" id="balance" value="0">
-        <!-- Hidden field for bank name -->
-        <input type="hidden" formControlName="bankName" id="bankName" value="SOGE Bank"> <!-- Assuming bank name is fixed -->
-        <!-- Submit Button -->
-        <button type="button" id="submitButton" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700" (click)="Submit()">Create Account</button>
 
+        <div id="section2" *ngIf="currentSection === 2">
+          <div class="card-container">
+              <div class="flex justify-between">
+                  <button type="button" class="left-slider-button mr-3" (click)="previousImage()"><</button>
+                  <div class="card" id="cc-card">
+                      <!-- Credit card front -->
+                          <div class="front">
+                              <div class="chip"></div>
+                             <!-- Inside your template -->
+                                    <div class="card-bg overflow-hidden fade-in" id="bg-card">
+                                      <img id="img-bg" [src]="currentImage" class="rounded-xl overflow-hidden " alt="" />
+                                    </div>
+
+                              <div class="card-content">
+                                  <div class="credit-card-type"></div>
+                                  <div class="credit-card-brand"></div>
+                                  <div class="chip"></div>
+                                  <div class="card-number">
+                                      <span>{{rib | rib }}</span>
+                                      <span>{{rib | rib }}</span>
+                                  </div>
+                                  <div class="card-holder">
+                                      <em>Card holder</em>
+                                      <span>{{client.firstName +' '+ client.lastName}}</span>
+                                      <span>{{client.firstName +' '+ client.lastName}}</span>
+                                  </div>
+                                  <div class="validuntil">
+                                      <em>Expire</em>
+                                      <div class="e-month">
+                                          <span>{{finalMonth }}</span>
+                                          <span>{{finalMonth }}</span>
+                                      </div>
+                                      <div class="e-divider">
+                                          <span>/</span>
+                                          <span>/</span>
+                                      </div>
+                                      <div class="e-year">
+                                          <span>{{year }}</span>
+                                          <span>{{year }}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                      </div>
+                  </div>
+                  <button type="button" class="right-slider-button ml-3" (click)="nextImage()">></button>
+              </div>
+          </div>
+      </div>
+      
+        <!-- Submit Button -->
+        <button type="button" id="submitButton" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700" (click)="Submit()" *ngIf="currentSection === 2">Create Account</button>
 
       </div>
     </div>

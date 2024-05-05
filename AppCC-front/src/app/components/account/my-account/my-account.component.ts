@@ -111,13 +111,31 @@ export class MyAccountComponent implements OnInit {
   calculateBalanceProgressPercentage() {
 
     let initial = this.initialBalance;
+    console.log("Initial Balance: ", initial);
     let current = this.account.balance;
-    let percentage = ((current - initial) / initial) * 100;
-    
-    return percentage;
+    console.log("Current Balance: ", current);
+    let diff = current - initial;
+    console.log("Difference: ", diff);
+    if (initial == 0) {
+     
+      initial = this.balanceProgress[1].balance;
 
+      this.percentage = (diff / initial) * 100;
+      console.log("Percentage: ", this.percentage);
+
+
+
+    } else {
+      this.percentage = (diff / initial) * 100;
+      console.log("Percentage: ", this.percentage);
+    }
+
+    // keep only 2 decimal places
+    this.percentage = Math.round(this.percentage * 100) / 100;
   }
 
+
+  percentage : number = 0;
 
 
 
@@ -127,7 +145,6 @@ export class MyAccountComponent implements OnInit {
     console.log("Deposits: ", this.deposits);
     console.log("Withdrawals: ", this.withdrawals);
     console.log("Initial Balance: ", this.initialBalance);
-    
     
 
     // Calculate the initial balance by summing all deposits and subtracting all withdrawals from the account balance
@@ -141,6 +158,7 @@ export class MyAccountComponent implements OnInit {
   
     console.log("Initial Balance: ", this.initialBalance);
   
+
     return this.initialBalance;
 
 
@@ -187,6 +205,7 @@ export class MyAccountComponent implements OnInit {
     // call the get initial balance function to get the initial balance and push it to the balance progress array from the left at the first index
     this.balanceProgress.unshift({ balance: this.initialBalance, type: 'Initial Balance' });
     console.log("Balance Progress: ", this.balanceProgress);
+    this.calculateBalanceProgressPercentage();
 
     const options = {
       chart: {

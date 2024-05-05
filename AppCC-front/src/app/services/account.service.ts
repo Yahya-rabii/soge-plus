@@ -65,26 +65,38 @@ export class AccountService {
 
     }
 
-    // create Account
-    async createAccount(account: Account): Promise<any> {
-        console.log(account);
+    async createAccount(account: Account, chosenImage: File): Promise<any> {
         const url = `${environment.AccountMsUrl}${environment.createAccountEndpoint}`;
         try {
+            // Create a FormData object
+            const formData = new FormData();
+    
+            // Append the account object as JSON string
+            formData.append('account', JSON.stringify(account));
+    
+            // Append the image file
+            formData.append('chosenImage', chosenImage);
+    
+            // Send the request
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(account)
+                body: formData
             });
+    
+            if (!response.ok) {
+                throw new Error(`Failed to create Account: ${response.status} ${response.statusText}`);
+            }
+    
+            // Parse and return the response
             const data = await response.json();
-            const newaccount : Account = new Account(data.id, data.accountHolderId, data.balance, data.currency, data.type, data.status);
-            return newaccount;
+            const newAccount: Account = new Account(data.id, data.accountHolderId, data.balance, data.currency, data.type, data.status);
+            return newAccount;
         } catch (error) {
             console.error('Error creating Account:', error);
             throw error;
         }
     }
+    
     
     async addBeneficiary(accountId: number, beneficiaryRIB: number): Promise<any> {
         const url = `${environment.AccountMsUrl}/beneficiary/${accountId}`;
