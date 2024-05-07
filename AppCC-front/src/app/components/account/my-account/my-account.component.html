@@ -32,10 +32,96 @@
         </div>
 
         <div>
-            <p class="text-red-700 font-semibold text-lg mb-2">Account Holder RIB:</p>
-            <p class="text-xl font-black text-black">{{ account.accountHolderRib | rib }}</p>
+          
+        <div id="section2">
+          <div class="card-container">
+              <div class="flex justify-between">
+                  <div class="card" id="cc-card">
+                      <!-- Credit card front -->
+                          <div class="front" *ngIf="front">
+                              <div class="chip"></div>
+                             <!-- Inside your template -->
+                                    <div class="card-bg overflow-hidden fade-in" id="bg-card">
+                                      <img id="img-bg" src="/assets/cards/card1.jpg" class="rounded-xl overflow-hidden " alt="" />
+                                    </div>
+
+                              <div class="card-content">
+                                  <div class="credit-card-type"></div>
+                                  <div class="credit-card-brand"></div>
+                                  <div class="chip"></div>
+                                  <div class="card-number">
+                                      <span>{{ account.accountHolderRib| rib }}</span>
+                                      <span>{{ account.accountHolderRib | rib }}</span>
+                                  </div>
+                                  <div class="card-holder">
+                                      <em>Card holder</em>
+                                      <span>{{client.firstName +' '+ client.lastName}}</span>
+                                      <span>{{client.firstName +' '+ client.lastName}}</span>
+                                  </div>
+                                  <div class="validuntil">
+                                      <em>Expire</em>
+                                      <div class="e-month">
+                                          <span>{{stringMonth }}</span> 
+                                          <span>{{stringMonth }}</span>
+                                      </div>
+                                      <div class="e-divider">
+                                          <span>/</span>
+                                          <span>/</span>
+                                      </div>
+                                      <div class="e-year">
+                                          <span>{{card.expirationYear}}</span>
+                                          <span>{{card.expirationYear}}</span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+
+                          <!-- Credit card back -->
+
+                          <div class="back" *ngIf="back">
+                              <div class="strip-black "></div>
+                              <div class="ccv">
+                                  <div class="ccv-number">{{card.signature}} {{card.cvc}}</div>
+                              </div>
+                              <div class="terms">
+                                  <p>Carte strictement personnelle - Toute opération de paiement ou retrait doit être autorisée par le titulaire de la carte 
+
+                                    En cas de perte ou de vol de votre carte, contactez immédiatement votre agence bancaire ou le centre d'opposition national au 0 892 705 705 (0,34 € TTC/min) 24h/24 et 7j/7
+
+                                  </p>  
+                              </div>
+
+                              <div class="bottom-section">
+                                <div class="right-section">
+                                  <div class="logo">
+                                    <img src="/assets/logo-sg.png" alt="Logo" class="w-full h-full ">
+                                  </div>
+                                </div>
+
+                                <div class="left-section">
+                                  <p> Société Générale Marocaine De banque 55 BD Abdelmoumen Casablanca  </p>
+
+                                </div>
+                              </div>
+
+                          </div>
+                                
+
+
+                  </div>
+                  <button type="button" class="see-back-button ml-3" (click)="flipCard()" >
+                    <img src="\assets\img\profiles\seeback.png" alt="Next" class="w-6 h-6 hover:scale-110 hover:animate-spin" />  
+                  </button>
+                    
+              </div>
+          </div>
         </div>
 
+        </div>
+
+
+        
         
         
     </div>

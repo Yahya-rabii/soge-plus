@@ -11,6 +11,7 @@ import { BalancePipe } from '../../../pipes/balance.pipe';
 import ApexCharts from 'apexcharts';
 import { AddTransaction } from '../../../models/addtransaction.model';
 import { SubTransaction } from '../../../models/subtransaction.model';
+import { Card } from '../../../models/card.model';
 
 @Component({
   selector: 'app-my-account',
@@ -35,6 +36,7 @@ export class MyAccountComponent implements OnInit {
   balanceProgress: { balance: number; type: string }[] = [];
   initialBalance = 0;
   income = 0;
+  stringMonth = '';
   async ngOnInit() {
     try {
       await this.getAccountByHolderId();
@@ -45,6 +47,15 @@ export class MyAccountComponent implements OnInit {
     } catch (error) {
       console.error('Error initializing account:', error);
     }
+  }
+
+
+  back: boolean = false;
+  front : boolean = true;
+
+  flipCard() {
+    this.back = !this.back;
+    this.front = !this.front;
   }
   
 
@@ -164,13 +175,18 @@ export class MyAccountComponent implements OnInit {
 
   }
   
-
+card : Card = new Card();
   async getAccountByHolderId() {
     try {
       const data = await this.accountService.getAccountByHolderId();
       this.account = data.Account;
       this.client = data.client;
+      this.card =  data.card; 
       this.myBeneficiaries(this.account);
+
+      // if this.account.expirationMonth < 10 then add a 0 before the month
+      this.stringMonth = this.card.expirationMonth < 10 ? '0' + this.card.expirationMonth.toString() : this.card.expirationMonth.toString();
+
     } catch (error) {
       console.error('Error fetching account by holder ID:', error);
       throw error; // Re-throw the error to propagate it to the caller

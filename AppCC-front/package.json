@@ -27,6 +27,7 @@
     "apexcharts": "^3.49.0",
     "chart.js": "^4.4.2",
     "flowbite": "^2.3.0",
+    "ngx-cookie-service": "^17.1.0",
     "ngx-image-cropper": "^7.2.1",
     "ngx-pagination": "^6.0.3",
     "notyf": "^3.10.0",

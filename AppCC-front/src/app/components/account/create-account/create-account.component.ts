@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../../models/user.model';
 import { UsersService } from '../../../services/user.service';
 import { RibPipe } from '../../../pipes/rib.pipe';
+import { Card } from '../../../models/card.model';
 
 @Component({
   selector: 'app-create-account',
@@ -16,7 +17,11 @@ import { RibPipe } from '../../../pipes/rib.pipe';
 })
 export class CreateAccountComponent implements OnInit {
 
-  constructor(private accountService: AccountService , private router: Router , private userService :UsersService) { }
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private userService: UsersService
+  ) { }
 
   accountType: string = '';
   currentSection: number = 1;
@@ -24,7 +29,11 @@ export class CreateAccountComponent implements OnInit {
   images: string[] = [];
   currentImageIndex: number = 0;
   currentImage: string = '';
-  chosenImage :File | null = null;
+  chosenImage: File | null = null;
+  loadingImages: boolean = true; // Flag to indicate if images are still loading
+
+  card  : Card = new Card();
+
 
   ngOnInit(): void {
     this.getUser();
@@ -32,42 +41,41 @@ export class CreateAccountComponent implements OnInit {
     this.generateExpirationDate();
   }
 
-  fetchImages() {
+  async fetchImages(): Promise<void> {
+    // Simulate loading delay
+    await this.simulateLoadingDelay();
+
+    // Load images asynchronously
     this.images = [
-      '/assets/cards/card1.png', 
-      '/assets/cards/card2.png',
-      '/assets/cards/card3.png',
-      '/assets/cards/card4.png',
-      '/assets/cards/card5.png',
-      '/assets/cards/card6.png',
-      '/assets/cards/card7.png',
-      '/assets/cards/card8.png',
-      '/assets/cards/card9.png' 
+      '/assets/cards/card1.jpg',
+      '/assets/cards/card2.jpg',
+      '/assets/cards/card3.jpg',
+      '/assets/cards/card4.jpg',
+      '/assets/cards/card5.jpg',
+      '/assets/cards/card6.jpg',
+      '/assets/cards/card7.jpg',
+      '/assets/cards/card8.jpg',
+      '/assets/cards/card9.jpg'
     ];
     this.currentImageIndex = 0; // Reset current image index
 
-    // get the element wuth id img-bg and make it hidden
-    const bgCard = document.getElementById('card-bg');
-    if (bgCard) {
-      bgCard.style.display = 'none';
+    // Mark images as loaded
+    this.loadingImages = false;
+  }
+
+  async getUser(): Promise<void> {
+    const user = await this.userService.getUserById(this.getAccountHolderIdFromLocalStorage());
+    if (user) {
+      this.client = user;
+      await this.fetchImages();
     }
-
   }
 
-  getUser(): void {
-    this.userService.getUserById(this.getAccountHolderIdFromLocalStorage()).then((user) => {
-      if (user) {
-        this.client = user;
-        this.fetchImages();
-      }
-    });
-  }
-  
   setAccountType(accountType: string): void {
     this.accountType = accountType;
   }
 
-  Submit(): void {
+  async Submit(): Promise<void> {
     const formData = {
       accountType: this.accountType,
       accountHolderId: this.getAccountHolderIdFromLocalStorage(),
@@ -75,39 +83,73 @@ export class CreateAccountComponent implements OnInit {
       bankName: 'SOGE Bank'
     };
 
-    const account : Account = new Account(
+    this.rib = this.generateRib();
+    const account: Account = new Account(
       0,
-      this.generateRib(),
+      this.getStringRibFromNumber(),
       formData.accountType,
       formData.accountHolderId,
+      0,
       0,
       []
     );
 
-    // get the chosen image from current image
+    const id : number =0 ;
+    this.card = new Card(
+      id,
+      this.month,
+      this.year,
+      this.rib,
+      this.generateCvc(),
+      this.generateSignature()
+    
+    )
 
-    // load the current from assets folder and save it to the chosen image
-    this.chosenImage = new File([this.currentImage], 'card.png', {type: 'image/png'});
+    // Assuming the image loading is complete before submission
+    if (this.currentImage) {
+      this.chosenImage = new File([this.currentImage], 'card.jpg', { type: 'image/jpg' });
 
-
-    this.accountService.createAccount(account , this.chosenImage ).then(() => {
-      window.location.href = '/myaccount';
-    });
+      await this.accountService.createAccount(account, this.chosenImage , this.card );
+      this.router.navigate(['/myaccount']);
+    }
   }
 
   getAccountHolderIdFromLocalStorage(): string {
     return localStorage.getItem('UserId') ?? '';
   }
 
-  rib: string = '';
-  generateRib(): string {
-    this.rib = Math.floor(1000000000000000 + Math.random() * 9000000000000000).toString();
+  rib: number = 0;
+  generateRib(): number{
+    this.rib = Math.floor(1000000000000000 + Math.random() * 9000000000000000);
     return this.rib;
+  }
+
+
+  getStringRibFromNumber() : string {
+
+
+    return  this.rib.toString();
+
+  }
+
+  cvc : number =0;
+  signature : number =0;
+
+  generateCvc():number {
+    this.cvc = Math.floor(100 + Math.random() * 900);
+    return this.cvc ;
+  }
+
+  generateSignature():number {
+    this.signature =  Math.floor(1000 + Math.random() * 900);
+    return this.signature ;
   }
 
   year: number = 0;
   month: number = 0;
   finalMonth: string = '';
+
+
 
   generateExpirationDate(): void {
     this.year = Math.floor(new Date().getFullYear() + Math.random() * 10);
@@ -144,5 +186,9 @@ export class CreateAccountComponent implements OnInit {
       }, 500); // Adjust timing to match the transition duration
     }
   }
-  
+
+  // Simulate loading delay for demonstration purposes
+  private async simulateLoadingDelay(): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, 10)); // Adjust delay time as needed
+  }
 }

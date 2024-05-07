@@ -48,8 +48,17 @@
 
     <!-- a button to sign the contract which will send the id of the contract to the signContract method -->
     <div class="flex justify-end py-4 px-6 border-t border-red-700" *ngIf="!contract.isSigned">
-        <button class="btn btn-primary hover:bg-red-700 hover:bg-opacity-50 hover:text-white transition-colors duration-150 p-2 border border-red-700 text-red-700 border-collapse rounded-md"  (click)="signContract(contract.id)">Sign Contract</button>
-    </div>
+        <button *ngIf="!signingContract" 
+                class="btn btn-primary hover:bg-red-700 hover:bg-opacity-50 hover:text-white transition-colors duration-150 p-2 border border-red-700 text-red-700 border-collapse rounded-md" 
+                (click)="signContract(contract.id)">
+          Sign Contract
+        </button>
+      
+        <div *ngIf="signingContract">
+          <span class="text-red-700 font-semibold">Please wait {{ countdownTimer }} seconds before signing again...</span>
+        </div>
+      </div>
+      
 
 </div>
 </div>

@@ -19,6 +19,7 @@ export class LoansOfUserComponent implements OnInit {
   loans: Loan[] = [];
   dialogRef: any; // Reference to the dialog
   openFabIndex: number | null = null; // Index of the opened FAB
+  loading: boolean = false; // Track whether a request is in progress
 
   constructor(private loanSharingService: LoanSharingService,
     private dialog: MatDialog,
@@ -59,6 +60,8 @@ export class LoansOfUserComponent implements OnInit {
   }
 
   approveLoan(loan: Loan) {
+    // Disable button and show loading animation
+    this.loading = true;
     this.loanService.approveLoan(loan).then((updatedLoan) => {
       // Update the loans array in the component with the updated loan
       const index = this.loans.findIndex(l => l.id === updatedLoan.id);
@@ -69,10 +72,15 @@ export class LoansOfUserComponent implements OnInit {
       }
     }).catch(error => {
       console.error('Error approving loan:', error);
+    }).finally(() => {
+      // Enable button and hide loading animation
+      this.loading = false;
     });
   }
 
   rejectLoan(loan: Loan) {
+    // Disable button and show loading animation
+    this.loading = true;
     this.loanService.rejectLoan(loan).then((updatedLoan) => {
       console.log('Loan rejected:', updatedLoan);
       // Update the loans array in the component with the updated loan
@@ -84,6 +92,9 @@ export class LoansOfUserComponent implements OnInit {
       }
     }).catch(error => {
       console.error('Error rejecting loan:', error);
+    }).finally(() => {
+      // Enable button and hide loading animation
+      this.loading = false;
     });
   }
 

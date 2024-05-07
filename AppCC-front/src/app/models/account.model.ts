@@ -1,7 +1,3 @@
-import { Address } from "./address.model";
-import { Credential } from "./credential.model";
-
-
 export class Account {
 
     id !: number | 0;
@@ -11,6 +7,7 @@ export class Account {
     // payement duration of accountType enum Duration {MONTHLY, QUARTERLY, SEMIANNUALLY, ANNUALLY}
     accountHolderId!: string | '';
     balance!: number | 0;
+    cardId!: number | 0;
 
     // receptionMethod of accountType enum ReceptionMethod {ONLINE, ON_AGENCY}
    
@@ -26,6 +23,7 @@ export class Account {
         accountType?: string,
         accountHolderId?: string,
         balance?: number,
+        cardId?: number,
 
         beneficiariesIds?: string[]
     ) {
@@ -34,6 +32,12 @@ export class Account {
         this.accountType = accountType || '';
         this.accountHolderId = accountHolderId || '';
         this.balance = balance || 0;
+
+        // if the cardId is less that 10 we add a 0 before the number
+
+        this.cardId = cardId || 0;
+
+
 
         this.beneficiariesIds = beneficiariesIds || [];
     }
@@ -75,6 +79,11 @@ export class Account {
         return this.balance;
     }
 
+    public get_cardId(): number {
+        return this.cardId;
+    }
+
+
    
  
     public get_beneficiariesIds(): string[] {
@@ -107,7 +116,11 @@ export class Account {
         this.balance = balance;
     }
 
+    public set_cardId(cardId: number): void {
+        this.cardId = cardId;
+    }
 
+    
 
 
 

@@ -29,6 +29,9 @@ public class Account {
     @ElementCollection
     private List<String> beneficiariesIds;
 
+    private Long cardId;
+
+
 
 
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { Account } from '../models/account.model';
+import { Card } from '../models/card.model';
 
 @Injectable({
     providedIn: 'root'
@@ -65,7 +66,7 @@ export class AccountService {
 
     }
 
-    async createAccount(account: Account, chosenImage: File): Promise<any> {
+    async createAccount(account: Account, chosenImage: File , card :Card): Promise<any> {
         const url = `${environment.AccountMsUrl}${environment.createAccountEndpoint}`;
         try {
             // Create a FormData object
@@ -73,6 +74,11 @@ export class AccountService {
     
             // Append the account object as JSON string
             formData.append('account', JSON.stringify(account));
+
+            // append the card object as JSON string
+            formData.append('card', JSON.stringify(card));
+
+
     
             // Append the image file
             formData.append('chosenImage', chosenImage);

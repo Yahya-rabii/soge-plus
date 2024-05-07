@@ -5,17 +5,11 @@ package com.sgma.account.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sgma.account.entities.Account;
-import com.sgma.account.entities.AddTransaction;
-import com.sgma.account.entities.SubTransaction;
-import com.sgma.account.entities.Transaction;
+import com.sgma.account.entities.*;
 import com.sgma.account.enums.TType;
 import com.sgma.account.enums.Type;
 import com.sgma.account.model.Client;
-import com.sgma.account.repository.AccountRepository;
-import com.sgma.account.repository.AddTransactionRepository;
-import com.sgma.account.repository.SubTransactionRepository;
-import com.sgma.account.repository.TransactionRepository;
+import com.sgma.account.repository.*;
 import com.sgma.account.services.ClientFetchingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,18 +30,20 @@ public class AccountRestController {
     private final TransactionRepository transactionRepository;
     private final AddTransactionRepository addTransactionRepository;
     private final SubTransactionRepository subTransactionRepository;
+    private final CardRepository cardRepository;
 
 
 
     public static Logger log = LoggerFactory.getLogger(AccountRestController.class);
 
 
-    public AccountRestController(AccountRepository AccountRepository, ClientFetchingService clientFetchingService , TransactionRepository transactionRepository , AddTransactionRepository addTransactionRepository , SubTransactionRepository subTransactionRepository ){
+    public AccountRestController(AccountRepository AccountRepository, ClientFetchingService clientFetchingService , TransactionRepository transactionRepository , AddTransactionRepository addTransactionRepository , SubTransactionRepository subTransactionRepository  , CardRepository cardRepository) {
         this.AccountRepository = AccountRepository;
         this.clientFetchingService = clientFetchingService;
         this.transactionRepository = transactionRepository;
         this.addTransactionRepository =addTransactionRepository;
         this.subTransactionRepository = subTransactionRepository;
+        this.cardRepository = cardRepository;
     }
 
     // CRUD methods here
@@ -58,6 +54,7 @@ public class AccountRestController {
 
         List<Account> Accounts = AccountRepository.findAll();
         List<Client> clients = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
 
         Map<String, Object> response = new HashMap<>();
 
@@ -65,10 +62,18 @@ public class AccountRestController {
             for (Account Account : Accounts) {
                 Client client = clientFetchingService.getAccountHolderById(Account.getAccountHolderId());
                 clients.add(client);
+
+                Card card = cardRepository.findById(Account.getCardId()).orElse(null); // get card by id
+                if(card == null){
+                    return ResponseEntity.status(404).build();
+                }
+                cards.add(card);
+
             }
 
             response.put("Accounts", Accounts);
             response.put("clients", clients);
+            response.put("cards", cards);
 
             return ResponseEntity.ok(response);
 
@@ -118,11 +123,12 @@ public class AccountRestController {
 
 
     @PostMapping("/createAccount")
-    public Account addAccount(@RequestParam("account") String accountJson, @RequestParam("chosenImage") MultipartFile chosenImage) {
+    public Account addAccount(@RequestParam("account") String accountJson, @RequestParam("chosenImage") MultipartFile chosenImage , @RequestParam("card") String cardJson) {
         try {
             // Convert the JSON string to an Account object
             ObjectMapper objectMapper = new ObjectMapper();
             Account Account = objectMapper.readValue(accountJson, Account.class);
+            Card card = objectMapper.readValue(cardJson, Card.class);
 
 
             Client client = clientFetchingService.getAccountHolderById(Account.getAccountHolderId());
@@ -132,7 +138,20 @@ public class AccountRestController {
 
                 clientFetchingService.setClientHasAccount(Account.getAccountHolderId(), Account.getAccountHolderRib());
                 System.out.println(chosenImage);
-                return AccountRepository.save(Account);
+
+                cardRepository.save(card);
+
+                Card card1 = cardRepository.findByCardRib(card.getCardRib());
+
+                Account.setCardId(card1.getId());
+
+                AccountRepository.save(Account);
+
+                return Account;
+
+
+
+
             } else {
                 MDC.put("traceId", "adding Account is failed because client does not exist");
                 log.info("add Account called from AccountRestController class of Account microservice but the client is null");
@@ -141,9 +160,10 @@ public class AccountRestController {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
     }
 
-        @PutMapping("/updateAccount/{id}")
+    @PutMapping("/updateAccount/{id}")
     public Account updateAccount(@PathVariable("id") Long id, @RequestBody Account Account) {
 
         MDC.put("traceId", "update Account called from AccountRestController class of Account microservice");
@@ -164,8 +184,9 @@ public class AccountRestController {
     public ResponseEntity<Map<String, Object>> getAccountByAccountHolderId(@PathVariable("AccountHolderId") String AccountHolderId) {
         // Retrieve the Account by client id
         Account Account = AccountRepository.findByAccountHolderId(AccountHolderId);
+        Card card = cardRepository.findById(Account.getCardId()).orElse(null); // get card by id
 
-        if (Account != null) {
+        if (Account != null && card != null) {
             // Retrieve the client by id
             Client client = clientFetchingService.getAccountHolderById(AccountHolderId);
             if (client != null) {
@@ -173,6 +194,7 @@ public class AccountRestController {
                 Map<String, Object> response = new HashMap<>();
                 response.put("Account", Account);
                 response.put("client", client);
+                response.put("card", card);
                 // Log
                 MDC.put("traceId", "get Account by client id called from AccountRestController class of Account microservice");
                 log.info("get Account by client id called from AccountRestController class of Account microservice");
@@ -267,8 +289,6 @@ public class AccountRestController {
             addTransactionRepository.save(new AddTransaction(null , amount , receiver.getAccountHolderId() , new Date() ) );
             subTransactionRepository.save(new SubTransaction( null , amount , sender.getAccountHolderId() , new Date() ) );
                     // add the transacion for the reciever same but ttype diffrent ,
-
-
 
         }
 
