@@ -1,0 +1,5 @@
+- name: Add host information to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ hostvars[item].ansible_default_ipv4.address }} {{ hostvars[item].ansible_hostname }} {{ hostvars[item].ansible_hostname }}.socgen.local"
+  loop: "{{ ansible_play_hosts }}"

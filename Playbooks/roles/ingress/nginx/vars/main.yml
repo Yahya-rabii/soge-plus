@@ -1,0 +1,2 @@
+ingress_nodeport_http: 31000
+ingress_nodeport_https: 31001

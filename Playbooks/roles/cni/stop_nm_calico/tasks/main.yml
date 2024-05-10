@@ -1,0 +1,5 @@
+- name: prevent NetworkManager from interfering with the interfaces
+  copy:
+    dest: /etc/NetworkManager/conf.d/calico.conf
+    src: files/calico.conf 
+    force: True

@@ -1,0 +1,36 @@
+- name: Initialize the cluster with the right dependencies and cnis
+  hosts: ALL_VMS
+  roles:
+    - roles/initialization/add_to_host
+    - roles/initialization/init_cluster
+    - roles/initialization/install_dependencies
+    - roles/container-runtimes/crio
+    - roles/cni/stop_nm_calico
+  become: true
+
+
+- name: Setup kubernetes initial controlplane
+  hosts: K8S_MAIN_CONTROLPLANE
+  roles:
+    - roles/kubernetes/main_controlplane_init
+  become: true
+
+- name: Add Workers
+  hosts: K8S_MAIN_CONTROLPLANE, K8S_WORKERS
+  roles:
+    - roles/kubernetes/new_workers_init
+
+- name: Install CNI
+  hosts: K8S_MAIN_CONTROLPLANE
+  roles: 
+    - roles/cni/calico
+
+- name: Install Ingress
+  hosts: K8S_MAIN_CONTROLPLANE
+  roles:
+    - roles/ingress/nginx
+
+#- name: TEST
+#  hosts:
+#  roles:
+#    - 
