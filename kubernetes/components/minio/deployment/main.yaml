@@ -15,6 +15,8 @@ spec:
       labels:
         app: minio
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: minikube
       containers:
       - name: minio
         image: bitnami/minio:2024.4.6-debian-12-r0
@@ -22,18 +24,28 @@ spec:
         - containerPort: 9000
         - containerPort: 9001
         env:
+        # I Intentionaly blocked the default values so that they won't work
+        # unless we change the MINIO_API_ROOT_ACCESS to on,
+        # don't change this unless its the first time running the container , if its
+        # the case then add a new admin with a secure password and change api root access
+        # to off afterwards
         - name: MINIO_ROOT_USER
-          value: "noxideuxTheGoat"
+          value: "noxideuxTheGoatx" # should be 1 x at the end but for the sake of hardcoded in yahyas code
         - name: MINIO_ROOT_PASSWORD
-          value: "noxideux11102001noxideux"
+          value: "noxideux11102001noxideux" 
         - name: MINIO_DEFAULT_BUCKETS
           value: "loan-service"
-
+        - name: MINIO_API_ROOT_ACCESS
+          value: "off"
 
         volumeMounts:
         - name: host-etc
-          mountPath: "/certs"
+          mountPath: "/bitnami/minio/data"
+          readOnly: false
+        #securityContext:
+        #  runAsUser: 1001 (Note to self :bghiti debugi dir 0 for root when accessing nfs)
       volumes:
       - name: host-etc
         hostPath:
-          path: "/etc/tls"
+          path: "/etc/data"
+          type: DirectoryOrCreate
