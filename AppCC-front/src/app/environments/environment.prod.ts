@@ -3,7 +3,7 @@ export const environment = {
     
     // auth microservice
 
-    AuthapiUrl: 'http://minikube-gateway.socgen.com/auth-service',
+    AuthapiUrl: 'https://minikube-gateway.socgen.com/auth-service',
     loginEndpoint: '/login',
     logoutEndpoint: '/logout',
     signupEndpoint: '/signup',
@@ -13,7 +13,7 @@ export const environment = {
 
     // client microservice
 
-    ClientMsUrl: 'http://minikube-gateway.socgen.com/client-service',
+    ClientMsUrl: 'https://minikube-gateway.socgen.com/client-service',
     getAllclientsEndpoint: '/clients',
     getClientByIdEndpoint: '/client/',
     createClientEndpoint: '/addClient',
@@ -24,7 +24,7 @@ export const environment = {
 
     // loan microservice
 
-    LoanMsUrl: 'http://minikube-gateway.socgen.com/loan-service',
+    LoanMsUrl: 'https://minikube-gateway.socgen.com/loan-service',
     getAllLoansEndpoint: '/loans',
     getLoanByIdEndpoint: '/loan/',
     createLoanEndpoint: '/createLoan',
@@ -36,7 +36,7 @@ export const environment = {
 
     // contract microservice
 
-    ContractMsUrl: 'http://minikube-gateway.socgen.com/contract-service',
+    ContractMsUrl: 'https://minikube-gateway.socgen.com/contract-service',
     getAllContractsEndpoint: '/contracts',
     getContractByIdEndpoint: '/contract/',
     createContractEndpoint: '/createContract',
@@ -48,7 +48,7 @@ export const environment = {
 
 
     // Account microservice
-    AccountMsUrl: 'http://minikube-gateway.socgen.com/account-service',
+    AccountMsUrl: 'https://minikube-gateway.socgen.com/account-service',
     getAllAccountsEndpoint: '/Accounts',
     getAccountByIdEndpoint: '/Account/',
     createAccountEndpoint: '/createAccount',
