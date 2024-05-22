@@ -45,6 +45,7 @@ export class AuthenticationService {
       this.clearLocalStorage();
       window.location.href = "/login";
     } catch (error) {
+      this.clearLocalStorage();
       throw error;
     }
   }

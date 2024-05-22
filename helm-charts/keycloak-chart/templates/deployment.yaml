@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ .Values.appName }}
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: quay.io/keycloak/keycloak:24.0.2
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secretKeyRef }}
+
+
+          command: ["/opt/keycloak/bin/kc.sh"]
+          args: ["start","--hostname-strict-https=true","--http-enabled=true"]
+          env:
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            - name: KC_METRICS_ENABLED
+              value: "true"
+
+            - name: KC_HOSTNAME
+              value: {{ .Values.keycloakHostname | quote }}
+            - name: KC_DB
+              value: "postgres"
+            - name: KC_DB_URL
+              value: {{ .Values.dbUrl | quote }}
+
+            - name: KC_PROXY
+              value: "reencrypt"
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: "/etc/tls/tls.crt"
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: "/etc/tls/tls.key"
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 8443
+          volumeMounts:
+            - name: host-etc
+              mountPath: "/etc/tls"
+      volumes:
+        - name: host-etc
+          hostPath:
+            path: {{ .Values.certificatesPath }}

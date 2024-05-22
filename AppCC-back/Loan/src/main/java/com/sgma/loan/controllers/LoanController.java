@@ -1,7 +1,7 @@
 /*
 package com.sgma.loan.controllers;
 
-import com.sgma.loan.config.EmailSenderService;
+import com.sgma.loan.services.EmailSenderService;
 import com.sgma.loan.entities.Loan;
 import com.sgma.loan.enums.PaymentDuration;
 import com.sgma.loan.enums.ReceptionMethod;

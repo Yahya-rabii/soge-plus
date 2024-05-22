@@ -10,6 +10,6 @@ import java.util.List;
 @FeignClient(name = "client-service")
 public interface ClientFetchingService {
     @GetMapping(path = "/client/{id}")
-    List<Client> getClientById(@PathVariable String id);
+    Client getClientById(@PathVariable String id);
 
 }

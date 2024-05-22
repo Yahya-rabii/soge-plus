@@ -1,0 +1,11 @@
+# Generic Section 
+appName: account-service
+namespace: sgma-system
+# Deployment Section
+spec:
+  replicas: 1
+activeProfile: active-profile
+# ConfigMap Section
+data:
+  SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: "true"
+

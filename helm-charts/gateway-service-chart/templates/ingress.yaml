@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  namespace: sgma-system
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuerName }}
+spec:
+  ingressClassName: {{ .Values.ingress.ingressName }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.ingressHostname }}
+      secretName: {{ .Values.ingress.tlsGeneratedSecretName }}
+  rules:
+    - host: {{ .Values.ingress.ingressHostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80

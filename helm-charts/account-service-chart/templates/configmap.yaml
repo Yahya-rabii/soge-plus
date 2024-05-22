@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.appName }}-configmap
+  namespace: {{ .Values.namespace }}
+data:
+  SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: {{ .Values.data.SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS | quote }}

@@ -1,0 +1,22 @@
+# Generic Section 
+appName: loan-service
+namespace: sgma-system
+# Deployment Section
+spec:
+  replicas: 1
+secretKeyRefName: minio-credentials
+activeProfile: active-profile
+# ConfigMap Section
+gatewayServiceName: gateway-service
+gatewayServiceNamespace: sgma-system
+clientServiceName: client-service
+minioAppName: minio
+minioNamespace: minio
+minioBucketName: loan-service
+
+# Ingress Section
+ingress:
+  ingressHostname: minikube-socgen-ui.socgen.com
+  tlsGeneratedSecretName: socgen-ui-cert
+  ingressName: nginx
+  clusterIssuerName: ca-issuer

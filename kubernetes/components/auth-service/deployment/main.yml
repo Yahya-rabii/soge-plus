@@ -20,9 +20,9 @@ spec:
         envFrom:
           - configMapRef:
               name: auth-service-configmap
-          - configMapRef:
+          - secretRef:
               name: active-profile-configmap
-          - secretKeyRef:
+          - secretRef:
               name: keycloak-credentials-secret
               key: KEYCLOAK_CREDENTIALS_SECRET
         ports:

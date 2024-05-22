@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}-configmap
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.appName }}
+        image: salaheddine122/soge-system-account-service:ACCOUNT-SERVICE-v1.0.0
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.appName }}-configmap
+          - configMapRef:
+              name: {{ .Values.activeProfile }}-configmap
+        ports:
+        - containerPort: 8089
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8089
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8089
+          initialDelaySeconds: 10
+          periodSeconds: 10

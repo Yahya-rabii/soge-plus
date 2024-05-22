@@ -1,7 +1,7 @@
 package com.sgma.contract.controllers;
 
 
-import com.sgma.contract.config.EmailSenderService;
+import com.sgma.contract.services.EmailSenderService;
 import com.sgma.contract.entites.Contract;
 import com.sgma.contract.entites.Secret;
 import com.sgma.contract.model.Client;
@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 
 import java.util.*;
 
@@ -70,12 +71,12 @@ public class ContractRestController {
 
             return ResponseEntity.ok(response);
 
-    } else {
-        MDC.put("traceId", "get all contracts failed because contracts do not exist");
-        log.info("get all contracts failed because contracts do not exist");
-        return ResponseEntity.status(444).build();
+        } else {
+            MDC.put("traceId", "get all contracts failed because contracts do not exist");
+            log.info("get all contracts failed because contracts do not exist");
+            return ResponseEntity.status(444).build();
+        }
     }
-}
 
     @GetMapping("/contract/{id}")
     public ResponseEntity<Map<String, Object>> getContractById(@PathVariable("id") Long id) {
@@ -214,8 +215,17 @@ public class ContractRestController {
 
 
             // Send an email to the client
-            emailSenderService.sendEmail("Sg@gmail.com",client.getEmail() , "Test Subject", secretKey);
 
+            Context context = new Context();
+            context.setVariable("secret",secretKey);
+            context.setVariable("name", client.getFirstName() + " " + client.getLastName());
+
+
+
+
+
+            // Send an email to the client
+            emailSenderService.sendEmailWithHtmlTemplate(client.getEmail() , "Contract Signature Secret", "email-template" , context);
 
 
 

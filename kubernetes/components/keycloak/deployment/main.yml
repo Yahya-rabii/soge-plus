@@ -19,10 +19,10 @@ spec:
         - name: keycloak
           image: quay.io/keycloak/keycloak:24.0.2
           envFrom:
-            - secretKeyRef:
+            - secretRef:
                 name: kc-db-credentials
                 key: KC_DB_PASSWORD
-            - secretKeyRef:
+            - secretRef:
                 name: kc-db-credentials
                 key: KC_DB_USERNAME
 

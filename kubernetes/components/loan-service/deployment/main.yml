@@ -22,12 +22,6 @@ spec:
               name: loan-service-configmap
           - configMapRef:
               name: active-profile-configmap
-          - secretKeyRef:
-                name: minio-credentials
-                key: MINIO_ACCESS_SECRET
-          - secretKeyRef:
-                name: minio-credentials
-                key: MINIO_ACCESS_USERNAME
         ports:
         - containerPort: 8082
 

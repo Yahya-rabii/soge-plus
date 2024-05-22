@@ -30,8 +30,31 @@ export class CustomSideComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
+  getUser() {
+    this.usersService.getUserById(localStorage.getItem('UserId') ?? '').then((user) => {
+      this.user = user;
+    }
+    );
+  }
+
+  getUserName() {
+    if (this.isAdmin) {
+      return 'Admin';
+    }
+    return this.user.firstName + ' ' + this.user.lastName;
+  }
+
+  getUserdisplyer() {
+    if (this.isAdmin) {
+      return 'Admin';
+    }
+    return this.user.email;
+  }
 
   ngOnInit() {
+
+    this.getUser();
+
     if (this.isLoggedIn()) {
       this.authService.isAdmin().then((isAdmin) => {
         this.isAdmin = isAdmin;
