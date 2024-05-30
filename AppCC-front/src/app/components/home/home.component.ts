@@ -6,7 +6,12 @@ import { AnimationSnowflakeComponent } from '../../animations/animation-snowflak
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule , CarouselComponent, UserstableComponent , AnimationSnowflakeComponent ],
+  imports: [
+    CommonModule,
+    CarouselComponent,
+    UserstableComponent,
+    AnimationSnowflakeComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

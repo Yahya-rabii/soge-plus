@@ -6,5 +6,3 @@ CREATE TABLE IF NOT EXISTS `contract` (
     `loan_id` BIGINT NOT NULL,
     `is_signed` BOOLEAN NOT NULL DEFAULT FALSE
 );
-
-

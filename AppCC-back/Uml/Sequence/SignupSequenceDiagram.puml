@@ -1,0 +1,25 @@
+@startuml
+actor Client
+participant "Authentication Service" as Auth
+participant "Client Service" as ClientService
+Client -> Auth: signup request
+Auth -> Auth: verify credentials
+alt verification successful
+    Auth -> Auth: create secret
+    Auth -> Client: send secret to email
+    Auth -> ClientService: save user
+    Auth -> Client: success message
+else verification failed
+    Auth -> Client: failure message
+end
+/'
+sign up sequence diagram :
+the client sends a signup request to the authentication service
+the authentication service verifies the credentials,
+if the verification is successful,
+the authentication service creates a secret  and sends it to the client email
+and saves the seceret along side the user id
+then sends the created user to the client service to save it in the database
+finally the authentication service sends a success message to the client
+if the verification fails, the authentication service sends a failure message to the client
+'/

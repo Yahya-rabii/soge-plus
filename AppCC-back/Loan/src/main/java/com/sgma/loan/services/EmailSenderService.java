@@ -1,4 +1,5 @@
 package com.sgma.loan.services;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,15 @@ import org.thymeleaf.context.Context;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
-
 @Service
 public class EmailSenderService {
-
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
-
     @Autowired
     public EmailSenderService(JavaMailSender mailSender, TemplateEngine templateEngine) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
     }
-
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -34,7 +31,6 @@ public class EmailSenderService {
         message.setText(body);
         mailSender.send(message);
     }
-
     public void sendEmailWithHtmlTemplate(String to, String subject, String templateName, Context context) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
@@ -43,7 +39,6 @@ public class EmailSenderService {
             helper.setSubject(subject);
             String htmlContent = templateEngine.process(templateName, context);
             helper.setText(htmlContent, true);
-
             // Load image from resources/static directory
             ClassPathResource LogoImageResource = new ClassPathResource("static/logo.png");
             ClassPathResource bgImageResource = new ClassPathResource("static/bg.png");
@@ -55,10 +50,6 @@ public class EmailSenderService {
             ClassPathResource linkedinResource = new ClassPathResource("static/linkedin.png");
             ClassPathResource twitterResource = new ClassPathResource("static/twitter.png");
             ClassPathResource webResource = new ClassPathResource("static/web.png");
-
-
-
-
             byte[] logoBytes = Files.readAllBytes(LogoImageResource.getFile().toPath());
             byte[] bgImageBytes = Files.readAllBytes(bgImageResource.getFile().toPath());
             byte[] signatureBytes = Files.readAllBytes(SignatureImageResource.getFile().toPath());
@@ -69,7 +60,6 @@ public class EmailSenderService {
             byte[] linkedinBytes = Files.readAllBytes(linkedinResource.getFile().toPath());
             byte[] twitterBytes = Files.readAllBytes(twitterResource.getFile().toPath());
             byte[] webBytes = Files.readAllBytes(webResource.getFile().toPath());
-
             // Convert image to Base64
             String logoBase64 = Base64.getEncoder().encodeToString(logoBytes);
             String bgImageBase64 = Base64.getEncoder().encodeToString(bgImageBytes);
@@ -81,9 +71,6 @@ public class EmailSenderService {
             String linkedinBase64 = Base64.getEncoder().encodeToString(linkedinBytes);
             String twitterBase64 = Base64.getEncoder().encodeToString(twitterBytes);
             String webBase64 = Base64.getEncoder().encodeToString(webBytes);
-
-
-
             // Clean up base64 string
             String cleanLogoBase64 = logoBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
             String cleanbgImageBase64 = bgImageBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
@@ -95,9 +82,6 @@ public class EmailSenderService {
             String cleanLinkedinBase64 = linkedinBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
             String cleanTwitterBase64 = twitterBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
             String cleanWebBase64 = webBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
-
-
-
             // Add the image as an attachment
             helper.addInline("logo", new ByteArrayResource(Base64.getDecoder().decode(cleanLogoBase64)), "image/png");
             helper.addInline("bgImage", new ByteArrayResource(Base64.getDecoder().decode(cleanbgImageBase64)), "image/png");
@@ -109,8 +93,6 @@ public class EmailSenderService {
             helper.addInline("linkedin", new ByteArrayResource(Base64.getDecoder().decode(cleanLinkedinBase64)), "image/png");
             helper.addInline("twitter", new ByteArrayResource(Base64.getDecoder().decode(cleanTwitterBase64)), "image/png");
             helper.addInline("web", new ByteArrayResource(Base64.getDecoder().decode(cleanWebBase64)), "image/png");
-
-
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             // Handle exception

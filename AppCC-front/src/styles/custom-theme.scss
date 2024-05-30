@@ -1,34 +1,29 @@
 @use "@angular/material" as mat;
 @include mat.core();
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
-    --primary-color: #cc0000;
-
+html,
+body {
+  height: 100%;
 }
-
-$mat-primary :(
-  main : #cc0000,
-  lighter : #f0b3b3,
-  darker : #990000,
-  200 : #cc0000,
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  --primary-color: #cc0000;
+}
+$mat-primary: (
+  main: #cc0000,
+  lighter: #f0b3b3,
+  darker: #990000,
+  200: #cc0000,
   //for slide toggle
-
-  contrast : (
-
-    main : #ffffff,
-    lighter : #000000,
-    darker : #ffffff,
-
-
-  ),
-
-
+  contrast:
+    (
+      main: #ffffff,
+      lighter: #000000,
+      darker: #ffffff,
+    ),
 );
-
-$theme-primary: mat.define-palette($mat-primary ,main ,lighter ,darker );
+$theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
 $theme-accent: mat.define-palette(mat.$indigo-palette, A200, A100, A400);
-
 $my-theme: mat.define-light-theme(
   (
     color: (
@@ -37,10 +32,6 @@ $my-theme: mat.define-light-theme(
     ),
     typography: mat.define-typography-config(),
     density: 0,
-    
-    
-    )
-
+  )
 );
-
 @include mat.all-component-themes($my-theme);

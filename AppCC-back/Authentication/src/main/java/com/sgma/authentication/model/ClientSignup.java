@@ -12,9 +12,8 @@ public class ClientSignup {
     private String email;
     private String firstName;
     private String lastName;
-    private boolean emailVerified = true;
+    private boolean emailVerified = false;
     private Credential[] credentials;
-
 
     public ClientSignup(String username, String email, String firstName, String lastName, String value) {
         this.username = username;
@@ -23,6 +22,5 @@ public class ClientSignup {
         this.lastName = lastName;
         this.credentials = new Credential[]{new Credential(value)};
     }
-
 
 }

@@ -1,13 +1,9 @@
 package com.sgma.account.model;
 
-
 import com.sgma.account.enums.Role;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 
 @Data
@@ -22,5 +18,6 @@ public class Client {
     private Role roles;
     private Address address;
     private Long RIB;
+    private boolean hasAccount;
 
 }

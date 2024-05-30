@@ -1,0 +1,40 @@
+@startuml
+actor Client
+participant "Authentication Service" as Auth
+participant "Client Service" as ClientService
+participant "Secret" as Secret
+Client -> Auth: Signup Request
+Auth -> Auth: Verify Credentials
+alt Verification Successful
+    Auth -> Auth: Create Secret
+    Auth -> Secret: Save Secret
+    Auth -> Client: Send Secret to Email
+    Auth -> ClientService: Save User
+    ClientService -> Auth: Success Message
+    Auth -> Client: Success Message
+else Verification Failed
+    Auth -> Client: Failure Message
+end
+participant "keycloak" as keycloak
+Client -> Auth: Login Request
+Auth -> Auth: Verify Credentials
+alt Verification Successful
+    Auth -> keycloak: Get Token
+    keycloak -> Auth: Token
+    Auth -> Client: Send Token
+else Verification Failed
+    Auth -> Client: Failure Message
+end
+Client -> Auth : Send Secret
+Auth -> Secret : Get Secret
+Secret -> Auth : Secret
+Auth -> Auth : Compare Secrets
+alt Secrets Match
+    Auth -> Auth : Update User Status
+    Auth -> keycloak : Update User Status
+    keycloak -> Auth : New Token
+    Auth -> Client : Send Access Token
+else Secrets Do Not Match
+    Auth -> Client : Send Error
+end
+@enduml

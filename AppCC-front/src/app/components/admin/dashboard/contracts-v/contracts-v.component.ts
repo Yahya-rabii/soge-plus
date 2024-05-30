@@ -1,41 +1,60 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { formatDate } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, formatDate } from '@angular/common';
 import { ContractService } from '../../../../services/contract.service';
 import { Contract } from '../../../../models/contract.model';
-import { from } from 'rxjs';
-import { OnInit } from '@angular/core';
-
+import { Loan } from '../../../../models/loan.model';
+import { User } from '../../../../models/user.model';
+import { LoanService } from '../../../../services/loan.service';
+import { UsersService } from '../../../../services/user.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-contracts-v',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './contracts-v.component.html',
-  styleUrl: './contracts-v.component.css'
+  styleUrls: ['./contracts-v.component.css'],
 })
 export class ContractsVComponent implements OnInit {
   eventDate: any = formatDate(new Date(), 'MMM dd, yyyy', 'en');
-  constructor(private contractService: ContractService) { }
+  contracts: Contract[] = [];
+  composedObjects: any[] = [];
 
-  contracts : Contract[] = [];
+  constructor(
+    private contractService: ContractService,
+    private loanService: LoanService,
+    private userService: UsersService
+  ) {}
 
   ngOnInit(): void {
     this.getContracts();
   }
- 
 
- // get contracts of the user 
- getContracts(){
-  this.contractService.getContracts().then((contracts) => {
-    if (contracts) {
-      this.contracts = contracts;
-    }
-    else{
-      console.log("No contracts found");
-    }
+  getContracts() {
+    this.contractService.getContracts().then((contracts) => {
+      if (contracts) {
+        this.contracts = contracts;
+        this.getComposedObjects();
+      } else {
+        console.log('No contracts found');
+      }
+    });
+  }
 
-  });
-}
-
+  getComposedObjects() {
+    this.composedObjects = [];
+    this.contracts.forEach((contract) => {
+      forkJoin({
+        loan: this.loanService.getLoanById(contract.loanId),
+        user: this.userService.getUserById(contract.clientId),
+      }).subscribe(
+        ({ loan, user }) => {
+          this.composedObjects.push({ contract, loan, user });
+        },
+        (error) => {
+          console.error('Error fetching loan or user:', error);
+        }
+      );
+    });
+  }
 }

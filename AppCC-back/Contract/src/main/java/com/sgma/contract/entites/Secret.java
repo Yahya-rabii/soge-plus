@@ -1,6 +1,5 @@
 package com.sgma.contract.entites;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,16 +11,13 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-
 public class Secret {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String secretValue;
-
     private String clientId;
-
     private Long contractId;
+
 }

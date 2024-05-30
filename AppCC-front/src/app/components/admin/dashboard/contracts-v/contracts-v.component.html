@@ -1,42 +1,43 @@
-
-<div class="card m-4" *ngIf="contracts.length === 0" >
+<div class="card m-4" *ngIf="contracts.length === 0">
   <div class="card-title flex justify-between items-center mb-4">
     <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>
   </div>
-  
-
-  <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
-    <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Contracts Found</h1>
+  <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px">
+    <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">
+      No Contracts Found
+    </h1>
   </div>
-
 </div>
 
-<div class="card m-4" *ngIf="contracts.length > 0">
-
+<div class="card m-4" *ngIf="composedObjects.length > 0">
   <div class="card-title flex justify-between items-center mb-4">
     <h3 class="text-xl font-bold leading-none text-black">Contracts List</h3>
   </div>
-    <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px;">
-      <div class="block md:flex md:items-center gap-6 py-3 my-3 border-b" *ngFor="let contract of contracts">
-        <div class="hidden relative lg:block">
-          <img src="/assets/img/dashboard/contract.png" alt="event image" class="w-14 h-14 rounded-lg animate-pulse">
-        </div>
-        <div class="flex-1 my-3">
-          <h4 class="text-lg font-semibold leading-none">
-           Created the : {{contract.creationDate | date:'short'}}
-          </h4>
-          <p class="my-1 text-emerald-500">Payment Duration :   {{contract.paymentDuration}}</p>
-          <p class="text-xs text-justify">
-          </p>
-
-        </div>
-        <div class="flex-1 my-3">
-          <p class="my-1 text-red-700">Loan ID : {{contract.loanId}}</p>
-          <p class="text-xs text-justify">
-          <p class="my-1 text-red-700">Client ID : {{contract.clientId}}</p>
-          <p class="text-xs text-justify">
-          </p>
+  <div class="overflow-y-auto overflow-x-hidden pr-4 p-8 bg-white rounded-lg opacity-80" style="max-height: 535px">
+    <div class="block md:flex md:items-center gap-6 py-3 my-3 border-b" *ngFor="let composedObject of composedObjects">
+      <div class="hidden relative lg:block">
+        <img src="/assets/img/dashboard/contract.png" alt="event image" class="w-14 h-14 rounded-lg animate-pulse" />
       </div>
-     
+      <div class="flex-1">
+        <h4 class="my-1 font-semibold leading-none">
+          Contract Creation Date: {{ composedObject.contract.creationDate | date: 'short' }}
+        </h4>
+        
+        <p class="my-1 text-black font-semibold">
+          Loan Creation Date: {{ composedObject.loan.loanCreationDate  | date: 'short' }}
+        </p>
+
+        <p class="my-1 text-green-700 font-semibold">
+          Loan Amount: {{ composedObject.loan.amount }}
+        </p>
+
+        <p class="my-1 text-red-700 font-semibold">
+          Client Email: {{ composedObject.user.email }}
+        </p>
+      </div>
+      <div class="flex-1 my-3">
+        <p class="my-1 text-black"> Contract Signature status:  <span class="font-semibold text-green-700" *ngIf="composedObject.contract.isSigned">Signed</span> <span class="font-semibold text-red-700" *ngIf="!composedObject.contract.isSigned">Not Signed</span></p>
+      </div>
     </div>
+  </div>
 </div>

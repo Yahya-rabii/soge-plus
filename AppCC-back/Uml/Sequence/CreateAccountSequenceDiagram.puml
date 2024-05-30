@@ -1,0 +1,15 @@
+@startuml
+actor Client
+participant "Account Service" as AccountService
+participant "Card" as Card
+Client -> AccountService: Request Account Creation
+alt Client has no account
+AccountService -> AccountService: Create Credentials
+AccountService -> Card: Create Card
+Card -> Card: Generate Card Credentials (CVC etc)
+Card -> AccountService: Assign Card to Account
+AccountService -> Client: Return Success Message
+else Client has account
+AccountService -> Client: Return Error Message
+end
+@enduml

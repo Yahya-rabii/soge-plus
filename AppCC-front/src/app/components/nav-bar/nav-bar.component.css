@@ -1,10 +1,7 @@
-
-.costum{
-    border: 1px solid rgb(0, 138, 138);
-   
-  }
-
-  /* Define transition for app-side-bar */
+.costum {
+  border: 1px solid rgb(0, 138, 138);
+}
+/* Define transition for app-side-bar */
 app-side-bar {
   position: fixed;
   top: 0;

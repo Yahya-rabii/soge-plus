@@ -36,15 +36,11 @@ spring:
         #all-namespaces: true
     config:
       enabled: false
-
 server:
   port: '${SERVER_PORT:8089}'
-
-      
 eureka:
   client:
     enabled: false
-  
 management:
   endpoints:
     web:
@@ -66,4 +62,3 @@ springdoc:
     path: '${SPRINGDOC_API_DOCS_PATH:/account-service/v3/api-docs}'
   swagger-ui:
     path: '${SPRINGDOC_SWAGGER_UI_PATH:/account-service/swagger-ui.html}'
-

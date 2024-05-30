@@ -1,36 +1,56 @@
-
-
-<div *ngIf="users.length === 0">
-  <img src="/assets/img/gif/no_result.gif" alt="GIF" class="w-fit h-f bg-transparent opacity-15 mx-auto">
-  <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Loans Requests Found</h1>
-
-
-</div>
-
-<div *ngIf="users.length > 0" >
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6  ">
-  <div 
-    *ngFor="let user of users"
-    class="cursor-pointer hover:bg-slate-500 hover:text-white bg-white rounded-lg shadow-xl border border-gray-200 hover:shadow-xl transition duration-300 ease-in-out"
+<div *ngIf="clientsWithLoans.length === 0">
+  <img
+    src="/assets/img/gif/no_result.gif"
+    alt="GIF"
+    class="w-fit h-f bg-transparent opacity-15 mx-auto"
+  />
+  <h1
+    class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce"
   >
-    <div 
-      (click)="displayloans(user.id)"
-      class="p-6 flex flex-col items-center justify-center"
+    No Loans Requests Found
+  </h1>
+</div>
+<div *ngIf="clientsWithLoans.length > 0">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  >
+    <div
+      *ngFor="let client of clientsWithLoans"
+      class="cursor-pointer hover:bg-slate-500 hover:text-white bg-white rounded-lg shadow-xl border border-gray-200 hover:shadow-xl transition duration-300 ease-in-out"
+      (click)="displayLoans(client.id)"
     >
-      <div class="relative">
-        <img src="/assets/img/profiles/user.png" alt="User Avatar" class="w-16 h-16 rounded-full mb-4">
-        <div class="absolute bottom-0 right-0 bg-red-700 text-white rounded-full p-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-            <path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zM1 10a9 9 0 1118 0 9 9 0 01-18 0z" clip-rule="evenodd" />
-          </svg>
+      <div class="p-6 flex flex-col items-center justify-center">
+        <div class="relative">
+          <img
+            src="/assets/img/profiles/user.png"
+            alt="client Avatar"
+            class="w-16 h-16 rounded-full mb-4"
+          />
+          <div
+            class="absolute bottom-0 right-0 bg-red-700 text-white rounded-full p-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 fill-current"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+              <path
+                fill-rule="evenodd"
+                d="M10 2a8 8 0 100 16 8 8 0 000-16zM1 10a9 9 0 1118 0 9 9 0 01-18 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
         </div>
+        <h5 class="text-lg font-semibold text-gray-800 mb-2">
+          {{ client.get_username() }}
+        </h5>
+        <p class="text-sm hover:text-white text-gray-600 mb-3">
+          Click to display client loans
+        </p>
       </div>
-      <h5 class="text-lg font-semibold text-gray-800 mb-2">{{ user.get_username() }}</h5>
-      <p class="text-sm  hover:text-white text-gray-600 mb-3">Click to display user loans</p>
-
     </div>
   </div>
-</div>
 </div>

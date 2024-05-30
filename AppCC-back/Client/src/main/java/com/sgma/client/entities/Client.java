@@ -3,42 +3,32 @@ package com.sgma.client.entities;
 import com.sgma.client.Model.Address;
 import com.sgma.client.Model.Contract;
 import com.sgma.client.Model.Role;
-import jakarta.persistence.*;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import lombok.*;
-
 import java.math.BigInteger;
 import java.util.List;
-
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Client {
-    @Getter
-    @Setter
-    @Id
+
+    @Getter @Setter @Id
     private String id;
     private String email;
     private String firstName;
     private String lastName;
-
-
     @Embedded
     private Role roles;
-
     @Embedded
     private Address address;
-
     private boolean hasAccount = false;
-
+    private String secret;
     private BigInteger RIB;
-
-
     @Transient
     private List<Contract> contracts;
 
@@ -55,4 +45,5 @@ public class Client {
         this.roles = roleList;
         this.address = address;
     }
+
 }

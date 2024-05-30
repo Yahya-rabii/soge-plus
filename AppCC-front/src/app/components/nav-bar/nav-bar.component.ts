@@ -8,30 +8,27 @@ import { OnInit } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { CercularnavComponent } from '../cercularnav/cercularnav.component';
-
-
-
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [CommonModule ,MatToolbarModule , MatIconModule ,CercularnavComponent],
+  imports: [
+    CommonModule,
+    MatToolbarModule,
+    MatIconModule,
+    CercularnavComponent,
+  ],
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private renderer: Renderer2,
-    private userService: UsersService
+    private userService: UsersService,
   ) {}
-
   user: User = new User();
-
   ngOnInit() {
-
-    // if the user is not an admin, call the getUser method
     if (this.isLoggedIn()) {
       this.authService.isAdmin().then((isAdmin) => {
         if (!isAdmin) {
@@ -39,68 +36,59 @@ export class NavBarComponent implements OnInit {
         }
       });
     }
-  
     const drawerNavigation = document.getElementById('drawer-navigation');
     if (drawerNavigation) {
       drawerNavigation.setAttribute('data-drawer-show', 'none');
     }
   }
-
-  // check if the user is logged in or not
+  islogin: boolean = false;
   isLoggedIn() {
+    this.islogin = this.authService.isLoggedIn();
     return this.authService.isLoggedIn();
   }
-
   login() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then();
   }
-
   signup() {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/signup']).then();
   }
-
-
+  emailVerified: boolean = false;
   async getUser() {
     try {
-      const userid = localStorage.getItem('UserId') ?? '';
-      this.user = await this.userService.getUserById( userid);
+      const userid = this.authService.getUserId();
+      this.userService.getUserById(userid).then((user) => {
+        this.user = user;
+        if (user) {
+          this.emailVerified = this.userService.getUserEmailVerified();
+        }
+      });
     } catch (error) {
       console.error('Error fetching user:', error);
     }
   }
-
   logout() {
-    this.authService.logout().then(() => {
-      console.log('Logged out successfully');
-    }).catch((error) => {
-      console.error('Error logging out:', error);
-      alert('An error occurred while logging out');
-    });
+    this.authService.logout();
   }
-  
-
   toggleUserDropdown() {
     const dropdownAvatar = document.getElementById('dropdownAvatar');
     if (dropdownAvatar) {
       const isDropdownOpen = dropdownAvatar.classList.contains('hidden');
-      this.renderer.setStyle(dropdownAvatar, 'display', isDropdownOpen ? 'block' : 'none');
+      this.renderer.setStyle(
+        dropdownAvatar,
+        'display',
+        isDropdownOpen ? 'block' : 'none',
+      );
     }
   }
-
   showSidebar: boolean = false;
-
-  
   toggleSidebar() {
-   if(this.isLoggedIn()){
-    this.showSidebar = !this.showSidebar;
-    if (this.showSidebar) {
-      document.body.classList.add('sidebar-open');
-    } else {
-      document.body.classList.remove('sidebar-open');
+    if (this.isLoggedIn()) {
+      this.showSidebar = !this.showSidebar;
+      if (this.showSidebar) {
+        document.body.classList.add('sidebar-open');
+      } else {
+        document.body.classList.remove('sidebar-open');
+      }
     }
-   }
   }
-
-
-  
 }

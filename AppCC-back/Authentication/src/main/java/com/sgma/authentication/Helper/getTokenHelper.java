@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.Map;
 
 public class getTokenHelper {
@@ -21,11 +20,9 @@ public class getTokenHelper {
         map.add("grant_type", "client_credentials");
         map.add("client_id", clientId);
         map.add("client_secret", clientSecret);
-
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         return restTemplate.postForEntity(gettokenUrl, request, Map.class);
     }
-
 
 
 }

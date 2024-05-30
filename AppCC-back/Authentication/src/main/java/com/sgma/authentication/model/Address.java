@@ -4,16 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {
-
     private String street;
     private String city;
-    private Integer postalCode;
+    private int postalCode;
     private String country;
-
 }

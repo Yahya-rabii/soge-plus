@@ -1,33 +1,48 @@
 <!--my-transactions.component.html -->
-
 <div *ngIf="transactions.length === 0">
-    <img src="/assets/img/gif/no_result.gif" alt="GIF" class="w-fit h-f bg-transparent opacity-15 mx-auto">
-    <h1 class="text-2xl font-semibold text-yellow-500 opacity-25 text-center mt-5 animate-bounce">No transactions yet</h1>
-  
-  </div>
-  
-  <div *ngIf="transactions.length > 0" >
-  <div class="flex justify-center ">
-      
-  
-      <div class="shadow-lg p-8 bg-white dark:bg-gray-800 dark:text-white rounded-lg relative  w-full">
-        <div>
-        </div>
-        <ol class="relative border-s border-gray-200 dark:border-gray-700 mr-10 mt-10">
-          <li *ngFor="let transaction of transactions" class="mb-10 ms-4">
-            <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-            <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ transaction.transactionDate | date: 'dd/MM/yyyy'}}</time>
-            
-            
-            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">transaction amount : {{transaction.amount}}</p>
-            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">transaction sender id : {{transaction.senderId}}</p>
-            <!-- Updated Learn more button with modal toggle attributes -->
-           
-          </li>
-        </ol>
-        <!-- Pagination -->
-        <div class="flex justify-center mt-5">
-        </div>
-      </div>
+  <img
+    src="/assets/img/gif/no_result.gif"
+    alt="GIF"
+    class="w-fit h-f bg-transparent opacity-15 mx-auto"
+  />
+  <h1
+    class="text-2xl font-semibold text-yellow-500 opacity-25 text-center mt-5 animate-bounce"
+  >
+    No transactions yet
+  </h1>
+</div>
+<div *ngIf="transactions.length > 0">
+  <div class="flex justify-center">
+    <div
+      class="shadow-lg p-8 bg-white dark:bg-gray-800 dark:text-white rounded-lg relative w-full"
+    >
+      <div></div>
+      <ol
+        class="relative border-s border-gray-200 dark:border-gray-700 mr-10 mt-10"
+      >
+        <li *ngFor="let transaction of transactions" class="mb-10 ms-4">
+          <div
+            class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
+          ></div>
+          <time
+            class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+            >{{ transaction.transactionDate | date: "dd/MM/yyyy" }}</time
+          >
+          <p
+            class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+          >
+            transaction amount : {{ transaction.amount }}
+          </p>
+          <p
+            class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+          >
+            transaction sender id : {{ transaction.senderId }}
+          </p>
+          <!-- Updated Learn more button with modal toggle attributes -->
+        </li>
+      </ol>
+      <!-- Pagination -->
+      <div class="flex justify-center mt-5"></div>
     </div>
   </div>
+</div>

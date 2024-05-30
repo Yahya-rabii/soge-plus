@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS `client` (
                                         `first_name` varchar(50),
                                         `last_name` varchar(50),
                                         `has_account` BOOLEAN,
+                                        `email_verified` BOOLEAN,
+                                        `secret` varchar(100),
                                         `rib` varchar(100),
                                         `street` varchar(100),
                                         `city` varchar(100),

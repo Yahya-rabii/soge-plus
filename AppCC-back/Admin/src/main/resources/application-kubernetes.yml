@@ -26,9 +26,7 @@ spring:
 eureka:
   client:
     enabled: false
-
   boot:
     admin:
       discovery:
         ignored-services: ${SPRING_BOOT_ADMIN_DISCOVERY_IGNORED_SERVICES:gateway-service}
-

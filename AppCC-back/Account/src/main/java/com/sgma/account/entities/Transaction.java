@@ -1,33 +1,27 @@
 package com.sgma.account.entities;
 
-
-import com.sgma.account.enums.TType;
-import com.sgma.account.enums.Type;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.yaml.snakeyaml.tokens.TagToken;
-
 import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
 
-@Entity @Data @AllArgsConstructor
+@Entity
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private BigInteger amount;
-
     private String senderId;
-
     private String receiverId;
-
     private Date transactionDate;
-
-
 
 }

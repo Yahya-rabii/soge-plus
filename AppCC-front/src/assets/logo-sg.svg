@@ -4,19 +4,15 @@
       .cls-1 {
         fill: none;
       }
-
       .cls-2 {
         fill: #fff;
       }
-
       .cls-3 {
         clip-path: url(#clip-path);
       }
-
       .cls-4 {
         fill: #231f20;
       }
-
       .cls-5 {
         fill: #ec1c24;
       }

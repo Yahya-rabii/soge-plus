@@ -1,48 +1,76 @@
 <div *ngIf="usersWithContracts.length === 0" class=" ">
-  
-    <img src="/assets/img/gif/no_result.gif" alt="GIF" class="w-fit h-f bg-transparent opacity-15 mx-auto">
-    <h1 class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce">No Contracts Found</h1>
-
+  <img
+    src="/assets/img/gif/no_result.gif"
+    alt="GIF"
+    class="w-fit h-f bg-transparent opacity-15 mx-auto"
+  />
+  <h1
+    class="text-2xl font-semibold text-slate-600 text-center mt-5 animate-bounce"
+  >
+    No Contracts Found
+  </h1>
 </div>
-
 <div *ngIf="usersWithContracts.length > 0">
-
-    <!-- contracts.component.html -->
-<div *ngFor="let userWithContracts of usersWithContracts; let i = index" class="contract-card shadow-lg rounded-md bg-white my-4">
-    <div class=" hover:bg-slate-200 contract-header cursor-pointer flex items-center justify-between py-4 px-6" (click)="toggleDetails(i)">
-        <div class="flex items-center">
-            <img src="/assets/img/profiles/user.png" alt="Company Logo" class="w-10 h-10 company-logo mr-3">
-            <h1 class="text-lg font-semibold text-gray-800">Loan Agreement Of <span class="text-red-700">{{ userWithContracts.user.firstName }} {{ userWithContracts.user.lastName }}</span></h1>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="arrow-icon transition-transform duration-300 transform" [class.rotate-up]="userWithContracts.isOpen" viewBox="0 0 24 24" width="24" height="24">
-            <path fill="currentColor" d="M7 10l5 5 5-5z" />
-        </svg>
+  <!-- contracts.component.html -->
+  <div
+    *ngFor="let userWithContracts of usersWithContracts; let i = index"
+    class="contract-card shadow-lg rounded-md bg-white my-4"
+  >
+    <div
+      class="hover:bg-slate-200 contract-header cursor-pointer flex items-center justify-between py-4 px-6"
+      (click)="toggleDetails(i)"
+    >
+      <div class="flex items-center">
+        <img
+          src="/assets/img/profiles/user.png"
+          alt="Company Logo"
+          class="w-10 h-10 company-logo mr-3"
+        />
+        <h1 class="text-lg font-semibold text-gray-800">
+          Loan Agreement Of
+          <span class="text-red-700"
+            >{{ userWithContracts.user.firstName }}
+            {{ userWithContracts.user.lastName }}</span
+          >
+        </h1>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="arrow-icon transition-transform duration-300 transform"
+        [class.rotate-up]="userWithContracts.isOpen"
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+      >
+        <path fill="currentColor" d="M7 10l5 5 5-5z" />
+      </svg>
     </div>
     <div *ngIf="userWithContracts.isOpen" class="details-container px-6 py-4">
-        <div *ngFor="let contract of userWithContracts.contracts" class="contract-details">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Creation Date {{contract.creationDate | date:"yyyy/mm/dd" }}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <p class="text-sm text-gray-600">Payment Duration:</p>
-                    <p class="text-base text-gray-800">{{ contract.paymentDuration }}</p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-600">Loan ID:</p>
-                    <p class="text-base text-gray-800">{{ contract.loanId }}</p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-600">Client ID:</p>
-                    <p class="text-base text-gray-800">{{ contract.clientId }}</p>
-                </div>           
-
-
-            </div>
-            <div class="border-t-2 border-gray-200 my-4"></div>
-
+      <div
+        *ngFor="let contract of userWithContracts.contracts"
+        class="contract-details"
+      >
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+          Creation Date {{ contract.creationDate | date: "yyyy/mm/dd" }}
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p class="text-sm text-gray-600">Payment Duration:</p>
+            <p class="text-base text-gray-800">
+              {{ contract.paymentDuration }}
+            </p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Loan ID:</p>
+            <p class="text-base text-gray-800">{{ contract.loanId }}</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Client ID:</p>
+            <p class="text-base text-gray-800">{{ contract.clientId }}</p>
+          </div>
         </div>
-
+        <div class="border-t-2 border-gray-200 my-4"></div>
+      </div>
     </div>
-</div>
-
-
+  </div>
 </div>

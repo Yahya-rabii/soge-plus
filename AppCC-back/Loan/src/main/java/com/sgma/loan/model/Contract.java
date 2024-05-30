@@ -4,9 +4,7 @@ import com.sgma.loan.enums.PaymentDuration;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Date;
-
 
 @Data
 @AllArgsConstructor
@@ -20,6 +18,5 @@ public class Contract {
     private PaymentDuration paymentDuration;
     private Long loanId;
     private String clientId;
+
 }
-
-

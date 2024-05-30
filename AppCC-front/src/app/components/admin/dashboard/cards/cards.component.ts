@@ -7,103 +7,84 @@ import { ContractService } from '../../../../services/contract.service';
 import { UsersService } from '../../../../services/user.service';
 import { LoanService } from '../../../../services/loan.service';
 import { AccountService } from '../../../../services/account.service';
-
 @Component({
   selector: 'app-cards',
   standalone: true,
   imports: [],
   templateUrl: './cards.component.html',
-  styleUrl: './cards.component.css'
+  styleUrl: './cards.component.css',
 })
 export class CardsComponent {
-
   Loans: Loan[] = [];
   Contracts: Contract[] = [];
-  Users : User[] = [];
+  Users: User[] = [];
   Accounts: Account[] = [];
-  
   LoansCountcnt: number = 0;
   ContractsCountcnt: number = 0;
   UsersCountcnt: number = 0;
   AccontsCountcnt: number = 0;
-
-
-  constructor(private contractService: ContractService, private userService: UsersService , private loanService: LoanService , private accountService: AccountService) { }
-
+  constructor(
+    private contractService: ContractService,
+    private userService: UsersService,
+    private loanService: LoanService,
+    private accountService: AccountService,
+  ) {}
   ngOnInit(): void {
-
-
-
     this.getLoans();
     this.getContracts();
     this.getUsers();
     this.getAccounts();
-
-
-
   }
-
-  getLoans(){
+  getLoans() {
     this.loanService.getLoans().then((loans) => {
       this.Loans = loans;
     });
   }
-
-  getContracts(){
+  getContracts() {
     this.contractService.getContracts().then((contracts) => {
       this.Contracts = contracts;
     });
   }
-
-  getUsers(){
+  getUsers() {
     this.userService.getUsers().then((users) => {
       this.Users = users;
     });
   }
-
-  getAccounts(){
+  getAccounts() {
     this.accountService.getAccounts().then((data) => {
-      if(data.accounts){
-        this.Accounts = data.accounts;
-      }
-      else{
-        this.Accounts = []; 
+      if (data.Accounts) {
+        this.Accounts = data.Accounts;
+      } else {
+        this.Accounts = [];
       }
     });
   }
-
-  AccountsCount(){
+  AccountsCount() {
     this.AccontsCountcnt = 0;
-   for(let account of this.Accounts){
+    for (let account of this.Accounts) {
       this.AccontsCountcnt++;
-   }
-   return this.AccontsCountcnt;
+    }
+    return this.AccontsCountcnt;
   }
-
-
-  LoansCount(){
+  LoansCount() {
     this.LoansCountcnt = 0;
-    for(let loan of this.Loans){
+    for (let loan of this.Loans) {
       this.LoansCountcnt++;
     }
     return this.LoansCountcnt;
   }
-
-  ContractsCount(){
+  ContractsCount() {
     this.ContractsCountcnt = 0;
-    for(let contract of this.Contracts){
+    for (let contract of this.Contracts) {
       this.ContractsCountcnt++;
     }
     return this.ContractsCountcnt;
   }
-
-  UsersCount(){
+  UsersCount() {
     this.UsersCountcnt = 0;
-    for(let user of this.Users){
+    for (let user of this.Users) {
       this.UsersCountcnt++;
     }
     return this.UsersCountcnt;
   }
-
-
 }

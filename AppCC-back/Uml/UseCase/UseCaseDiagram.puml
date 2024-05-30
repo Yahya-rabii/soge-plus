@@ -1,0 +1,60 @@
+@startuml
+left to right direction
+skinparam packageStyle rect
+actor User
+actor Admin
+rectangle "Banking System" {
+  User -- (Create Account)
+  (Create Account) -- (login) : <<include>>
+  (login) -- (signup) : <<include>>
+  User -- (Request Loan)
+  (Request Loan) -- (login) : <<include>>
+  User -- (Perform Transactions)
+  (Perform Transactions) -- (login) : <<include>>
+  (Perform Transactions) -- (Deposit) : <<extends>>
+    (Perform Transactions) -- (Withdraw) : <<extends>>
+  User -- (Add Beneficiary)
+    (Add Beneficiary) -- (login) : <<include>>
+  User -- (Logout)
+    User -- (View Account)
+    (View Account) -- (login) : <<include>>
+    User -- (Sign Contract)
+    (Sign Contract) -- (login) : <<include>>
+  Admin -- (Manage Loans)
+  (Manage Loans) -- (Approve Loan) : <<extends>>
+  (Manage Loans) -- (Reject Loan) : <<extends>>
+  Admin -- (Manage Users)
+  (Manage Users) -- (Create User) : <<extends>>
+  (Manage Users) -- (Update User) : <<extends>>
+  (Manage Users) -- (Delete User) : <<extends>>
+  (Manage Users) -- (login) : <<include>>
+}
+@enduml
+/'
+The use case diagram illustrates the interactions between actors (users and administrators) and the banking system. Actors initiate various actions represented as use cases within the system.
+Actors:
+    User: Represents individuals interacting with the banking system.
+    Administrator (Admin): Represents administrative personnel responsible for managing system operations.
+Use Cases for Users:
+    View Account: Users can view their account details, including balance and transaction history.
+    Edit Profile: Users have the ability to edit their profile information, such as contact details and preferences.
+    Request Loan: Users can submit loan requests to the system.
+    View Transactions: Users can view their transaction history to track financial activities.
+    Transfer Money: Users can transfer funds between accounts or to other beneficiaries.
+    Add Beneficiary: Users can add new beneficiaries for easy fund transfers in the future.
+    Logout: Users can log out of their account to end the current session.
+Use Cases for Administrators:
+    View Requests: Administrators can view pending loan requests submitted by users.
+    Approve Loan: Administrators have the authority to approve loan requests after review.
+    Reject Loan: Administrators can reject loan requests if they do not meet the criteria.
+    Manage Users: Administrators can manage user accounts, including creation, modification, and deletion.
+    Generate Reports: Administrators can generate reports for financial analysis and monitoring.
+System Functionality:
+    Manage Accounts: The system handles account-related operations, including creation, updating, and deletion.
+    Manage Loans: The system manages loan requests, approvals, and rejections.
+    Process Transactions: The system facilitates transaction processing, ensuring secure and accurate fund transfers.
+    Manage Beneficiaries: The system allows users to manage their list of beneficiaries for easy money transfers.
+Extensions:
+    Sign Up: Users can sign up for a new account if they are not already registered.
+    Login: Users can log in to access their account and perform banking activities.
+'/

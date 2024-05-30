@@ -1,5 +1,4 @@
 package com.sgma.client.Model;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,11 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {
-
     private String street;
     private String city;
     private String postalCode;
     private String country;
-
-
 }

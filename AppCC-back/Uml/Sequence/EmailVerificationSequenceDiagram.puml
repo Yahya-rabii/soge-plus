@@ -1,0 +1,15 @@
+@startuml
+actor Client
+participant "Authentication Service" as Auth
+participant "Secret" as Secret
+Client -> Auth : Send Secret
+Auth -> Secret : Get Secret
+Secret -> Auth : Secret
+Auth -> Auth : Compare Secrets
+alt Secrets Match
+    Auth -> Auth : Update User Status
+    Auth -> Client : Send Access
+else Secrets Do Not Match
+    Auth -> Client : Send Error
+end
+@enduml

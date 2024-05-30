@@ -60,6 +60,7 @@
           <option value="Gateway" />
           <option value="Gateway" />
           <option value="Account" />
+          <option value="Client" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -119,12 +120,14 @@
           <option value="org.apache.httpcomponents:httpclient:4.5.3" />
           <option value="org.codehaus.jettison:jettison:1.4.0" />
           <option value="org.bitbucket.b_c:jose4j:0.9.3" />
+          <option value="org.springframework.security:spring-security-core:6.2.2" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
           <option value="Not exploitable" />
           <option value="In progress" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />
           <option value="Not exploitable" />

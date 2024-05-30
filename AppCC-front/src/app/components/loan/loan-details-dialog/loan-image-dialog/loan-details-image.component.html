@@ -1,23 +1,35 @@
 <!--loan-details-image.component.html -->
-
-<div class="fixed inset-0 flex items-center justify-center z-50 ">
-    <!-- Darken background -->
-    <div class="fixed inset-0 bg-black opacity-50"></div>
-  
-    <div class="absolute w-3/4 h-screen z-10 flex flex-col items-center justify-center">
-      <div class="relative w-full h-3/4 overflow-hidden">
-        <button
+<div class="fixed inset-0 flex items-center justify-center z-50">
+  <!-- Darken background -->
+  <div class="fixed inset-0 bg-black opacity-50"></div>
+  <div
+    class="absolute w-3/4 h-screen z-10 flex flex-col items-center justify-center"
+  >
+    <div class="relative w-full h-3/4 overflow-hidden">
+      <button
         class="absolute top-0 right-0 mr-7 mt-5 z-10 transform translate-x-2/4 -translate-y-2/4 text-white text-xl font-bold rounded-full bg-red-700 w-10 h-10 flex items-center justify-center hover:bg-red-800 focus:outline-none focus:bg-red-800"
         (click)="onCloseClick()"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
       </button>
-        <img
-          class="w-full h-full object-contain"
-          src="{{ img.src }}"
-          alt="image"
-        />
-     
-      </div>
+      <img
+        class="w-full h-full object-contain"
+        src="{{ img.src }}"
+        alt="image"
+      />
     </div>
+  </div>
 </div>

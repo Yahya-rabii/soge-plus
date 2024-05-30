@@ -1,33 +1,54 @@
+<!-- Your existing HTML content here -->
 <mat-toolbar class="fixed top-0">
   <div class="flex justify-between items-center mx-auto max-w-screen-xl p-6">
-
     <!-- Logo aligned to the left -->
-        <app-cercularnav></app-cercularnav>
-
+    <app-cercularnav></app-cercularnav>
     <div class="fixed flex items-center left-10">
       <a class="fixed flex items-center space-x-3">
-        <img src="/assets/logoblack.png" class="h-8 flex-shrink-0 hover:cursor-pointer" alt="Logo" />
+        <img
+          src="/assets/logoblack.png"
+          class="h-8 flex-shrink-0 hover:cursor-pointer"
+          alt="Logo"
+        />
         <!-- Logo -->
       </a>
     </div>
-  
-
-    <div id="login-signup" class="fixed right-16 flex items-center space-x-6 rtl:space-x-reverse">
+    <div
+      *ngIf="islogin === false"
+      id="login-signup"
+      class="fixed right-16 flex items-center space-x-6 rtl:space-x-reverse"
+    >
       <div class="flex items-center space-x-6">
-        <a (click)="login()"
-          class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+        <a
+          (click)="login()"
+          class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+        >
           <mat-icon>login</mat-icon>
           <span>Login</span>
         </a>
-        <a (click)="signup()"
-          class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+        <a
+          (click)="signup()"
+          class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+        >
           <mat-icon>person_add</mat-icon>
           <span>Signup</span>
         </a>
       </div>
-    
-
-
+    </div>
+    <div
+      *ngIf="islogin === true"
+      id="login-signup"
+      class="fixed right-16 flex items-center space-x-6 rtl:space-x-reverse"
+    >
+      <div *ngIf="emailVerified === false" class="flex items-center space-x-6">
+        <a
+          (click)="logout()"
+          class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+        >
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </a>
+      </div>
     </div>
   </div>
 </mat-toolbar>

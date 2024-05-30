@@ -1,0 +1,36 @@
+@startuml
+actor Client
+participant "Loan Service" as LoanService
+actor Admin
+participant "Contract Service" as ContractService
+participant "Secret" as Secret
+Client -> LoanService: Request Loan
+LoanService -> Admin: Loan Approval Request
+Admin -> Admin: Review Loan
+alt Admin Approves Loan
+    Admin -> LoanService: Change Loan Status to Approved
+    LoanService-> ContractService: Generate Contract
+    ContractService -> ContractService: Save Contract
+    LoanService -> Client: Loan Approval Notification
+else Admin Rejects Loan
+    Admin -> LoanService: Reject Loan
+    LoanService -> Client: Loan Rejection Notification
+end
+alt Client Agrees to Contract
+    Client -> ContractService: Request Contract
+    ContractService -> Client: Send Contract
+    Client -> Secret: Request Secret for Signature
+    Secret -> Secret: Generate Secret for Signature
+    Secret -> Client: Send Secret in email
+    Client -> Client: Receive Secret for Signature
+    Client -> ContractService: Sign Contract
+    ContractService -> Secret: Request Secret for Verification
+    Secret -> Secret: Process Secret for Verification
+    Secret -> ContractService: Send Secret for Verification
+    ContractService -> ContractService: Verify Secret
+    alt Secrets Match
+        ContractService -> Client: Contract Signed
+    else Secrets Do Not Match
+        ContractService -> Client: Contract Not Signed
+    end
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+actor Client
+participant "Account Service" as AccountService
+participant "Client Service" as ClientService
+Client -> AccountService: Request Transaction
+AccountService -> ClientService: Get Client Credentials
+ClientService -> AccountService: Retrieve Client Information
+AccountService -> AccountService: Validate Account Balance
+alt Sufficient balance
+    AccountService -> ClientService: Get Beneficiary Information
+    ClientService -> AccountService: Retrieve Beneficiary Information
+    alt Beneficiary exists and valid
+        AccountService -> AccountService: Validate Transaction Limits
+        alt Transaction limits are valid
+            AccountService -> AccountService: Process Transaction
+            AccountService -> AccountService: Update Account Balance
+            AccountService -> AccountService: Update Transaction History
+            AccountService -> Client: Transaction Successful
+        else Transaction limits exceeded
+            AccountService --> Client : Transaction Limits Error
+        end
+    else Beneficiary does not exist or invalid
+        ClientService --> AccountService: Beneficiary Not Found Error
+        AccountService --> Client: Beneficiary Not Found Error
+    end
+else Insufficient balance
+    AccountService --> Client: Insufficient Balance Error
+end
+@enduml

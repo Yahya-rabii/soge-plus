@@ -1,0 +1,19 @@
+@startuml
+actor Client
+participant "Authentication Service" as Auth
+Client -> Auth: login request
+Auth -> Auth: verify credentials
+alt verification successful
+    Auth -> Auth: create token
+    Auth -> Client: send token
+else verification failed
+    Auth -> Client: failure message
+end
+/'
+login sequence diagram :
+the client sends a login request to the authentication service
+the authentication service verifies the credentials,
+if the verification is successful,
+the authentication service creates a token and sends it to the client
+if the verification fails, the authentication service sends a failure message to the client
+'/

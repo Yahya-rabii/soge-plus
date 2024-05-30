@@ -2,22 +2,15 @@
   background-color: #d10000;
   color: white;
 }
-
-
-
-
-
-
 /* START TOOLTIP STYLES */
 [tooltip] {
   position: absolute; /* opinion 1 */
 }
-
 /* Applies to all tooltips */
 [tooltip]::before,
 [tooltip]::after {
   text-transform: none; /* opinion 2 */
-  font-size: .9em; /* opinion 3 */
+  font-size: 0.9em; /* opinion 3 */
   line-height: 1;
   user-select: none;
   pointer-events: none;
@@ -26,21 +19,17 @@
   opacity: 0;
   transition: opacity 300ms ease-out;
   z-index: 1000;
-  
-
 }
 [tooltip]::before {
-  content: '';
+  content: "";
   border: 5px solid transparent; /* opinion 4 */
   z-index: 1001; /* absurdity 1 */
 }
 [tooltip]::after {
   content: attr(tooltip); /* magic! */
-  
   /* most of the rest of this is opinion */
   font-family: Helvetica, sans-serif;
   text-align: center;
-  
   /* 
     Let the content set the size of the tooltips 
     but this will also keep them from being obnoxious
@@ -51,89 +40,68 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 1ch 1.5ch;
-  border-radius: .3ch;
-  box-shadow: 0 1em 2em -.5em rgba(0, 0, 0, 0.35);
+  border-radius: 0.3ch;
+  box-shadow: 0 1em 2em -0.5em rgba(0, 0, 0, 0.35);
   background: #333;
   color: #fff;
   z-index: 1000; /* absurdity 2 */
 }
-
 /* Make the tooltips respond to hover */
 [tooltip]:hover::before,
 [tooltip]:hover::after {
   display: block;
-  
 }
-
 /* don't show empty tooltips */
-[tooltip='']::before,
-[tooltip='']::after {
+[tooltip=""]::before,
+[tooltip=""]::after {
   display: none !important;
 }
-
-
 /* FLOW: LEFT */
 [tooltip][flow^="left"]::before {
   top: 50%;
   border-right-width: 0;
   border-left-color: #333;
   left: calc(0em - 5px);
-  transform: translate(-.5em, -50%);
+  transform: translate(-0.5em, -50%);
 }
 [tooltip][flow^="left"]::after {
   top: 50%;
   right: calc(100% + 5px);
-  transform: translate(-.5em, -50%);
-  
+  transform: translate(-0.5em, -50%);
 }
-
 /* FLOW: RIGHT */
 [tooltip][flow^="right"]::before {
   top: 50%;
   border-left-width: 0;
   border-right-color: #333;
   right: calc(0em - 5px);
-  transform: translate(.5em, -50%);
+  transform: translate(0.5em, -50%);
 }
 [tooltip][flow^="right"]::after {
   top: 50%;
   left: calc(100% + 5px);
-  transform: translate(.5em, -50%);
+  transform: translate(0.5em, -50%);
 }
-
 /* KEYFRAMES */
 @keyframes tooltips-vert {
   to {
-    opacity: .9;
+    opacity: 0.9;
     transform: translate(-50%, 0);
   }
 }
-
 @keyframes tooltips-horz {
   to {
-    opacity: .9;
+    opacity: 0.9;
     transform: translate(0, -50%);
   }
 }
-
-/* FX All The Things */ 
+/* FX All The Things */
 [tooltip][flow^="left"]:hover::before,
 [tooltip][flow^="left"]:hover::after,
 [tooltip][flow^="right"]:hover::before,
 [tooltip][flow^="right"]:hover::after {
   animation: tooltips-horz 300ms ease-out forwards;
 }
-
-
-
-
-
-
-
-
-
-
-
 main {
   flex: 1 1 100vh;
   display: flex;
@@ -141,45 +109,22 @@ main {
   align-items: center;
   justify-content: center;
 }
-
 main div {
   text-align: center;
   color: #353539;
 }
 main span {
-  padding: .5em 1em;
-  margin: .5em;
+  padding: 0.5em 1em;
+  margin: 0.5em;
   display: inline-block;
   background: #dedede;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .card-container {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
-
 .card {
   width: 300px;
   height: 188px;
@@ -189,13 +134,12 @@ main span {
   z-index: 5;
   box-shadow: 0 8px 30px rgba(14, 21, 47, 0.6);
 }
-
 .left-slider-button,
 .right-slider-button {
   position: relative;
   width: 33px; /* Adjust as needed */
   height: 33px; /* Adjust as needed */
-  top:80px; /* Adjust as needed */
+  top: 80px; /* Adjust as needed */
   position: relative;
   background: #fff;
   border-radius: 50%;
@@ -206,28 +150,21 @@ main span {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-
 .left-slider-button:hover,
 .right-slider-button:hover {
   background: #a10101;
-  color:white;
+  color: white;
 }
-
-
-
-
 .card .card-bg {
   z-index: 2;
   backdrop-filter: blur(20px);
   background: linear-gradient(135deg, #ffd000 0%, #a545b1 100%);
   border-radius: 16px;
-  filter: brightness(0.50);
+  filter: brightness(0.5);
   transition: filter 0.5s ease;
   overflow: hidden;
 }
-
 .card-bg img {
   width: 100%;
   height: 100%;
@@ -235,19 +172,16 @@ main span {
   opacity: 0;
   transition: opacity 0.5s ease; /* Add transition for opacity */
 }
-
 .card-bg.fade-out img {
   /* smoothly fade out the image */
   opacity: 0;
   animation: anim-out 0.5s ease-out forwards; /* Use animation for smoother transition */
 }
-
 .card-bg.fade-in img {
   /* smoothly fade in the image */
   opacity: 1;
   animation: anim-in 0.5s ease-in forwards; /* Use animation for smoother transition */
 }
-
 /* Define keyframes for fade-out animation */
 @keyframes anim-out {
   0% {
@@ -257,7 +191,6 @@ main span {
     opacity: 0;
   }
 }
-
 /* Define keyframes for fade-in animation */
 @keyframes anim-in {
   0% {
@@ -267,14 +200,10 @@ main span {
     opacity: 1;
   }
 }
-
-
-
-
-
-
-
-.card .front, .card .back, .card .card-bg, .card .card-content {
+.card .front,
+.card .back,
+.card .card-bg,
+.card .card-content {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -282,21 +211,14 @@ main span {
   top: 0;
   position: absolute;
 }
-
-
-
-
-
-
-
 .card .card-content {
-  text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.3), 1px 1px 0px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    -1px -1px 0px rgba(255, 255, 255, 0.3),
+    1px 1px 0px rgba(0, 0, 0, 0.5);
   color: #b0b0b0;
-  font-family: 'Droid Serif', serif;
+  font-family: "Droid Serif", serif;
   z-index: 4;
 }
-
-
 .card .card-content span {
   left: 0;
   top: 0;
@@ -306,13 +228,13 @@ main span {
   overflow: hidden;
   color: goldenrod;
   /* make the color shine */
-  text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.3), 1px 1px 0px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    -1px -1px 0px rgba(255, 255, 255, 0.3),
+    1px 1px 0px rgba(0, 0, 0, 0.5);
   font-weight: 100;
   padding-left: 2px;
   white-space: nowrap;
 }
-
-
 .chip {
   position: relative;
   top: 55px;
@@ -327,11 +249,6 @@ main span {
   z-index: 3;
   filter: brightness(0.8); /* Adjusted brightness for better contrast */
 }
-
-
-
-
-
 .card .card-content span + span {
   color: #a545b1;
   height: 7px;
@@ -346,8 +263,10 @@ main span {
   font-style: normal;
   font-size: 9px !important;
   text-shadow: none;
-  font-family: Open sans, sans-serif;
-  color: rgba(255, 255, 255, .6);
+  font-family:
+    Open sans,
+    sans-serif;
+  color: rgba(255, 255, 255, 0.6);
 }
 .card .card-content .glow {
   animation: glow 0.5s;
@@ -360,7 +279,7 @@ main span {
   position: absolute;
   right: 20px;
   top: 20px;
-/*  background-color: rgba(255, 255, 255, .4);*/
+  /*  background-color: rgba(255, 255, 255, .4);*/
   width: 80px;
   height: 40px;
   border-style: solid;
@@ -371,9 +290,6 @@ main span {
   background-position: center center;
   background-image: url(/assets/visa.png);
 }
-
-
-
 .card .credit-card-brand {
   position: absolute;
   left: 20px;
@@ -388,10 +304,7 @@ main span {
   background-position: center center;
   background-image: url(/assets/logo-sg.png);
   /* background size */
-  
 }
-
-
 .card .card-number {
   position: absolute;
   width: 240px;
@@ -436,16 +349,22 @@ main span {
   top: 3px;
   left: -36px;
 }
-.card .validuntil .e-month, .card .validuntil .e-divider, .card .validuntil .e-year {
+.card .validuntil .e-month,
+.card .validuntil .e-divider,
+.card .validuntil .e-year {
   letter-spacing: 1px;
   display: inline-block;
   position: relative;
   margin: 0 1px;
 }
-.card .validuntil .e-month span, .card .validuntil .e-divider span, .card .validuntil .e-year span {
+.card .validuntil .e-month span,
+.card .validuntil .e-divider span,
+.card .validuntil .e-year span {
   position: relative;
 }
-.card .validuntil .e-month span + span, .card .validuntil .e-divider span + span, .card .validuntil .e-year span + span {
+.card .validuntil .e-month span + span,
+.card .validuntil .e-divider span + span,
+.card .validuntil .e-year span + span {
   position: absolute;
   height: 5px;
 }
@@ -453,7 +372,6 @@ main span {
   padding-top: 0;
   position: absolute;
   top: 130px;
-  
 }
 .expire-date input {
   width: 50px;
@@ -469,23 +387,29 @@ main span {
 }
 @keyframes glow {
   0% {
-    text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.3), 1px 1px 0px rgba(0, 0, 0, 0.5);
- }
+    text-shadow:
+      -1px -1px 0px rgba(255, 255, 255, 0.3),
+      1px 1px 0px rgba(0, 0, 0, 0.5);
+  }
   70% {
-    color: rgba(255, 255, 255, .4);
-    text-shadow: -1px 1px 8px #ffc, 1px -1px 8px rgba(255, 255, 255, .6);
- }
+    color: rgba(255, 255, 255, 0.4);
+    text-shadow:
+      -1px 1px 8px #ffc,
+      1px -1px 8px rgba(255, 255, 255, 0.6);
+  }
   100% {
-    text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.3), 1px 1px 0px rgba(0, 0, 0, 0.5);
- }
+    text-shadow:
+      -1px -1px 0px rgba(255, 255, 255, 0.3),
+      1px 1px 0px rgba(0, 0, 0, 0.5);
+  }
 }
 @keyframes anim-out {
   0% {
     width: 0%;
     height: 0px;
- }
+  }
   100% {
     width: 200%;
     height: 300px;
- }
+  }
 }

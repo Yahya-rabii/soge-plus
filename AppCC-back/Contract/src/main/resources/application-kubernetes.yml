@@ -43,7 +43,6 @@ eureka:
       enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
 server:
   port: '${SERVER_PORT:8083}'
-
 management:
   endpoints:
     web:

@@ -1,22 +1,19 @@
 package com.sgma.contract.model;
 
-
 import com.sgma.contract.entites.Contract;
 import com.sgma.contract.enums.Role;
 import jakarta.persistence.Embedded;
-
 import jakarta.persistence.Transient;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Client {
 
+public class Client {
     private String id;
     private String email;
     private String firstName;
@@ -27,6 +24,4 @@ public class Client {
     private Address address;
     @Transient
     private List<Contract> contracts;
-
-
 }

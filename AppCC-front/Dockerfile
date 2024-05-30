@@ -5,8 +5,6 @@ RUN npm ci
 COPY . .
 RUN npm install -g @angular/cli@17.3.4
 RUN ng build --configuration=production
-
-
 FROM nginx:alpine
 ARG name="front-app-cc"
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf

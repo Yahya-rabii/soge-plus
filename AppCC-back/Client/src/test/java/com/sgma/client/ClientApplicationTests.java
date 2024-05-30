@@ -20,23 +20,18 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 class ClientApplicationTests {
-
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private ClientService clientService;
-
     @Test
     void shouldReturnAllClients() throws Exception {
         // Setup
         List<Client> expectedClients = new ArrayList<>();
         doReturn(clientService.getAllClients()).when(clientService).getAllClients();
-
         // When/Then
         final MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/clients")
                         .accept(MediaType.APPLICATION_JSON))
@@ -44,7 +39,6 @@ class ClientApplicationTests {
                 .andExpect(jsonPath("$[0].id").value(1L))
                 .andExpect(jsonPath("$[0].name").value("Johnl Doe"))
                 .andReturn();
-
         assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 }

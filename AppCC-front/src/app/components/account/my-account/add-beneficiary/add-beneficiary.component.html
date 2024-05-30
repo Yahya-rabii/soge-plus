@@ -1,26 +1,76 @@
 <!-- add-beneficiary.component.html -->
 <section class="dark:bg-gray-900">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20">
-    <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mb-20"
+  >
+    <a
+      class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+    >
       <mat-icon class="mr-2 text-red-700">person_add</mat-icon>
-      <span class="text-2xl font-semibold text-primary-500"> Add a new <span class="text-2xl font-semibold text-red-700">Beneficiary</span></span>
+      <span class="text-2xl font-semibold text-primary-500">
+        Add a new
+        <span class="text-2xl font-semibold text-red-700"
+          >Beneficiary</span
+        ></span
+      >
     </a>
-    <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto">
-      <form [formGroup]="addBeneficiaryForm" (ngSubmit)="Submit()" class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg" id="addBeneficiaryForm">
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 overflow-y-auto"
+    >
+      <form
+        [formGroup]="addBeneficiaryForm"
+        (ngSubmit)="Submit()"
+        class="p-6 space-y-4 md:space-y-6 sm:p-8 shadow-lg"
+        id="addBeneficiaryForm"
+      >
         <!-- Beneficiary Info Section -->
         <div>
-          <label for="rib" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Beneficiary RIB</label>
+          <label
+            for="rib"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Beneficiary RIB</label
+          >
           <!-- Use a custom input mask for RIB with space after every 4 digits -->
-          <input type="text" formControlName="rib" id="rib" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Beneficiary RIB" required (input)="formatRIB($event)">
+          <input
+            type="text"
+            formControlName="rib"
+            id="rib"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Beneficiary RIB"
+            required
+            (input)="formatRIB($event)"
+          />
         </div>
         <div>
-          <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Beneficiary Name</label>
-          <input type="text" formControlName="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Beneficiary Name" required>
+          <label
+            for="name"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Beneficiary Name</label
+          >
+          <input
+            type="text"
+            formControlName="name"
+            id="name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Beneficiary Name"
+            required
+          />
         </div>
         <!-- Submit Button -->
-        <button type="submit" id="submitButton" class="w-full border-2 border-red-600 hover:border-gray-50  text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700">Add Beneficiary</button>
+        <button
+          type="submit"
+          id="submitButton"
+          class="w-full border-2 border-red-600 hover:border-gray-50 text-red-700 bg-primary-600 hover:text-red-100 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-700"
+        >
+          Add Beneficiary
+        </button>
         <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-          Need help? <a (click)="contactus()" class="cursor-pointer font-medium text-primary-600 hover:underline dark:text-primary-500">Contact Support</a>
+          Need help?
+          <a
+            (click)="contactus()"
+            class="cursor-pointer font-medium text-primary-600 hover:underline dark:text-primary-500"
+            >Contact Support</a
+          >
         </p>
       </form>
     </div>

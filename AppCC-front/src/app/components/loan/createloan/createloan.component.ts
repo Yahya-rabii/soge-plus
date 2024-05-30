@@ -4,19 +4,17 @@ import { Router } from '@angular/router';
 import { FormDataService } from '../../../services/form-data.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-
 @Component({
   selector: 'app-createloan',
   templateUrl: './createloan.component.html',
   styleUrls: ['./createloan.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class CreateloanComponent {
-
   createLoanForm: FormGroup;
   currentSection: number = 1;
-  sectionFilled: boolean[] = [false, false, false, false, false]; // Keep track of filled sections
+  sectionFilled: boolean[] = [false, false, false, false, false];
   imageUrl: string | ArrayBuffer | null = null;
   signature: File | null = null;
   idCardFront: File | null = null;
@@ -29,13 +27,14 @@ export class CreateloanComponent {
   receptionMethod: string | null = null;
   rib: string | null = null;
   agency: string | null = null;
-
-  // Store selected file names
   signatureFileName: string | null = null;
   idCardFrontFileName: string | null = null;
   idCardBackFileName: string | null = null;
-
-  constructor(private formBuilder: FormBuilder, private router: Router, private formDataService: FormDataService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private formDataService: FormDataService,
+  ) {
     this.createLoanForm = this.formBuilder.group({
       loanAmount: ['', [Validators.required]],
       loanType: ['', [Validators.required]],
@@ -47,61 +46,48 @@ export class CreateloanComponent {
       taxId: ['', [Validators.required]],
       receptionMethod: ['', [Validators.required]],
       rib: [''],
-      agency: ['']
+      agency: [''],
     });
   }
-
   onChooseFile(field: string): void {
     const inputElement = document.createElement('input');
     inputElement.type = 'file';
-    inputElement.accept = '.jpg,.jpeg,.png,.pdf'; // Specify accepted file types if needed
-  
+    inputElement.accept = '.jpg,.jpeg,.png,.pdf';
     inputElement.onchange = (event: Event) => {
-      const file: File | null = (event.target as HTMLInputElement).files?.[0] || null;
+      const file: File | null =
+        (event.target as HTMLInputElement).files?.[0] || null;
       if (file) {
         if (field === 'signature') {
           this.signature = file;
-          this.signatureFileName = file.name; // Update selected file name
-          this.createLoanForm.controls['signature'].setValue(file); // Directly set file object to form control
+          this.signatureFileName = file.name;
+          this.createLoanForm.controls['signature'].setValue(file);
         } else if (field === 'idCardFront') {
           this.idCardFront = file;
-          this.idCardFrontFileName = file.name; // Update selected file name
-          this.createLoanForm.controls['idCardFront'].setValue(file); // Directly set file object to form control
+          this.idCardFrontFileName = file.name;
+          this.createLoanForm.controls['idCardFront'].setValue(file);
         } else if (field === 'idCardBack') {
           this.idCardBack = file;
-          this.idCardBackFileName = file.name; // Update selected file name
-          this.createLoanForm.controls['idCardBack'].setValue(file); // Directly set file object to form control
+          this.idCardBackFileName = file.name;
+          this.createLoanForm.controls['idCardBack'].setValue(file);
         }
       }
     };
-  
-    inputElement.click(); // Simulate a click event on the dynamically created input element
+    inputElement.click();
   }
-  
   getSignatureFileName(): string {
     return this.signatureFileName || 'Choose file';
   }
-  
   getIdCardFrontFileName(): string {
     return this.idCardFrontFileName || 'Choose file';
   }
-  
   getIdCardBackFileName(): string {
     return this.idCardBackFileName || 'Choose file';
   }
-  
-  
-  
-  
-
-
   public GoToSection(section: number) {
     if (section <= this.currentSection) {
       this.currentSection = section;
     }
   }
-
-
   public NextSection() {
     if (this.currentSection === 1) {
       this.loanAmount = this.createLoanForm.get('loanAmount')?.value;
@@ -130,9 +116,15 @@ export class CreateloanComponent {
     } else if (this.currentSection === 4) {
       this.cinNumber = this.createLoanForm.get('cinNumber')?.value as string;
       this.taxId = this.createLoanForm.get('taxId')?.value as string;
-      if (this.cinNumber && this.cinNumber.length > 0 && this.taxId && this.taxId.length > 0) {
+      if (
+        this.cinNumber &&
+        this.cinNumber.length > 0 &&
+        this.taxId &&
+        this.taxId.length > 0
+      ) {
         this.sectionFilled[3] = true;
-        this.receptionMethod = this.createLoanForm.get('receptionMethod')?.value as string;
+        this.receptionMethod = this.createLoanForm.get('receptionMethod')
+          ?.value as string;
         if (this.receptionMethod === 'ONLINE') {
           this.currentSection = 5;
         } else {
@@ -156,7 +148,6 @@ export class CreateloanComponent {
       this.Submit();
     }
   }
-
   Submit() {
     const formData = this.formBuilder.group({
       loanAmount: [this.loanAmount, [Validators.required]],
@@ -169,9 +160,9 @@ export class CreateloanComponent {
       taxId: [this.taxId, [Validators.required]],
       receptionMethod: [this.receptionMethod, [Validators.required]],
       rib: [this.rib],
-      agency: [this.agency]
+      agency: [this.agency],
     });
     this.formDataService.setFormData(formData);
-    this.router.navigate(['/loan/confirmation']);
+    this.router.navigate(['/loan/confirmation']).then();
   }
 }

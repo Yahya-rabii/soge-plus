@@ -1,0 +1,163 @@
+@startuml
+' Authentication Microservice
+class Authentication {
+    + clientSecret: String
+    + clientId: String
+    + authUrl: String
+    + gettokenUrl: String
+    + refreshToken: String
+    + accessToken: String
+    + UserID: String
+    + logoutUrlTemplate: String
+    + usersEndpoint: String
+    + signUp(userData: Map<String, Object>): ResponseEntity<Void>
+    + sendUserDataToClientService(client: Client): Boolean
+    + getAccessToken(): String
+    + createUserInKeycloak(user: Client): ResponseEntity<Map>
+    + login(client: Client): ResponseEntity<Map<String, Object>>
+    + decodeAccessToken(): String
+    + sendEmail(client: Client): boolean
+    + refresh(refreshToken: String): ResponseEntity<Map>
+    + logout(userIdJson: String): ResponseEntity<Map>
+    + getRole(accessToken: String): List<String>
+    + isEmailVerified(accessToken: String): boolean
+    + verifySecret(userId: String, requestData: Map<String, String>): ResponseEntity<Map>
+    + verifyUserEmail(userId: String, refreshToken: String): ResponseEntity<Map>
+}
+class Client {
+    + id: String
+    + email: String
+    + firstName: String
+    + lastName: String
+    + username: String
+    + role: Role
+    + address: Address
+    + signUp(userData: Map<String, Object>): ResponseEntity<Void>
+    + login(): ResponseEntity<Map<String, Object>>
+    + updateRole(roles: List<String>): Client
+    + getClientById(clientId: String): Client
+    + demandLoan(loanDetails: Map<String, String>): ResponseEntity<Loan>
+}
+class Role {
+    + roles: List<String>
+}
+class Address {
+    + street: String
+    + city: String
+    + postalCode: int
+    + country: String
+}
+class Secret {
+    + secretValue: String
+    + clientId: String
+}
+class Account {
+    + id: Long
+    + accountType: AccountType
+    + accountHolderId: String
+    + accountHolderRib: BigInteger
+    + balance: Double
+    + beneficiariesIds: List<String>
+    + cardId: Long
+    + createAccount(accountDetails: Map<String, String>): ResponseEntity<Account>
+    + updateAccount(accountDetails: Map<String, String>): ResponseEntity<Account>
+    + deleteAccount(accountId: Long): ResponseEntity<Void>
+}
+class Card {
+    + id: Long
+    + expirationMonth: int
+    + expirationYear: int
+    + cardRib: BigInteger
+    + cvc: int
+    + signature: int
+}
+enum AccountType {
+    SOGE
+    SOGEPLUS
+}
+class Transaction {
+    + id: Long
+    + amount: BigInteger
+    + senderId: String
+    + receiverId: String
+    + transactionDate: Date
+    + performTransaction(): ResponseEntity<Void>
+}
+enum TransactionType {
+    DEPOSIT
+    WITHDRAWAL
+}
+' Loan Microservice
+class Loan {
+    + id: Long
+    + amount: double
+    + type: Type
+    + paymentDuration: PaymentDuration
+    + cinNumber: String
+    + taxId: String
+    + receptionMethod: ReceptionMethod
+    + bankAccountCredentials_RIB: BigInteger
+    + selectedAgency: String
+    + clientId: String
+    + status: Status
+    + approved: boolean
+    + loanCreationDate: Date
+    + signatureFileName: String
+    + cinCartRectoFileName: String
+    + cinCartVersoFileName: String
+    + getAllLoans(): List<Loan>
+    + getLoanById(id: Long): Optional<Loan>
+    + getLoansByClientId(clientId: String): List<Loan>
+    + updateLoan(id: Long, updatedLoan: Loan, signature: MultipartFile, cinCartRecto: MultipartFile, cinCartVerso: MultipartFile): ResponseEntity<Loan>
+    + updateLoanN(id: Long, updatedLoan: Loan): ResponseEntity<Loan>
+    + deleteLoan(id: Long): ResponseEntity<Void>
+    + createLoan(loanDetails: Map<String, String>, signature: MultipartFile, cinCartRecto: MultipartFile, cinCartVerso: MultipartFile): ResponseEntity<Loan>
+    + validateLoan(loan: Loan): ResponseEntity<Loan>
+    + rejectLoan(loan: Loan): ResponseEntity<Loan>
+}
+enum PaymentDuration {
+    MONTHLY
+    QUARTERLY
+    YEARLY
+}
+enum ReceptionMethod {
+    ONLINE
+    ON_AGENCY
+}
+enum Status {
+    PENDING
+    APPROVED
+    REJECTED
+}
+enum Type {
+    PERSONAL
+    HOME
+    AUTO
+    EDUCATIONAL
+}
+class Contract {
+    + id: Long
+    + creationDate: Date
+    + paymentDuration: PaymentDuration
+    + loanId: Long
+    + clientId: String
+    + addContract(): Contract
+}
+' Relationships
+Authentication "1" --> "1..*" Client
+Client "1" --> "1" Role: has
+Client "1" --> "*" Address: has
+Client "1" --> "1" Secret: has
+Client "1" --> "*" Loan: demand
+Client "1" --> "*" Account: creates
+Account "1" --> "*" Transaction: performs
+Account "1" --> "1" Card: has
+Loan "1" --> "1" Contract:[ creates if approved ]
+' Enum Relationships
+Loan --  PaymentDuration
+Loan --  ReceptionMethod
+Loan --  Status
+Loan  --  Type
+Account --  AccountType
+Transaction  --  TransactionType
+@enduml

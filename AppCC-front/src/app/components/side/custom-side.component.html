@@ -1,17 +1,17 @@
-
 <div class="sidenav-header">
-    <img
-      [src]="image"
-      alt="image"
-      [width]="profilePicSize()"
-      [height]="profilePicSize()"
-    />
-    <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
-      <h2>{{getUserName()}}</h2>
-      <p>{{getUserdisplyer()}}</p>
-    </div>
+  <img
+    [src]="image"
+    alt="image"
+    [width]="profilePicSize()"
+    [height]="profilePicSize()"
+  />
+  <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
+    <h2>{{ getUserName() | uppercase }}</h2>
+    <!--<p>{{ getUserdisplyer() }}</p> -->
   </div>
-  <mat-nav-list>
+</div>
+<div class="flex flex-col" style=" overflow-y: auto">
+  <mat-nav-list class="flex-1">
     <a
       mat-list-item
       *ngFor="let item of menuItems()"
@@ -30,19 +30,20 @@
         {{ item.label }}
       </span>
     </a>
-  
     <div>
       <a
-      mat-list-item
-      *ngFor="let item of MenuWithSubItems()"
-      [routerLink]="item.route"
-      #rla="routerLinkActive"
-      routerLinkActive="selected-menu-item"
-      class="menu-item"
-      [activated]="rla.isActive"
+        mat-list-item
+        *ngFor="let item of MenuWithSubItems()"
+        [routerLink]="item.route"
+        #rla="routerLinkActive"
+        routerLinkActive="selected-menu-item"
+        class="menu-item"
+        [activated]="rla.isActive"
       >
         <mat-icon
-          [fontSet]="rla.isActive ? 'material-icons' : 'material-icons-outlined'"
+          [fontSet]="
+            rla.isActive ? 'material-icons' : 'material-icons-outlined'
+          "
           matListItemIcon
         >
           {{ item.icon }}
@@ -53,7 +54,6 @@
           matListItemTitle
         >
           {{ item.label }}
-  
           <mat-icon
             class="dropdown-icon hover:bg-red-700 hover:bg-opacity-50 hover:rounded-full ml-7"
             (click)="toggleDropdown()"
@@ -62,7 +62,6 @@
           </mat-icon>
         </span>
       </a>
-  
       <div *ngIf="isMyAccountRoute() && isDropdownOpen" class="dropdown-menu">
         <a
           mat-list-item
@@ -76,24 +75,24 @@
           class="sub-menu-item ml-8"
         >
           <mat-icon matListItemIcon>{{ subItem.icon }}</mat-icon>
-          <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{
-            subItem.label
-          }}</span>
+          <span *ngIf="!sideNavCollapsed()" matListItemTitle>
+            {{ subItem.label }}
+          </span>
         </a>
       </div>
     </div>
-  
-    <div class="divider absolute bottom-0 w-full">
-      <mat-divider></mat-divider>
-      <a
-        (click)="logout()"
-        style="bottom: 0%"
-        class="hover:bg-opacity-50 hover:bg-red-600 dark:hover:bg-gray-700 group w-full"
-        mat-list-item
-        *ngFor="let item of logoutItem()"
-      >
-        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-        <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{ item.label }}</span>
-      </a>
-    </div>
   </mat-nav-list>
+  <!-- Logout should be at the bottom of the screen -->
+  <div class="mt-auto">
+    <mat-divider></mat-divider>
+    <a
+      (click)="logout()"
+      class="hover:bg-opacity-50 hover:bg-red-600 dark:hover:bg-gray-700 group w-full"
+      mat-list-item
+      *ngFor="let item of logoutItem()"
+    >
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      <span *ngIf="!sideNavCollapsed()" matListItemTitle>{{ item.label }}</span>
+    </a>
+  </div>
+</div>

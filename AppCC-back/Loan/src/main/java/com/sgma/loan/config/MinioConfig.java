@@ -12,13 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MinioConfig {
 
-
     @Value("${minio.server.url}")
     private String minioUrl;
-
     @Value("${minio.server.username}")
     private String minioUsername;
-
     @Value("${minio.server.password}")
     private String minioPassword;
 
@@ -29,4 +26,5 @@ public class MinioConfig {
                 .credentials(minioUsername, minioPassword)
                 .build();
     }
+
 }

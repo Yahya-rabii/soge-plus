@@ -1,0 +1,14 @@
+@startuml
+actor Client
+participant "Account Service" as AccountService
+participant "Client Service" as ClientService
+Client -> AccountService: Request Add Beneficiary
+AccountService -> ClientService: Request Client Data
+ClientService -> AccountService: Client Data
+alt Client Data is valid
+AccountService -> AccountService: Add Beneficiary
+AccountService -> Client: Beneficiary Added
+else Client Data is invalid
+AccountService -> Client: Error
+end
+@enduml

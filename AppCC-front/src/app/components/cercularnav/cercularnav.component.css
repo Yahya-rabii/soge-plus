@@ -4,7 +4,10 @@
   right: 0;
   width: 9.5em;
   height: 9.5em;
-  transition: width 0.3s, height 0.3s, transform 0.3s;
+  transition:
+    width 0.3s,
+    height 0.3s,
+    transform 0.3s;
   transform-origin: top right;
   border-bottom-left-radius: 100%;
 }
@@ -33,8 +36,10 @@
 }
 #click span {
   opacity: 0.8;
- /* Adjust opacity value as needed */
-  transition: bottom 0.3s, right 0.3s;
+  /* Adjust opacity value as needed */
+  transition:
+    bottom 0.3s,
+    right 0.3s;
   display: block;
   width: 30px;
   height: 30px;
@@ -42,13 +47,14 @@
   top: 1em;
   position: absolute;
   z-index: 1;
- /* Adjusted z-index */
+  /* Adjusted z-index */
 }
-#click span::before, #click span::after {
+#click span::before,
+#click span::after {
   display: block;
   position: absolute;
   font-family: inherit;
-  content: '';
+  content: "";
   width: 30px;
   height: 8px;
   transition: transform 0.3s;
@@ -62,9 +68,13 @@
 #click span::after {
   transform: rotate(45deg);
 }
-.c-1, .c-2, .c-3, .c-4, .c-5 {
+.c-1,
+.c-2,
+.c-3,
+.c-4,
+.c-5 {
   opacity: 0.8;
- /* Adjust opacity value as needed */
+  /* Adjust opacity value as needed */
   transition-delay: 0.1s, 0.1s, 0.1s;
 }
 .c-1 {
@@ -73,7 +83,7 @@
 }
 .c-1 .link::before {
   transform: rotate(18deg);
-  content: '\f0f3';
+  content: "\f0f3";
 }
 .c-2 {
   background: #ff3512;
@@ -81,7 +91,7 @@
 }
 .c-2 .link::before {
   transform: rotate(36deg);
-  content: '\f013';
+  content: "\f013";
 }
 .c-3 {
   background: #b42525;
@@ -89,7 +99,7 @@
 }
 .c-3 .link::before {
   transform: rotate(54deg);
-  content: '\f1cb';
+  content: "\f1cb";
 }
 .c-4 {
   background: #9e0000;
@@ -97,7 +107,7 @@
 }
 .c-4 .link::before {
   transform: rotate(72deg);
-  content: '\f099';
+  content: "\f099";
 }
 .c-5 {
   background: #b30303;

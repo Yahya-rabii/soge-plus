@@ -2,7 +2,6 @@ server:
   port: ${SERVER_PORT:8888}
   servlet:
     context-path: ${SERVER_SERVLET_CONTEXT_PATH:/}
-
 spring:
   application:
     name: ${SPRING_APPLICATION_NAME:gateway-service}
@@ -116,7 +115,6 @@ spring:
                 - CONNECT
               allowedHeaders: '${SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_HEADERS:*}'
               allowCredentials: false
-
   security:
     oauth2:
       resourceserver:
@@ -149,8 +147,6 @@ springdoc:
       - url: ${SPRINGDOC_SWAGGER_UI_URL_ACCOUNT_SERVICE:/account-service/v3/api-docs}
         name: ${SPRINGDOC_SWAGGER_UI_NAME_ACCOUNT_SERVICE:account service}
         display-name: ${SPRINGDOC_SWAGGER_UI_DISPLAY_NAME_ACCOUNT_SERVICE:account service}
-    
-
 eureka:
   client:
     enabled: false
