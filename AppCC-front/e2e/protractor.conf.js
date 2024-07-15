@@ -25,6 +25,7 @@ exports.config = {
     });
     jasmine
       .getEnv()
+      // @ts-ignore
       .addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   },
 };

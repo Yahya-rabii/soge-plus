@@ -8,12 +8,35 @@ spring:
     password: '${SPRING_DATASOURCE_PASSWORD:admin}'
   jpa:
     database-platform: '${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
+    hibernate:
+      ddl-auto: '${SPRING_JPA_HIBERNATE_DDL_AUTO:update}'
+  mail:
+    host: '${SPRING_MAIL_HOST:smtp.gmail.com}'
+    port: '${SPRING_MAIL_PORT:587}'
+    username: '${SPRING_MAIL_USERNAME:rabiiyahya10@gmail.com}'
+    password: '${SPRING_MAIL_PASSWORD:ewrh gkab unnu bjir}'
+    properties:
+      mail:
+        smtp:
+          auth: '${SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH:true}'
+          starttls:
+            enable: '${SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE:true}'
+          from: '${SPRING_MAIL_PROPERTIES_MAIL_FROM:custom.sender@example.com}'
   h2:
     console:
       enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
       path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
       settings:
         web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
+minio:
+  server:
+    url: '${MINIO_SERVER_URL:http://localhost:9000}'
+    username: '${MINIO_ACCESS_USERNAME:noxideuxTheGoat}'
+    password: '${MINIO_ACCESS_SECRET:noxideux11102001noxideux}'
+  bucket:
+    name: '${MINIO_BUCKET_NAME:loan-service}'
+  domain: '${MINIO_DOMAIN:http://localhost:9000/}'
+  
   cloud:
     kubernetes:
       enabled: true

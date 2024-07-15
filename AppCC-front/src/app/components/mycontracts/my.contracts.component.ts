@@ -15,6 +15,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { CookieService } from 'ngx-cookie-service';
 import { ValidationContractSecretComponent } from './validation-contract-secret/validation-contract-secret.component';
+import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-my-contracts',
   standalone: true,
@@ -54,6 +55,7 @@ export class MyContractsComponent implements OnInit, OnDestroy {
   constructor(
     private contractService: ContractService,
     private userService: UsersService,
+    private authService: AuthenticationService,
     private dialog: MatDialog,
     private cookieService: CookieService,
   ) {}
@@ -76,9 +78,10 @@ export class MyContractsComponent implements OnInit, OnDestroy {
     this.clearCountdownInterval();
   }
   getMyContracts() {
-    this.contractService.getContracts().then((contracts) => {
-      if (contracts) {
-        this.contracts = contracts;
+    const userId= this.authService.getUserId();
+    this.contractService.getContractsOfClient(userId).then((data) => {
+      if (data) {
+        this.contracts = data.contracts;
       }
     });
   }

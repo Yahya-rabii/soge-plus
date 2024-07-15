@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack-dev
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: monitoring
+    server: "https://kubernetes.default.svc"
+  project: socgen-project
+  source:
+    path: helm-charts/kube-prometheus-stack/
+    repoURL: git@github.com:Yahya-rabii/SGMA-System.git
+    targetRevision: master
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  syncPolicy:
+    #automated:
+      #prune: false
+      #selfHeal: false
+    syncOptions:
+      - CreateNamespace=false
+      #- Replace=true

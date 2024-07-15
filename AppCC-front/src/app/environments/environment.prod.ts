@@ -1,7 +1,11 @@
+const GenericApiHost = 'http://localhost';
+const GenericApiPort = '8888';
+const GenericApiUrl = `${GenericApiHost}:${GenericApiPort}`;
+
 export const environment = {
   production: true,
   // auth microservice
-  AuthapiUrl: 'https://minikube-gateway.socgen.com/auth-service',
+  AuthapiUrl: `${GenericApiUrl}/auth-service`, 
   loginEndpoint: '/login',
   logoutEndpoint: '/logout',
   signupEndpoint: '/signup',
@@ -9,7 +13,7 @@ export const environment = {
   getRolesEndpoint: '/role',
   validateSecretEndpoint: '/verifySecret/',
   // client microservice
-  ClientMsUrl: 'https://minikube-gateway.socgen.com/client-service',
+  ClientMsUrl: `${GenericApiUrl}/client-service`,
   getAllclientsEndpoint: '/clients',
   getClientByIdEndpoint: '/client/',
   createClientEndpoint: '/addClient',
@@ -17,7 +21,7 @@ export const environment = {
   deleteClientEndpoint: '/deleteClient/',
   getcontractsByClientIdEndpoint: '/contracts/',
   // loan microservice
-  LoanMsUrl: 'https://minikube-gateway.socgen.com/loan-service',
+  LoanMsUrl: `${GenericApiUrl}/loan-service`,
   getAllLoansEndpoint: '/loans',
   getLoanByIdEndpoint: '/loan/',
   createLoanEndpoint: '/createLoan',
@@ -27,7 +31,7 @@ export const environment = {
   validateLoanEndpoint: '/validateLoan/',
   rejectLoanEndpoint: '/rejectLoan/',
   // contract microservice
-  ContractMsUrl: 'https://minikube-gateway.socgen.com/contract-service',
+  ContractMsUrl: `${GenericApiUrl}/contract-service`,
   getAllContractsEndpoint: '/contracts',
   getContractByIdEndpoint: '/contract/',
   createContractEndpoint: '/createContract',
@@ -37,7 +41,7 @@ export const environment = {
   signContractEndpoint: '/signContract/',
   verifySecretEndpoint: '/verifySecret/',
   // Account microservice
-  AccountMsUrl: 'https://minikube-gateway.socgen.com/account-service',
+  AccountMsUrl: `${GenericApiUrl}/account-service`,
   getAllAccountsEndpoint: '/Accounts',
   getAccountByIdEndpoint: '/Account/',
   createAccountEndpoint: '/createAccount',

@@ -11,6 +11,9 @@ import com.sgma.loan.model.Client;
 import com.sgma.loan.model.Contract;
 import com.sgma.loan.services.*;
 import io.minio.errors.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +27,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.*;
 
-
 @RestController
 public class LoanControllerOld {
 
@@ -33,11 +35,13 @@ public class LoanControllerOld {
     private String getclientByidEndpoint;
     @Value("${client.service.url}")
     private String clientServiceUrl;
-    ContractFetchingService contractFetchingService;
+    private final ContractFetchingService contractFetchingService;
     private final LoanServiceOld loanService;
     private final EmailSenderService emailSenderService;
-    AccountFetchingService accountFetchingService;
-    public LoanControllerOld(LoanServiceOld loanService, EmailSenderService emailSenderService, ContractFetchingService contractFetchingService, ClientFetchingService clientFetchingService , AccountFetchingService accountFetchingService){
+    private final AccountFetchingService accountFetchingService;
+    public static Logger logger = LoggerFactory.getLogger(LoanControllerOld.class);
+    public static final String TRACE_ID = "traceId";
+    public LoanControllerOld(LoanServiceOld loanService, EmailSenderService emailSenderService, ContractFetchingService contractFetchingService, ClientFetchingService clientFetchingService, AccountFetchingService accountFetchingService) {
         this.loanService = loanService;
         this.emailSenderService = emailSenderService;
         this.contractFetchingService = contractFetchingService;
@@ -45,53 +49,57 @@ public class LoanControllerOld {
         this.accountFetchingService = accountFetchingService;
     }
 
-
     @GetMapping("/loans")
     public List<Loan> getAllLoans() {
-        return loanService.getAllLoans();
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            return loanService.getAllLoans();
+        } finally {
+            MDC.clear();
+        }
     }
-
 
     @GetMapping("/loan/{id}")
     public ResponseEntity<Loan> getLoanById(@PathVariable Long id) {
-        /* return loanService.getLoanById(id)
-                .map(loan -> new ResponseEntity<>(loan, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));*/
-        // when the loan is found, get the signature, cinCartRecto, and cinCartVerso from minio and return them in the response as public URLs so that the client can display them
-        // step 1: get the loan from the database
-        Optional<Loan> optionalLoan = loanService.getLoanById(id);
-        // step 2: get the signature, cinCartRecto, and cinCartVerso from minio using the loan.signatureFileName , loan.cinCartRectoFileName, and loan.cinCartVersoFileName
-        if (optionalLoan.isPresent()) {
-            Loan loan = optionalLoan.get();
-            try {
-                loan = loanService.getDocumentsFromMinio(loan);
-                return new ResponseEntity<>(loan, HttpStatus.OK);
-            } catch (Exception e) {
-                e.printStackTrace();
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Optional<Loan> optionalLoan = loanService.getLoanById(id);
+            if (optionalLoan.isPresent()) {
+                Loan loan = optionalLoan.get();
+                try {
+                    loan = loanService.getDocumentsFromMinio(loan);
+                    return new ResponseEntity<>(loan, HttpStatus.OK);
+                } catch (Exception e) {
+                    logger.error("Error while getting the documents from Minio {}", e.getMessage());
+                }
             }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } finally {
+            MDC.clear();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 
     @GetMapping("/loanByClientId/{clientId}")
     public List<Optional<Loan>> getLoansByClientId(@PathVariable String clientId) {
-        //return loanService.getLoanByClientId(clientId);
-        List<Loan> loans = loanService.getLoanByClientId(clientId);
-        List<Optional<Loan>> finalLoans = new ArrayList<>();
-        for (Loan loan : loans) {
-            if (loan != null) {
-                try {
-                    loan = loanService.getDocumentsFromMinio(loan);
-                    finalLoans.add(Optional.of(loan));
-                } catch (Exception e) {
-                    e.printStackTrace();
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            List<Loan> loans = loanService.getLoanByClientId(clientId);
+            List<Optional<Loan>> finalLoans = new ArrayList<>();
+            for (Loan loan : loans) {
+                if (loan != null) {
+                    try {
+                        loan = loanService.getDocumentsFromMinio(loan);
+                        finalLoans.add(Optional.of(loan));
+                    } catch (Exception e) {
+                        logger.error("Error while getting loans by client id {}", e.getMessage());
+                    }
                 }
             }
+            return finalLoans;
+        } finally {
+            MDC.clear();
         }
-        return finalLoans;
     }
-
 
     @PutMapping("/updateLoan/{id}")
     public ResponseEntity<Loan> updateLoan(@PathVariable Long id,
@@ -99,131 +107,137 @@ public class LoanControllerOld {
                                            @RequestParam("signature") MultipartFile signature,
                                            @RequestParam("cinCartRecto") MultipartFile cinCartRecto,
                                            @RequestParam("cinCartVerso") MultipartFile cinCartVerso) throws IOException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
-        Loan savedLoan = loanService.updateLoan(id, updatedLoan, signature, cinCartRecto, cinCartVerso);
-        return new ResponseEntity<>(savedLoan, HttpStatus.OK);
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Loan savedLoan = loanService.updateLoan(id, updatedLoan, signature, cinCartRecto, cinCartVerso);
+            return new ResponseEntity<>(savedLoan, HttpStatus.OK);
+        } finally {
+            MDC.clear();
+        }
     }
-
 
     @PutMapping("/updateLoanN/{id}")
     public ResponseEntity<Loan> updateLoanN(@PathVariable Long id,
                                             @RequestBody Loan updatedLoan) {
-        Loan savedLoan = loanService.updateLoanN(id, updatedLoan);
-        return new ResponseEntity<>(savedLoan, HttpStatus.OK);
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Loan savedLoan = loanService.updateLoanN(id, updatedLoan);
+            return new ResponseEntity<>(savedLoan, HttpStatus.OK);
+        } finally {
+            MDC.clear();
+        }
     }
-
 
     @DeleteMapping("/deleteLoan/{id}")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id) throws Exception {
-        loanService.deleteLoan(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            loanService.deleteLoan(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } finally {
+            MDC.clear();
+        }
     }
-
 
     @PostMapping("/createLoan")
     public ResponseEntity<Loan> createLoan(@RequestParam Map<String, String> loanDetails,
                                            @RequestParam("signature") MultipartFile signature,
                                            @RequestParam("cinCartRecto") MultipartFile cinCartRecto,
                                            @RequestParam("cinCartVerso") MultipartFile cinCartVerso) throws IOException, ParseException, ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
-        Loan newLoan = new Loan();
-        newLoan.setAmount(Double.parseDouble(loanDetails.get("amount")));
-        newLoan.setType(Type.valueOf(loanDetails.get("type")));
-        newLoan.setPaymentDuration(PaymentDuration.valueOf(loanDetails.get("paymentDuration")));
-        newLoan.setCinNumber(loanDetails.get("cinNumber"));
-        newLoan.setTaxId(loanDetails.get("taxId"));
-        newLoan.setReceptionMethod(ReceptionMethod.valueOf(loanDetails.get("receptionMethod")));
-        // bankAccountCredentials_RIB is a BigInteger
-        if (newLoan.getReceptionMethod() == ReceptionMethod.ONLINE) {
-            // the rib is a string that contains numbers and spaces so we need to remove the spaces
-            String rib = loanDetails.get("bankAccountCredentials_RIB").replaceAll("\\s", "");
-            newLoan.setBankAccountCredentials_RIB(new BigInteger(rib));
-        } else {
-            newLoan.setBankAccountCredentials_RIB(null);
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Loan newLoan = new Loan();
+            newLoan.setAmount(Double.parseDouble(loanDetails.get("amount")));
+            newLoan.setType(Type.valueOf(loanDetails.get("type")));
+            newLoan.setPaymentDuration(PaymentDuration.valueOf(loanDetails.get("paymentDuration")));
+            newLoan.setCinNumber(loanDetails.get("cinNumber"));
+            newLoan.setTaxId(loanDetails.get("taxId"));
+            newLoan.setReceptionMethod(ReceptionMethod.valueOf(loanDetails.get("receptionMethod")));
+            if (newLoan.getReceptionMethod() == ReceptionMethod.ONLINE) {
+                String rib = loanDetails.get("bankAccountCredentials_RIB").replaceAll("\\s", "");
+                newLoan.setBankAccountCredentials_RIB(new BigInteger(rib));
+            } else {
+                newLoan.setBankAccountCredentials_RIB(null);
+            }
+            newLoan.setSelectedAgency(loanDetails.get("selectedAgency"));
+            newLoan.setClientId(loanDetails.get("clientId"));
+            newLoan.setStatus(Status.PENDING);
+            newLoan.setApproved(false);
+            newLoan.setLoanCreationDate(new Date());
+            Loan createdLoan = loanService.createLoan(newLoan, signature, cinCartRecto, cinCartVerso);
+            return new ResponseEntity<>(createdLoan, HttpStatus.CREATED);
+        } finally {
+            MDC.clear();
         }
-        newLoan.setSelectedAgency(loanDetails.get("selectedAgency"));
-        newLoan.setClientId(loanDetails.get("clientId"));
-        newLoan.setStatus(Status.PENDING);
-        newLoan.setApproved(false);
-        newLoan.setLoanCreationDate(new Date());
-        Loan createdLoan = loanService.createLoan(newLoan, signature, cinCartRecto, cinCartVerso);
-        return new ResponseEntity<>(createdLoan, HttpStatus.CREATED);
     }
-
 
     public Client getClient(String clientId) {
-        Client client = clientFetchingService.getClientById(clientId);
-        if (client != null) {
-            return client;
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            return clientFetchingService.getClientById(clientId);
+        } finally {
+            MDC.clear();
         }
-        return null;
     }
-
 
     public Contract createContract(Loan loan) {
-        Contract contract = new Contract();
-        contract.setCreationDate(new Date());
-        contract.setPaymentDuration(loan.getPaymentDuration());
-        contract.setLoanId(loan.getId());
-        contract.setClientId(loan.getClientId());
-        return contract;
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Contract contract = new Contract();
+            contract.setCreationDate(new Date());
+            contract.setPaymentDuration(loan.getPaymentDuration());
+            contract.setLoanId(loan.getId());
+            contract.setClientId(loan.getClientId());
+            return contract;
+        } finally {
+            MDC.clear();
+        }
     }
-
 
     @PutMapping("/validateLoan")
     public ResponseEntity<Loan> validateLoan(@RequestBody Loan loan) {
-        // get the client email from the client service using the client id from the loan
-        Client client = getClient(loan.getClientId());
-        Context context = new Context();
-        context.setVariable("message", "Your loan has been validated");
-        context.setVariable("name", client.getFirstName() + " " + client.getLastName());
-        emailSenderService.sendEmailWithHtmlTemplate(client.getEmail(), "Loan Validation", "email-template", context);
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Client client = getClient(loan.getClientId());
+            Context context = new Context();
+            context.setVariable("message", "Your loan has been validated");
+            context.setVariable("name", client.getFirstName() + " " + client.getLastName());
+            emailSenderService.sendEmailWithHtmlTemplate(client.getEmail(), "Loan Validation", "email-template", context);
 
+            if (loan.getReceptionMethod().equals(ReceptionMethod.ONLINE)) {
+                ResponseEntity<Map<String, Object>> accountCard = accountFetchingService.getAccountByAccountHolderId(client.getUserId());
+                if (accountCard.getStatusCode() == HttpStatus.OK) {
+                    Object object = Objects.requireNonNull(accountCard.getBody()).get("Account");
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    Account account = objectMapper.convertValue(object, Account.class);
 
-        if (loan.getReceptionMethod().equals(ReceptionMethod.ONLINE)) {
-            // get the account by client id
-            ResponseEntity<Map<String, Object>> accountCard =  accountFetchingService.getAccountByAccountHolderId(client.getUserId());
+                    account.setBalance(account.getBalance() + loan.getAmount());
+                    accountFetchingService.updateAccount(account.getId(), account);
 
-            if (accountCard.getStatusCode() == HttpStatus.OK ){
-
-
-                Object object =  Objects.requireNonNull(accountCard.getBody()).get("Account");
-                ObjectMapper objectMapper = new ObjectMapper();
-                Account account = objectMapper.convertValue(object, Account.class);
-
-
-
-                account.setBalance(account.getBalance()+loan.getAmount());
-
-                accountFetchingService.updateAccount(account.getId(),account);
-
-
-                // Validate the loan
-                loanService.validateLoan(loan);
-                // Create a contract for the loan
-                Contract contract = createContract(loan);
-                // Add the contract to the contract service
-                contractFetchingService.addContract(contract);
-
+                    loanService.validateLoan(loan);
+                    Contract contract = createContract(loan);
+                    contractFetchingService.addContract(contract);
+                }
             }
-
-
+            return new ResponseEntity<>(loan, HttpStatus.OK);
+        } finally {
+            MDC.clear();
         }
-
-        // Optionally, you can return the validated loan
-        return new ResponseEntity<>(loan, HttpStatus.OK);
     }
-
 
     @PutMapping("/rejectLoan")
     public ResponseEntity<Loan> rejectLoan(@RequestBody Loan loan) {
-        // get the client email from the client service using the client id from the loan
-        Client client = getClient(loan.getClientId());
-        Context context = new Context();
-        context.setVariable("message", "Your loan has been rejected");
-        context.setVariable("name", client.getFirstName() + " " + client.getLastName());
-        emailSenderService.sendEmailWithHtmlTemplate(client.getEmail(), "Loan Rejection", "email-template", context);
-        // Reject the loan
-        loanService.rejectLoan(loan);
-        // Optionally, you can return the rejected loan
-        return new ResponseEntity<>(loan, HttpStatus.OK);
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            Client client = getClient(loan.getClientId());
+            Context context = new Context();
+            context.setVariable("message", "Your loan has been rejected");
+            context.setVariable("name", client.getFirstName() + " " + client.getLastName());
+            emailSenderService.sendEmailWithHtmlTemplate(client.getEmail(), "Loan Rejection", "email-template", context);
+            loanService.rejectLoan(loan);
+            return new ResponseEntity<>(loan, HttpStatus.OK);
+        } finally {
+            MDC.clear();
+        }
     }
 }

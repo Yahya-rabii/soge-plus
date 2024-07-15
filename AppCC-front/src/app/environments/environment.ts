@@ -1,7 +1,11 @@
+const GenericApiHost = 'http://localhost';
+const GenericApiPort = '8888';
+const GenericApiUrl = `${GenericApiHost}:${GenericApiPort}`;
+
 export const environment = {
-  production: false,
+  production: true,
   // auth microservice
-  AuthapiUrl: 'http://localhost:8888/auth-service',
+  AuthapiUrl: `${GenericApiUrl}/auth-service`, 
   loginEndpoint: '/login',
   logoutEndpoint: '/logout',
   signupEndpoint: '/signup',
@@ -9,7 +13,7 @@ export const environment = {
   getRolesEndpoint: '/role',
   validateSecretEndpoint: '/verifySecret/',
   // client microservice
-  ClientMsUrl: 'http://localhost:8888/client-service',
+  ClientMsUrl: `${GenericApiUrl}/client-service`,
   getAllclientsEndpoint: '/clients',
   getClientByIdEndpoint: '/client/',
   createClientEndpoint: '/addClient',
@@ -17,7 +21,7 @@ export const environment = {
   deleteClientEndpoint: '/deleteClient/',
   getcontractsByClientIdEndpoint: '/contracts/',
   // loan microservice
-  LoanMsUrl: 'http://localhost:8888/loan-service',
+  LoanMsUrl: `${GenericApiUrl}/loan-service`,
   getAllLoansEndpoint: '/loans',
   getLoanByIdEndpoint: '/loan/',
   createLoanEndpoint: '/createLoan',
@@ -27,7 +31,7 @@ export const environment = {
   validateLoanEndpoint: '/validateLoan/',
   rejectLoanEndpoint: '/rejectLoan/',
   // contract microservice
-  ContractMsUrl: 'http://localhost:8888/contract-service',
+  ContractMsUrl: `${GenericApiUrl}/contract-service`,
   getAllContractsEndpoint: '/contracts',
   getContractByIdEndpoint: '/contract/',
   createContractEndpoint: '/createContract',
@@ -37,7 +41,7 @@ export const environment = {
   signContractEndpoint: '/signContract/',
   verifySecretEndpoint: '/verifySecret/',
   // Account microservice
-  AccountMsUrl: 'http://localhost:8888/account-service',
+  AccountMsUrl: `${GenericApiUrl}/account-service`,
   getAllAccountsEndpoint: '/Accounts',
   getAccountByIdEndpoint: '/Account/',
   createAccountEndpoint: '/createAccount',

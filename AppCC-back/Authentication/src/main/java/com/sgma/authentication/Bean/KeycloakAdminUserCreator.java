@@ -29,7 +29,14 @@ public class KeycloakAdminUserCreator {
     private String usersEndpoint;
     private String accessToken;
     @Value("${keycloak.token.url}")
-    private String gettokenUrl;
+    private String tokenUrl;
+
+    private final String ADMIN_ROLE = "ADMIN";
+    private final String ADMIN_USERNAME = "admin";
+    private final String ADMIN_EMAIL = "admin@AppCC.com";
+    private final String ADMIN_FIRST_NAME = "admin";
+    private final String ADMIN_LAST_NAME = "admin";
+    private final String ADMIN_PASSWORD = "adminadmin";
 
 
     @Bean
@@ -45,22 +52,22 @@ public class KeycloakAdminUserCreator {
             // Check if the admin user exists
             if (!isAdminUserExists()) {
                 // Create admin user
-                createUser("admin", "admin@AppCC.com", "admin", "admin", "adminadmin");
+                createUser(ADMIN_USERNAME, ADMIN_EMAIL, ADMIN_FIRST_NAME, ADMIN_LAST_NAME, ADMIN_PASSWORD);
                 // Check if the ADMIN role exists
                 if (!isAdminRoleExists()) {
                     // Create ADMIN role
-                    createRole("ADMIN");
+                    createRole(ADMIN_ROLE);
                 }
                 // Assign ADMIN role to admin user
-                assignRoleToUser("admin", "ADMIN");
+                assignRoleToUser(ADMIN_USERNAME, ADMIN_ROLE);
             }
             else {
                 if (!isAdminRoleExists()) {
                     // Create ADMIN role
-                    createRole("ADMIN");
+                    createRole(ADMIN_ROLE);
                 }
                 // Assign ADMIN role to admin user
-                assignRoleToUser("admin", "ADMIN");
+                assignRoleToUser(ADMIN_USERNAME, ADMIN_ROLE);
             }
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize admin user in Keycloak", e);
@@ -70,7 +77,7 @@ public class KeycloakAdminUserCreator {
 
     private ResponseEntity<Map> getToken() {
         try {
-            return getTokenHelper(clientSecret , clientId , gettokenUrl);
+            return getTokenHelper(clientSecret , clientId , tokenUrl);
         } catch (Exception e) {
             throw new RuntimeException("Failed to retrieve access token from Keycloak", e);
         }

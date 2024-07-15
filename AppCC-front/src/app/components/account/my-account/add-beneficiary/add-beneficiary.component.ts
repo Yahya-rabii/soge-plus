@@ -7,6 +7,7 @@ import { AccountService } from '../../../../services/account.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { UsersService } from '../../../../services/user.service';
 @Component({
   selector: 'app-add-beneficiary',
   templateUrl: './add-beneficiary.component.html',
@@ -19,10 +20,12 @@ export class AddBeneficiaryComponent implements OnInit {
   beneficiary: User = new User();
   account: Account = new Account();
   rib: string = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private accountService: AccountService,
+    private userService: UsersService
   ) {
     this.addBeneficiaryForm = this.formBuilder.group({
       rib: [
@@ -36,15 +39,18 @@ export class AddBeneficiaryComponent implements OnInit {
       name: ['', [Validators.required]],
     });
   }
+
   ngOnInit() {
     this.getAccountByHolderId();
   }
+
   public getAccountByHolderId() {
     this.accountService.getAccountByHolderId().then((data) => {
       console.log(data);
       this.account = data.Account;
     });
   }
+
   public async Submit() {
     this.getAccountByHolderId();
     this.addBeneficiaryForm.patchValue({
@@ -58,7 +64,24 @@ export class AddBeneficiaryComponent implements OnInit {
     }
     const formData = this.addBeneficiaryForm.value;
     this.rib = formData.rib.replace(/\s/g, '');
-    if (this.account) {
+    let ifExist = false;
+    this.account.beneficiariesIds.forEach((clientID) => {
+
+      const Client = this.userService.getUserById(clientID).then((data) => {
+      const rib : string = data.rib.toString();
+      console.log('rib ==== this.rib', rib+"===="+this.rib);
+      if (rib == this.rib) {
+        ifExist = true;
+        console.log('exist:', ifExist);
+        alert('Beneficiary already exists');
+      }
+    });
+    });
+    if(this.account.accountHolderRib == this.rib){
+      alert('You cannot add yourself as a beneficiary');
+    }
+
+    if (this.account.accountHolderRib != this.rib && ifExist === false) {
       this.accountService
         .addBeneficiary(this.account.id, Number(this.rib))
         .then(() => {
@@ -67,6 +90,7 @@ export class AddBeneficiaryComponent implements OnInit {
         });
     }
   }
+
   public formatRIB(event: any): void {
     let currentValue = event.target.value;
     currentValue = currentValue.replace(/\s/g, '');

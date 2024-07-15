@@ -18,6 +18,10 @@
         <module name="Contract" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AppCC-back" target="1.5" />
+      <module name="sgma-system" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

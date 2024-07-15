@@ -8,59 +8,41 @@ sudo mkdir -p /etc/data
 sudo chown -R 1001 /etc/data
 exit
 #then
-minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key /etc/tls/tls.key
-minikube cp /home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt /etc/tls/tls.crt
-
-
-
- 
-
+keycloak_key_path="/home/salaheddine/Bureau/SOGE/CA/Keycloak/Keycloak.key"
+keycloak_crt_path="/home/salaheddine/Bureau/SOGE/CA/Keycloak/X509Certificate.crt"
+minikube cp $keycloak_key_path /etc/tls/tls.key
+minikube cp $keycloak_crt_path /etc/tls/tls.crt
 
 kubectl apply --recursive -f namespaces
-kubectl apply --recursive -f globalconfigmaps 
-kubectl apply --recursive -f rbac
-
-#export your docker registry token first then
-kubectl create secret docker-registry regcred \
-    --docker-username=salaheddine122 \
-    --docker-password=${token} \
-    --docker-email=salaheddinemorchid1@gmail.com \
-    --namespace=sgma-system
 
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+
 kubectl apply --recursive -f operators/cert-manager
 
-kubectl apply --recursive -f operators/sealed-secrets
-kubectl delete -n kube-system secrets sealed-secrets-key**
-kubectl apply --recursive -f $HOME/Bureau/SOGE/Configs/seal_stuff/sealed.yaml #delete old one
-kubectl apply --recursive -f secrets 
-
-kubectl apply -f /home/salaheddine/Bureau/SOGE/Configs/secrets/secrets.yaml
+kubectl apply -f /home/salaheddine/Bureau/SOGE/Configs/secrets/sealed-secret-tls.yaml
 
 
 # Execute this block to wait for operator to finish initializing
 kubectl wait --for=condition=available deployment/cert-manager -n cert-manager --timeout=300s
 kubectl wait --for=condition=available deployment/cert-manager-cainjector -n cert-manager --timeout=300s
 kubectl wait --for=condition=available deployment/cert-manager-webhook -n cert-manager --timeout=300s
-kubectl apply --recursive -f clusterissuers
+helm install startup-chart ../helm-charts/startup-chart
 
-kubectl apply --recursive -f ingresses
-
-kubectl create --recursive -f crds
-
-kubectl apply --recursive -f operators/prom-operator
-apply --recursive -f components
 
 # Helm running
-helm install client-service-chart ./client-service-chart
-helm install account-service-chart ./account-service-chart # wont work because ui is more advanced than backend
-helm install socgen-ui-chart ./socgen-ui-chart 
-helm install keycloak-chart ./keycloak-chart
-helm install minio-chart ./minio-chart
+helm install argocd-chart ../helm-charts/argo-cd -n argocd
+argocd proj create socgen-project --dest "*,*" --src '*' --allow-cluster-resource '*' --allow-namespaced-resource '*'
+argocd repo add git@github.com:Yahya-rabii/SGMA-System.git --name socgen-repo --project socgen-project --insecure-ignore-host-key --ssh-private-key-path ~/.ssh/id_ed25519
+
+k apply --recursive -f ../helm-chart-manifests/startup
+k apply --recursive -f ../helm-chart-manifests/keycloak
+k apply --recursive -f ../helm-chart-manifests/minio
+
+helm install client-service-chart ../helm-charts/client-service-chart
+helm install account-service-chart ../helm-charts/account-service-chart # wont work because ui is more advanced than backend
+helm install socgen-ui-chart ../helm-charts/socgen-ui-chart 
 # wait a bit ( i'll implement pod dependency later )
-helm install contract-service-chart ./contract-service-chart
-helm install auth-service-chart ./auth-service-chart
-helm install gateway-service-chart ./gateway-service-chart
-helm install loan-service-chart ./loan-service-chart
-
-
+helm install contract-service-chart ../helm-charts/contract-service-chart
+helm install auth-service-chart ../helm-charts/auth-service-chart
+helm install gateway-service-chart ../helm-charts/gateway-service-chart
+helm install loan-service-chart ../helm-charts/loan-service-chart

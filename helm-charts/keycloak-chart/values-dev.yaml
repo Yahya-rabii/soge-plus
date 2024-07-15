@@ -1,0 +1,15 @@
+# Generic Section 
+appName: keycloak
+namespace: keycloak
+# Deployment Section
+secretKeyRef: kc-db-credentials
+keycloakHostname: minikube-keycloak.socgen.com
+dbUrl: jdbc:postgresql://dpg-cokjqbn79t8c73ccbjvg-a.oregon-postgres.render.com:5432/socgendb
+certificatesPath: /etc/tls # the certs should be called tls.crt and tls.key
+
+# Ingress Section
+ingress:
+  ingressHostname: minikube-keycloak.socgen.com
+  tlsGeneratedSecretName: keycloak-cert
+  ingressName: nginx
+  clusterIssuerName: ca-issuer

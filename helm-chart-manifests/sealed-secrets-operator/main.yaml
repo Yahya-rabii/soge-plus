@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sealed-secrets-operator-dev
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: sealed-secrets
+    server: "https://kubernetes.default.svc"
+  project: socgen-project
+  source:
+    path: helm-charts/sealed-secrets/
+    repoURL: git@github.com:Yahya-rabii/SGMA-System.git
+    targetRevision: master
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  syncPolicy:
+    #automated:
+      #prune: false
+      #selfHeal: false
+    syncOptions:
+      - CreateNamespace=false

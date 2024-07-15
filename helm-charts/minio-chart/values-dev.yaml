@@ -1,0 +1,20 @@
+# Generic Section 
+appName: minio
+namespace: minio
+# Deployment Section
+volumeNode: minikube
+minio:
+  env:
+    MINIO_ROOT_USER: "noxideuxTheGoat"
+    MINIO_ROOT_PASSWORD: "noxideux11102001noxideux"
+    MINIO_DEFAULT_BUCKETS: "loan-service"
+    MINIO_API_ROOT_ACCESS: "on"
+dataFileLocation: /etc/data
+mountPath: /bitnami/minio/data
+volumeName: host-etc
+# Ingress Section
+ingress:
+  ingressHostname: minikube-minio.socgen.com
+  tlsGeneratedSecretName: minio-cert
+  ingressName: nginx
+  clusterIssuerName: ca-issuer

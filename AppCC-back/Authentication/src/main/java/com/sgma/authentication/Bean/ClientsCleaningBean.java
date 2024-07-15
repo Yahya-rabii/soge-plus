@@ -2,6 +2,7 @@ package com.sgma.authentication.Bean;
 
 import com.sgma.authentication.model.Client;
 import com.sgma.authentication.service.ClientFetchingService;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import static com.sgma.authentication.Helper.getTokenHelper.getTokenHelper;
 
 
 @Component
+@NoArgsConstructor
 public class ClientsCleaningBean {
 
 
@@ -29,19 +31,16 @@ public class ClientsCleaningBean {
     private String usersEndpoint;
     private String accessToken;
     @Value("${keycloak.token.url}")
-    private String gettokenUrl;
+    private String tokenUrl;
 
 
     @Autowired
     private ClientFetchingService clientFetchingService;
-    public ClientsCleaningBean() {
-    }
-
 
     @Bean
     public String getAccessToken() throws RuntimeException {
         try {
-            ResponseEntity<Map> response = getTokenHelper(clientSecret, clientId, gettokenUrl);
+            ResponseEntity<Map> response = getTokenHelper(clientSecret, clientId, tokenUrl);
             if (response.getStatusCode() == HttpStatus.OK) {
                 accessToken = (String) Objects.requireNonNull(response.getBody()).get("access_token");
                 return (String) Objects.requireNonNull(response.getBody()).get("access_token");
@@ -61,18 +60,14 @@ public class ClientsCleaningBean {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setBearerAuth(accessToken);
-            System.out.println("ha access token: " + accessToken);
             HttpEntity<Object> request = new HttpEntity<>(headers);
             ResponseEntity<List> response = restTemplate.exchange(authUrl + usersEndpoint, HttpMethod.GET, request, List.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 assert response.getBody() != null;
-                System.out.println("ana wslt hna 1");
                 List<Map<String, Object>> users = response.getBody();
                 List<Client> clients = getAllClients();
                 assert users != null && clients != null;
-                System.out.println("ana wslt hna 2");
                 for (Map<String, Object> user : users) {
-                    System.out.println("ana wslt hna 8");
                     String UserID = user.get("id").toString();
                     boolean found = false;
                     for (Client client : clients) {
@@ -80,10 +75,8 @@ public class ClientsCleaningBean {
                             found = true;
                             break;
                         }
-                        System.out.println("ana wslt hna 3");
                     }
                     if (!found) {
-                        System.out.println("ana wslt hna 4");
                         deleteClient(UserID);
                     }
                 }

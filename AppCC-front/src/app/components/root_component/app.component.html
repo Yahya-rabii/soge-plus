@@ -1,38 +1,26 @@
-<!-- Your existing HTML content here -->
 <div *ngIf="!isLoggedIn()">
-  <app-nav-bar> </app-nav-bar>
-  <router-outlet
-    ><app-loading-spinner *ngIf="loading"></app-loading-spinner>
+  <app-nav-bar></app-nav-bar>
+  <router-outlet>
+    <app-loading-spinner *ngIf="loading"></app-loading-spinner>
   </router-outlet>
   <app-footer class="mt-20"></app-footer>
 </div>
 <div *ngIf="isLoggedIn()">
   <div *ngIf="!isAdmin">
-    <div *ngIf="isEmailValid === false">
+    <div *ngIf="!isEmailValid" [@fadeInOut]>
       <mat-toolbar class="mat-elevation-z3">
         <app-cercularnav></app-cercularnav>
         <div class="flexible-right" style="position: relative">
-          <div
-            id="create-account-button"
-            mat-button
-            color="primary"
-            class="flex create"
-          >
+          <div id="create-account-button" mat-button color="primary" class="flex create">
             <div class="flex items-center space-x-6">
-              <a
-                (click)="logout()"
-                class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-              >
+              <a (click)="logout()"
+                class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                 <mat-icon>logout</mat-icon>
                 <span>Logout</span>
               </a>
-              <!-- verrtical line separator -->
               <div class="h-6 bg-gray-500 dark:bg-gray-600 w-1"></div>
-              <a
-                (click)="toValidate()"
-                class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-              >
-                <!-- validate account logo -->
+              <a (click)="toValidate()"
+                class="cursor-pointer flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
                 <mat-icon>verified_user</mat-icon>
                 <span>Verify email</span>
               </a>
@@ -40,68 +28,31 @@
           </div>
         </div>
       </mat-toolbar>
-      <router-outlet
-        ><app-loading-spinner *ngIf="loading"></app-loading-spinner>
+      <router-outlet>
+        <app-loading-spinner *ngIf="loading"></app-loading-spinner>
       </router-outlet>
     </div>
-    <div *ngIf="isEmailValid === true">
+    <div *ngIf="isEmailValid" [@fadeInOut]>
       <mat-toolbar class="mat-elevation-z3">
         <app-cercularnav></app-cercularnav>
-        <button
-          id="al"
-          aria-label="Name"
-          class="mat-icon-button"
-          mat-icon-button
-          (click)="collapsed.set(!collapsed())"
-        >
+        <button id="al" aria-label="Name" class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
           <mat-icon>menu</mat-icon>
         </button>
         <div class="flexible-right" style="position: relative">
-          <button
-            id="create-account-button"
-            mat-button
-            color="primary"
-            class="flex create"
-            (click)="createAccount()"
-          >
+          <button id="create-account-button" mat-button color="primary" class="flex create" (click)="createAccount()">
             <div class="flex items-center">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                stroke="#d10000"
-                height="18"
-                width="18"
-                class="mr-2"
-              >
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#d10000" height="18"
+                width="18" class="mr-2">
                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                   <path
                     d="M3 6C3 4.34315 4.34315 3 6 3H14C15.6569 3 17 4.34315 17 6V14C17 15.6569 15.6569 17 14 17H6C4.34315 17 3 15.6569 3 14V6Z"
-                    stroke="#c70000"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                  <path
-                    d="M21 7V18C21 19.6569 19.6569 21 18 21H7"
-                    stroke="#c70000"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                  <path
-                    d="M10 10V7M10 10V13M10 10H13M10 10H7"
-                    stroke="#c70000"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
+                    stroke="#c70000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M21 7V18C21 19.6569 19.6569 21 18 21H7" stroke="#c70000" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M10 10V7M10 10V13M10 10H13M10 10H7" stroke="#c70000" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
                 </g>
               </svg>
               Create Account
@@ -111,37 +62,30 @@
       </mat-toolbar>
       <mat-sidenav-container>
         <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
-          <app-custom-side [collapsed]="collapsed()" />
+          <app-custom-side [collapsed]="collapsed()"></app-custom-side>
         </mat-sidenav>
-        <mat-sidenav-content
-          class="content"
-          [style.margin-left]="sidenavWidth()"
-        >
-          <router-outlet
-            ><app-loading-spinner *ngIf="loading"></app-loading-spinner>
+        <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+          <router-outlet>
+            <app-loading-spinner *ngIf="loading"></app-loading-spinner>
           </router-outlet>
         </mat-sidenav-content>
       </mat-sidenav-container>
     </div>
   </div>
-  <div *ngIf="isAdmin">
+  <div *ngIf="isAdmin" [@fadeInOut]>
     <mat-toolbar class="mat-elevation-z3">
       <app-cercularnav></app-cercularnav>
-      <button
-        class="mat-icon-button"
-        mat-icon-button
-        (click)="collapsed.set(!collapsed())"
-      >
+      <button class="mat-icon-button" mat-icon-button (click)="collapsed.set(!collapsed())">
         <mat-icon>menu</mat-icon>
       </button>
     </mat-toolbar>
     <mat-sidenav-container>
       <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
-        <app-custom-side [collapsed]="collapsed()" />
+        <app-custom-side [collapsed]="collapsed()"></app-custom-side>
       </mat-sidenav>
       <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
-        <router-outlet
-          ><app-loading-spinner *ngIf="loading"></app-loading-spinner>
+        <router-outlet>
+          <app-loading-spinner *ngIf="loading"></app-loading-spinner>
         </router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>

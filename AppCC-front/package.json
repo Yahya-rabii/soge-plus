@@ -33,6 +33,7 @@
     "ngx-pagination": "^6.0.3",
     "notyf": "^3.10.0",
     "rxjs": "~7.8.1",
+    "selenium-webdriver": "^4.21.0",
     "tslib": "^2.6.2",
     "tw-elements": "^2.0.0",
     "zone.js": "~0.14.4"
@@ -42,8 +43,10 @@
     "@angular/cli": "^17.3.1",
     "@angular/compiler-cli": "^17.3.1",
     "@angular/language-service": "^17.3.1",
+    "@types/chai": "^4.3.16",
     "@types/jasmine": "~5.1.4",
     "@types/jasminewd2": "2.0.13",
+    "chai": "^5.1.1",
     "codelyzer": "^0.0.28",
     "jasmine-core": "~5.1.2",
     "jasmine-spec-reporter": "7.0.0",

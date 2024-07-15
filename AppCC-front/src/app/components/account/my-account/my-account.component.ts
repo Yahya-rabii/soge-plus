@@ -12,6 +12,7 @@ import ApexCharts from 'apexcharts';
 import { AddTransaction } from '../../../models/addtransaction.model';
 import { SubTransaction } from '../../../models/subtransaction.model';
 import { Card } from '../../../models/card.model';
+
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
@@ -21,10 +22,12 @@ import { Card } from '../../../models/card.model';
 })
 export class MyAccountComponent implements OnInit {
   @ViewChild('balanceChart', { static: true }) balanceChartRef!: ElementRef;
+
   constructor(
     private accountService: AccountService,
     private userService: UsersService,
   ) {}
+
   account: Account = new Account();
   client: User = new User();
   beneficiaries: User[] = [];
@@ -38,6 +41,11 @@ export class MyAccountComponent implements OnInit {
   income: number = 0;
   stringMonth: string = '';
   balance: number = 0;
+  percentage: number = 0;
+  back: boolean = false;
+  front: boolean = true;
+  card: Card = new Card();
+
   async ngOnInit() {
     try {
       await this.getAccountByHolderId();
@@ -49,18 +57,16 @@ export class MyAccountComponent implements OnInit {
       console.error('Error initializing account:', error);
     }
   }
+
   getBalance() {
-    if (this.account.balance >= 0) {
-      return this.account.balance;
-    }
-    return 0;
+    return this.account.balance >= 0 ? this.account.balance : 0;
   }
-  back: boolean = false;
-  front: boolean = true;
+
   flipCard() {
     this.back = !this.back;
     this.front = !this.front;
   }
+
   async getDeposits() {
     try {
       this.deposits = await this.accountService.getDeposits();
@@ -73,6 +79,7 @@ export class MyAccountComponent implements OnInit {
       throw error;
     }
   }
+
   async getWithdrawals() {
     try {
       this.withdrawals = await this.accountService.getWithdrawals();
@@ -81,6 +88,7 @@ export class MyAccountComponent implements OnInit {
       throw error;
     }
   }
+
   initTransactions() {
     for (let withdrawal of this.withdrawals) {
       this.transactions.push(
@@ -113,9 +121,9 @@ export class MyAccountComponent implements OnInit {
       );
     });
   }
+
   calculateBalanceProgress() {
     this.balance = this.initialBalance;
-    console.log('Initial Balance: ', this.balance);
     this.balanceProgress = this.transactions.map((transaction) => {
       if (transaction.type === 'Deposit') {
         this.balance += transaction.amount;
@@ -125,46 +133,34 @@ export class MyAccountComponent implements OnInit {
       return { balance: this.balance, type: transaction.type };
     });
   }
+
   calculateBalanceProgressPercentage() {
     let initial = this.initialBalance;
-    console.log('Initial Balance: ', initial);
-    if (!this.account || typeof this.account.balance === 'undefined') {
-      console.error('Account or account balance is undefined');
-      this.percentage = 0;
-      return;
-    }
     let current = this.account.balance;
-    console.log('Current Balance: ', current);
     let diff = current - initial;
-    console.log('Difference: ', diff);
-    if (
-      initial === 0 &&
-      this.balanceProgress &&
-      this.balanceProgress.length > 1
-    ) {
+
+    if (initial === 0 && this.balanceProgress.length > 1) {
       initial = this.balanceProgress[1].balance;
     }
+
     if (initial !== 0) {
       this.percentage = (diff / initial) * 100;
     } else {
       this.percentage = 0;
     }
-    console.log('Percentage: ', this.percentage);
+
     this.percentage = Math.round(this.percentage * 100) / 100;
     if (isNaN(this.percentage)) {
       this.percentage = 0;
     }
   }
+
   isNaN(value: number): boolean {
     return isNaN(value);
   }
-  percentage: number = 0;
+
   getInitialBalance() {
     this.initTransactions();
-    console.log('Transactions: ', this.transactions);
-    console.log('Deposits: ', this.deposits);
-    console.log('Withdrawals: ', this.withdrawals);
-    console.log('Initial Balance: ', this.initialBalance);
     this.initialBalance = this.account.balance;
     for (const deposit of this.deposits) {
       this.initialBalance -= deposit.amount;
@@ -172,14 +168,8 @@ export class MyAccountComponent implements OnInit {
     for (const withdrawal of this.withdrawals) {
       this.initialBalance += withdrawal.amount;
     }
-    console.log('Initial Balance: ', this.initialBalance);
     return this.initialBalance;
   }
-  card: Card = new Card();
-
-
-  
-
 
   async getAccountByHolderId() {
     try {
@@ -197,6 +187,7 @@ export class MyAccountComponent implements OnInit {
       throw error;
     }
   }
+
   async myBeneficiaries(account: Account) {
     for (const beneficiary of account.beneficiariesIds) {
       try {
@@ -207,28 +198,28 @@ export class MyAccountComponent implements OnInit {
       }
     }
   }
+
   toggleBalanceVisibility() {
     this.balanceVisible = !this.balanceVisible;
   }
-  ngAfterViewInit() {}
-  getUser() {
-    return this.client;
-  }
+
   renderChart() {
     this.balanceProgress.unshift({
       balance: this.initialBalance,
       type: 'Initial Balance',
     });
-    console.log('Balance Progress: ', this.balanceProgress);
     this.calculateBalanceProgressPercentage();
+
     const options = {
       chart: {
         height: '100%',
         maxWidth: '100%',
         type: 'area',
         fontFamily: 'Inter, sans-serif',
-        dropShadow: {
-          enabled: false,
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 800,
         },
         toolbar: {
           show: false,
@@ -243,17 +234,22 @@ export class MyAccountComponent implements OnInit {
       fill: {
         type: 'gradient',
         gradient: {
-          opacityFrom: 0.55,
-          opacityTo: 0,
-          shade: '#1C64F2',
-          gradientToColors: ['#1C64F2'],
+          shade: 'dark',
+          type: 'vertical',
+          shadeIntensity: 0.5,
+          gradientToColors: ['#F44336'],
+          inverseColors: true,
+          opacityFrom: 0.85,
+          opacityTo: 0.55,
+          stops: [0, 100],
         },
       },
       dataLabels: {
         enabled: false,
       },
       stroke: {
-        width: 6,
+        curve: 'smooth',
+        width: 3,
       },
       grid: {
         show: false,
@@ -269,7 +265,7 @@ export class MyAccountComponent implements OnInit {
         {
           name: 'Balance Progress',
           data: this.balanceProgress.map((item) => item.balance),
-          color: '#1A56DB',
+          color: '#FF5722',
         },
       ],
       xaxis: {
@@ -295,11 +291,9 @@ export class MyAccountComponent implements OnInit {
       },
       yaxis: {
         show: true,
-        style: {
-          margin: '1000px',
-        },
       },
     };
+
     if (
       document.getElementById('area-chart') &&
       typeof ApexCharts !== 'undefined'

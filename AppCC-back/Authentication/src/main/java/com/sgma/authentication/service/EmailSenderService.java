@@ -2,6 +2,8 @@ package com.sgma.authentication.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
@@ -18,8 +20,12 @@ import java.util.Base64;
 @Service
 public class EmailSenderService {
 
+
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+    public static Logger logger = LoggerFactory.getLogger(EmailSenderService.class);
+    public static final String IMAGE_TYPE = "image/png";
+
 
     @Autowired
     public EmailSenderService(JavaMailSender mailSender, TemplateEngine templateEngine) {
@@ -79,18 +85,18 @@ public class EmailSenderService {
             String cleanTwitterBase64 = twitterBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
             String cleanWebBase64 = webBase64.replaceAll("\\s", "").replaceAll("\n", "").replaceAll("\r", "");
             // Add the image as an attachment
-            helper.addInline("logo", new ByteArrayResource(Base64.getDecoder().decode(cleanLogoBase64)), "image/png");
-            helper.addInline("logoSoge", new ByteArrayResource(Base64.getDecoder().decode(cleanLogoSogeBase64)), "image/png");
-            helper.addInline("bgImage", new ByteArrayResource(Base64.getDecoder().decode(cleanbgImageBase64)), "image/png");
-            helper.addInline("signature", new ByteArrayResource(Base64.getDecoder().decode(cleansignatureBase64)), "image/png");
-            helper.addInline("instagram", new ByteArrayResource(Base64.getDecoder().decode(cleanInstagramBase64)), "image/png");
-            helper.addInline("linkedin", new ByteArrayResource(Base64.getDecoder().decode(cleanLinkedinBase64)), "image/png");
-            helper.addInline("twitter", new ByteArrayResource(Base64.getDecoder().decode(cleanTwitterBase64)), "image/png");
-            helper.addInline("web", new ByteArrayResource(Base64.getDecoder().decode(cleanWebBase64)), "image/png");
+            helper.addInline("logo", new ByteArrayResource(Base64.getDecoder().decode(cleanLogoBase64)), IMAGE_TYPE);
+            helper.addInline("logoSoge", new ByteArrayResource(Base64.getDecoder().decode(cleanLogoSogeBase64)), IMAGE_TYPE);
+            helper.addInline("bgImage", new ByteArrayResource(Base64.getDecoder().decode(cleanbgImageBase64)), IMAGE_TYPE);
+            helper.addInline("signature", new ByteArrayResource(Base64.getDecoder().decode(cleansignatureBase64)), IMAGE_TYPE);
+            helper.addInline("instagram", new ByteArrayResource(Base64.getDecoder().decode(cleanInstagramBase64)), IMAGE_TYPE);
+            helper.addInline("linkedin", new ByteArrayResource(Base64.getDecoder().decode(cleanLinkedinBase64)), IMAGE_TYPE);
+            helper.addInline("twitter", new ByteArrayResource(Base64.getDecoder().decode(cleanTwitterBase64)), IMAGE_TYPE);
+            helper.addInline("web", new ByteArrayResource(Base64.getDecoder().decode(cleanWebBase64)), IMAGE_TYPE);
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             // Handle exception
-            e.printStackTrace();
+            logger.error("Error sending email with HTML template: {}", e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
