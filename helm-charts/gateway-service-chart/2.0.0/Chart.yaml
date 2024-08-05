@@ -1,0 +1,6 @@
+apiVersion: v2
+name: gateway-service-chart
+description: A Helm chart for gateway-service
+type: application
+version: 1.0.0
+appVersion: "2.0.0"

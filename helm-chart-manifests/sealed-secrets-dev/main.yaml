@@ -10,7 +10,7 @@ spec:
     server: "https://kubernetes.default.svc"
   project: socgen-project
   source:
-    path: sealed-secrets/
+    path: sealed-secrets/dev
     repoURL: git@github.com:Yahya-rabii/SGMA-System.git
     targetRevision: master
   syncPolicy:

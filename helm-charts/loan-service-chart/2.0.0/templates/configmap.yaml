@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.appName}}-configmap
+  namespace: {{ .Values.namespace}}
+data:
+  CLIENT_SERVICE_URL: "http://{{ .Values.gatewayServiceName }}.{{ .Values.gatewayServiceNamespace }}.svc.cluster.local/{{ .Values.clientServiceName }}"
+  MINIO_SERVER_URL: "http://{{ .Values.minioAppName }}-service.{{ .Values.minioNamespace }}.svc.cluster.local"
+  MINIO_BUCKET_NAME: {{ .Values.minioBucketName | quote }}
+  MINIO_DOMAIN: "http://{{ .Values.minioAppName }}-service.{{ .Values.minioNamespace }}.svc.cluster.local"
+

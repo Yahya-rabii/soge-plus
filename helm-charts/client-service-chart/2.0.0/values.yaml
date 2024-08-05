@@ -1,0 +1,9 @@
+# Generic Section 
+appName: client-service
+namespace: sgma-system
+# Deployment Section
+spec:
+  replicas: 1
+activeProfile: active-profile
+# ConfigMap Section
+

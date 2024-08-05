@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway-service-dev
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: sgma-system
+    server: "https://kubernetes.default.svc"
+  project: socgen-project
+  source:
+    path: helm-charts/gateway-service-chart/1.0.0
+    repoURL: git@github.com:Yahya-rabii/SGMA-System.git
+    targetRevision: master
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  syncPolicy:
+    #automated:
+      #prune: false
+      #selfHeal: false
+    syncOptions:
+      - CreateNamespace=false

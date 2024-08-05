@@ -4,12 +4,15 @@ participant "Loan Service" as LoanService
 actor Admin
 participant "Contract Service" as ContractService
 participant "Secret" as Secret
+participant "E-Signature Service" as ESignatureService
+participant "Minio" as Minio
+
 Client -> LoanService: Request Loan
 LoanService -> Admin: Loan Approval Request
 Admin -> Admin: Review Loan
 alt Admin Approves Loan
     Admin -> LoanService: Change Loan Status to Approved
-    LoanService-> ContractService: Generate Contract
+    LoanService -> ContractService: Generate Contract
     ContractService -> ContractService: Save Contract
     LoanService -> Client: Loan Approval Notification
 else Admin Rejects Loan
@@ -29,6 +32,10 @@ alt Client Agrees to Contract
     Secret -> ContractService: Send Secret for Verification
     ContractService -> ContractService: Verify Secret
     alt Secrets Match
+        ContractService -> ESignatureService: Generate PDF and Send for E-Signature
+        ESignatureService -> ESignatureService: Sign Document with Public and Private Key
+        ESignatureService -> ContractService: Send Signed Document
+        ContractService -> Minio: Save Signed Document
         ContractService -> Client: Contract Signed
     else Secrets Do Not Match
         ContractService -> Client: Contract Not Signed

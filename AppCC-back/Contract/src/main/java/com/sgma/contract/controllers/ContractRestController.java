@@ -3,20 +3,26 @@ package com.sgma.contract.controllers;
 import com.sgma.contract.entites.Contract;
 import com.sgma.contract.entites.Secret;
 import com.sgma.contract.model.Client;
+import com.sgma.contract.model.Document;
 import com.sgma.contract.model.Loan;
 import com.sgma.contract.repository.ContractRepository;
 import com.sgma.contract.repository.SecretRepository;
-import com.sgma.contract.services.ClientFetchingService;
-import com.sgma.contract.services.EmailSenderService;
-import com.sgma.contract.services.LoanFetchingService;
+import com.sgma.contract.services.*;
+import com.sun.jdi.InternalException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.rmi.ServerException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.*;
 
@@ -29,17 +35,22 @@ public class ContractRestController {
     private final LoanFetchingService loanFetchingService;
     public static Logger log = LoggerFactory.getLogger(ContractRestController.class);
     private final EmailSenderService emailSenderService;
+    private final ContractCreatorService contractCreatorService;
+    private final ContractESignatureFetchingService contractESignatureFetchingService;
     public static final String TRACE_ID = "traceId";
 
 
     public ContractRestController(ContractRepository contractRepository, ClientFetchingService clientFetchingService,
                                   LoanFetchingService loanFetchingService, EmailSenderService emailSenderService,
-                                  SecretRepository secretRepository) {
+                                  SecretRepository secretRepository , ContractESignatureFetchingService contractFetchingService, ContractCreatorService contractCreatorService) {
+
         this.contractRepository = contractRepository;
         this.clientFetchingService = clientFetchingService;
         this.loanFetchingService = loanFetchingService;
         this.emailSenderService = emailSenderService;
         this.secretRepository = secretRepository;
+        this.contractESignatureFetchingService = contractFetchingService;
+        this.contractCreatorService = contractCreatorService;
     }
 
     @GetMapping("/contracts")
@@ -206,8 +217,15 @@ public class ContractRestController {
                 Optional<Contract> contractOptional = contractRepository.findById(secret.getContractId());
                 if (secret.getSecretValue().equals(secretKey) && contractOptional.isPresent()) {
                     Contract contract = contractOptional.get();
-                    contract.setIsSigned(true);
+                    //contract.setIsSigned(true);
                     secretRepository.delete(secret);
+
+                    Client client = clientFetchingService.getClientById(contract.getClientId());
+                    Loan loan = loanFetchingService.getLoanById(contract.getLoanId());
+                    // getSignatureFile takes the signature file name in the request body
+                    // getSignatureFile takes the signature file name as a query parameter
+                    String signatureFile = loanFetchingService.getSignatureFile(loan.getSignatureFileName());
+                    sendContractToSign(contract , client , loan , signatureFile);
                     return true;
                 }
             }
@@ -216,4 +234,77 @@ public class ContractRestController {
             MDC.clear();
         }
     }
+
+    public void sendContractToSign(Contract contract , Client client , Loan loan ,String SignatureFile) {
+        MDC.put(TRACE_ID, UUID.randomUUID().toString());
+        try {
+            if (contract != null) {
+
+                // Prepare Thymeleaf context with data
+                Context context = new Context();
+                context.setVariable("name", client.getFirstName() + " " + client.getLastName());
+                context.setVariable("lender", "Société Générale Maroc Bank");
+                context.setVariable("borrower", client.getFirstName() + " " + client.getLastName());
+                context.setVariable("ContractCreationDate", contract.getCreationDate());
+                context.setVariable("ContractDuration", contract.getPaymentDuration());
+                context.setVariable("ClientId", client.getId());
+                context.setVariable("ContractId", contract.getId());
+                context.setVariable("ContractLoanId", contract.getLoanId());
+                // loan details
+
+                context.setVariable("loanAmount", loan.getAmount());
+                context.setVariable("loanType", loan.getType());
+                context.setVariable("loanPaymentDuration", loan.getPaymentDuration());
+                context.setVariable("loanStatus", loan.getStatus());
+                context.setVariable("loanApproved", loan.getApproved());
+
+                context.setVariable("loanCinNumber", loan.getCinNumber());
+                context.setVariable("loanTaxId", loan.getTaxId());
+                context.setVariable("loanReceptionMethod", loan.getReceptionMethod());
+
+                if (String.valueOf(loan.getReceptionMethod()).equals("Online")) {
+                    context.setVariable("loanBankAccountCredentials_RIB", loan.getBankAccountCredentials_RIB());
+                }
+                if (String.valueOf(loan.getReceptionMethod()).equals("Agency")) {
+                    context.setVariable("loanBankAgency", loan.getSelectedAgency());
+                }
+
+
+
+
+                // Create the PDF
+                byte[] pdfBytes = contractCreatorService.createContractPdfWithHtmlTemplate(context , SignatureFile );
+
+                // Assuming contractFetchingService.signDocument can handle byte arrays of the PDF
+                String formattedDate = contract.getCreationDate().toString().replace(":", "-").replace(" ", "-");
+
+                // Construct the contract signature file name
+                String fileName = client.getFirstName() + "_" + client.getLastName() + "_" + formattedDate + ".pdf";
+
+                // Send PDF for signing
+                contractESignatureFetchingService.signDocument(pdfBytes, client.getId(), formattedDate);
+
+                // get the signed document
+
+                String formattedDate2 = contract.getCreationDate().toString().replace(":", "-").replace(" ", "-");
+                Document signedDocument = contractESignatureFetchingService.getDocument(client.getId(), formattedDate2);
+
+                contract.setIsSigned( contractESignatureFetchingService.verifyDocument(signedDocument.getData()));
+                contractRepository.save(contract);
+
+                emailSenderService.sendEmailWithAttachment(client.getEmail(), "Signed Contract", "contract-email-template", context, fileName, signedDocument.getData(), "application/pdf");
+
+            } else {
+                // Handle the case when the contract is not found
+                throw new RuntimeException("Contract not found with ID: " + contract.getId());
+            }
+        } catch (IOException e) {
+            //logger.error("Error generating or sending the contract PDF: {}", e.getMessage());
+            throw new RuntimeException(e);
+        } finally {
+            MDC.clear();
+        }
+    }
+
+
 }

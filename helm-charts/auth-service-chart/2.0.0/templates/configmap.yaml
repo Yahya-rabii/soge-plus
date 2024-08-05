@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.appName }}-configmap
+  namespace: {{ .Values.namespace }}
+data:
+  KEYCLOAK_AUTH_SERVER_URL: "http://{{ .Values.keycloak.name }}-service.{{ .Values.keycloak.namespace }}.svc.cluster.local/admin/realms/{{ .Values.keycloak.realm }}/"
+  KEYCLOAK_AUTH_GET_ROLES_ENDPOINT: "roles"
+  KEYCLOAK_AUTH_GETORCREATE_USERS_ENDPOINT: "users"
+  KEYCLOAK_REALM: {{ .Values.keycloak.realm | quote }}
+  KEYCLOAK_RESOURCE: {{ .Values.keycloak.clientRessourceName | quote }}
+  KEYCLOAK_TOKEN_URL: "http://{{ .Values.keycloak.name }}-service.{{ .Values.keycloak.namespace }}.svc.cluster.local/realms/{{ .Values.keycloak.realm }}/protocol/openid-connect/token"
+  KEYCLOAK_LOGOUT_URL: "http://{{ .Values.keycloak.name }}-service.{{ .Values.keycloak.namespace }}.svc.cluster.local/admin/realms/{{ .Values.keycloak.realm }}/users/UserId/logout"
+  KEYCLOAK_USER_ROLES_URL: "http://{{ .Values.keycloak.name }}-service.{{ .Values.keycloak.namespace }}.svc.cluster.local/admin/realms/{{ .Values.keycloak.realm }}/users/UserId/role-mappings/realm"
+  CLIENT_SERVICE_URL: "http://{{ .Values.keycloak.clientServiceUrl.gatewayName }}-service.{{ .Values.keycloak.clientServiceUrl.gatewayNamespace }}.svc.cluster.local/{{ .Values.keycloak.clientServiceUrl.clientName }}-service"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://{{ .Values.keycloak.name }}-service.{{ .Values.keycloak.namespace }}.svc.cluster.local/realms/{{ .Values.keycloak.realm }}"

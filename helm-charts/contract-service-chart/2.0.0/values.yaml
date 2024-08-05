@@ -1,0 +1,10 @@
+# Generic Section 
+appName: contract-service
+namespace: sgma-system
+# Deployment Section
+spec:
+  replicas: 1
+activeProfile: active-profile
+# Mailing secret name
+mailingKeys: mailing-info
+

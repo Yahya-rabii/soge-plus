@@ -1,0 +1,27 @@
+# Generic Section 
+appName: gateway-service
+namespace: sgma-system
+# Deployment Section
+spec:
+  replicas: 1
+activeProfile: active-profile
+# ConfigMap Section
+
+data:
+  SPRING_CLOUD_GATEWAY_ROUTES_CLIENT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS: "*"
+  SPRING_CLOUD_GATEWAY_ROUTES_LOAN_SERVICE_METADATA_CORS_ALLOWED_ORIGINS: "*"
+  SPRING_CLOUD_GATEWAY_ROUTES_CONTRACT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS: "*"
+  SPRING_CLOUD_GATEWAY_ROUTES_AUTH_SERVICE_METADATA_CORS_ALLOWED_ORIGINS: "*"
+  SPRING_CLOUD_GATEWAY_ROUTES_ACCOUNT_SERVICE_METADATA_CORS_ALLOWED_ORIGINS: "*"
+
+keycloak:
+  name: keycloak
+  namespace: keycloak
+  realm: AppCC-realm
+
+# Ingress Section
+ingress:
+  ingressHostname: minikube-gateway.socgen.com
+  tlsGeneratedSecretName: gateway-cert
+  ingressName: nginx
+  clusterIssuerName: ca-issuer

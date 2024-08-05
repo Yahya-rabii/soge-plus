@@ -1,0 +1,21 @@
+# Generic Section 
+appName: auth-service
+namespace: sgma-system
+# Deployment Section
+spec:
+  replicas: 1
+activeProfile: active-profile
+keycloakSecret: keycloak-credentials-secret
+# ConfigMap Section
+keycloak:
+  name: keycloak
+  namespace: keycloak
+  realm: AppCC-realm
+  clientRessourceName: AppCC-client
+  clientServiceUrl:
+    gatewayName: gateway
+    gatewayNamespace: sgma-system
+    clientName: client
+# Mailing secret name
+mailingKeys: mailing-info
+

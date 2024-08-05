@@ -1,0 +1,6 @@
+apiVersion: v2
+name: contract-service-chart
+description: A Helm chart for contract-service
+type: application
+version: 1.0.0
+appVersion: "2.0.0"

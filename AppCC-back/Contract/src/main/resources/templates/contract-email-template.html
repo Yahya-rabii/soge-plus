@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="x-apple-disable-message-reformatting">
+    <title>Soge-Plus!</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <style>
+        .bgim {
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
+            padding: 20px;
+            height: calc(100vh - 200px);
+            width: 100%;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f9f9f9; font-family: Arial, sans-serif;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" id="bodyTable" style="table-layout: fixed; width: 100%;">
+    <tbody>
+    <tr>
+        <td align="center" valign="top" id="bodyCell" >
+            <table border="0" cellpadding="0" cellspacing="0" width="600" class="wrapperBody" style="border-top: 3px solid #8B0000; border-bottom: 3px solid #8B0000; max-width: 600px; background-color: #ffffff;">
+                <tbody>
+                <tr>
+                    <td align="center" valign="top">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="tableCard" style="background-color: #fff; border: 1px solid #e5e5e5; border-width: 0 1px 1px 1px;">
+                            <tbody>
+                            <tr>
+                                <td style="padding-top: 20px; text-align: center;">
+                                    <img src="cid:logoSoge" alt="logo"  style="margin-left: 50%; border: 0; line-height: 100%; vertical-align: middle; width: 200px; height: auto;">
+                                    <h2 class="text" style="color: #000; font-family: Poppins, Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 500; margin: 20px 0 0 0;">
+                                        Hi <span th:text="${name}">"Default name"</span>
+                                    </h2>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 20px; text-align: center;" class="subTitle">
+                                    <h4 class="text" style="color: #b90000; font-family: Poppins, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 500; margin: 0;">Here's Your Signed Contract</h4>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 20px;" class="containtTable ui-sortable">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="tableDescription">
+                                        <tbody>
+                                        <tr>
+                                            <td style="padding: 20px; text-align: center;" class="description">
+                                                <p class="text" style="color: #666; font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 400; line-height: 22px; margin: 0;">
+                                                    Soge-Plus Team on behalf of Société Générale Maroc is pleased to inform you that your loan agreement contract has been signed successfully.
+                                                </p>
+
+                                                <p class="text" style="color: #666; font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 400; line-height: 22px; margin: 0;">
+                                                    Attached to this email is a copy of the signed contract for your records.
+                                                </p>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; padding: 20px;">
+                                    <a href="#" target="_blank" style="text-decoration: none;">
+                                        <img src="cid:signature" alt="signature" style="width: 150px; max-width: 300px; border: 0;">
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding: 40px;">
+                                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                                        <tr>
+                                            <td align="center">
+                                                <a href="https://yahya-rabii.github.io/" style="text-decoration: none;">
+                                                    <img src="cid:linkedin" width="32" alt="linkedin" style="border: 0; line-height: 100%; vertical-align: middle;">
+                                                </a>
+                                                <a href="https://yahya-rabii.github.io/" style="text-decoration: none;">
+                                                    <img src="cid:instagram" width="32" alt="Instagram" style="border: 0; line-height: 100%; vertical-align: middle;">
+                                                </a>
+                                                <a href="https://yahya-rabii.github.io/" style="text-decoration: none;">
+                                                    <img src="cid:web" width="32" alt="Website" style="border: 0; line-height: 100%; vertical-align: middle;">
+                                                </a>
+                                                <a href="https://yahya-rabii.github.io/" style="text-decoration: none;">
+                                                    <img src="cid:twitter" width="32" alt="Twitter" style="border: 0; line-height: 100%; vertical-align: middle;">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" style="padding-top: 16px;">
+                                                <p style="margin: 0; color: #000000; font-size: 14px;">
+                                                    <img src="cid:logo" width="16" alt="logo" style="border: 0; line-height: 100%; vertical-align: middle; margin-right: 8px; margin-top: -2px;">
+                                                    Société Générale Maroc &copy; 2024 All rights reserved.
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

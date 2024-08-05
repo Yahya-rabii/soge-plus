@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ .Values.appName }}-deployment
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+      - name: {{ .Values.appName }}
+        image: salaheddine122/soge-system-loan-service:LOAN-SERVICE-v2.0.0
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: {{ .Values.appName }}-configmap
+          - configMapRef:
+              name: {{ .Values.activeProfile }}-configmap
+          - secretRef:
+                name: {{ .Values.secretKeyRefName }}
+
+        ports:
+        - containerPort: 8082
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8082
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8082
+          initialDelaySeconds: 10
+          periodSeconds: 10

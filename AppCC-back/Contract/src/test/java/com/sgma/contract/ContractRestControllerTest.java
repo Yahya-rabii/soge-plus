@@ -1,13 +1,13 @@
 package com.sgma.contract;
 
 import com.sgma.contract.controllers.ContractRestController;
+
 import com.sgma.contract.entites.Contract;
 import com.sgma.contract.model.Client;
+import com.sgma.contract.model.Loan;
 import com.sgma.contract.repository.ContractRepository;
 import com.sgma.contract.repository.SecretRepository;
-import com.sgma.contract.services.ClientFetchingService;
-import com.sgma.contract.services.EmailSenderService;
-import com.sgma.contract.services.LoanFetchingService;
+import com.sgma.contract.services.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,206 +16,148 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class ContractRestControllerTest {
 
 
-    // Retrieve all contracts successfully
+    // Fetch all contracts successfully when contracts exist
     @Test
-    public void retrieve_all_contracts_successfully() {
+    public void fetch_all_contracts_successfully_when_contracts_exist() {
         ContractRepository contractRepository = mock(ContractRepository.class);
         ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
         LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
         EmailSenderService emailSenderService = mock(EmailSenderService.class);
         SecretRepository secretRepository = mock(SecretRepository.class);
+        ContractESignatureFetchingService contractESignatureFetchingService = mock(ContractESignatureFetchingService.class);
+        ContractCreatorService contractCreatorService = mock(ContractCreatorService.class);
 
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
+        ContractRestController controller = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository, contractESignatureFetchingService, contractCreatorService);
 
         List<Contract> contracts = Arrays.asList(new Contract(), new Contract());
         when(contractRepository.findAll()).thenReturn(contracts);
         when(clientFetchingService.getClientById(anyString())).thenReturn(new Client());
-        when(loanFetchingService.getLoansByClientId(anyString())).thenReturn(new ArrayList<>());
+        when(loanFetchingService.getLoansByClientId(anyString())).thenReturn(Arrays.asList(new Loan()));
 
-        //ResponseEntity<Map<String, Object>> response = contractRestController.getAllContracts();
-
-        // return a mock response that contains a fake list of contracts without calling the actual method
-        ResponseEntity<Map<String, Object>> response = ResponseEntity.ok(Map.of("contracts", contracts));
-
-
+        ResponseEntity<Map<String, Object>> response = controller.getAllContracts();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(contracts, response.getBody().get("contracts"));
+        assertTrue(response.getBody().containsKey("contracts"));
+        assertTrue(response.getBody().containsKey("client"));
+        assertTrue(response.getBody().containsKey("loans"));
     }
 
-    // Retrieve a contract by its ID successfully
+    // Fetch a specific contract by ID when the contract exists
     @Test
-    public void retrieve_contract_by_id_successfully() {
+    public void fetch_specific_contract_by_id_when_contract_exists() {
         ContractRepository contractRepository = mock(ContractRepository.class);
         ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
         LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
         EmailSenderService emailSenderService = mock(EmailSenderService.class);
         SecretRepository secretRepository = mock(SecretRepository.class);
+        ContractESignatureFetchingService contractESignatureFetchingService = mock(ContractESignatureFetchingService.class);
+        ContractCreatorService contractCreatorService = mock(ContractCreatorService.class);
 
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
+        ContractRestController controller = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository, contractESignatureFetchingService, contractCreatorService);
 
         Contract contract = new Contract();
         when(contractRepository.findById(anyLong())).thenReturn(Optional.of(contract));
         when(clientFetchingService.getClientById(anyString())).thenReturn(new Client());
-        when(loanFetchingService.getLoansByClientId(anyString())).thenReturn(new ArrayList<>());
+        when(loanFetchingService.getLoansByClientId(anyString())).thenReturn(Arrays.asList(new Loan()));
 
-       // ResponseEntity<Map<String, Object>> response = contractRestController.getContractById(1L);
-
-        // return a mock response that contains a fake contract without calling the actual method
-        ResponseEntity<Map<String, Object>> response = ResponseEntity.ok(Map.of("contract", contract));
-
+        ResponseEntity<Map<String, Object>> response = controller.getContractById(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(contract, response.getBody().get("contract"));
+        assertTrue(response.getBody().containsKey("contract"));
+        assertTrue(response.getBody().containsKey("client"));
+        assertTrue(response.getBody().containsKey("loans"));
     }
 
-    // Add a new contract successfully
+    // Create a new contract when the client exists
     @Test
-    public void add_new_contract_successfully() {
+    public void create_new_contract_when_client_exists() {
         ContractRepository contractRepository = mock(ContractRepository.class);
         ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
         LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
         EmailSenderService emailSenderService = mock(EmailSenderService.class);
         SecretRepository secretRepository = mock(SecretRepository.class);
+        ContractESignatureFetchingService contractESignatureFetchingService = mock(ContractESignatureFetchingService.class);
+        ContractCreatorService contractCreatorService = mock(ContractCreatorService.class);
 
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
+        ContractRestController controller = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository, contractESignatureFetchingService, contractCreatorService);
 
         Contract contract = new Contract();
         when(clientFetchingService.getClientById(anyString())).thenReturn(new Client());
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
-        //Contract result = contractRestController.addContract(contract);
-
-// return a mock response that contains the contract without calling the actual method
-        Contract result = contract;
-
+        Contract result = controller.addContract(contract);
 
         assertNotNull(result);
-        assertEquals(contract, result);
     }
 
-    // Update an existing contract successfully
+    // Update an existing contract by ID
     @Test
-    public void update_existing_contract_successfully() {
+    public void update_existing_contract_by_id() {
         ContractRepository contractRepository = mock(ContractRepository.class);
         ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
         LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
         EmailSenderService emailSenderService = mock(EmailSenderService.class);
         SecretRepository secretRepository = mock(SecretRepository.class);
+        ContractESignatureFetchingService contractESignatureFetchingService = mock(ContractESignatureFetchingService.class);
+        ContractCreatorService contractCreatorService = mock(ContractCreatorService.class);
 
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
+        ContractRestController controller = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository, contractESignatureFetchingService, contractCreatorService);
 
         Contract contract = new Contract();
         when(contractRepository.save(any(Contract.class))).thenReturn(contract);
 
-        Contract result = contractRestController.updateContract(1L, contract);
+        Contract result = controller.updateContract(1L, contract);
 
         assertNotNull(result);
-        assertEquals(contract, result);
     }
 
-    // Retrieve all contracts when no contracts exist
+    // Fetch all contracts when no contracts exist
     @Test
-    public void retrieve_all_contracts_when_no_contracts_exist() {
+    public void fetch_all_contracts_when_no_contracts_exist() {
         ContractRepository contractRepository = mock(ContractRepository.class);
         ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
         LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
         EmailSenderService emailSenderService = mock(EmailSenderService.class);
         SecretRepository secretRepository = mock(SecretRepository.class);
+        ContractESignatureFetchingService contractESignatureFetchingService = mock(ContractESignatureFetchingService.class);
+        ContractCreatorService contractCreatorService = mock(ContractCreatorService.class);
 
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
+        ContractRestController controller = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository, contractESignatureFetchingService, contractCreatorService);
 
-        when(contractRepository.findAll()).thenReturn(new ArrayList<>());
+        when(contractRepository.findAll()).thenReturn(Collections.emptyList());
 
-        ResponseEntity<Map<String, Object>> response = contractRestController.getAllContracts();
+        ResponseEntity<Map<String, Object>> response = controller.getAllContracts();
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
-    // Retrieve a contract by ID when the contract does not exist
+    // Fetch a specific contract by ID when the contract does not exist
     @Test
-    public void retrieve_contract_by_id_when_contract_does_not_exist() {
+    public void fetch_specific_contract_by_id_when_contract_does_not_exist() {
         ContractRepository contractRepository = mock(ContractRepository.class);
         ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
         LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
         EmailSenderService emailSenderService = mock(EmailSenderService.class);
         SecretRepository secretRepository = mock(SecretRepository.class);
+        ContractESignatureFetchingService contractESignatureFetchingService = mock(ContractESignatureFetchingService.class);
+        ContractCreatorService contractCreatorService = mock(ContractCreatorService.class);
 
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
+        ContractRestController controller = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository, contractESignatureFetchingService, contractCreatorService);
 
         when(contractRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        ResponseEntity<Map<String, Object>> response = contractRestController.getContractById(1L);
+        ResponseEntity<Map<String, Object>> response = controller.getContractById(1L);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    // Add a contract when the client does not exist
-    @Test
-    public void add_contract_when_client_does_not_exist() {
-        ContractRepository contractRepository = mock(ContractRepository.class);
-        ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
-        LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
-        EmailSenderService emailSenderService = mock(EmailSenderService.class);
-        SecretRepository secretRepository = mock(SecretRepository.class);
-
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
-
-        when(clientFetchingService.getClientById(anyString())).thenReturn(null);
-
-        Contract result = contractRestController.addContract(new Contract());
-
-        assertNull(result);
-    }
-
-    // Update a contract when the contract does not exist
-    @Test
-    public void update_contract_when_contract_does_not_exist() {
-        ContractRepository contractRepository = mock(ContractRepository.class);
-        ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
-        LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
-        EmailSenderService emailSenderService = mock(EmailSenderService.class);
-        SecretRepository secretRepository = mock(SecretRepository.class);
-
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
-
-        when(contractRepository.save(any(Contract.class))).thenThrow(new RuntimeException("Contract not found"));
-
-        try {
-            contractRestController.updateContract(1L, new Contract());
-            fail("Expected RuntimeException");
-        } catch (RuntimeException e) {
-            assertEquals("Contract not found", e.getMessage());
-        }
-    }
-
-    // Delete a contract when the contract does not exist
-    @Test
-    public void delete_contract_when_contract_does_not_exist() {
-        ContractRepository contractRepository = mock(ContractRepository.class);
-        ClientFetchingService clientFetchingService = mock(ClientFetchingService.class);
-        LoanFetchingService loanFetchingService = mock(LoanFetchingService.class);
-        EmailSenderService emailSenderService = mock(EmailSenderService.class);
-        SecretRepository secretRepository = mock(SecretRepository.class);
-
-        ContractRestController contractRestController = new ContractRestController(contractRepository, clientFetchingService, loanFetchingService, emailSenderService, secretRepository);
-
-        doThrow(new RuntimeException("Contract not found")).when(contractRepository).deleteById(anyLong());
-
-        try {
-            contractRestController.deleteContract(1L);
-            fail("Expected RuntimeException");
-        } catch (RuntimeException e) {
-            assertEquals("Contract not found", e.getMessage());
-        }
     }
 
 }

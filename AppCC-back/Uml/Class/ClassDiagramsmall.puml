@@ -1,0 +1,118 @@
+@startuml
+
+class Client {
+    + id: String
+    + email: String
+    + firstName: String
+    + lastName: String
+    + username: String
+    + role: Role
+    + address: Address
+
+}
+class Role {
+    + roles: List<String>
+}
+class Address {
+    + street: String
+    + city: String
+    + postalCode: int
+    + country: String
+}
+class Secret {
+    + secretValue: String
+    + clientId: String
+}
+class Account {
+    + id: Long
+    + accountType: AccountType
+    + accountHolderId: String
+    + accountHolderRib: BigInteger
+    + balance: Double
+    + beneficiariesIds: List<String>
+    + cardId: Long
+
+}
+class Card {
+    + id: Long
+    + expirationMonth: int
+    + expirationYear: int
+    + cardRib: BigInteger
+    + cvc: int
+    + signature: int
+}
+
+class Transaction {
+    + id: Long
+    + amount: BigInteger
+    + senderId: String
+    + receiverId: String
+    + transactionDate: Date
+
+}
+
+' Loan Microservice
+class Loan {
+    + id: Long
+    + amount: double
+    + type: Type
+    + paymentDuration: PaymentDuration
+    + cinNumber: String
+    + taxId: String
+    + receptionMethod: ReceptionMethod
+    + bankAccountCredentials_RIB: BigInteger
+    + selectedAgency: String
+    + clientId: String
+    + status: Status
+    + approved: boolean
+    + loanCreationDate: Date
+    + signatureFileName: String
+    + cinCartRectoFileName: String
+    + cinCartVersoFileName: String
+
+}
+
+class Contract {
+    + id: Long
+    + creationDate: Date
+    + paymentDuration: PaymentDuration
+    + loanId: Long
+    + clientId: String
+}
+' class document has id data name and signature both data and signature are byte arrays
+
+class Document {
+    + id: Long
+    + data: byte[]
+    + name: String
+    + signature: byte[]
+}
+
+
+
+
+' Relationships
+
+' the document represents the contract and the signature is the client signature
+Document "1" --> "1" Contract: represents
+Document "1" --> "1" Client: signs
+
+
+
+Authentication "1" --> "1..*" Client
+Client "1" --> "1" Role: has
+Client "1" --> "*" Address: has
+Client "1" --> "1" Secret: has
+Client "1" --> "*" Loan: demand
+Client "1" --> "*" Account: creates
+Account "1" --> "*" Transaction: performs
+Account "1" --> "1" Card: has
+Loan "1" --> "1" Contract:[ creates if approved ]
+' Enum Relationships
+Loan --  PaymentDuration
+Loan --  ReceptionMethod
+Loan --  Status
+Loan  --  Type
+Account --  AccountType
+Transaction  --  TransactionType
+@enduml

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: sgma-system
+  name: esignature-service
+  labels:
+    app: esignature-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 1111
+  selector:
+    app: esignature-service

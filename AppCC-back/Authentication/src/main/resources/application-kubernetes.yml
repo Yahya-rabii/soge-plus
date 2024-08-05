@@ -1,4 +1,18 @@
 spring:
+
+  mail:
+    host: ${SPRING_MAIL_HOST}
+    port: ${SPRING_MAIL_PORT}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          from: ${SPRING_MAIL_PROPERTIES_MAIL_FROM}
+
   application:
     name: '${SPRING_APPLICATION_NAME:auth-service}'
   datasource:
@@ -51,9 +65,7 @@ management:
   endpoint:
     health:
       show-details: '${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}'
-logging:
-  file:
-    path: '${LOGGING_FILE_PATH:C:/Users/yahyarb/Desktop/Loggs}'
+
 openapi:
   service:
     title: '${OPENAPI_SERVICE_TITLE:AUTH-SERVICE doc}'
@@ -99,3 +111,11 @@ getclient:
 updateClient:
   Byid:
     endpoint: '${UPDATECLIENT_BYID_ENDPOINT:/updateClient/}'
+
+spring.security.oauth2.resourceserver.jwt.issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:8080/realms/AppCC-realm}
+spring.main.allow-bean-definition-overriding: true
+# allow origin  on localhost 4200
+management.endpoints.web.cors.allowed-origins: '*'
+management.endpoints.web.cors.allowed-methods: '*'
+management.endpoints.web.cors.allowed-headers: '*'
+management.endpoints.web.cors.allowed-origin-patterns: '*'

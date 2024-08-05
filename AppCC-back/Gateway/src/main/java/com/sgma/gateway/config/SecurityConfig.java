@@ -1,5 +1,5 @@
 package com.sgma.gateway.config;
-
+import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -29,6 +29,7 @@ public class SecurityConfig {
                                 "/loan-service/**",
                                 "/auth-service/**",
                                 "/account-service/**",
+                                "/esignature-service/**",
                                 "/instances/**",
                                 "/discovery-service/**",
                                 "/h2-console/**"
@@ -43,7 +44,7 @@ public class SecurityConfig {
     public CorsWebFilter corsWebFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:4200 , http://localhost:8888 , http://localhost:8765 , http://localhost:8080 , http://localhost:8761");
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.setAllowCredentials(true);
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

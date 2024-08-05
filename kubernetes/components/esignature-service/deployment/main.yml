@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sgma-system
+  name: esignature-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: esignature-service
+  template:
+    metadata:
+      labels:
+        app: esignature-service
+    spec:
+      containers:
+      - name: esignature-service
+        image: salaheddine122/soge-system-esignature-service:ESIGNATURE-SERVICE-v1.0.0
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: esignature-service-configmap
+          - configMapRef:
+              name: active-profile-configmap
+        ports:
+        - containerPort: 1111
+
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 1111
+          initialDelaySeconds: 10
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 1111
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        #resources:
+         # requests:
+          #  memory: "64Mi"
+           # cpu: "50m"
+          #limits:
+           # memory: "128Mi"
+            #cpu: "100m"
+      imagePullSecrets:
+        - name: regcred

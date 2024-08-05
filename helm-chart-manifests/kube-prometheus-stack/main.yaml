@@ -15,6 +15,7 @@ spec:
     repoURL: git@github.com:Yahya-rabii/SGMA-System.git
     targetRevision: master
     helm:
+      skipCrds: true
       valueFiles:
         - values-dev.yaml
   syncPolicy:
@@ -23,4 +24,5 @@ spec:
       #selfHeal: false
     syncOptions:
       - CreateNamespace=false
-      #- Replace=true
+      - ApplyOnly=true
+

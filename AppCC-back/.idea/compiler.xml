@@ -13,6 +13,7 @@
         <module name="Config" />
         <module name="Authentication" />
         <module name="Discovery" />
+        <module name="Esignature" />
         <module name="Client" />
         <module name="Admin" />
         <module name="Contract" />
@@ -20,6 +21,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="AppCC-back" target="1.5" />
+      <module name="e-Sign" target="17" />
       <module name="sgma-system" target="1.5" />
     </bytecodeTargetLevel>
   </component>
@@ -32,8 +34,10 @@
       <module name="Config" options="-parameters" />
       <module name="Contract" options="-parameters" />
       <module name="Discovery" options="-parameters" />
+      <module name="Esignature" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="Loan" options="-parameters" />
+      <module name="e-Sign" options="-parameters" />
     </option>
   </component>
 </project>

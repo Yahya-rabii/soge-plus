@@ -1,0 +1,80 @@
+spring:
+
+  mail:
+    host: ${SPRING_MAIL_HOST}
+    port: ${SPRING_MAIL_PORT}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          from: ${SPRING_MAIL_PROPERTIES_MAIL_FROM}
+
+  application:
+    name: '${SPRING_APPLICATION_NAME:esignature-service}'
+  datasource:
+    driverClassName: '${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}'
+    url: '${SPRING_DATASOURCE_URL:jdbc:h2:mem:esignaturedb}'
+    username: '${SPRING_DATASOURCE_USERNAME:admin}'
+    password: '${SPRING_DATASOURCE_PASSWORD:admin}'
+  jpa:
+    database-platform: '${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}'
+  h2:
+    console:
+      enabled: '${SPRING_H2_CONSOLE_ENABLED:true}'
+      path: '${SPRING_H2_CONSOLE_PATH:/h2-console}'
+      settings:
+        web-allow-others: '${SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS:false}'
+  cloud:
+    kubernetes:
+      enabled: true
+        #reload:
+        #enabled: true
+        #mode: event
+        #strategy: shutdown
+        #config:
+        #sources:
+          #- namespace: common
+            #name: environment
+          #- name: gestion
+      discovery:
+        enabled: true
+        namespace: sgma-system
+        #namespaces:
+        #  - sgma-system
+        #  - namespace2
+        #  - namespace3
+        #all-namespaces: true
+eureka:
+  client:
+    enabled: false
+    config:
+      enabled: false
+    discovery:
+      enabled: '${SPRING_CLOUD_DISCOVERY_ENABLED:true}'
+server:
+  port: '${SERVER_PORT:8083}'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '${MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE:*}'
+  endpoint:
+    health:
+      show-details: '${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}'
+logging:
+  file:
+    path: '${LOGGING_FILE_PATH:C:/Users/yahyarb/Desktop/Loggs}'
+openapi:
+  service:
+    title: '${OPENAPI_SERVICE_TITLE:esignature-SERVICE doc}'
+    version: '${OPENAPI_SERVICE_VERSION:1.0.0}'
+    url: '${OPENAPI_SERVICE_URL:http://localhost:8888}'
+springdoc:
+  api-docs:
+    path: '${SPRINGDOC_API_DOCS_PATH:/esignature-service/v3/api-docs}'
+  swagger-ui:
+    path: '${SPRINGDOC_SWAGGER_UI_PATH:/esignature-service/swagger-ui.html}'

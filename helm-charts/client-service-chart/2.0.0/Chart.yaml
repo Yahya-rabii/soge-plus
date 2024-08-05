@@ -1,0 +1,6 @@
+apiVersion: v2
+name: client-service-chart
+description: A Helm chart for client-service
+type: application
+version: 1.0.0
+appVersion: "2.0.0"

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Loan Agreement Contract</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" />
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .contract {
+            width: 100%;
+            max-width: 210mm;
+            margin: auto;
+            padding: 20mm;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20mm;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin: 10mm 0;
+            color: #333;
+        }
+
+        .parties, .contract-details, .terms {
+            margin-bottom: 15mm;
+        }
+
+        h2 {
+            font-size: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5mm;
+            margin-bottom: 10mm;
+            color: #000;
+        }
+
+        .contract-details p, .terms p {
+            margin: 5mm 0;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20mm;
+        }
+
+        .signature-left, .signature-right {
+            width: 45%;
+            text-align: center;
+        }
+
+        .stamp-img, .signature-img {
+            width: 150px;
+            height: auto;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #333;
+            margin-top: 20mm;
+        }
+    </style>
+</head>
+<body>
+<div class="contract">
+    <header class="header">
+        <img src="cid:logo" alt="Company Logo" class="logo" />
+        <h1>Loan Agreement Contract</h1>
+    </header>
+
+    <section class="parties">
+        <h2>Parties</h2>
+        <p><strong>Lender:</strong> Société Générale Maroc Bank</p>
+        <p><strong>Borrower:</strong> <span th:text="${borrower}"></span></p>
+    </section>
+
+    <section class="contract-details">
+        <h2>Contract Details</h2>
+        <p><strong>Contract Creation Date:</strong> <span th:text="${ContractCreationDate}"></span></p>
+        <p><strong>Payment Duration:</strong> <span th:text="${ContractDuration}"></span></p>
+        <p><strong>Loan ID:</strong> <span th:text="${ContractLoanId}"></span></p>
+        <p><strong>Contract ID:</strong> <span th:text="${ContractId}"></span></p>
+        <p><strong>Loan Amount:</strong> <span th:text="${loanAmount}"></span></p>
+        <p><strong>Borrower Name:</strong> <span th:text="${borrower}"></span></p>
+    </section>
+
+    <section class="terms">
+        <h2>Terms and Conditions</h2>
+        <p>1. The Borrower agrees to repay the Lender the total loan amount of <span th:text="${loanAmount}"></span> with an annual interest rate of 5%.</p>
+        <p>2. Monthly payments of $4,300.00 are due on the 1st of each month, starting from August 2024.</p>
+        <p>3. In case of default, a late fee of 2% of the overdue amount will be applied.</p>
+        <p>4. The Borrower may prepay the loan without any penalty.</p>
+        <p>5. All disputes arising from this agreement shall be governed by the laws of Morocco.</p>
+    </section>
+
+    <section class="signatures">
+        <div class="signature-left">
+            <p><strong>Company Stamp:</strong></p>
+            <img src="cid:stamp" alt="Company Stamp" class="stamp-img" />
+        </div>
+        <div class="signature-right">
+            <p><strong>Signed by:</strong> <span th:text="${borrower}"></span></p>
+            <img src="cid:signature" alt="User Signature" class="signature-img" />
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>Everyone should keep a copy once signed for their own records.</p>
+    </footer>
+</div>
+</body>
+</html>

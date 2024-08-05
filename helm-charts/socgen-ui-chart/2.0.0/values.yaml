@@ -1,0 +1,27 @@
+# Generic Section
+metadata:
+  namespace: sgma-system
+appname: socgen-ui
+#Deployment Section
+replicas: 1
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "50m"
+  limits:
+    memory: "128Mi"
+    cpu: "100m"
+dockersecretname: regcred
+# Ingress Section
+ingresshostname: minikube-socgen-ui.socgen.com
+tlsgeneratedsecretname: socgen-ui-cert
+ingressname: nginx
+clusterissuername: ca-issuer
+
+
+
+
+
+
+
+
